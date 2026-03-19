@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Join Dine With Celebrity ÃÂ¢ÃÂÃÂ Create your free member account and unlock exclusive celebrity dining experiences.">
+<meta name="description" content="Join Dine With Celebrity — Create your free member account and unlock exclusive celebrity dining experiences.">
 <meta name="robots" content="index, follow">
 <title>Join Dine With Celebrity | Create Your Account</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@ a{text-decoration:none}
 .divider{width:48px;height:2px;background:#F2B705;margin-bottom:28px}
 .perks{list-style:none;display:flex;flex-direction:column;gap:12px}
 .perks li{display:flex;align-items:center;gap:12px;font-size:.88rem;color:rgba(255,255,255,.7)}
-.perks li::before{content:'ÃÂ¢ÃÂÃÂ¦';color:#F2B705;font-size:8px;flex-shrink:0}
+.perks li::before{content:'✦';color:#F2B705;font-size:8px;flex-shrink:0}
 .perks li strong{color:rgba(255,255,255,.9)}
 .right{background:#0e0a14;padding:clamp(40px,6vw,80px) clamp(32px,5vw,72px);display:flex;flex-direction:column;justify-content:center}
 .hdr{margin-bottom:26px}
@@ -73,7 +73,7 @@ footer a{color:rgba(242,183,5,.5)}
 <body>
 <nav class="nav">
   <a href="/" class="logo">DINE<span>WITH</span>CELEBRITY</a>
-  <a href="/login.html" class="nav-link">Already a Member? Sign In ÃÂ¢ÃÂÃÂ</a>
+  <a href="/login.html" class="nav-link">Already a Member? Sign In →</a>
 </nav>
 <div class="page">
   <div class="left">
@@ -82,7 +82,7 @@ footer a{color:rgba(242,183,5,.5)}
     <div class="divider"></div>
     <ul class="perks">
       <li><strong>Exclusive DWC coupons</strong> at 120+ partner restaurants</li>
-      <li><strong>Celebrity dining events</strong> ÃÂ¢ÃÂÃÂ intimate &amp; unforgettable</li>
+      <li><strong>Celebrity dining events</strong> — intimate &amp; unforgettable</li>
       <li><strong>Cause Points</strong> earned on every booking</li>
       <li><strong>Member-only VIP</strong> experiences &amp; early access</li>
     </ul>
@@ -102,7 +102,7 @@ footer a{color:rgba(242,183,5,.5)}
         <label for="password">Choose a Password *</label>
         <div class="pw-wrap">
           <input type="password" id="password" placeholder="Minimum 6 characters" required autocomplete="new-password">
-          <button type="button" class="pw-eye" id="pwEye">ÃÂ°ÃÂÃÂÃÂ</button>
+          <button type="button" class="pw-eye" id="pwEye">👁</button>
         </div>
       </div>
       <div class="fg"><label for="phone">Phone Number *</label><input type="tel" id="phone" placeholder="Your phone number" required autocomplete="tel"></div>
@@ -122,16 +122,16 @@ footer a{color:rgba(242,183,5,.5)}
         <input type="checkbox" id="terms" required>
         <label for="terms">I agree to the <a href="/terms" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a>. I understand that bookings cannot be refunded.</label>
       </div>
-      <div class="msg msg-ok" id="msgOk"><strong>Welcome to DWC! ÃÂ°ÃÂÃÂÃÂ</strong><br>Please check your email and click the confirmation link to activate your account. Then come back to Sign In.</div>
+      <div class="msg msg-ok" id="msgOk"><strong>Welcome to DWC! 🎉</strong><br>Please check your email and click the confirmation link to activate your account. Then come back to Sign In.</div>
       <div class="msg msg-err" id="msgErr"><span id="errTxt">Please try again.</span></div>
       <button type="submit" class="btn" id="submitBtn">
-        <span class="bt">JOIN NOW ÃÂ¢ÃÂÃÂ IT'S FREE</span>
+        <span class="bt">JOIN NOW — IT'S FREE</span>
         <span class="sp"></span>
       </button>
     </form>
   </div>
 </div>
-<footer><p>ÃÂÃÂ© 2026 Dine With Celebrity. All Rights Reserved. &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a> &nbsp;|&nbsp; <a href="/terms">Terms</a></p></footer>
+<footer><p>© 2026 Dine With Celebrity. All Rights Reserved. &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a> &nbsp;|&nbsp; <a href="/terms">Terms</a></p></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -154,7 +154,7 @@ const pwField   = document.getElementById('password');
 pwEye.addEventListener('click', () => {
   const show = pwField.type === 'password';
   pwField.type = show ? 'text' : 'password';
-  pwEye.textContent = show ? 'ÃÂ°ÃÂÃÂÃÂ' : 'ÃÂ°ÃÂÃÂÃÂ';
+  pwEye.textContent = show ? '🙈' : '👁';
 });
 
 form.addEventListener('submit', async (e) => {
@@ -181,7 +181,7 @@ form.addEventListener('submit', async (e) => {
 
   setLoading(true);
 
-  // STEP 1 ÃÂ¢ÃÂÃÂ Create Supabase Auth account
+  // STEP 1 — Create Supabase Auth account
   const { data: authData, error: authError } = await sbClient.auth.signUp({
     email,
     password: pw,
@@ -197,7 +197,7 @@ form.addEventListener('submit', async (e) => {
 
   const uid = authData.user?.id;
 
-  // STEP 2 ÃÂ¢ÃÂÃÂ Save member profile to members table
+  // STEP 2 — Save member profile to members table
   const { error: dbError } = await sbClient.from('members').insert({
     id:           uid,
     first_name:   fname,
@@ -212,10 +212,10 @@ form.addEventListener('submit', async (e) => {
 
   if (dbError) {
     console.error('Profile save error:', dbError.message);
-    // Don't block ÃÂ¢ÃÂÃÂ still redirect, profile can be created on dashboard
+    // Don't block — still redirect, profile can be created on dashboard
   }
 
-  // STEP 3 ÃÂ¢ÃÂÃÂ Web3Forms: notify admin + welcome email to member
+  // STEP 3 — Web3Forms: notify admin + welcome email to member
   const fd = new FormData();
   fd.append('access_key',  'd1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9');
   fd.append('subject',     'New DWC Member: ' + fname + ' ' + lname);
@@ -226,14 +226,14 @@ form.addEventListener('submit', async (e) => {
   fd.append('autoresponse', `Hi ${fname},\n\nWelcome to Dine With Celebrity!\nYour account is now active.\n\nSign in: dinewithcelebrity.com/login.html\n\nThe DWC Team`);
   fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd }).catch(() => {});
 
-  // STEP 4 ÃÂ¢ÃÂÃÂ Success + redirect
+  // STEP 4 — Success + redirect
   setLoading(false);
 
   if (authData.session) {
-    // Email confirmation is OFF ÃÂ¢ÃÂÃÂ user is already logged in, go to dashboard
+    // Email confirmation is OFF — user is already logged in, go to dashboard
     window.location.href = '/dashboard.html';
   } else {
-    // Email confirmation is ON ÃÂ¢ÃÂÃÂ show "check your email" message
+    // Email confirmation is ON — show "check your email" message
     msgOk.classList.add('show');
     form.reset();
   }
