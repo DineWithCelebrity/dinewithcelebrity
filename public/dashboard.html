@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>My Account | Dine With Celebrity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06040A;--bg2:#0e0a14;--sb:#110d1a;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.9);--sub:rgba(255,255,255,.65);--muted:rgba(255,255,255,.38);--bdr:rgba(242,183,5,.25);--bdr2:rgba(255,255,255,.07)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;font-size:1rem;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;line-height:1.1}
+button{cursor:pointer;font-family:'Poppins',sans-serif}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(242,183,5,.3)}
+
+/* GATE */
+#gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:9999}
+.gate-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.12em;color:var(--gold)}
+.gate-logo span{color:var(--sub)}
+.gate-spin{width:32px;height:32px;border:2px solid rgba(242,183,5,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.gate-txt{font-size:.75rem;color:var(--muted);letter-spacing:.1em}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* LAYOUT */
+#app{display:none;min-height:100vh}
+#app.ready{display:flex}
+
+/* SIDEBAR */
+.sb{width:255px;background:var(--sb);border-right:1px solid var(--bdr);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:50;overflow-y:auto;transition:transform .3s ease}
+.sb-logo{padding:18px 20px 14px;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.sb-logo a{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.1em;color:var(--gold);display:block}
+.sb-logo a span{color:var(--sub)}
+.sb-mem{padding:14px 18px;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.sb-av{width:42px;height:42px;background:linear-gradient(135deg,var(--gold),#8a5c00);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--bg);margin-bottom:8px}
+.sb-name{font-size:.86rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-email{font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px}
+.tier-pill{display:inline-block;padding:3px 11px;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.t-free    {background:rgba(107,140,186,.15);color:#6b9bd2;border:1px solid rgba(107,140,186,.3)}
+.t-bronze  {background:rgba(205,127,50,.15); color:#cd7f32;border:1px solid rgba(205,127,50,.3)}
+.t-silver  {background:rgba(180,180,195,.15);color:#b0b8c4;border:1px solid rgba(180,180,195,.3)}
+.t-gold    {background:rgba(242,183,5,.15);  color:var(--gold);border:1px solid rgba(242,183,5,.4)}
+.t-purple  {background:rgba(147,51,234,.18); color:#c084fc;border:1px solid rgba(147,51,234,.4)}
+.t-admin   {background:rgba(212,0,42,.15);   color:var(--red);border:1px solid rgba(212,0,42,.3)}
+.sb-nav{flex:1;padding:8px 0}
+.nav-grp{font-size:.6rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);padding:13px 20px 4px}
+.ni{display:flex;align-items:center;gap:11px;padding:10px 20px;font-size:.83rem;font-weight:500;color:var(--sub);background:none;border:none;border-left:2px solid transparent;width:100%;text-align:left;transition:all .18s}
+.ni:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.ni.active{color:var(--gold);background:rgba(242,183,5,.07);border-left-color:var(--gold)}
+.ni-icon{font-size:.92rem;width:18px;text-align:center;flex-shrink:0}
+.ni-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.57rem;padding:1px 6px;border-radius:10px;font-weight:700}
+.ni-lock{margin-left:auto;font-size:.62rem;color:var(--muted)}
+.sb-pts{margin:0 14px 12px;background:rgba(242,183,5,.07);border:1px solid var(--bdr);padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
+.pts-big{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);line-height:1}
+.pts-lbl{font-size:.64rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.sb-foot{border-top:1px solid var(--bdr);padding:8px 0;flex-shrink:0}
+
+/* MAIN */
+.main{margin-left:255px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:62px;background:rgba(6,4,10,.96);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,3vw,32px);position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);flex-shrink:0}
+.tb-left{display:flex;align-items:center;gap:12px}
+.ham{display:none;flex-direction:column;justify-content:space-between;width:22px;height:16px;background:none;border:none}
+.ham span{display:block;height:2px;width:100%;background:var(--gold)}
+.pg-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--text);letter-spacing:.06em}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-notif{width:34px;height:34px;background:rgba(255,255,255,.05);border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:.95rem;position:relative;cursor:pointer;transition:all .2s}
+.tb-notif:hover{background:rgba(242,183,5,.1);border-color:var(--bdr)}
+.tb-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
+.tb-av{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),#8a5c00);border:none;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--bg);display:flex;align-items:center;justify-content:center}
+
+.content{flex:1;padding:clamp(20px,3vw,36px)}
+.panel{display:none}.panel.active{display:block}
+
+/* FOMO */
+.fomo{background:linear-gradient(90deg,rgba(212,0,42,.12),rgba(242,183,5,.08),rgba(212,0,42,.12));border:1px solid rgba(242,183,5,.2);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.fomo p{font-size:.82rem;color:var(--text)}
+.fomo p strong{color:var(--gold)}
+.fomo-btn{background:var(--red);color:#fff;border:none;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.1em;padding:7px 18px;white-space:nowrap}
+.fomo-btn:hover{background:#ff1a3d}
+
+/* WELCOME */
+.welcome{background:linear-gradient(135deg,#1a0d00,var(--bg2));border:1px solid var(--bdr);padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden}
+.welcome::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.welcome h2{font-size:clamp(1.4rem,3vw,2rem);color:#fff;margin-bottom:4px}
+.welcome h2 span{color:var(--gold)}
+.welcome p{font-size:.86rem;font-weight:300;color:var(--sub)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2px;margin-bottom:20px}
+.stat{background:var(--bg2);border:1px solid var(--bdr2);padding:16px 18px}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1;display:block}
+.stat-lbl{font-size:.67rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.stat-sub{font-size:.72rem;color:var(--sub);margin-top:4px}
+
+/* HELPERS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--bg2);border:1px solid var(--bdr2);padding:18px}
+.shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.shdr h3{font-size:1.2rem;color:var(--text)}
+.shdr-btn{font-size:.74rem;font-weight:500;color:var(--gold);background:none;border:none;letter-spacing:.06em}
+
+/* UPGRADE NUDGE */
+.upg-nudge{background:linear-gradient(135deg,rgba(147,51,234,.1),rgba(242,183,5,.07));border:1px solid rgba(147,51,234,.3);padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.upg-nudge h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#c084fc;margin-bottom:3px}
+.upg-nudge p{font-size:.8rem;color:var(--sub)}
+.upg-btn{background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;border:none;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.1em;padding:10px 22px;white-space:nowrap;transition:all .2s}
+.upg-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(147,51,234,.45)}
+
+/* COUPONS */
+.coupon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.coupon{background:linear-gradient(135deg,#1a0d00,var(--bg2));border:1px solid rgba(242,183,5,.22);overflow:hidden;transition:all .25s;position:relative}
+.coupon:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.coupon-top{padding:16px 18px 12px;border-bottom:1px dashed rgba(242,183,5,.18)}
+.coupon-rest{font-size:.67rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.coupon-deal{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#fff;line-height:1}
+.coupon-terms{font-size:.75rem;color:var(--sub);margin-top:4px}
+.coupon-bot{padding:10px 18px;display:flex;align-items:center;justify-content:space-between}
+.coupon-exp{font-size:.67rem;color:var(--muted)}
+.use-btn{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.1em;padding:6px 14px;background:var(--gold);color:var(--bg);border:none}
+.use-btn:hover{background:var(--gold2)}
+.ctag{position:absolute;top:10px;right:10px;font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:2px 8px}
+.ctag-new{background:rgba(0,200,83,.14);color:var(--green);border:1px solid rgba(0,200,83,.28)}
+.ctag-vip{background:rgba(147,51,234,.14);color:#c084fc;border:1px solid rgba(147,51,234,.28)}
+
+/* RESTAURANTS */
+.rest-list{display:flex;flex-direction:column;gap:8px}
+.rest-item{background:var(--bg2);border:1px solid var(--bdr2);padding:12px 16px;display:flex;align-items:center;gap:13px;transition:all .2s;cursor:pointer}
+.rest-item:hover{border-color:var(--bdr);background:rgba(242,183,5,.04)}
+.rest-em{font-size:1.7rem;flex-shrink:0}
+.rest-info{flex:1}
+.rest-name{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--text)}
+.rest-meta{font-size:.74rem;color:var(--sub)}
+.rest-tag{font-size:.67rem;font-weight:700;letter-spacing:.1em;padding:3px 10px;flex-shrink:0}
+.rest-tag-open{background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.22)}
+.rest-tag-locked{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--bdr2)}
+
+/* EVENTS */
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ev-card{background:var(--bg2);border:1px solid var(--bdr2);overflow:hidden;transition:all .25s}
+.ev-card:hover{border-color:var(--bdr);transform:translateY(-3px)}
+.ev-img{height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#1a0000,#2d0000);position:relative}
+.ev-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:32px;background:linear-gradient(0deg,var(--bg2),transparent)}
+.ev-body{padding:12px 15px 15px}
+.ev-date{font-size:.67rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ev-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);margin-bottom:4px}
+.ev-place{font-size:.74rem;color:var(--sub);margin-bottom:8px}
+.ev-price{font-size:.72rem;color:var(--muted);margin-bottom:11px}
+.ev-price strong{color:var(--gold)}
+.ev-actions{display:flex;gap:8px}
+.book-btn{flex:1;padding:9px;text-align:center;background:var(--gold);color:var(--bg);font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.1em;border:none}
+.book-btn:hover{background:var(--gold2)}
+.ev-lock-btn{flex:1;padding:9px;text-align:center;background:rgba(147,51,234,.15);color:#c084fc;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.1em;border:1px solid rgba(147,51,234,.3)}
+.ev-lock-btn:hover{background:rgba(147,51,234,.25)}
+
+/* NOTIFICATIONS */
+.notif-list{display:flex;flex-direction:column;gap:8px}
+.notif-item{background:var(--bg2);border:1px solid var(--bdr2);padding:13px 16px;display:flex;align-items:flex-start;gap:12px}
+.notif-item.unread{border-left:3px solid var(--gold)}
+.n-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.n-title{font-size:.86rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.n-body{font-size:.78rem;color:var(--sub);line-height:1.55}
+.n-time{font-size:.65rem;color:var(--muted);margin-top:3px}
+
+/* TABLES */
+.twrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead th{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.12em;color:var(--gold);padding:10px 13px;background:rgba(242,183,5,.05);border-bottom:1px solid var(--bdr);text-align:left;white-space:nowrap}
+tbody td{padding:10px 13px;border-bottom:1px solid var(--bdr2);color:var(--sub);vertical-align:middle}
+tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
+.sp{display:inline-block;padding:2px 9px;font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.sp-ok{background:rgba(0,200,83,.12);color:var(--green);border:1px solid rgba(0,200,83,.24)}
+.sp-pend{background:rgba(242,183,5,.12);color:var(--gold);border:1px solid rgba(242,183,5,.24)}
+.sp-can{background:rgba(212,0,42,.12);color:#ff6b6b;border:1px solid rgba(212,0,42,.24)}
+
+/* POINTS */
+.pts-card{background:linear-gradient(135deg,#1a1000,var(--bg2));border:1px solid rgba(242,183,5,.25);padding:22px 26px}
+.pts-big{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--gold);line-height:1}
+.prog{background:rgba(255,255,255,.06);height:8px;margin:12px 0 6px;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 1s ease;border-radius:4px}
+.prog-lbls{display:flex;justify-content:space-between;font-size:.67rem;color:var(--muted)}
+
+/* PROFILE */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:6px}
+.fg label{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.fg input{background:rgba(255,255,255,.04);border:1px solid rgba(242,183,5,.18);color:var(--text);padding:11px 13px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;width:100%;transition:border-color .22s}
+.fg input:focus{border-color:var(--gold)}
+.fg input:disabled{opacity:.45;cursor:not-allowed}
+.fg input::placeholder{color:var(--muted)}
+.btn-save{background:var(--gold);color:var(--bg);border:none;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;padding:12px 28px;transition:all .22s}
+.btn-save:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* PLANS */
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:24px}
+.plan-card{background:var(--bg2);border:1px solid var(--bdr2);padding:24px 20px;text-align:center;position:relative;transition:all .25s;display:flex;flex-direction:column}
+.plan-card:hover{border-color:var(--bdr);transform:translateY(-4px)}
+.plan-card.featured{border-color:var(--gold);background:linear-gradient(180deg,rgba(242,183,5,.07),var(--bg2))}
+.plan-card.featured::before{content:'⭐ MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:3px 14px;white-space:nowrap}
+.plan-card.vip-card{border-color:rgba(147,51,234,.4);background:linear-gradient(180deg,rgba(147,51,234,.08),var(--bg2))}
+.plan-card.vip-card::before{content:'💎 ELITE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:3px 14px;white-space:nowrap}
+.plan-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);margin-bottom:4px}
+.plan-price{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--gold);line-height:1;margin-bottom:2px}
+.plan-note{font-size:.72rem;color:var(--muted);margin-bottom:14px}
+.plan-hook{font-size:.8rem;color:var(--sub);margin-bottom:16px;font-style:italic}
+.plan-perks{list-style:none;text-align:left;margin-bottom:20px;display:flex;flex-direction:column;gap:7px;flex:1}
+.plan-perks li{font-size:.8rem;color:var(--sub);display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.plan-perks li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.plan-btn{width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;border:none;transition:all .22s;margin-top:auto}
+.plan-btn-free{background:transparent;color:var(--muted);border:1px solid var(--bdr2);cursor:default}
+.plan-btn-silver{background:var(--gold);color:var(--bg)}
+.plan-btn-silver:hover{background:var(--gold2);transform:translateY(-2px)}
+.plan-btn-bronze{background:rgba(205,127,50,.15);color:#cd7f32;border:1px solid rgba(205,127,50,.4)}
+.plan-btn-bronze:hover{background:rgba(205,127,50,.25)}
+.plan-btn-gold{background:rgba(242,183,5,.15);color:var(--gold);border:1px solid rgba(242,183,5,.4)}
+.plan-btn-gold:hover{background:rgba(242,183,5,.25)}
+.plan-btn-purple{background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;box-shadow:0 4px 16px rgba(147,51,234,.3)}
+.plan-btn-purple:hover{transform:translateY(-2px)}
+.current-plan{width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.12em;background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.3);text-align:center;margin-top:auto}
+
+/* UPGRADE MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--bdr);padding:32px;max-width:460px;width:100%;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:1.2rem}
+.modal-close:hover{color:var(--text)}
+.modal h3{font-size:1.6rem;color:var(--text);margin-bottom:6px}
+.modal h3 span{color:var(--gold)}
+.modal > p{font-size:.84rem;color:var(--sub);margin-bottom:20px;line-height:1.6}
+.modal .fg{margin-bottom:14px}
+.modal .fg label{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.modal .fg input,.modal .fg select{background:rgba(255,255,255,.04);border:1px solid rgba(242,183,5,.18);color:var(--text);padding:11px 13px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;width:100%}
+.modal .fg input:focus,.modal .fg select:focus{border-color:var(--gold)}
+.modal .fg select option{background:#0e0a14}
+.modal-submit{width:100%;background:var(--gold);color:var(--bg);border:none;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.12em;padding:14px;transition:all .25s;margin-top:6px}
+.modal-submit:hover{background:var(--gold2)}
+.modal-submit:disabled{opacity:.55;cursor:not-allowed}
+.modal-ok{display:none;text-align:center;padding:20px 0}
+.modal-ok .ok-icon{font-size:3rem;margin-bottom:12px}
+.modal-ok h4{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--green);margin-bottom:8px}
+.modal-ok p{font-size:.84rem;color:var(--sub)}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border-left:3px solid var(--green);padding:13px 18px;z-index:9998;font-size:.83rem;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.16,1,.3,1);max-width:290px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.err{border-left-color:var(--red)}
+
+/* OVERLAY */
+.sb-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:49}
+.sb-ov.show{display:block}
+
+/* RESPONSIVE */
+@media(max-width:900px){.sb{transform:translateX(-100%)}.sb.open{transform:translateX(0)}.main{margin-left:0}.ham{display:flex}.g2,.pgrid{grid-template-columns:1fr}}
+@media(max-width:540px){.stats{grid-template-columns:1fr 1fr}.coupon-grid,.ev-grid,.plans-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="gate">
+  <div class="gate-logo">DINE<span>WITH</span>CELEBRITY</div>
+  <div class="gate-spin"></div>
+  <div class="gate-txt">Checking your account…</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toastEl"></div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-bg" id="upgradeModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalForm">
+      <h3>UPGRADE TO <span id="modalPlan">DWC-SILVER</span></h3>
+      <p>Our team will contact you within 24 hours to complete your upgrade. No payment needed right now.</p>
+      <div class="fg"><label>Your Full Name</label><input type="text" id="mName" placeholder="Your name"></div>
+      <div class="fg"><label>Your Phone Number</label><input type="tel" id="mPhone" placeholder="+91 98765 43210"></div>
+      <div class="fg"><label>Your Email</label><input type="email" id="mEmail" placeholder="your@email.com"></div>
+      <div class="fg"><label>Plan You Want</label>
+        <select id="mPlan">
+          <option>DWC-Bronze — ₹4,999</option>
+          <option selected>DWC-Silver — ₹6,999</option>
+          <option>DWC-Gold — ₹9,999</option>
+          <option>DWC-Purple — ₹14,999</option>
+        </select>
+      </div>
+      <button class="modal-submit" id="modalSubmitBtn" onclick="submitUpgrade()">REQUEST MY UPGRADE →</button>
+    </div>
+    <div class="modal-ok" id="modalOk">
+      <div class="ok-icon">🎉</div>
+      <h4>Request Sent!</h4>
+      <p>Our team will call you within 24 hours to complete your upgrade.</p>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="sb-ov" id="sbOv"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sb" id="sidebar">
+    <div class="sb-logo"><a href="/">DINE<span>WITH</span>CELEBRITY</a></div>
+    <div class="sb-mem">
+      <div class="sb-av" id="sbAv">?</div>
+      <div class="sb-name" id="sbName">Loading…</div>
+      <div class="sb-email" id="sbEmail"></div>
+      <span class="tier-pill t-free" id="sbTier">DWC-Free</span>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-grp">My Account</div>
+      <button class="ni active" onclick="go('overview',this)"><span class="ni-icon">🏠</span>Overview</button>
+      <button class="ni" onclick="go('coupons',this)"><span class="ni-icon">🎟</span>My Coupons</button>
+      <button class="ni" onclick="go('restaurants',this)"><span class="ni-icon">🍽</span>Restaurants</button>
+      <div class="nav-grp">Events</div>
+      <button class="ni" id="navEvents" onclick="go('events',this)"><span class="ni-icon">⭐</span>Celebrity Events<span class="ni-lock" id="evLock">🔒</span></button>
+      <button class="ni" onclick="go('bookings',this)"><span class="ni-icon">📅</span>My Bookings</button>
+      <div class="nav-grp">Rewards</div>
+      <button class="ni" onclick="go('points',this)"><span class="ni-icon">💛</span>My Points</button>
+      <button class="ni" onclick="go('notifications',this)"><span class="ni-icon">🔔</span>Notifications<span class="ni-badge" id="nBadge">3</span></button>
+      <div class="nav-grp">More</div>
+      <button class="ni" onclick="go('upgrade',this)"><span class="ni-icon">🚀</span>Upgrade Plan</button>
+      <button class="ni" onclick="go('profile',this)"><span class="ni-icon">👤</span>My Profile</button>
+    </nav>
+    <div class="sb-pts">
+      <div><div class="pts-big" id="sbPts">0</div><div class="pts-lbl">My Points</div></div>
+      <span style="font-size:1.4rem">💛</span>
+    </div>
+    <div class="sb-foot">
+      <button class="ni" onclick="doSignOut()"><span class="ni-icon">🚪</span>Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+        <div class="pg-title" id="pgTitle">Overview</div>
+      </div>
+      <div class="tb-right">
+        <div class="tb-notif" onclick="go('notifications',document.querySelector('[onclick*=notifications]'))">🔔<span class="tb-dot" id="tbDot"></span></div>
+        <div class="tb-av" id="tbAv">?</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <div class="panel active" id="panel-overview">
+        <div class="fomo" id="fomoBar" style="display:none">
+          <p>🔥 <strong id="fomoAmt">₹1,24,500</strong> saved by DWC members today — you haven't saved anything yet!</p>
+          <button class="fomo-btn" onclick="go('upgrade',document.querySelector('[onclick*=upgrade]'))">UNLOCK BENEFITS FROM ₹4,999</button>
+        </div>
+        <div class="welcome">
+          <h2>WELCOME BACK, <span id="wName">MEMBER</span> 👋</h2>
+          <p id="wSub">Here's your DWC account summary.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="stat-num" id="stC">0</span><div class="stat-lbl">My Coupons</div><div class="stat-sub">Ready to use</div></div>
+          <div class="stat"><span class="stat-num" id="stP">0</span><div class="stat-lbl">My Points</div><div class="stat-sub">Keep earning</div></div>
+          <div class="stat"><span class="stat-num" id="stB">2</span><div class="stat-lbl">Bookings</div><div class="stat-sub">Upcoming</div></div>
+          <div class="stat"><span class="stat-num" id="stT">FREE</span><div class="stat-lbl">My Plan</div><div class="stat-sub" id="stTS">Tap to upgrade</div></div>
+          <div class="stat"><span class="stat-num" id="stExp" style="font-size:1.2rem;letter-spacing:.02em">—</span><div class="stat-lbl">Plan Expires</div><div class="stat-sub" id="stExpSub">—</div></div>
+        </div>
+        <div class="upg-nudge" id="ovUpgNudge" style="display:none">
+          <div>
+            <h4>🚀 Upgrade to DWC-Silver — Most Popular Plan</h4>
+            <p>Get 20% off at all partner restaurants + celebrity events + 3-4 event coupons per year. Only ₹6,999.</p>
+          </div>
+          <button class="upg-btn" onclick="openUpgrade('DWC-Silver — ₹6,999')">UPGRADE NOW →</button>
+        </div>
+        <div class="g2">
+          <div>
+            <div class="shdr"><h3>Recent Updates</h3><button class="shdr-btn" onclick="go('notifications',document.querySelector('[onclick*=notifications]'))">See All</button></div>
+            <div class="notif-list">
+              <div class="notif-item unread"><span class="n-icon">🎟</span><div><div class="n-title">New Coupon Available</div><div class="n-body">20% off at Sky Lounge — valid this weekend only.</div><div class="n-time">2 hours ago</div></div></div>
+              <div class="notif-item unread"><span class="n-icon">⭐</span><div><div class="n-title">New Celebrity Event</div><div class="n-body">Bollywood dinner night — limited seats available.</div><div class="n-time">Yesterday</div></div></div>
+              <div class="notif-item"><span class="n-icon">💛</span><div><div class="n-title">Points Added</div><div class="n-body">You earned 50 points from your last visit.</div><div class="n-time">3 days ago</div></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="shdr"><h3>Upcoming Events</h3><button class="shdr-btn" onclick="go('events',document.querySelector('[onclick*=events]'))">See All</button></div>
+            <div id="ovEvents"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COUPONS -->
+      <div class="panel" id="panel-coupons">
+        <div class="shdr" style="margin-bottom:16px"><h3>MY COUPONS</h3><span id="couponCnt" style="font-size:.76rem;color:var(--muted)"></span></div>
+        <div id="couponsContent"></div>
+      </div>
+
+      <!-- RESTAURANTS -->
+      <div class="panel" id="panel-restaurants">
+        <div class="shdr" style="margin-bottom:16px"><h3>RESTAURANTS</h3><span style="font-size:.76rem;color:var(--muted)">Hyderabad</span></div>
+        <div class="rest-list" id="restList"></div>
+        <div id="restNudge" style="margin-top:16px"></div>
+      </div>
+
+      <!-- EVENTS -->
+      <div class="panel" id="panel-events">
+        <div class="shdr" style="margin-bottom:16px"><h3>CELEBRITY EVENTS</h3></div>
+        <div id="evContent"></div>
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="panel" id="panel-bookings">
+        <div class="shdr" style="margin-bottom:16px"><h3>MY BOOKINGS</h3></div>
+        <div class="twrap"><table><thead><tr><th>Event</th><th>Date</th><th>Venue</th><th>People</th><th>Status</th></tr></thead>
+        <tbody id="bookingsTbody">
+          <tr><td colspan="5" style="text-align:center;padding:28px;color:var(--muted)">Loading bookings…</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <!-- POINTS -->
+      <div class="panel" id="panel-points">
+        <div class="shdr" style="margin-bottom:16px"><h3>MY POINTS</h3></div>
+        <div class="g2" style="margin-bottom:20px">
+          <div class="pts-card">
+            <div style="font-size:.67rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Your Balance</div>
+            <div class="pts-big" id="ptsBig">0</div>
+            <div style="font-size:.77rem;color:var(--sub);margin-top:5px">Earned from dining &amp; events</div>
+            <div class="prog"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+            <div class="prog-lbls"><span>0</span><span id="progLbl">0 / 500</span><span id="progMax">500</span></div>
+          </div>
+          <div class="card">
+            <div style="font-size:.67rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">How to Earn Points</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>🍽</span>Eat at a partner restaurant — <strong style="color:var(--text)">+10 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>🎟</span>Use a DWC coupon — <strong style="color:var(--text)">+25 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>⭐</span>Attend a celebrity event — <strong style="color:var(--text)">+100 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>👥</span>Bring a friend — <strong style="color:var(--text)">+50 pts</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="shdr"><h3>Points History</h3></div>
+        <div class="twrap" style="margin-top:10px"><table><thead><tr><th>Activity</th><th>Date</th><th>Points</th></tr></thead>
+        <tbody><tr><td>Visited Spice Garden</td><td>15 Mar 2026</td><td style="color:var(--green);font-weight:600">+10</td></tr>
+        <tr><td>Used DWC Coupon</td><td>12 Mar 2026</td><td style="color:var(--green);font-weight:600">+25</td></tr></tbody></table></div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="panel" id="panel-notifications">
+        <div class="shdr" style="margin-bottom:16px"><h3>NOTIFICATIONS</h3><button class="shdr-btn" onclick="markAllRead()">Mark all as read</button></div>
+        <div class="notif-list">
+          <div class="notif-item unread"><span class="n-icon">🎟</span><div><div class="n-title">New Coupon Available</div><div class="n-body">20% off at Sky Lounge — valid this weekend only.</div><div class="n-time">2 hours ago</div></div></div>
+          <div class="notif-item unread"><span class="n-icon">⭐</span><div><div class="n-title">New Celebrity Event Added</div><div class="n-body">Bollywood dinner night — limited seats. Book now before they fill up.</div><div class="n-time">Yesterday</div></div></div>
+          <div class="notif-item unread"><span class="n-icon">💛</span><div><div class="n-title">Points Added to Your Account</div><div class="n-body">You earned 50 points from your last visit.</div><div class="n-time">3 days ago</div></div></div>
+          <div class="notif-item"><span class="n-icon">🍽</span><div><div class="n-title">New Restaurant Joined DWC</div><div class="n-body">Jewel of Nizam is now a DWC partner restaurant.</div><div class="n-time">5 days ago</div></div></div>
+          <div class="notif-item"><span class="n-icon">🏆</span><div><div class="n-title">You Are Close to DWC-Silver!</div><div class="n-body">Just 180 more points and you move to Silver. Keep dining!</div><div class="n-time">1 week ago</div></div></div>
+        </div>
+      </div>
+
+      <!-- UPGRADE -->
+      <div class="panel" id="panel-upgrade">
+        <div class="welcome" style="margin-bottom:8px"><h2>CHOOSE YOUR <span>PLAN</span></h2><p>Upgrade anytime. Our team will contact you within 24 hours to activate your plan.</p></div>
+        <div style="background:rgba(242,183,5,.07);border:1px solid var(--bdr);padding:12px 18px;margin-bottom:4px;font-size:.84rem;color:var(--sub)">
+          💡 <strong style="color:var(--gold)">Best value:</strong> DWC-Silver gives you the most savings for your money — most popular among our members.
+        </div>
+        <div class="plans-grid" id="plansGrid"></div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="panel" id="panel-profile">
+        <div class="shdr" style="margin-bottom:22px"><h3>MY PROFILE</h3></div>
+        <div class="card" style="max-width:620px">
+          <div class="pgrid">
+            <div class="fg"><label>First Name</label><input type="text" id="pFirst"></div>
+            <div class="fg"><label>Last Name</label><input type="text" id="pLast"></div>
+            <div class="fg"><label>Email Address</label><input type="email" id="pEmail" disabled></div>
+            <div class="fg"><label>Phone Number</label><input type="tel" id="pPhone" placeholder="+91 98765 43210"></div>
+            <div class="fg"><label>City</label><input type="text" id="pCity"></div>
+            <div class="fg"><label>Member Since</label><input type="text" id="pSince" disabled></div>
+            <div class="fg"><label>Membership Expires</label><input type="text" id="pExpiry" disabled></div>
+          </div>
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--bdr2);display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <button class="btn-save" onclick="saveProfile()">SAVE CHANGES</button>
+            <a href="/signin.html" style="font-size:.8rem;color:var(--muted)">Change Password →</a>
+          </div>
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--bdr2)">
+            <div style="font-size:.67rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:9px">Your Membership Plan</div>
+            <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+              <span class="tier-pill" id="profTier">DWC-Free</span>
+              <span style="font-size:.8rem;color:var(--sub)" id="profTierDesc"></span>
+              <button class="btn-save" style="padding:7px 16px;font-size:.82rem" id="profUpgBtn" onclick="go('upgrade',document.querySelector('[onclick*=upgrade]'))">UPGRADE PLAN →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const { createClient } = supabase;
+
+const sbClient = createClient(
+  'https://blwqqqzhnovsveeryjlm.supabase.co',
+  'sb_publishable_GmOnQPXPLfr4cKuuPbY9NA_BAu3ut6X'
+);
+
+// ── TIER CONFIG ──
+const TIERS = {
+  free:    {label:'DWC-Free',    cls:'t-free',   level:0},
+  bronze:  {label:'DWC-Bronze',  cls:'t-bronze', level:1},
+  silver:  {label:'DWC-Silver',  cls:'t-silver', level:2},
+  gold:    {label:'DWC-Gold',    cls:'t-gold',   level:3},
+  purple:  {label:'DWC-Purple',  cls:'t-purple', level:4},
+  admin:   {label:'Admin',       cls:'t-admin',  level:99}
+};
+
+// ── COUPONS ──
+const COUPONS = {
+  free:   [{rest:'Spice Garden',deal:'1 Free Starter',terms:'Trial coupon — limited time',exp:'15 Apr 2026',tag:'ctag-new',tagTxt:'TRIAL'}],
+  bronze: [{rest:'Spice Garden',deal:'10% OFF',terms:'All dine-in orders · Max ₹1,500',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'The Grand Table',deal:'₹500 OFF',terms:'Min order ₹3,500',exp:'30 Apr 2026',tag:'',tagTxt:''}],
+  silver: [{rest:'Spice Garden',deal:'20% OFF',terms:'All dine-in · Max ₹3,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'The Grand Table',deal:'20% OFF',terms:'Min order ₹2,000 · Max ₹3,000',exp:'30 Apr 2026',tag:'',tagTxt:''},{rest:'Sky Lounge',deal:'20% OFF',terms:'All days · Max ₹3,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'Olive Kitchen',deal:'Free Dessert',terms:'Orders above ₹1,500',exp:'30 Apr 2026',tag:'',tagTxt:''}],
+  gold:   [{rest:'Spice Garden',deal:'25% OFF',terms:'Max ₹5,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'Sky Lounge',deal:'30% OFF',terms:'Max ₹5,000',exp:'30 Apr 2026',tag:'',tagTxt:''},{rest:'The Taj Banjara',deal:'25% OFF',terms:'Gold exclusive · Max ₹5,000',exp:'30 Apr 2026',tag:'ctag-vip',tagTxt:'GOLD'},{rest:'Birthday Meal',deal:'Free Meal',terms:'On your birthday 🎂',exp:'Your birthday',tag:'ctag-vip',tagTxt:'GIFT'}],
+  purple: [{rest:'All Partners',deal:'35-50% OFF',terms:'Max ₹10,000',exp:'Ongoing',tag:'ctag-vip',tagTxt:'VIP'},{rest:'VIP Events',deal:'Priority Access',terms:'Front row &amp; meet &amp; greet',exp:'Ongoing',tag:'ctag-vip',tagTxt:'VIP'}]
+};
+COUPONS.admin = COUPONS.purple;
+
+// ── RESTAURANTS ──
+const RESTAURANTS = [
+  {e:'🍛',n:'Spice Garden',m:'Hyderabadi • Banjara Hills',minLevel:0},
+  {e:'🥩',n:'The Grand Table',m:'Continental • Jubilee Hills',minLevel:0},
+  {e:'🍣',n:'Sky Lounge',m:'Pan Asian • HITEC City',minLevel:1},
+  {e:'🫕',n:'Olive Kitchen',m:'Mediterranean • Gachibowli',minLevel:1},
+  {e:'🍲',n:'The Taj Banjara',m:'Mughlai • Banjara Hills',minLevel:2},
+  {e:'💎',n:'Jewel of Nizam',m:'Royal Hyderabadi • Secunderabad',minLevel:2},
+  {e:'🏨',n:'Grand Hyatt Restaurant',m:'International • Banjara Hills',minLevel:3},
+  {e:'👑',n:'ITC Kohenur',m:'Luxury Dining • HITEC City',minLevel:4}
+];
+
+// ── EVENTS ──
+const EVENTS = [
+  {e:'🎬',t:'Bollywood Dinner Night',d:'12 Apr 2026',v:'The Taj Banjara, Hyderabad',minLevel:1,prices:{free:'₹8,000',bronze:'₹6,800',silver:'₹5,600',gold:'₹4,800',purple:'₹3,500'}},
+  {e:'🏏',t:'Cricket Star Meet & Dine',d:'26 Apr 2026',v:'Sky Lounge, Hyderabad',minLevel:1,prices:{free:'₹7,500',bronze:'₹6,375',silver:'₹5,250',gold:'₹4,500',purple:'₹3,000'}},
+  {e:'🎤',t:'Music Icon Private Dinner',d:'10 May 2026',v:'Jewel of Nizam, Hyderabad',minLevel:2,prices:{free:'₹12,000',silver:'₹9,000',gold:'₹7,800',purple:'₹6,000'}},
+  {e:'🎭',t:'Celebrity Gala Evening',d:'24 May 2026',v:'Grand Hyatt, Hyderabad',minLevel:3,prices:{free:'₹15,000',gold:'₹9,750',purple:'₹7,500'}}
+];
+
+// ── HELPERS ──
+function tierLabel(t){ return TIERS[t]?.label || 'DWC-Free'; }
+function tierCls(t)  { return TIERS[t]?.cls   || 't-free'; }
+function tierLevel(t){ return TIERS[t]?.level  ?? 0; }
+function tierDesc(t) {
+  if(t==='admin'||t==='purple') return 'Full VIP access to everything on DWC.';
+  if(t==='gold')   return 'Premium access — priority booking &amp; birthday gifts.';
+  if(t==='silver') return 'Most popular — 20% off restaurants &amp; event access.';
+  if(t==='bronze') return 'Entry level — 10-15% off at partner restaurants.';
+  return 'Free plan — upgrade to unlock real savings and events.';
+}
+function nextTier(t, pts) {
+  const m = {free:{next:'DWC-Bronze',target:500},bronze:{next:'DWC-Silver',target:1000},silver:{next:'DWC-Gold',target:1500},gold:{next:'DWC-Purple',target:2000}};
+  if(t==='purple'||t==='admin') return {lbl:'You are at the top tier!',pct:100,max:'—'};
+  const i = m[t]||m.free;
+  return {lbl:`${pts} / ${i.target} pts to ${i.next}`, pct:Math.min((pts/i.target)*100,100), max:i.target};
+}
+
+// ── BUILD DASHBOARD ──
+function build(user, prof, realBookings=[], realCoupons=[]) {
+  const tier  = prof.tier || 'free';
+  const pts   = prof.cause_points || 0;
+  const fname = prof.first_name || user.user_metadata?.first_name || user.email.split('@')[0];
+  const lname = prof.last_name  || user.user_metadata?.last_name || '';
+  const init  = fname.charAt(0).toUpperCase();
+  const lvl   = tierLevel(tier);
+
+  // Sidebar & topbar
+  ['sbAv','tbAv'].forEach(id => document.getElementById(id).textContent = init);
+  document.getElementById('sbName').textContent  = fname + (lname ? ' '+lname : '');
+  document.getElementById('sbEmail').textContent = user.email;
+  document.getElementById('sbPts').textContent   = pts;
+  const tb = document.getElementById('sbTier');
+  tb.textContent = tierLabel(tier);
+  tb.className   = 'tier-pill ' + tierCls(tier);
+
+  // Unlock events nav if eligible
+  if(lvl >= 1) document.getElementById('evLock').style.display = 'none';
+
+  // Welcome
+  document.getElementById('wName').textContent = fname.toUpperCase();
+  document.getElementById('wSub').textContent  =
+    tier==='admin'  ? 'Admin access active.' :
+    tier==='purple' ? 'DWC-Purple Member — full VIP access.' :
+    tier==='gold'   ? 'DWC-Gold Member — premium access active.' :
+    tier==='silver' ? 'DWC-Silver Member — events &amp; coupons ready.' :
+    tier==='bronze' ? 'DWC-Bronze Member — your coupons are ready.' :
+    'Welcome! Browse the platform and upgrade to start saving.';
+
+  // FOMO & upgrade nudge for free/bronze
+  if(lvl < 2) {
+    document.getElementById('fomoBar').style.display = 'flex';
+    const amts = ['₹1,24,500','₹98,200','₹1,42,800','₹87,600','₹1,11,300'];
+    document.getElementById('fomoAmt').textContent = amts[new Date().getDate() % amts.length];
+    document.getElementById('ovUpgNudge').style.display = 'flex';
+  }
+
+  // Stats — use real data counts
+  const coupons = realCoupons.length > 0 ? realCoupons : (COUPONS[tier] || COUPONS.free);
+  const isRealCoupons = realCoupons.length > 0;
+  document.getElementById('stC').textContent  = isRealCoupons ? realCoupons.length : (COUPONS[tier] || COUPONS.free).length;
+  document.getElementById('stP').textContent  = pts;
+  document.getElementById('stT').textContent  = tierLabel(tier).replace('DWC-','');
+  document.getElementById('stTS').textContent = tier==='free' ? 'Tap to upgrade' : 'Active plan';
+  document.getElementById('stB').textContent  = realBookings.length || 0;
+
+  // Membership expiry
+  const expDate = prof.expires_at ? new Date(prof.expires_at) : null;
+  const expSub  = expDate
+    ? (expDate < new Date() ? '⚠️ Expired' : 'Active')
+    : tier==='free' ? 'Free plan' : 'Not set yet';
+  document.getElementById('stExp').textContent    = expDate
+    ? expDate.toLocaleDateString('en-IN',{day:'numeric',month:'short'})
+    : tier==='free' ? 'N/A' : '—';
+  document.getElementById('stExpSub').textContent = expSub;
+  document.getElementById('pExpiry').value        = expDate
+    ? expDate.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})
+    : tier==='free' ? 'N/A — Free Plan' : 'Not set — contact support';
+
+  // Profile
+  document.getElementById('pFirst').value = prof.first_name || '';
+  document.getElementById('pLast').value  = prof.last_name  || '';
+  document.getElementById('pEmail').value = user.email;
+  document.getElementById('pPhone').value = prof.phone || '';
+  document.getElementById('pCity').value  = prof.city  || '';
+  document.getElementById('pSince').value = prof.created_at
+    ? new Date(prof.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})
+    : 'Today';
+  const pt = document.getElementById('profTier');
+  pt.textContent = tierLabel(tier); pt.className = 'tier-pill '+tierCls(tier);
+  document.getElementById('profTierDesc').textContent = tierDesc(tier).replace(/&amp;/g,'&');
+  if(tier==='purple'||tier==='admin') document.getElementById('profUpgBtn').style.display='none';
+
+  // Render sections
+  renderCoupons(coupons, lvl, isRealCoupons);
+  renderRestaurants(lvl);
+  renderEvents(tier, lvl);
+  renderOvEvents(lvl);
+  renderPoints(pts, tier);
+  renderPlans(tier);
+  renderBookings(realBookings);
+}
+
+function renderCoupons(c, lvl, isReal=false) {
+  let grid = '';
+  if (isReal) {
+    // Real coupons from Supabase
+    if (c.length === 0) {
+      grid = `<div class="card" style="text-align:center;padding:28px 16px"><div style="font-size:2rem;margin-bottom:8px">🎟</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);margin-bottom:6px">No Coupons Yet</div><p style="font-size:.8rem;color:var(--sub)">Your coupons will appear here once assigned by DWC.</p></div>`;
+    } else {
+      grid = `<div class="coupon-grid">${c.map(x=>`<div class="coupon">${x.tag?`<span class="${x.tag} ctag">${x.tag_txt}</span>`:''}<div class="coupon-top"><div class="coupon-rest">${x.restaurant}</div><div class="coupon-deal">${x.deal}</div><div class="coupon-terms">${x.terms||''}</div></div><div class="coupon-bot"><span class="coupon-exp">Expires: ${x.expires_at ? new Date(x.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Ongoing'}</span><button class="use-btn" onclick="showToast('Show this screen at ${x.restaurant} to use your coupon 🎟')">USE NOW</button></div></div>`).join('')}</div>`;
+    }
+  } else {
+    // Demo coupons based on tier
+    document.getElementById('couponCnt').textContent = c.length + ' available';
+    grid = `<div class="coupon-grid">${c.map(x=>`<div class="coupon">${x.tag?`<span class="${x.tag} ctag">${x.tagTxt}</span>`:''}<div class="coupon-top"><div class="coupon-rest">${x.rest}</div><div class="coupon-deal">${x.deal}</div><div class="coupon-terms">${x.terms}</div></div><div class="coupon-bot"><span class="coupon-exp">Expires: ${x.exp}</span><button class="use-btn" onclick="showToast('Show this screen at ${x.rest} to use your coupon 🎟')">USE NOW</button></div></div>`).join('')}</div>`;
+  }
+  document.getElementById('couponCnt').textContent = c.length + ' available';
+  const nudge = lvl < 2 ? `<div class="upg-nudge" style="margin-top:16px"><div><h4>🎟 Want More Coupons?</h4><p>DWC-Silver gives you 4 restaurant coupons + 3-4 event coupons per year. Only ₹6,999.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver — ₹6,999')">UPGRADE →</button></div>` : '';
+  document.getElementById('couponsContent').innerHTML = grid + nudge;
+}
+
+function renderBookings(bookings) {
+  const tbody = document.getElementById('bookingsTbody');
+  if (!tbody) return;
+  if (!bookings || bookings.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:28px;color:var(--muted)">No bookings yet. Book a celebrity event to get started!</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = bookings.map(b => {
+    const statusCls = b.status==='confirmed' ? 'sp-ok' : b.status==='cancelled' ? 'sp-can' : 'sp-pend';
+    const statusTxt = b.status ? b.status.charAt(0).toUpperCase() + b.status.slice(1) : 'Pending';
+    const date = b.event_date ? new Date(b.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    return `<tr><td>${b.event_name}</td><td>${date}</td><td>${b.venue||'—'}</td><td>${b.people||1}</td><td><span class="sp ${statusCls}">${statusTxt}</span></td></tr>`;
+  }).join('');
+}
+
+function renderRestaurants(lvl) {
+  document.getElementById('restList').innerHTML = RESTAURANTS.map(r => {
+    const open = lvl >= r.minLevel;
+    return `<div class="rest-item"><div class="rest-em">${r.e}</div><div class="rest-info"><div class="rest-name">${r.n}</div><div class="rest-meta">${r.m}</div></div><span class="rest-tag ${open?'rest-tag-open':'rest-tag-locked'}">${open?'Coupon Available':'🔒 Upgrade'}</span></div>`;
+  }).join('');
+  const locked = RESTAURANTS.filter(r=>lvl<r.minLevel).length;
+  if(locked>0) document.getElementById('restNudge').innerHTML=`<div class="upg-nudge"><div><h4>🔒 ${locked} More Restaurants Locked</h4><p>Upgrade to unlock all partner restaurants and bigger discounts.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver — ₹6,999')">UNLOCK ALL →</button></div>`;
+}
+
+function renderEvents(tier, lvl) {
+  if(lvl===0) {
+    document.getElementById('evContent').innerHTML = `<div class="upg-nudge" style="margin-bottom:16px"><div><h4>💡 Members Save Thousands on These Events</h4><p>DWC-Silver members save up to 25% on every event. Upgrade and save more than the plan costs.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver — ₹6,999')">UPGRADE FROM ₹6,999</button></div><div class="ev-grid">${EVENTS.map(ev=>`<div class="ev-card"><div class="ev-img">${ev.e}</div><div class="ev-body"><div class="ev-date">📅 ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">📍 ${ev.v}</div><div class="ev-price">Full price: <strong>${ev.prices.free}</strong></div><div class="ev-actions"><button class="ev-lock-btn" onclick="openUpgrade('DWC-Silver — ₹6,999')">🔒 UPGRADE TO SAVE</button></div></div></div>`).join('')}</div>`;
+    return;
+  }
+  document.getElementById('evContent').innerHTML = `<div class="ev-grid">${EVENTS.map(ev=>{
+    const canBook = lvl >= ev.minLevel;
+    const myPrice = ev.prices[tier] || ev.prices.free;
+    return `<div class="ev-card"><div class="ev-img">${ev.e}</div><div class="ev-body"><div class="ev-date">📅 ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">📍 ${ev.v}</div><div class="ev-price">Your price: <strong>${myPrice}</strong></div><div class="ev-actions">${canBook?`<button class="book-btn" onclick="showToast('Booking request sent for: ${ev.t} 📅')">BOOK NOW</button>`:`<button class="ev-lock-btn" onclick="openUpgrade('DWC-${ev.minLevel===2?'Silver':ev.minLevel===3?'Gold':'Purple'}')">🔒 UPGRADE TO BOOK</button>`}</div></div></div>`;
+  }).join('')}</div>`;
+}
+
+function renderOvEvents(lvl) {
+  document.getElementById('ovEvents').innerHTML = lvl===0
+    ? `<div class="card" style="text-align:center;padding:24px 16px"><div style="font-size:1.8rem;margin-bottom:8px">🔒</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--text);margin-bottom:5px">DWC-Silver &amp; Above</div><p style="font-size:.79rem;color:var(--sub);margin-bottom:11px">Upgrade to access celebrity events.</p><button class="upg-btn" onclick="openUpgrade('DWC-Silver — ₹6,999')">UPGRADE NOW</button></div>`
+    : EVENTS.slice(0,2).map(ev=>`<div class="ev-card" style="margin-bottom:8px"><div class="ev-body" style="padding:12px 14px"><div class="ev-date">📅 ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">📍 ${ev.v}</div></div></div>`).join('');
+}
+
+function renderPoints(pts, tier) {
+  document.getElementById('ptsBig').textContent = pts;
+  const info = nextTier(tier, pts);
+  document.getElementById('progFill').style.width = info.pct+'%';
+  document.getElementById('progLbl').textContent  = info.lbl;
+  document.getElementById('progMax').textContent  = info.max;
+}
+
+function renderPlans(currentTier) {
+  const plans = [
+    {key:'free',  name:'DWC-Free',   price:'₹0',      note:'No payment', hook:'Explore only',             perks:['Browse limited restaurants','See events (full price only)','1 trial coupon'],btnCls:'plan-btn-free',btnTxt:'Free Plan'},
+    {key:'bronze',name:'DWC-Bronze', price:'₹4,999',  note:'One time',   hook:'Entry level savings',      perks:['10-15% off restaurants','Max discount ₹1,500','Event discount 10-15%','1-2 event coupons/year'],btnCls:'plan-btn-bronze',btnTxt:'Choose Bronze'},
+    {key:'silver',name:'DWC-Silver', price:'₹6,999',  note:'One time',   hook:'Best value for most members',perks:['20% off all restaurants','Max discount ₹3,000','Event discount 20-25%','3-4 event coupons/year','Early booking access'],btnCls:'plan-btn-silver',btnTxt:'Choose Silver',featured:true},
+    {key:'gold',  name:'DWC-Gold',   price:'₹9,999',  note:'One time',   hook:'For serious diners',       perks:['25-30% off restaurants','Max discount ₹5,000','Event discount 30-35%','5-6 event coupons/year','Priority booking','Free birthday meal 🎂'],btnCls:'plan-btn-gold',btnTxt:'Choose Gold'},
+    {key:'purple',name:'DWC-Purple', price:'₹14,999', note:'One time',   hook:'Exclusive VIP experience', perks:['35-50% off restaurants','Max discount ₹10,000','Up to 50% event discount','Unlimited event coupons','VIP seating','Meet &amp; greet access','24/7 dedicated support'],btnCls:'plan-btn-purple',btnTxt:'Choose Purple',vip:true}
+  ];
+  document.getElementById('plansGrid').innerHTML = plans.map(p => {
+    const isCurrent = p.key === currentTier;
+    const cls = p.featured ? 'plan-card featured' : p.vip ? 'plan-card vip-card' : 'plan-card';
+    const btn = isCurrent
+      ? `<div class="current-plan">✓ YOUR CURRENT PLAN</div>`
+      : p.key==='free'
+        ? `<button class="plan-btn plan-btn-free" disabled>Free Plan</button>`
+        : `<button class="plan-btn ${p.btnCls}" onclick="openUpgrade('${p.name} — ${p.price}')">${p.btnTxt}</button>`;
+    return `<div class="${cls}"><div class="plan-name">${p.name}</div><div class="plan-price">${p.price}</div><div class="plan-note">${p.note}</div><div class="plan-hook">${p.hook}</div><ul class="plan-perks">${p.perks.map(pk=>`<li>${pk}</li>`).join('')}</ul>${btn}</div>`;
+  }).join('');
+}
+
+// ── ACTIONS ──
+window.openUpgrade = (planName) => {
+  document.getElementById('modalPlan').textContent = planName.split('—')[0].trim();
+  document.getElementById('mPlan').value = planName;
+  document.getElementById('modalForm').style.display = 'block';
+  document.getElementById('modalOk').style.display   = 'none';
+  document.getElementById('upgradeModal').classList.add('open');
+};
+window.closeModal = () => document.getElementById('upgradeModal').classList.remove('open');
+
+window.submitUpgrade = async () => {
+  const name  = document.getElementById('mName').value.trim();
+  const phone = document.getElementById('mPhone').value.trim();
+  const email = document.getElementById('mEmail').value.trim();
+  const plan  = document.getElementById('mPlan').value;
+  if(!name||!phone||!email){ showToast('Please fill in all fields.','err'); return; }
+  const btn = document.getElementById('modalSubmitBtn');
+  btn.disabled=true; btn.textContent='Sending…';
+  const fd=new FormData();
+  fd.append('access_key','d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9');
+  fd.append('subject','Upgrade Request — '+plan);
+  fd.append('from_name','DWC Upgrade');
+  fd.append('email',email);
+  fd.append('redirect','false');
+  fd.append('message',`Upgrade Request\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nPlan: ${plan}`);
+  await fetch('https://api.web3forms.com/submit',{method:'POST',body:fd}).catch(()=>{});
+  document.getElementById('modalForm').style.display='none';
+  document.getElementById('modalOk').style.display='block';
+};
+
+window.saveProfile = async () => {
+  const { data: { user } } = await sbClient.auth.getUser();
+  if(!user) return;
+  const updates = {
+    first_name: document.getElementById('pFirst').value.trim(),
+    last_name:  document.getElementById('pLast').value.trim(),
+    phone:      document.getElementById('pPhone').value.trim(),
+    city:       document.getElementById('pCity').value.trim()
+  };
+  const { error } = await sbClient.from('members').update(updates).eq('id', user.id);
+  if(error){ showToast('Could not save. Please try again.','err'); return; }
+  document.getElementById('sbName').textContent = updates.first_name + ' ' + updates.last_name;
+  ['sbAv','tbAv'].forEach(id => document.getElementById(id).textContent = updates.first_name.charAt(0).toUpperCase());
+  showToast('Your profile has been saved ✓');
+};
+
+window.markAllRead = () => {
+  document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+  document.getElementById('nBadge').style.display = 'none';
+  document.getElementById('tbDot').style.display  = 'none';
+  showToast('All notifications marked as read ✓');
+};
+
+window.doSignOut = async () => {
+  await sbClient.auth.signOut();
+  window.location.href = '/signin.html';
+};
+
+// ── PANEL SWITCHING ──
+const TITLES = {overview:'Overview',coupons:'My Coupons',restaurants:'Restaurants',events:'Celebrity Events',bookings:'My Bookings',points:'My Points',notifications:'Notifications',upgrade:'Upgrade Plan',profile:'My Profile'};
+window.go = (id, btn) => {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('pgTitle').textContent = TITLES[id]||id;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOv').classList.remove('show');
+  document.body.style.overflow = '';
+};
+
+// ── MOBILE MENU ──
+document.getElementById('hamBtn').addEventListener('click', () => {
+  const sb=document.getElementById('sidebar'), ov=document.getElementById('sbOv');
+  const open=sb.classList.toggle('open');
+  ov.classList.toggle('show',open);
+  document.body.style.overflow=open?'hidden':'';
+});
+document.getElementById('sbOv').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOv').classList.remove('show');
+  document.body.style.overflow='';
+});
+
+// ── TOAST ──
+function showToast(msg, type='ok') {
+  const el=document.getElementById('toastEl');
+  el.textContent=msg;
+  el.className='toast show'+(type==='err'?' err':'');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('show'),4000);
+}
+window.showToast = showToast;
+
+// ── AUTH — MAIN ENTRY POINT ──
+(async () => {
+  // Timeout: 8 seconds, then redirect to sign in
+  const timeout = setTimeout(() => { window.location.href = '/signin.html'; }, 8000);
+
+  try {
+    const { data: { session }, error: sessErr } = await sbClient.auth.getSession();
+
+    if(sessErr || !session) {
+      clearTimeout(timeout);
+      window.location.href = '/signin.html';
+      return;
+    }
+
+    clearTimeout(timeout);
+    const user = session.user;
+
+    // Load member profile from Supabase
+    let { data: prof, error: profErr } = await supabase
+      .from('members')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    if(profErr || !prof) {
+      // Profile doesn't exist yet — create it
+      const fname = user.user_metadata?.first_name || user.email.split('@')[0];
+      const lname = user.user_metadata?.last_name  || '';
+      prof = {
+        id:           user.id,
+        first_name:   fname,
+        last_name:    lname,
+        email:        user.email,
+        tier:         'free',
+        cause_points: 0
+      };
+      await sbClient.from('members').insert(prof).catch(() => {});
+    }
+
+    // Load real bookings from Supabase
+    let bookings = [];
+    const { data: bookingsData } = await sbClient
+      .from('bookings')
+      .select('*')
+      .eq('member_id', user.id)
+      .order('event_date', { ascending: true });
+    if (bookingsData) bookings = bookingsData;
+
+    // Load real coupons from Supabase
+    let coupons = [];
+    const { data: couponsData } = await sbClient
+      .from('coupons')
+      .select('*')
+      .eq('member_id', user.id)
+      .eq('is_used', false)
+      .order('created_at', { ascending: false });
+    if (couponsData) coupons = couponsData;
+
+    // Hide gate, show dashboard with member's real data
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').classList.add('ready');
+    build(user, prof, bookings, coupons);
+
+  } catch(e) {
+    console.error('Dashboard init error:', e);
+    clearTimeout(timeout);
+    // Even if something fails — try to show dashboard anyway
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').classList.add('ready');
+  }
+})();
+</script>
+</body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sg2plzcpnl508079'},{'dcenter':'sg2'},{'cp_id':'10889043'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>
