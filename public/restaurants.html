@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Restaurants | Dine With Celebrity</title>
+<meta name="description" content="Browse 120+ exclusive partner restaurants on Dine With Celebrity. Get up to 40% off at premium restaurants in Hyderabad, Mumbai, Delhi and more with your DWC membership."/>
+<meta name="keywords" content="DWC restaurants, celebrity dining restaurants, exclusive restaurant discounts, Hyderabad fine dining, Mumbai restaurants, premium dining membership"/>
+<link rel="canonical" href="https://dinewithcelebrity.com/restaurants"/>
+<meta property="og:title" content="Restaurants | Dine With Celebrity"/>
+<meta property="og:description" content="120+ exclusive partner restaurants. Up to 40% off with your DWC membership."/>
+<meta property="og:url" content="https://dinewithcelebrity.com/restaurants"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Partner Restaurants","url":"https://dinewithcelebrity.com/restaurants","description":"Browse exclusive partner restaurants with DWC membership discounts","isPartOf":{"@type":"WebSite","name":"Dine With Celebrity","url":"https://dinewithcelebrity.com"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --black:#0B0B0B;--black2:#111111;--black3:#181818;
+  --gold:#D4AF37;--gold2:#F5CC50;
+  --gold-dim:rgba(212,175,55,0.12);--gold-border:rgba(212,175,55,0.25);
+  --white:#FFFFFF;--accent:#FF4D4D;--green:#00C853;
+  --text:rgba(255,255,255,0.95);--subtext:rgba(255,255,255,0.72);
+  --label:rgba(255,255,255,0.5);
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+  --header-h:64px;--footer-h:64px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);font-family:'Poppins',sans-serif;
+  color:var(--text);font-size:1rem;line-height:1.6;
+  padding-bottom:var(--footer-h);
+}
+h1,h2,h3,.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:0.04em;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:10px;}
+
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  height:var(--header-h);
+  background:rgba(11,11,11,0.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--glass-border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.header-back{
+  width:38px;height:38px;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--subtext);font-size:1.1rem;
+  text-decoration:none;transition:all 0.2s;
+}
+.header-back:hover{border-color:var(--gold-border);color:var(--gold);}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;}
+.header-spacer{flex:1;}
+.header-location{
+  display:flex;align-items:center;gap:5px;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:20px;padding:5px 12px;
+  font-size:0.78rem;color:var(--subtext);cursor:pointer;transition:all 0.2s;
+}
+.header-location:hover{border-color:var(--gold-border);color:var(--text);}
+.header-search-btn{
+  width:38px;height:38px;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--subtext);font-size:1rem;transition:all 0.2s;
+}
+.header-search-btn:hover{border-color:var(--gold-border);color:var(--gold);}
+
+/* ── PAGE ── */
+.page{max-width:1200px;margin:0 auto;padding:24px 16px;}
+
+/* ── HERO BANNER ── */
+.resto-hero{
+  background:linear-gradient(135deg,#110900 0%,#0f0a00 50%,#0B0B0B 100%);
+  border:1px solid var(--gold-border);
+  border-radius:20px;padding:28px 24px;
+  margin-bottom:24px;position:relative;overflow:hidden;
+}
+.resto-hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:320px;height:320px;
+  background:radial-gradient(circle,rgba(212,175,55,0.14) 0%,transparent 65%);
+}
+.resto-hero-content{position:relative;z-index:1;}
+.resto-hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;color:var(--white);line-height:1;margin-bottom:8px;
+}
+.resto-hero h1 span{color:var(--gold);}
+.resto-hero p{font-size:0.9rem;color:var(--subtext);margin-bottom:16px;}
+.savings-chips{display:flex;gap:10px;flex-wrap:wrap;}
+.savings-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold-dim);border:1px solid var(--gold-border);
+  border-radius:20px;padding:5px 12px;
+  font-size:0.75rem;font-weight:600;color:var(--gold);
+}
+
+/* ── SEARCH BAR ── */
+.search-bar-wrap{
+  position:relative;margin-bottom:20px;
+}
+.search-bar{
+  width:100%;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:14px;padding:13px 48px 13px 46px;
+  color:var(--text);font-family:'Poppins',sans-serif;font-size:0.95rem;
+  outline:none;transition:border-color 0.2s;
+}
+.search-bar::placeholder{color:var(--label);}
+.search-bar:focus{border-color:var(--gold-border);}
+.search-icon{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  font-size:1rem;color:var(--label);pointer-events:none;
+}
+.search-clear{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-size:0.8rem;color:var(--label);cursor:pointer;
+  display:none;
+}
+
+/* ── FILTERS ── */
+.filters-row{
+  display:flex;gap:10px;overflow-x:auto;
+  padding-bottom:4px;margin-bottom:20px;
+  scrollbar-width:none;
+}
+.filters-row::-webkit-scrollbar{display:none;}
+.filter-chip{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:20px;padding:6px 16px;
+  font-size:0.78rem;color:var(--subtext);
+  cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;
+}
+.filter-chip:hover,.filter-chip.active{
+  background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold);
+}
+
+/* ── SORT + COUNT ── */
+.list-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:8px;
+}
+.list-count{font-size:0.85rem;color:var(--subtext);}
+.list-count strong{color:var(--text);}
+.sort-select{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;padding:6px 12px;
+  color:var(--text);font-family:'Poppins',sans-serif;font-size:0.78rem;
+  outline:none;cursor:pointer;
+}
+.sort-select option{background:var(--black2);color:var(--text);}
+
+/* ── RESTAURANTS GRID ── */
+.resto-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;margin-bottom:24px;
+}
+.resto-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:16px;overflow:hidden;
+  transition:all 0.25s;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.resto-card:hover{
+  border-color:var(--gold-border);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5);
+}
+.resto-img{
+  height:160px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1a1a1a,#262626);
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;
+}
+.resto-img img{
+  width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;
+}
+.resto-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(11,11,11,0.7) 0%,transparent 50%);
+}
+.badge-exclusive{
+  position:absolute;top:10px;left:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);font-size:0.6rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:6px;
+}
+.badge-premium{
+  position:absolute;top:10px;left:10px;
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.2);
+  color:var(--white);font-size:0.6rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:6px;
+}
+.badge-discount{
+  position:absolute;top:10px;right:10px;
+  background:var(--green);color:#fff;
+  font-size:0.72rem;font-weight:700;
+  padding:3px 9px;border-radius:6px;
+}
+.badge-limited{
+  position:absolute;bottom:10px;left:10px;
+  background:rgba(255,77,77,0.9);color:#fff;
+  font-size:0.65rem;font-weight:700;letter-spacing:0.06em;
+  padding:3px 8px;border-radius:6px;
+}
+.resto-body{padding:14px;flex:1;display:flex;flex-direction:column;}
+.resto-name{font-weight:700;font-size:1rem;color:var(--text);margin-bottom:4px;}
+.resto-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.resto-tag{
+  font-size:0.65rem;color:var(--label);
+  background:rgba(255,255,255,0.05);
+  border-radius:6px;padding:2px 7px;
+}
+.resto-meta-row{
+  display:flex;align-items:center;gap:10px;
+  font-size:0.75rem;color:var(--subtext);margin-bottom:10px;
+}
+.resto-rating{
+  display:flex;align-items:center;gap:4px;
+  color:var(--gold);font-weight:600;font-size:0.78rem;
+}
+.resto-savings-bar{
+  background:rgba(0,200,83,0.06);border:1px solid rgba(0,200,83,0.15);
+  border-radius:8px;padding:6px 10px;
+  font-size:0.75rem;color:var(--subtext);
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.resto-savings-bar span{color:var(--green);font-weight:600;}
+.resto-book-btn{
+  display:block;width:100%;
+  background:var(--gold-dim);border:1px solid var(--gold-border);
+  border-radius:10px;padding:10px;
+  text-align:center;
+  font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;
+  color:var(--gold);cursor:pointer;transition:all 0.2s;
+  margin-top:auto;
+}
+.resto-book-btn:hover{background:var(--gold);color:var(--black);}
+
+/* Locked card */
+.resto-card.locked .resto-img::after{
+  content:'🔒 UPGRADE TO ACCESS';
+  position:absolute;inset:0;
+  background:rgba(11,11,11,0.8);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--gold);
+}
+.resto-card.locked .resto-book-btn{
+  background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25);
+  color:var(--accent);
+}
+.resto-card.locked .resto-book-btn:hover{background:var(--accent);color:#fff;}
+
+/* ── LOAD MORE ── */
+.load-more-btn{
+  display:block;width:100%;max-width:300px;margin:0 auto;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;padding:13px;
+  text-align:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;
+  color:var(--subtext);cursor:pointer;transition:all 0.2s;
+}
+.load-more-btn:hover{border-color:var(--gold-border);color:var(--gold);}
+
+/* ── BOTTOM SHEET (Book Table) ── */
+.sheet-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(4px);z-index:200;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.sheet-overlay.open{opacity:1;pointer-events:all;}
+.bottom-sheet{
+  background:var(--black2);
+  border:1px solid var(--glass-border);
+  border-bottom:none;
+  border-radius:20px 20px 0 0;
+  padding:24px;width:100%;max-width:600px;
+  transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.sheet-overlay.open .bottom-sheet{transform:translateY(0);}
+.sheet-handle{
+  width:40px;height:4px;background:rgba(255,255,255,0.15);
+  border-radius:10px;margin:0 auto 20px;
+}
+.sheet-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;
+  color:var(--text);margin-bottom:4px;
+}
+.sheet-subtitle{font-size:0.82rem;color:var(--subtext);margin-bottom:20px;}
+.sheet-field{margin-bottom:16px;}
+.sheet-label{
+  display:block;font-size:0.78rem;font-weight:600;
+  color:var(--subtext);letter-spacing:0.06em;text-transform:uppercase;
+  margin-bottom:6px;
+}
+.sheet-input{
+  width:100%;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;padding:11px 14px;
+  color:var(--text);font-family:'Poppins',sans-serif;font-size:0.9rem;
+  outline:none;transition:border-color 0.2s;
+}
+.sheet-input:focus{border-color:var(--gold-border);}
+.sheet-input option{background:var(--black2);}
+.sheet-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.sheet-coupon-row{
+  display:flex;gap:10px;
+}
+.sheet-coupon-row .sheet-input{flex:1;}
+.apply-coupon-btn{
+  background:var(--gold-dim);border:1px solid var(--gold-border);
+  border-radius:10px;padding:11px 16px;
+  color:var(--gold);font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;
+  cursor:pointer;white-space:nowrap;transition:all 0.2s;
+}
+.apply-coupon-btn:hover{background:var(--gold);color:var(--black);}
+.price-breakdown{
+  background:rgba(255,255,255,0.02);border:1px solid var(--glass-border);
+  border-radius:12px;padding:14px;margin:16px 0;
+}
+.price-row{
+  display:flex;justify-content:space-between;
+  font-size:0.82rem;color:var(--subtext);padding:4px 0;
+}
+.price-row.total{
+  border-top:1px solid var(--glass-border);margin-top:6px;padding-top:10px;
+  font-weight:700;font-size:0.95rem;color:var(--text);
+}
+.price-row .discount{color:var(--green);}
+.confirm-btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;
+  padding:14px;border-radius:12px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all 0.2s;
+}
+.confirm-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,0.35);}
+
+/* ── MOBILE FOOTER NAV ── */
+.mobile-nav{
+  position:fixed;bottom:0;left:0;right:0;height:var(--footer-h);
+  background:rgba(11,11,11,0.96);backdrop-filter:blur(20px);
+  border-top:1px solid var(--glass-border);
+  display:flex;align-items:center;z-index:100;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;padding:8px 0;cursor:pointer;transition:all 0.2s;
+  font-size:0.62rem;color:var(--label);font-weight:500;
+}
+.nav-item.active{color:var(--gold);}
+.nav-icon{font-size:1.25rem;line-height:1;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.resto-hero{animation:fadeUp 0.4s ease;}
+.resto-grid{animation:fadeUp 0.4s ease 0.08s both;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.resto-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){
+  .resto-grid{grid-template-columns:1fr;}
+  .sheet-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <a class="header-back" href="dashboard.html" aria-label="Back to dashboard">←</a>
+  <h1 class="header-title">🍽 RESTAURANTS</h1>
+  <div class="header-spacer"></div>
+  <div class="header-location">📍 Hyderabad ▾</div>
+  <div class="header-search-btn" onclick="toggleSearch()" aria-label="Search">🔍</div>
+</header>
+
+<main class="page">
+
+  <!-- ── HERO ── -->
+  <div class="resto-hero">
+    <div class="resto-hero-content">
+      <h1>EXCLUSIVE<br><span>RESTAURANTS</span></h1>
+      <p>Use your DWC membership to save big at every visit.</p>
+      <div class="savings-chips">
+        <div class="savings-chip">💰 Up to 40% OFF</div>
+        <div class="savings-chip">🏆 120+ Partners</div>
+        <div class="savings-chip">📍 10+ Cities</div>
+        <div class="savings-chip">🎟 Coupon Accepted</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEARCH ── -->
+  <div class="search-bar-wrap" id="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input
+      type="search"
+      class="search-bar"
+      id="search-bar"
+      placeholder="Search restaurants, cuisine, area..."
+      aria-label="Search restaurants"
+      oninput="filterRestaurants()"
+    />
+    <span class="search-clear" id="search-clear" onclick="clearSearch()">✕</span>
+  </div>
+
+  <!-- ── FILTERS ── -->
+  <div class="filters-row" role="group" aria-label="Filter restaurants">
+    <button class="filter-chip active" data-filter="all" onclick="setFilter(this,'all')">All</button>
+    <button class="filter-chip" data-filter="exclusive" onclick="setFilter(this,'exclusive')">⭐ Exclusive</button>
+    <button class="filter-chip" data-filter="25off" onclick="setFilter(this,'25off')">25%+ Off</button>
+    <button class="filter-chip" data-filter="north-indian" onclick="setFilter(this,'north-indian')">North Indian</button>
+    <button class="filter-chip" data-filter="continental" onclick="setFilter(this,'continental')">Continental</button>
+    <button class="filter-chip" data-filter="asian" onclick="setFilter(this,'asian')">Asian</button>
+    <button class="filter-chip" data-filter="nearby" onclick="setFilter(this,'nearby')">📍 Nearby</button>
+    <button class="filter-chip" data-filter="premium" onclick="setFilter(this,'premium')">💎 Premium</button>
+  </div>
+
+  <!-- ── LIST HEADER ── -->
+  <div class="list-header">
+    <div class="list-count"><strong id="resto-count">12</strong> restaurants found</div>
+    <select class="sort-select" onchange="sortRestaurants(this.value)" aria-label="Sort restaurants">
+      <option value="discount">Highest Discount</option>
+      <option value="rating">Top Rated</option>
+      <option value="distance">Nearest First</option>
+      <option value="savings">Most Saved</option>
+    </select>
+  </div>
+
+  <!-- ── RESTAURANTS GRID ── -->
+  <div class="resto-grid" id="resto-grid">
+
+    <!-- Card 1 -->
+    <article class="resto-card" data-cuisine="north-indian" data-discount="25" data-type="exclusive" tabindex="0" onclick="openBooking('Farzi Café','25','₹840')">
+      <div class="resto-img">
+        🍛
+        <div class="resto-img-overlay"></div>
+        <span class="badge-exclusive">EXCLUSIVE</span>
+        <span class="badge-discount">25% OFF</span>
+      </div>
+      <div class="resto-body">
+        <div class="resto-name">Farzi Café</div>
+        <div class="resto-tags">
+          <span class="resto-tag">Modern Indian</span>
+          <span class="resto-tag">Cocktails</span>
+          <span class="resto-tag">Banjara Hills</span>
+        </div>
+        <div class="resto-meta-row">
+          <span class="resto-rating">★ 4.7</span>
+          <span>₹₹₹ · 1.2 km</span>
+          <span>12PM–11PM</span>
+        </div>
+        <div class="resto-savings-bar">
+          <span>You save per visit</span>
+          <span>up to ₹840</span>
+        </div>
+        <button class="resto-book-btn">BOOK TABLE →</button>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="resto-card" data-cuisine="continental" data-discount="20" data-type="premium" tabindex="0" onclick="openBooking('Sky Lounge','20','₹1,200')">
+      <div class="resto-img">
+        🥂
+        <div class="resto-img-overlay"></div>
+        <span class="badge-premium">PREMIUM</span>
+        <span class="badge-discount">20% OFF</span>
+        <span class="badge-limited">🔥 Weekend Special</span>
+      </div>
+      <div class="resto-body">
+        <div class="resto-name">Sky Lounge</div>
+        <div class="resto-tags">
+          <span class="resto-tag">Continental</span>
+          <span class="resto-tag">Rooftop</span>
+          <span class="resto-tag">Jubilee Hills</span>
+        </div>
+        <div class="resto-meta-row">
+          <span class="resto-rating">★ 4.5</span>
+          <span>₹₹₹₹ · 2.4 km</span>
+          <span>6PM–1AM</span>
+        </div>
+        <div class="resto-savings-bar">
+          <span>You save per visit</span>
+          <span>up to ₹1,200</span>
+        </div>
+        <button class="resto-book-btn">BOOK TABLE →</button>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="resto-card" data-cuisine="north-indian" data-discount="15" data-type="standard" tabindex="0" onclick="openBooking('Punjab Grill','15','₹600')">
+      <div class="resto-img">
+        🔥
+        <div class="resto-img-overlay"></div>
+        <span class="badge-discount">15% OFF</span>
+      </div>
+      <div class="resto-body">
+        <div class="resto-name">Punjab Grill</div>
+        <div class="resto-tags">
+          <span class="resto-tag">North Indian</span>
+          <span class="resto-tag">Tandoor</span>
+          <span class="resto-tag">Madhapur</span>
+        </div>
+        <div class="resto-meta-row">
+          <span class="resto-rating">★ 4.3</span>
+          <span>₹₹₹ · 0.8 km</span>
+          <span>12PM–11PM</span>
+        </div>
+        <div class="resto-savings-bar">
+          <span>You save per visit</span>
+          <span>up to ₹600</span>
+        </div>
+        <button class="resto-book-btn">BOOK TABLE →</button>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="resto-card" data-cuisine="asian" data-discount="30" data-type="exclusive" tabindex="0" onclick="openBooking('Nobu Hyderabad','30','₹2,100')">
+      <div class="resto-img">
+        🍣
+        <div class="resto-img-overlay"></div>
+        <span class="badge-exclusive">EXCLUSIVE</span>
+        <span class="badge-discount">30% OFF</span>
+      </div>
+      <div class="resto-body">
+        <div class="resto-name">Nobu Hyderabad</div>
+        <div class="resto-tags">
+          <span class="resto-tag">Japanese</span>
+          <span class="resto-tag">Sushi</span>
+          <span class="resto-tag">Hitec City</span>
+        </div>
+        <div class="resto-meta-row">
+          <span class="resto-rating">★ 4.9</span>
+          <span>₹₹₹₹₹ · 3.1 km</span>
+          <span>12PM–11PM</span>
+        </div>
+        <div class="resto-savings-bar">
+          <span>You save per visit</span>
+          <span>up to ₹2,100</span>
+        </div>
+        <button class="resto-book-btn">BOOK TABLE →</button>
+      </div>
+    </article>
+
+    <!-- Card 5 — Locked (Silver+) -->
+    <article class="resto-card locked" data-cuisine="continental" data-discount="40" data-type="exclusive" tabindex="0" onclick="openUpgrade()">
+      <div class="resto-img">
+        🏆
+        <div class="resto-img-overlay"></div>
+        <span class="badge-exclusive">SILVER+</span>
+        <span class="badge-discount">40% OFF</span>
+      </div>
+      <div class="resto-body">
+        <div class="resto-name">The Grand Ballroom</div>
+        <div class="resto-tags">
+          <span class="resto-tag">Fine Dining</span>
+          <span class="resto-tag">French</span>
+          <span class="resto-tag">Banjara Hills</span>
+        </div>
+        <div class="resto-meta-row">
+          <span class="resto-rating">★ 5.0</span>
+          <span>₹₹₹₹₹ · 2.8 km</span>
+          <span>7PM–12AM</span>
+        </div>
+        <div class="resto-savings-bar">
+          <span>You could save</span>
+          <span>up to ₹3,400</span>
+        </div>
+        <button class="resto-book-btn">UNLOCK WITH SILVER →</button>
+      </div>
+    </article>
+
+    <!-- Card 6 -->
+    <article class="resto-card" data-cuisine="asian" data-discount="20" data-type="premium" tabindex="0" onclick="openBooking('Mekong Kitchen','20','₹900')">
+      <div class="resto-img">
+        🥢
+        <div class="resto-img-overlay"></div>
+        <span class="badge-premium">PREMIUM</span>
+        <span class="badge-discount">20% OFF</span>
+      </div>
+      <div class="resto-body">
+        <div class="resto-name">Mekong Kitchen</div>
+        <div class="resto-tags">
+          <span class="resto-tag">Pan Asian</span>
+          <span class="resto-tag">Thai</span>
+          <span class="resto-tag">Kondapur</span>
+        </div>
+        <div class="resto-meta-row">
+          <span class="resto-rating">★ 4.6</span>
+          <span>₹₹₹ · 1.9 km</span>
+          <span>12PM–11PM</span>
+        </div>
+        <div class="resto-savings-bar">
+          <span>You save per visit</span>
+          <span>up to ₹900</span>
+        </div>
+        <button class="resto-book-btn">BOOK TABLE →</button>
+      </div>
+    </article>
+
+  </div>
+
+  <button class="load-more-btn" onclick="loadMore()">LOAD MORE RESTAURANTS</button>
+
+</main>
+
+<!-- ── BOTTOM SHEET ── -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeBooking(event)">
+  <div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-label="Book table">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="sheet-resto-name">Farzi Café</div>
+    <div class="sheet-subtitle">Reserve your table in seconds</div>
+
+    <div class="sheet-row">
+      <div class="sheet-field">
+        <label class="sheet-label" for="booking-date">Date</label>
+        <input type="date" id="booking-date" class="sheet-input" aria-label="Booking date"/>
+      </div>
+      <div class="sheet-field">
+        <label class="sheet-label" for="booking-time">Time</label>
+        <select id="booking-time" class="sheet-input" aria-label="Booking time">
+          <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+          <option>7:00 PM</option><option selected>8:00 PM</option><option>9:00 PM</option><option>10:00 PM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sheet-field">
+      <label class="sheet-label" for="booking-guests">Guests</label>
+      <select id="booking-guests" class="sheet-input" onchange="updatePrice()" aria-label="Number of guests">
+        <option value="1">1 Guest</option>
+        <option value="2" selected>2 Guests</option>
+        <option value="3">3 Guests</option>
+        <option value="4">4 Guests</option>
+        <option value="5">5+ Guests</option>
+      </select>
+    </div>
+
+    <div class="sheet-field">
+      <label class="sheet-label">Apply Coupon</label>
+      <div class="sheet-coupon-row">
+        <input type="text" id="coupon-input" class="sheet-input" placeholder="Enter coupon code" aria-label="Coupon code"/>
+        <button class="apply-coupon-btn" onclick="applyCoupon()">APPLY</button>
+      </div>
+    </div>
+
+    <div class="price-breakdown">
+      <div class="price-row"><span>Bill Amount</span><span id="price-original">₹3,360</span></div>
+      <div class="price-row"><span>DWC Discount (25%)</span><span class="discount" id="price-discount">-₹840</span></div>
+      <div class="price-row"><span>Coupon</span><span class="discount" id="price-coupon">-₹0</span></div>
+      <div class="price-row total"><span>You Pay</span><span id="price-final">₹2,520</span></div>
+    </div>
+
+    <button class="confirm-btn" onclick="confirmBooking()">
+      🍽 CONFIRM BOOKING
+    </button>
+  </div>
+</div>
+
+<!-- ── MOBILE FOOTER NAV ── -->
+<nav class="mobile-nav">
+  <div class="nav-item" onclick="window.location.href='dashboard.html'">
+    <span class="nav-icon">🏠</span>Home
+  </div>
+  <div class="nav-item active">
+    <span class="nav-icon">🍽</span>Restaurants
+  </div>
+  <div class="nav-item" onclick="window.location.href='events.html'">
+    <span class="nav-icon">🎟</span>Events
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">👤</span>Profile
+  </div>
+</nav>
+
+<script>
+// ── Set default date to today ──
+document.getElementById('booking-date').value = new Date().toISOString().split('T')[0];
+
+// ── FILTER ──
+let activeFilter = 'all';
+function setFilter(el, filter){
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = filter;
+  applyFilters();
+}
+
+function applyFilters(){
+  const query = document.getElementById('search-bar').value.toLowerCase();
+  const cards = document.querySelectorAll('.resto-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const name = card.querySelector('.resto-name').textContent.toLowerCase();
+    const tags = card.querySelector('.resto-tags').textContent.toLowerCase();
+    const discount = parseInt(card.dataset.discount);
+    const cuisine = card.dataset.cuisine;
+    const type = card.dataset.type;
+
+    let show = true;
+    if(query && !name.includes(query) && !tags.includes(query)) show = false;
+    if(activeFilter === 'exclusive' && type !== 'exclusive') show = false;
+    if(activeFilter === 'premium' && type !== 'premium') show = false;
+    if(activeFilter === '25off' && discount < 25) show = false;
+    if(activeFilter === 'north-indian' && cuisine !== 'north-indian') show = false;
+    if(activeFilter === 'continental' && cuisine !== 'continental') show = false;
+    if(activeFilter === 'asian' && cuisine !== 'asian') show = false;
+
+    card.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  document.getElementById('resto-count').textContent = visible;
+}
+
+function filterRestaurants(){
+  const val = document.getElementById('search-bar').value;
+  document.getElementById('search-clear').style.display = val ? 'block' : 'none';
+  applyFilters();
+}
+
+function clearSearch(){
+  document.getElementById('search-bar').value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  applyFilters();
+}
+
+function toggleSearch(){
+  document.getElementById('search-bar').focus();
+}
+
+function sortRestaurants(val){ /* wire to Supabase order() */ }
+
+// ── BOOKING SHEET ──
+let currentResto = { name:'', discount:0, savingsLabel:'' };
+
+function openBooking(name, discount, savings){
+  currentResto = { name, discount: parseInt(discount), savingsLabel: savings };
+  document.getElementById('sheet-resto-name').textContent = name;
+  updatePrice();
+  document.getElementById('sheet-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBooking(e){
+  if(e.target === document.getElementById('sheet-overlay')){
+    document.getElementById('sheet-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function updatePrice(){
+  const guests = parseInt(document.getElementById('booking-guests').value);
+  const basePerGuest = 1680;
+  const original = basePerGuest * guests;
+  const discount = Math.round(original * currentResto.discount / 100);
+  const final = original - discount;
+
+  document.getElementById('price-original').textContent = '₹' + original.toLocaleString('en-IN');
+  document.getElementById('price-discount').textContent = '-₹' + discount.toLocaleString('en-IN');
+  document.getElementById('price-final').textContent = '₹' + final.toLocaleString('en-IN');
+}
+
+function applyCoupon(){
+  const code = document.getElementById('coupon-input').value.trim();
+  if(!code){ alert('Please enter a coupon code'); return; }
+  // Demo: give ₹200 off for any code
+  document.getElementById('price-coupon').textContent = '-₹200';
+  alert('✅ Coupon applied! ₹200 extra off.');
+  /* Real: call validateCoupon() from booking.ts */
+}
+
+function confirmBooking(){
+  document.getElementById('sheet-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => alert('🎉 Table booked successfully at ' + currentResto.name + '! Check My Bookings for your confirmation.'), 200);
+  /* Real: call createRestaurantBooking() from booking.ts, then initiateBookingPayment() */
+}
+
+function openUpgrade(){
+  alert('Upgrade to DWC Silver to access this restaurant and save up to 40% per visit!');
+  /* Real: window.location.href = '/upgrade' */
+}
+
+function loadMore(){
+  /* Real: increment Supabase .range() pagination */
+  alert('Loading more restaurants...');
+}
+
+// ── KEYBOARD ──
+document.querySelectorAll('.resto-card').forEach(c => {
+  c.addEventListener('keydown', e => { if(e.key==='Enter') c.click(); });
+});
+</script>
+</body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sg2plzcpnl508079'},{'dcenter':'sg2'},{'cp_id':'10889043'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>
