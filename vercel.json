@@ -1,0 +1,52 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/stars",
+      "destination": "/stars.html"
+    },
+    {
+      "source": "/gives-back",
+      "destination": "/gives-back.html"
+    },
+    {
+      "source": "/signup",
+      "destination": "/signup.html"
+    },
+    {
+      "source": "/signin",
+      "destination": "/signin.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/restaurants",
+      "destination": "/restaurants.html"
+    },
+    {
+      "source": "/events",
+      "destination": "/events.html"
+    },
+    {
+      "source": "/partner-restaurant",
+      "destination": "/partner-restaurant.html"
+    },
+    {
+      "source": "/partner-sponsor",
+      "destination": "/partner-sponsor.html"
+    },
+    {
+      "source": "/disclaimer",
+      "destination": "/disclaimer.html"
+    }
+  ]
+}
