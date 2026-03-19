@@ -198,16 +198,16 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
 .plan-card{background:var(--bg2);border:1px solid var(--bdr2);padding:24px 20px;text-align:center;position:relative;transition:all .25s;display:flex;flex-direction:column}
 .plan-card:hover{border-color:var(--bdr);transform:translateY(-4px)}
 .plan-card.featured{border-color:var(--gold);background:linear-gradient(180deg,rgba(242,183,5,.07),var(--bg2))}
-.plan-card.featured::before{content:'â­ MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:3px 14px;white-space:nowrap}
+.plan-card.featured::before{content:'Ã¢Â­Â MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:3px 14px;white-space:nowrap}
 .plan-card.vip-card{border-color:rgba(147,51,234,.4);background:linear-gradient(180deg,rgba(147,51,234,.08),var(--bg2))}
-.plan-card.vip-card::before{content:'ð ELITE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:3px 14px;white-space:nowrap}
+.plan-card.vip-card::before{content:'Ã°ÂÂÂ ELITE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:3px 14px;white-space:nowrap}
 .plan-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);margin-bottom:4px}
 .plan-price{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--gold);line-height:1;margin-bottom:2px}
 .plan-note{font-size:.72rem;color:var(--muted);margin-bottom:14px}
 .plan-hook{font-size:.8rem;color:var(--sub);margin-bottom:16px;font-style:italic}
 .plan-perks{list-style:none;text-align:left;margin-bottom:20px;display:flex;flex-direction:column;gap:7px;flex:1}
 .plan-perks li{font-size:.8rem;color:var(--sub);display:flex;align-items:flex-start;gap:8px;line-height:1.4}
-.plan-perks li::before{content:'â';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.plan-perks li::before{content:'Ã¢ÂÂ';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
 .plan-btn{width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;border:none;transition:all .22s;margin-top:auto}
 .plan-btn-free{background:transparent;color:var(--muted);border:1px solid var(--bdr2);cursor:default}
 .plan-btn-silver{background:var(--gold);color:var(--bg)}
@@ -262,7 +262,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
 <div id="gate">
   <div class="gate-logo">DINE<span>WITH</span>CELEBRITY</div>
   <div class="gate-spin"></div>
-  <div class="gate-txt">Checking your accountâ¦</div>
+  <div class="gate-txt">Checking your accountÃ¢ÂÂ¦</div>
 </div>
 
 <!-- TOAST -->
@@ -271,7 +271,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
 <!-- UPGRADE MODAL -->
 <div class="modal-bg" id="upgradeModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">â</button>
+    <button class="modal-close" onclick="closeModal()">Ã¢ÂÂ</button>
     <div id="modalForm">
       <h3>UPGRADE TO <span id="modalPlan">DWC-SILVER</span></h3>
       <p>Our team will contact you within 24 hours to complete your upgrade. No payment needed right now.</p>
@@ -280,16 +280,16 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
       <div class="fg"><label>Your Email</label><input type="email" id="mEmail" placeholder="your@email.com"></div>
       <div class="fg"><label>Plan You Want</label>
         <select id="mPlan">
-          <option>DWC-Bronze â â¹4,999</option>
-          <option selected>DWC-Silver â â¹6,999</option>
-          <option>DWC-Gold â â¹9,999</option>
-          <option>DWC-Purple â â¹14,999</option>
+          <option>DWC-Bronze Ã¢ÂÂ Ã¢ÂÂ¹4,999</option>
+          <option selected>DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999</option>
+          <option>DWC-Gold Ã¢ÂÂ Ã¢ÂÂ¹9,999</option>
+          <option>DWC-Purple Ã¢ÂÂ Ã¢ÂÂ¹14,999</option>
         </select>
       </div>
-      <button class="modal-submit" id="modalSubmitBtn" onclick="submitUpgrade()">REQUEST MY UPGRADE â</button>
+      <button class="modal-submit" id="modalSubmitBtn" onclick="submitUpgrade()">REQUEST MY UPGRADE Ã¢ÂÂ</button>
     </div>
     <div class="modal-ok" id="modalOk">
-      <div class="ok-icon">ð</div>
+      <div class="ok-icon">Ã°ÂÂÂ</div>
       <h4>Request Sent!</h4>
       <p>Our team will call you within 24 hours to complete your upgrade.</p>
     </div>
@@ -305,31 +305,31 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
     <div class="sb-logo"><a href="/">DINE<span>WITH</span>CELEBRITY</a></div>
     <div class="sb-mem">
       <div class="sb-av" id="sbAv">?</div>
-      <div class="sb-name" id="sbName">Loadingâ¦</div>
+      <div class="sb-name" id="sbName">LoadingÃ¢ÂÂ¦</div>
       <div class="sb-email" id="sbEmail"></div>
       <span class="tier-pill t-free" id="sbTier">DWC-Free</span>
     </div>
     <nav class="sb-nav">
       <div class="nav-grp">My Account</div>
-      <button class="ni active" onclick="go('overview',this)"><span class="ni-icon">ð </span>Overview</button>
-      <button class="ni" onclick="go('coupons',this)"><span class="ni-icon">ð</span>My Coupons</button>
-      <button class="ni" onclick="go('restaurants',this)"><span class="ni-icon">ð½</span>Restaurants</button>
+      <button class="ni active" onclick="go('overview',this)"><span class="ni-icon">Ã°ÂÂÂ </span>Overview</button>
+      <button class="ni" onclick="go('coupons',this)"><span class="ni-icon">Ã°ÂÂÂ</span>My Coupons</button>
+      <button class="ni" onclick="go('restaurants',this)"><span class="ni-icon">Ã°ÂÂÂ½</span>Restaurants</button>
       <div class="nav-grp">Events</div>
-      <button class="ni" id="navEvents" onclick="go('events',this)"><span class="ni-icon">â­</span>Celebrity Events<span class="ni-lock" id="evLock">ð</span></button>
-      <button class="ni" onclick="go('bookings',this)"><span class="ni-icon">ð</span>My Bookings</button>
+      <button class="ni" id="navEvents" onclick="go('events',this)"><span class="ni-icon">Ã¢Â­Â</span>Celebrity Events<span class="ni-lock" id="evLock">Ã°ÂÂÂ</span></button>
+      <button class="ni" onclick="go('bookings',this)"><span class="ni-icon">Ã°ÂÂÂ</span>My Bookings</button>
       <div class="nav-grp">Rewards</div>
-      <button class="ni" onclick="go('points',this)"><span class="ni-icon">ð</span>My Points</button>
-      <button class="ni" onclick="go('notifications',this)"><span class="ni-icon">ð</span>Notifications<span class="ni-badge" id="nBadge">3</span></button>
+      <button class="ni" onclick="go('points',this)"><span class="ni-icon">Ã°ÂÂÂ</span>My Points</button>
+      <button class="ni" onclick="go('notifications',this)"><span class="ni-icon">Ã°ÂÂÂ</span>Notifications<span class="ni-badge" id="nBadge">3</span></button>
       <div class="nav-grp">More</div>
-      <button class="ni" onclick="go('upgrade',this)"><span class="ni-icon">ð</span>Upgrade Plan</button>
-      <button class="ni" onclick="go('profile',this)"><span class="ni-icon">ð¤</span>My Profile</button>
+      <button class="ni" onclick="go('upgrade',this)"><span class="ni-icon">Ã°ÂÂÂ</span>Upgrade Plan</button>
+      <button class="ni" onclick="go('profile',this)"><span class="ni-icon">Ã°ÂÂÂ¤</span>My Profile</button>
     </nav>
     <div class="sb-pts">
       <div><div class="pts-big" id="sbPts">0</div><div class="pts-lbl">My Points</div></div>
-      <span style="font-size:1.4rem">ð</span>
+      <span style="font-size:1.4rem">Ã°ÂÂÂ</span>
     </div>
     <div class="sb-foot">
-      <button class="ni" onclick="doSignOut()"><span class="ni-icon">ðª</span>Sign Out</button>
+      <button class="ni" onclick="doSignOut()"><span class="ni-icon">Ã°ÂÂÂª</span>Sign Out</button>
     </div>
   </aside>
 
@@ -341,7 +341,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
         <div class="pg-title" id="pgTitle">Overview</div>
       </div>
       <div class="tb-right">
-        <div class="tb-notif" onclick="go('notifications',document.querySelector('[onclick*=notifications]'))">ð<span class="tb-dot" id="tbDot"></span></div>
+        <div class="tb-notif" onclick="go('notifications',document.querySelector('[onclick*=notifications]'))">Ã°ÂÂÂ<span class="tb-dot" id="tbDot"></span></div>
         <div class="tb-av" id="tbAv">?</div>
       </div>
     </div>
@@ -351,11 +351,11 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
       <!-- OVERVIEW -->
       <div class="panel active" id="panel-overview">
         <div class="fomo" id="fomoBar" style="display:none">
-          <p>ð¥ <strong id="fomoAmt">â¹1,24,500</strong> saved by DWC members today â you haven't saved anything yet!</p>
-          <button class="fomo-btn" onclick="go('upgrade',document.querySelector('[onclick*=upgrade]'))">UNLOCK BENEFITS FROM â¹4,999</button>
+          <p>Ã°ÂÂÂ¥ <strong id="fomoAmt">Ã¢ÂÂ¹1,24,500</strong> saved by DWC members today Ã¢ÂÂ you haven't saved anything yet!</p>
+          <button class="fomo-btn" onclick="go('upgrade',document.querySelector('[onclick*=upgrade]'))">UNLOCK BENEFITS FROM Ã¢ÂÂ¹4,999</button>
         </div>
         <div class="welcome">
-          <h2>WELCOME BACK, <span id="wName">MEMBER</span> ð</h2>
+          <h2>WELCOME BACK, <span id="wName">MEMBER</span> Ã°ÂÂÂ</h2>
           <p id="wSub">Here's your DWC account summary.</p>
         </div>
         <div class="stats">
@@ -363,22 +363,22 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
           <div class="stat"><span class="stat-num" id="stP">0</span><div class="stat-lbl">My Points</div><div class="stat-sub">Keep earning</div></div>
           <div class="stat"><span class="stat-num" id="stB">2</span><div class="stat-lbl">Bookings</div><div class="stat-sub">Upcoming</div></div>
           <div class="stat"><span class="stat-num" id="stT">FREE</span><div class="stat-lbl">My Plan</div><div class="stat-sub" id="stTS">Tap to upgrade</div></div>
-          <div class="stat"><span class="stat-num" id="stExp" style="font-size:1.2rem;letter-spacing:.02em">â</span><div class="stat-lbl">Plan Expires</div><div class="stat-sub" id="stExpSub">â</div></div>
+          <div class="stat"><span class="stat-num" id="stExp" style="font-size:1.2rem;letter-spacing:.02em">Ã¢ÂÂ</span><div class="stat-lbl">Plan Expires</div><div class="stat-sub" id="stExpSub">Ã¢ÂÂ</div></div>
         </div>
         <div class="upg-nudge" id="ovUpgNudge" style="display:none">
           <div>
-            <h4>ð Upgrade to DWC-Silver â Most Popular Plan</h4>
-            <p>Get 20% off at all partner restaurants + celebrity events + 3-4 event coupons per year. Only â¹6,999.</p>
+            <h4>Ã°ÂÂÂ Upgrade to DWC-Silver Ã¢ÂÂ Most Popular Plan</h4>
+            <p>Get 20% off at all partner restaurants + celebrity events + 3-4 event coupons per year. Only Ã¢ÂÂ¹6,999.</p>
           </div>
-          <button class="upg-btn" onclick="openUpgrade('DWC-Silver â â¹6,999')">UPGRADE NOW â</button>
+          <button class="upg-btn" onclick="openUpgrade('DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999')">UPGRADE NOW Ã¢ÂÂ</button>
         </div>
         <div class="g2">
           <div>
             <div class="shdr"><h3>Recent Updates</h3><button class="shdr-btn" onclick="go('notifications',document.querySelector('[onclick*=notifications]'))">See All</button></div>
             <div class="notif-list">
-              <div class="notif-item unread"><span class="n-icon">ð</span><div><div class="n-title">New Coupon Available</div><div class="n-body">20% off at Sky Lounge â valid this weekend only.</div><div class="n-time">2 hours ago</div></div></div>
-              <div class="notif-item unread"><span class="n-icon">â­</span><div><div class="n-title">New Celebrity Event</div><div class="n-body">Bollywood dinner night â limited seats available.</div><div class="n-time">Yesterday</div></div></div>
-              <div class="notif-item"><span class="n-icon">ð</span><div><div class="n-title">Points Added</div><div class="n-body">You earned 50 points from your last visit.</div><div class="n-time">3 days ago</div></div></div>
+              <div class="notif-item unread"><span class="n-icon">Ã°ÂÂÂ</span><div><div class="n-title">New Coupon Available</div><div class="n-body">20% off at Sky Lounge Ã¢ÂÂ valid this weekend only.</div><div class="n-time">2 hours ago</div></div></div>
+              <div class="notif-item unread"><span class="n-icon">Ã¢Â­Â</span><div><div class="n-title">New Celebrity Event</div><div class="n-body">Bollywood dinner night Ã¢ÂÂ limited seats available.</div><div class="n-time">Yesterday</div></div></div>
+              <div class="notif-item"><span class="n-icon">Ã°ÂÂÂ</span><div><div class="n-title">Points Added</div><div class="n-body">You earned 50 points from your last visit.</div><div class="n-time">3 days ago</div></div></div>
             </div>
           </div>
           <div>
@@ -412,7 +412,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
         <div class="shdr" style="margin-bottom:16px"><h3>MY BOOKINGS</h3></div>
         <div class="twrap"><table><thead><tr><th>Event</th><th>Date</th><th>Venue</th><th>People</th><th>Status</th></tr></thead>
         <tbody id="bookingsTbody">
-          <tr><td colspan="5" style="text-align:center;padding:28px;color:var(--muted)">Loading bookingsâ¦</td></tr>
+          <tr><td colspan="5" style="text-align:center;padding:28px;color:var(--muted)">Loading bookingsÃ¢ÂÂ¦</td></tr>
         </tbody></table></div>
       </div>
 
@@ -430,10 +430,10 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
           <div class="card">
             <div style="font-size:.67rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">How to Earn Points</div>
             <div style="display:flex;flex-direction:column;gap:10px">
-              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>ð½</span>Eat at a partner restaurant â <strong style="color:var(--text)">+10 pts</strong></div>
-              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>ð</span>Use a DWC coupon â <strong style="color:var(--text)">+25 pts</strong></div>
-              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>â­</span>Attend a celebrity event â <strong style="color:var(--text)">+100 pts</strong></div>
-              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>ð¥</span>Bring a friend â <strong style="color:var(--text)">+50 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>Ã°ÂÂÂ½</span>Eat at a partner restaurant Ã¢ÂÂ <strong style="color:var(--text)">+10 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>Ã°ÂÂÂ</span>Use a DWC coupon Ã¢ÂÂ <strong style="color:var(--text)">+25 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>Ã¢Â­Â</span>Attend a celebrity event Ã¢ÂÂ <strong style="color:var(--text)">+100 pts</strong></div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--sub)"><span>Ã°ÂÂÂ¥</span>Bring a friend Ã¢ÂÂ <strong style="color:var(--text)">+50 pts</strong></div>
             </div>
           </div>
         </div>
@@ -447,11 +447,11 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
       <div class="panel" id="panel-notifications">
         <div class="shdr" style="margin-bottom:16px"><h3>NOTIFICATIONS</h3><button class="shdr-btn" onclick="markAllRead()">Mark all as read</button></div>
         <div class="notif-list">
-          <div class="notif-item unread"><span class="n-icon">ð</span><div><div class="n-title">New Coupon Available</div><div class="n-body">20% off at Sky Lounge â valid this weekend only.</div><div class="n-time">2 hours ago</div></div></div>
-          <div class="notif-item unread"><span class="n-icon">â­</span><div><div class="n-title">New Celebrity Event Added</div><div class="n-body">Bollywood dinner night â limited seats. Book now before they fill up.</div><div class="n-time">Yesterday</div></div></div>
-          <div class="notif-item unread"><span class="n-icon">ð</span><div><div class="n-title">Points Added to Your Account</div><div class="n-body">You earned 50 points from your last visit.</div><div class="n-time">3 days ago</div></div></div>
-          <div class="notif-item"><span class="n-icon">ð½</span><div><div class="n-title">New Restaurant Joined DWC</div><div class="n-body">Jewel of Nizam is now a DWC partner restaurant.</div><div class="n-time">5 days ago</div></div></div>
-          <div class="notif-item"><span class="n-icon">ð</span><div><div class="n-title">You Are Close to DWC-Silver!</div><div class="n-body">Just 180 more points and you move to Silver. Keep dining!</div><div class="n-time">1 week ago</div></div></div>
+          <div class="notif-item unread"><span class="n-icon">Ã°ÂÂÂ</span><div><div class="n-title">New Coupon Available</div><div class="n-body">20% off at Sky Lounge Ã¢ÂÂ valid this weekend only.</div><div class="n-time">2 hours ago</div></div></div>
+          <div class="notif-item unread"><span class="n-icon">Ã¢Â­Â</span><div><div class="n-title">New Celebrity Event Added</div><div class="n-body">Bollywood dinner night Ã¢ÂÂ limited seats. Book now before they fill up.</div><div class="n-time">Yesterday</div></div></div>
+          <div class="notif-item unread"><span class="n-icon">Ã°ÂÂÂ</span><div><div class="n-title">Points Added to Your Account</div><div class="n-body">You earned 50 points from your last visit.</div><div class="n-time">3 days ago</div></div></div>
+          <div class="notif-item"><span class="n-icon">Ã°ÂÂÂ½</span><div><div class="n-title">New Restaurant Joined DWC</div><div class="n-body">Jewel of Nizam is now a DWC partner restaurant.</div><div class="n-time">5 days ago</div></div></div>
+          <div class="notif-item"><span class="n-icon">Ã°ÂÂÂ</span><div><div class="n-title">You Are Close to DWC-Silver!</div><div class="n-body">Just 180 more points and you move to Silver. Keep dining!</div><div class="n-time">1 week ago</div></div></div>
         </div>
       </div>
 
@@ -459,7 +459,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
       <div class="panel" id="panel-upgrade">
         <div class="welcome" style="margin-bottom:8px"><h2>CHOOSE YOUR <span>PLAN</span></h2><p>Upgrade anytime. Our team will contact you within 24 hours to activate your plan.</p></div>
         <div style="background:rgba(242,183,5,.07);border:1px solid var(--bdr);padding:12px 18px;margin-bottom:4px;font-size:.84rem;color:var(--sub)">
-          ð¡ <strong style="color:var(--gold)">Best value:</strong> DWC-Silver gives you the most savings for your money â most popular among our members.
+          Ã°ÂÂÂ¡ <strong style="color:var(--gold)">Best value:</strong> DWC-Silver gives you the most savings for your money Ã¢ÂÂ most popular among our members.
         </div>
         <div class="plans-grid" id="plansGrid"></div>
       </div>
@@ -479,14 +479,14 @@ tbody tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
           </div>
           <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--bdr2);display:flex;align-items:center;gap:13px;flex-wrap:wrap">
             <button class="btn-save" onclick="saveProfile()">SAVE CHANGES</button>
-            <a href="/signin.html" style="font-size:.8rem;color:var(--muted)">Change Password â</a>
+            <a href="/signin.html" style="font-size:.8rem;color:var(--muted)">Change Password Ã¢ÂÂ</a>
           </div>
           <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--bdr2)">
             <div style="font-size:.67rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:9px">Your Membership Plan</div>
             <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
               <span class="tier-pill" id="profTier">DWC-Free</span>
               <span style="font-size:.8rem;color:var(--sub)" id="profTierDesc"></span>
-              <button class="btn-save" style="padding:7px 16px;font-size:.82rem" id="profUpgBtn" onclick="go('upgrade',document.querySelector('[onclick*=upgrade]'))">UPGRADE PLAN â</button>
+              <button class="btn-save" style="padding:7px 16px;font-size:.82rem" id="profUpgBtn" onclick="go('upgrade',document.querySelector('[onclick*=upgrade]'))">UPGRADE PLAN Ã¢ÂÂ</button>
             </div>
           </div>
         </div>
@@ -505,7 +505,7 @@ const sbClient = createClient(
   'sb_publishable_GmOnQPXPLfr4cKuuPbY9NA_BAu3ut6X'
 );
 
-// ââ TIER CONFIG ââ
+// Ã¢ÂÂÃ¢ÂÂ TIER CONFIG Ã¢ÂÂÃ¢ÂÂ
 const TIERS = {
   free:    {label:'DWC-Free',    cls:'t-free',   level:0},
   bronze:  {label:'DWC-Bronze',  cls:'t-bronze', level:1},
@@ -515,55 +515,55 @@ const TIERS = {
   admin:   {label:'Admin',       cls:'t-admin',  level:99}
 };
 
-// ââ COUPONS ââ
+// Ã¢ÂÂÃ¢ÂÂ COUPONS Ã¢ÂÂÃ¢ÂÂ
 const COUPONS = {
-  free:   [{rest:'Spice Garden',deal:'1 Free Starter',terms:'Trial coupon â limited time',exp:'15 Apr 2026',tag:'ctag-new',tagTxt:'TRIAL'}],
-  bronze: [{rest:'Spice Garden',deal:'10% OFF',terms:'All dine-in orders Â· Max â¹1,500',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'The Grand Table',deal:'â¹500 OFF',terms:'Min order â¹3,500',exp:'30 Apr 2026',tag:'',tagTxt:''}],
-  silver: [{rest:'Spice Garden',deal:'20% OFF',terms:'All dine-in Â· Max â¹3,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'The Grand Table',deal:'20% OFF',terms:'Min order â¹2,000 Â· Max â¹3,000',exp:'30 Apr 2026',tag:'',tagTxt:''},{rest:'Sky Lounge',deal:'20% OFF',terms:'All days Â· Max â¹3,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'Olive Kitchen',deal:'Free Dessert',terms:'Orders above â¹1,500',exp:'30 Apr 2026',tag:'',tagTxt:''}],
-  gold:   [{rest:'Spice Garden',deal:'25% OFF',terms:'Max â¹5,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'Sky Lounge',deal:'30% OFF',terms:'Max â¹5,000',exp:'30 Apr 2026',tag:'',tagTxt:''},{rest:'The Taj Banjara',deal:'25% OFF',terms:'Gold exclusive Â· Max â¹5,000',exp:'30 Apr 2026',tag:'ctag-vip',tagTxt:'GOLD'},{rest:'Birthday Meal',deal:'Free Meal',terms:'On your birthday ð',exp:'Your birthday',tag:'ctag-vip',tagTxt:'GIFT'}],
-  purple: [{rest:'All Partners',deal:'35-50% OFF',terms:'Max â¹10,000',exp:'Ongoing',tag:'ctag-vip',tagTxt:'VIP'},{rest:'VIP Events',deal:'Priority Access',terms:'Front row &amp; meet &amp; greet',exp:'Ongoing',tag:'ctag-vip',tagTxt:'VIP'}]
+  free:   [{rest:'Spice Garden',deal:'1 Free Starter',terms:'Trial coupon Ã¢ÂÂ limited time',exp:'15 Apr 2026',tag:'ctag-new',tagTxt:'TRIAL'}],
+  bronze: [{rest:'Spice Garden',deal:'10% OFF',terms:'All dine-in orders ÃÂ· Max Ã¢ÂÂ¹1,500',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'The Grand Table',deal:'Ã¢ÂÂ¹500 OFF',terms:'Min order Ã¢ÂÂ¹3,500',exp:'30 Apr 2026',tag:'',tagTxt:''}],
+  silver: [{rest:'Spice Garden',deal:'20% OFF',terms:'All dine-in ÃÂ· Max Ã¢ÂÂ¹3,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'The Grand Table',deal:'20% OFF',terms:'Min order Ã¢ÂÂ¹2,000 ÃÂ· Max Ã¢ÂÂ¹3,000',exp:'30 Apr 2026',tag:'',tagTxt:''},{rest:'Sky Lounge',deal:'20% OFF',terms:'All days ÃÂ· Max Ã¢ÂÂ¹3,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'Olive Kitchen',deal:'Free Dessert',terms:'Orders above Ã¢ÂÂ¹1,500',exp:'30 Apr 2026',tag:'',tagTxt:''}],
+  gold:   [{rest:'Spice Garden',deal:'25% OFF',terms:'Max Ã¢ÂÂ¹5,000',exp:'30 Apr 2026',tag:'ctag-new',tagTxt:'NEW'},{rest:'Sky Lounge',deal:'30% OFF',terms:'Max Ã¢ÂÂ¹5,000',exp:'30 Apr 2026',tag:'',tagTxt:''},{rest:'The Taj Banjara',deal:'25% OFF',terms:'Gold exclusive ÃÂ· Max Ã¢ÂÂ¹5,000',exp:'30 Apr 2026',tag:'ctag-vip',tagTxt:'GOLD'},{rest:'Birthday Meal',deal:'Free Meal',terms:'On your birthday Ã°ÂÂÂ',exp:'Your birthday',tag:'ctag-vip',tagTxt:'GIFT'}],
+  purple: [{rest:'All Partners',deal:'35-50% OFF',terms:'Max Ã¢ÂÂ¹10,000',exp:'Ongoing',tag:'ctag-vip',tagTxt:'VIP'},{rest:'VIP Events',deal:'Priority Access',terms:'Front row &amp; meet &amp; greet',exp:'Ongoing',tag:'ctag-vip',tagTxt:'VIP'}]
 };
 COUPONS.admin = COUPONS.purple;
 
-// ââ RESTAURANTS ââ
+// Ã¢ÂÂÃ¢ÂÂ RESTAURANTS Ã¢ÂÂÃ¢ÂÂ
 const RESTAURANTS = [
-  {e:'ð',n:'Spice Garden',m:'Hyderabadi â¢ Banjara Hills',minLevel:0},
-  {e:'ð¥©',n:'The Grand Table',m:'Continental â¢ Jubilee Hills',minLevel:0},
-  {e:'ð£',n:'Sky Lounge',m:'Pan Asian â¢ HITEC City',minLevel:1},
-  {e:'ð«',n:'Olive Kitchen',m:'Mediterranean â¢ Gachibowli',minLevel:1},
-  {e:'ð²',n:'The Taj Banjara',m:'Mughlai â¢ Banjara Hills',minLevel:2},
-  {e:'ð',n:'Jewel of Nizam',m:'Royal Hyderabadi â¢ Secunderabad',minLevel:2},
-  {e:'ð¨',n:'Grand Hyatt Restaurant',m:'International â¢ Banjara Hills',minLevel:3},
-  {e:'ð',n:'ITC Kohenur',m:'Luxury Dining â¢ HITEC City',minLevel:4}
+  {e:'Ã°ÂÂÂ',n:'Spice Garden',m:'Hyderabadi Ã¢ÂÂ¢ Banjara Hills',minLevel:0},
+  {e:'Ã°ÂÂ¥Â©',n:'The Grand Table',m:'Continental Ã¢ÂÂ¢ Jubilee Hills',minLevel:0},
+  {e:'Ã°ÂÂÂ£',n:'Sky Lounge',m:'Pan Asian Ã¢ÂÂ¢ HITEC City',minLevel:1},
+  {e:'Ã°ÂÂ«Â',n:'Olive Kitchen',m:'Mediterranean Ã¢ÂÂ¢ Gachibowli',minLevel:1},
+  {e:'Ã°ÂÂÂ²',n:'The Taj Banjara',m:'Mughlai Ã¢ÂÂ¢ Banjara Hills',minLevel:2},
+  {e:'Ã°ÂÂÂ',n:'Jewel of Nizam',m:'Royal Hyderabadi Ã¢ÂÂ¢ Secunderabad',minLevel:2},
+  {e:'Ã°ÂÂÂ¨',n:'Grand Hyatt Restaurant',m:'International Ã¢ÂÂ¢ Banjara Hills',minLevel:3},
+  {e:'Ã°ÂÂÂ',n:'ITC Kohenur',m:'Luxury Dining Ã¢ÂÂ¢ HITEC City',minLevel:4}
 ];
 
-// ââ EVENTS ââ
+// Ã¢ÂÂÃ¢ÂÂ EVENTS Ã¢ÂÂÃ¢ÂÂ
 const EVENTS = [
-  {e:'ð¬',t:'Bollywood Dinner Night',d:'12 Apr 2026',v:'The Taj Banjara, Hyderabad',minLevel:1,prices:{free:'â¹8,000',bronze:'â¹6,800',silver:'â¹5,600',gold:'â¹4,800',purple:'â¹3,500'}},
-  {e:'ð',t:'Cricket Star Meet & Dine',d:'26 Apr 2026',v:'Sky Lounge, Hyderabad',minLevel:1,prices:{free:'â¹7,500',bronze:'â¹6,375',silver:'â¹5,250',gold:'â¹4,500',purple:'â¹3,000'}},
-  {e:'ð¤',t:'Music Icon Private Dinner',d:'10 May 2026',v:'Jewel of Nizam, Hyderabad',minLevel:2,prices:{free:'â¹12,000',silver:'â¹9,000',gold:'â¹7,800',purple:'â¹6,000'}},
-  {e:'ð­',t:'Celebrity Gala Evening',d:'24 May 2026',v:'Grand Hyatt, Hyderabad',minLevel:3,prices:{free:'â¹15,000',gold:'â¹9,750',purple:'â¹7,500'}}
+  {e:'Ã°ÂÂÂ¬',t:'Bollywood Dinner Night',d:'12 Apr 2026',v:'The Taj Banjara, Hyderabad',minLevel:1,prices:{free:'Ã¢ÂÂ¹8,000',bronze:'Ã¢ÂÂ¹6,800',silver:'Ã¢ÂÂ¹5,600',gold:'Ã¢ÂÂ¹4,800',purple:'Ã¢ÂÂ¹3,500'}},
+  {e:'Ã°ÂÂÂ',t:'Cricket Star Meet & Dine',d:'26 Apr 2026',v:'Sky Lounge, Hyderabad',minLevel:1,prices:{free:'Ã¢ÂÂ¹7,500',bronze:'Ã¢ÂÂ¹6,375',silver:'Ã¢ÂÂ¹5,250',gold:'Ã¢ÂÂ¹4,500',purple:'Ã¢ÂÂ¹3,000'}},
+  {e:'Ã°ÂÂÂ¤',t:'Music Icon Private Dinner',d:'10 May 2026',v:'Jewel of Nizam, Hyderabad',minLevel:2,prices:{free:'Ã¢ÂÂ¹12,000',silver:'Ã¢ÂÂ¹9,000',gold:'Ã¢ÂÂ¹7,800',purple:'Ã¢ÂÂ¹6,000'}},
+  {e:'Ã°ÂÂÂ­',t:'Celebrity Gala Evening',d:'24 May 2026',v:'Grand Hyatt, Hyderabad',minLevel:3,prices:{free:'Ã¢ÂÂ¹15,000',gold:'Ã¢ÂÂ¹9,750',purple:'Ã¢ÂÂ¹7,500'}}
 ];
 
-// ââ HELPERS ââ
+// Ã¢ÂÂÃ¢ÂÂ HELPERS Ã¢ÂÂÃ¢ÂÂ
 function tierLabel(t){ return TIERS[t]?.label || 'DWC-Free'; }
 function tierCls(t)  { return TIERS[t]?.cls   || 't-free'; }
 function tierLevel(t){ return TIERS[t]?.level  ?? 0; }
 function tierDesc(t) {
   if(t==='admin'||t==='purple') return 'Full VIP access to everything on DWC.';
-  if(t==='gold')   return 'Premium access â priority booking &amp; birthday gifts.';
-  if(t==='silver') return 'Most popular â 20% off restaurants &amp; event access.';
-  if(t==='bronze') return 'Entry level â 10-15% off at partner restaurants.';
-  return 'Free plan â upgrade to unlock real savings and events.';
+  if(t==='gold')   return 'Premium access Ã¢ÂÂ priority booking &amp; birthday gifts.';
+  if(t==='silver') return 'Most popular Ã¢ÂÂ 20% off restaurants &amp; event access.';
+  if(t==='bronze') return 'Entry level Ã¢ÂÂ 10-15% off at partner restaurants.';
+  return 'Free plan Ã¢ÂÂ upgrade to unlock real savings and events.';
 }
 function nextTier(t, pts) {
   const m = {free:{next:'DWC-Bronze',target:500},bronze:{next:'DWC-Silver',target:1000},silver:{next:'DWC-Gold',target:1500},gold:{next:'DWC-Purple',target:2000}};
-  if(t==='purple'||t==='admin') return {lbl:'You are at the top tier!',pct:100,max:'â'};
+  if(t==='purple'||t==='admin') return {lbl:'You are at the top tier!',pct:100,max:'Ã¢ÂÂ'};
   const i = m[t]||m.free;
   return {lbl:`${pts} / ${i.target} pts to ${i.next}`, pct:Math.min((pts/i.target)*100,100), max:i.target};
 }
 
-// ââ BUILD DASHBOARD ââ
+// Ã¢ÂÂÃ¢ÂÂ BUILD DASHBOARD Ã¢ÂÂÃ¢ÂÂ
 function build(user, prof, realBookings=[], realCoupons=[]) {
   const tier  = prof.tier || 'free';
   const pts   = prof.cause_points || 0;
@@ -588,21 +588,21 @@ function build(user, prof, realBookings=[], realCoupons=[]) {
   document.getElementById('wName').textContent = fname.toUpperCase();
   document.getElementById('wSub').textContent  =
     tier==='admin'  ? 'Admin access active.' :
-    tier==='purple' ? 'DWC-Purple Member â full VIP access.' :
-    tier==='gold'   ? 'DWC-Gold Member â premium access active.' :
-    tier==='silver' ? 'DWC-Silver Member â events &amp; coupons ready.' :
-    tier==='bronze' ? 'DWC-Bronze Member â your coupons are ready.' :
+    tier==='purple' ? 'DWC-Purple Member Ã¢ÂÂ full VIP access.' :
+    tier==='gold'   ? 'DWC-Gold Member Ã¢ÂÂ premium access active.' :
+    tier==='silver' ? 'DWC-Silver Member Ã¢ÂÂ events &amp; coupons ready.' :
+    tier==='bronze' ? 'DWC-Bronze Member Ã¢ÂÂ your coupons are ready.' :
     'Welcome! Browse the platform and upgrade to start saving.';
 
   // FOMO & upgrade nudge for free/bronze
   if(lvl < 2) {
     document.getElementById('fomoBar').style.display = 'flex';
-    const amts = ['â¹1,24,500','â¹98,200','â¹1,42,800','â¹87,600','â¹1,11,300'];
+    const amts = ['Ã¢ÂÂ¹1,24,500','Ã¢ÂÂ¹98,200','Ã¢ÂÂ¹1,42,800','Ã¢ÂÂ¹87,600','Ã¢ÂÂ¹1,11,300'];
     document.getElementById('fomoAmt').textContent = amts[new Date().getDate() % amts.length];
     document.getElementById('ovUpgNudge').style.display = 'flex';
   }
 
-  // Stats â use real data counts
+  // Stats Ã¢ÂÂ use real data counts
   const coupons = realCoupons.length > 0 ? realCoupons : (COUPONS[tier] || COUPONS.free);
   const isRealCoupons = realCoupons.length > 0;
   document.getElementById('stC').textContent  = isRealCoupons ? realCoupons.length : (COUPONS[tier] || COUPONS.free).length;
@@ -614,15 +614,15 @@ function build(user, prof, realBookings=[], realCoupons=[]) {
   // Membership expiry
   const expDate = prof.expires_at ? new Date(prof.expires_at) : null;
   const expSub  = expDate
-    ? (expDate < new Date() ? 'â ï¸ Expired' : 'Active')
+    ? (expDate < new Date() ? 'Ã¢ÂÂ Ã¯Â¸Â Expired' : 'Active')
     : tier==='free' ? 'Free plan' : 'Not set yet';
   document.getElementById('stExp').textContent    = expDate
     ? expDate.toLocaleDateString('en-IN',{day:'numeric',month:'short'})
-    : tier==='free' ? 'N/A' : 'â';
+    : tier==='free' ? 'N/A' : 'Ã¢ÂÂ';
   document.getElementById('stExpSub').textContent = expSub;
   document.getElementById('pExpiry').value        = expDate
     ? expDate.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})
-    : tier==='free' ? 'N/A â Free Plan' : 'Not set â contact support';
+    : tier==='free' ? 'N/A Ã¢ÂÂ Free Plan' : 'Not set Ã¢ÂÂ contact support';
 
   // Profile
   document.getElementById('pFirst').value = prof.first_name || '';
@@ -653,17 +653,17 @@ function renderCoupons(c, lvl, isReal=false) {
   if (isReal) {
     // Real coupons from Supabase
     if (c.length === 0) {
-      grid = `<div class="card" style="text-align:center;padding:28px 16px"><div style="font-size:2rem;margin-bottom:8px">ð</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);margin-bottom:6px">No Coupons Yet</div><p style="font-size:.8rem;color:var(--sub)">Your coupons will appear here once assigned by DWC.</p></div>`;
+      grid = `<div class="card" style="text-align:center;padding:28px 16px"><div style="font-size:2rem;margin-bottom:8px">Ã°ÂÂÂ</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);margin-bottom:6px">No Coupons Yet</div><p style="font-size:.8rem;color:var(--sub)">Your coupons will appear here once assigned by DWC.</p></div>`;
     } else {
-      grid = `<div class="coupon-grid">${c.map(x=>`<div class="coupon">${x.tag?`<span class="${x.tag} ctag">${x.tag_txt}</span>`:''}<div class="coupon-top"><div class="coupon-rest">${x.restaurant}</div><div class="coupon-deal">${x.deal}</div><div class="coupon-terms">${x.terms||''}</div></div><div class="coupon-bot"><span class="coupon-exp">Expires: ${x.expires_at ? new Date(x.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Ongoing'}</span><button class="use-btn" onclick="showToast('Show this screen at ${x.restaurant} to use your coupon ð')">USE NOW</button></div></div>`).join('')}</div>`;
+      grid = `<div class="coupon-grid">${c.map(x=>`<div class="coupon">${x.tag?`<span class="${x.tag} ctag">${x.tag_txt}</span>`:''}<div class="coupon-top"><div class="coupon-rest">${x.restaurant}</div><div class="coupon-deal">${x.deal}</div><div class="coupon-terms">${x.terms||''}</div></div><div class="coupon-bot"><span class="coupon-exp">Expires: ${x.expires_at ? new Date(x.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Ongoing'}</span><button class="use-btn" onclick="showToast('Show this screen at ${x.restaurant} to use your coupon Ã°ÂÂÂ')">USE NOW</button></div></div>`).join('')}</div>`;
     }
   } else {
     // Demo coupons based on tier
     document.getElementById('couponCnt').textContent = c.length + ' available';
-    grid = `<div class="coupon-grid">${c.map(x=>`<div class="coupon">${x.tag?`<span class="${x.tag} ctag">${x.tagTxt}</span>`:''}<div class="coupon-top"><div class="coupon-rest">${x.rest}</div><div class="coupon-deal">${x.deal}</div><div class="coupon-terms">${x.terms}</div></div><div class="coupon-bot"><span class="coupon-exp">Expires: ${x.exp}</span><button class="use-btn" onclick="showToast('Show this screen at ${x.rest} to use your coupon ð')">USE NOW</button></div></div>`).join('')}</div>`;
+    grid = `<div class="coupon-grid">${c.map(x=>`<div class="coupon">${x.tag?`<span class="${x.tag} ctag">${x.tagTxt}</span>`:''}<div class="coupon-top"><div class="coupon-rest">${x.rest}</div><div class="coupon-deal">${x.deal}</div><div class="coupon-terms">${x.terms}</div></div><div class="coupon-bot"><span class="coupon-exp">Expires: ${x.exp}</span><button class="use-btn" onclick="showToast('Show this screen at ${x.rest} to use your coupon Ã°ÂÂÂ')">USE NOW</button></div></div>`).join('')}</div>`;
   }
   document.getElementById('couponCnt').textContent = c.length + ' available';
-  const nudge = lvl < 2 ? `<div class="upg-nudge" style="margin-top:16px"><div><h4>ð Want More Coupons?</h4><p>DWC-Silver gives you 4 restaurant coupons + 3-4 event coupons per year. Only â¹6,999.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver â â¹6,999')">UPGRADE â</button></div>` : '';
+  const nudge = lvl < 2 ? `<div class="upg-nudge" style="margin-top:16px"><div><h4>Ã°ÂÂÂ Want More Coupons?</h4><p>DWC-Silver gives you 4 restaurant coupons + 3-4 event coupons per year. Only Ã¢ÂÂ¹6,999.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999')">UPGRADE Ã¢ÂÂ</button></div>` : '';
   document.getElementById('couponsContent').innerHTML = grid + nudge;
 }
 
@@ -677,36 +677,36 @@ function renderBookings(bookings) {
   tbody.innerHTML = bookings.map(b => {
     const statusCls = b.status==='confirmed' ? 'sp-ok' : b.status==='cancelled' ? 'sp-can' : 'sp-pend';
     const statusTxt = b.status ? b.status.charAt(0).toUpperCase() + b.status.slice(1) : 'Pending';
-    const date = b.event_date ? new Date(b.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'â';
-    return `<tr><td>${b.event_name}</td><td>${date}</td><td>${b.venue||'â'}</td><td>${b.people||1}</td><td><span class="sp ${statusCls}">${statusTxt}</span></td></tr>`;
+    const date = b.event_date ? new Date(b.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Ã¢ÂÂ';
+    return `<tr><td>${b.event_name}</td><td>${date}</td><td>${b.venue||'Ã¢ÂÂ'}</td><td>${b.people||1}</td><td><span class="sp ${statusCls}">${statusTxt}</span></td></tr>`;
   }).join('');
 }
 
 function renderRestaurants(lvl) {
   document.getElementById('restList').innerHTML = RESTAURANTS.map(r => {
     const open = lvl >= r.minLevel;
-    return `<div class="rest-item"><div class="rest-em">${r.e}</div><div class="rest-info"><div class="rest-name">${r.n}</div><div class="rest-meta">${r.m}</div></div><span class="rest-tag ${open?'rest-tag-open':'rest-tag-locked'}">${open?'Coupon Available':'ð Upgrade'}</span></div>`;
+    return `<div class="rest-item"><div class="rest-em">${r.e}</div><div class="rest-info"><div class="rest-name">${r.n}</div><div class="rest-meta">${r.m}</div></div><span class="rest-tag ${open?'rest-tag-open':'rest-tag-locked'}">${open?'Coupon Available':'Ã°ÂÂÂ Upgrade'}</span></div>`;
   }).join('');
   const locked = RESTAURANTS.filter(r=>lvl<r.minLevel).length;
-  if(locked>0) document.getElementById('restNudge').innerHTML=`<div class="upg-nudge"><div><h4>ð ${locked} More Restaurants Locked</h4><p>Upgrade to unlock all partner restaurants and bigger discounts.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver â â¹6,999')">UNLOCK ALL â</button></div>`;
+  if(locked>0) document.getElementById('restNudge').innerHTML=`<div class="upg-nudge"><div><h4>Ã°ÂÂÂ ${locked} More Restaurants Locked</h4><p>Upgrade to unlock all partner restaurants and bigger discounts.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999')">UNLOCK ALL Ã¢ÂÂ</button></div>`;
 }
 
 function renderEvents(tier, lvl) {
   if(lvl===0) {
-    document.getElementById('evContent').innerHTML = `<div class="upg-nudge" style="margin-bottom:16px"><div><h4>ð¡ Members Save Thousands on These Events</h4><p>DWC-Silver members save up to 25% on every event. Upgrade and save more than the plan costs.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver â â¹6,999')">UPGRADE FROM â¹6,999</button></div><div class="ev-grid">${EVENTS.map(ev=>`<div class="ev-card"><div class="ev-img">${ev.e}</div><div class="ev-body"><div class="ev-date">ð ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">ð ${ev.v}</div><div class="ev-price">Full price: <strong>${ev.prices.free}</strong></div><div class="ev-actions"><button class="ev-lock-btn" onclick="openUpgrade('DWC-Silver â â¹6,999')">ð UPGRADE TO SAVE</button></div></div></div>`).join('')}</div>`;
+    document.getElementById('evContent').innerHTML = `<div class="upg-nudge" style="margin-bottom:16px"><div><h4>Ã°ÂÂÂ¡ Members Save Thousands on These Events</h4><p>DWC-Silver members save up to 25% on every event. Upgrade and save more than the plan costs.</p></div><button class="upg-btn" onclick="openUpgrade('DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999')">UPGRADE FROM Ã¢ÂÂ¹6,999</button></div><div class="ev-grid">${EVENTS.map(ev=>`<div class="ev-card"><div class="ev-img">${ev.e}</div><div class="ev-body"><div class="ev-date">Ã°ÂÂÂ ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">Ã°ÂÂÂ ${ev.v}</div><div class="ev-price">Full price: <strong>${ev.prices.free}</strong></div><div class="ev-actions"><button class="ev-lock-btn" onclick="openUpgrade('DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999')">Ã°ÂÂÂ UPGRADE TO SAVE</button></div></div></div>`).join('')}</div>`;
     return;
   }
   document.getElementById('evContent').innerHTML = `<div class="ev-grid">${EVENTS.map(ev=>{
     const canBook = lvl >= ev.minLevel;
     const myPrice = ev.prices[tier] || ev.prices.free;
-    return `<div class="ev-card"><div class="ev-img">${ev.e}</div><div class="ev-body"><div class="ev-date">ð ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">ð ${ev.v}</div><div class="ev-price">Your price: <strong>${myPrice}</strong></div><div class="ev-actions">${canBook?`<button class="book-btn" onclick="showToast('Booking request sent for: ${ev.t} ð')">BOOK NOW</button>`:`<button class="ev-lock-btn" onclick="openUpgrade('DWC-${ev.minLevel===2?'Silver':ev.minLevel===3?'Gold':'Purple'}')">ð UPGRADE TO BOOK</button>`}</div></div></div>`;
+    return `<div class="ev-card"><div class="ev-img">${ev.e}</div><div class="ev-body"><div class="ev-date">Ã°ÂÂÂ ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">Ã°ÂÂÂ ${ev.v}</div><div class="ev-price">Your price: <strong>${myPrice}</strong></div><div class="ev-actions">${canBook?`<button class="book-btn" onclick="showToast('Booking request sent for: ${ev.t} Ã°ÂÂÂ')">BOOK NOW</button>`:`<button class="ev-lock-btn" onclick="openUpgrade('DWC-${ev.minLevel===2?'Silver':ev.minLevel===3?'Gold':'Purple'}')">Ã°ÂÂÂ UPGRADE TO BOOK</button>`}</div></div></div>`;
   }).join('')}</div>`;
 }
 
 function renderOvEvents(lvl) {
   document.getElementById('ovEvents').innerHTML = lvl===0
-    ? `<div class="card" style="text-align:center;padding:24px 16px"><div style="font-size:1.8rem;margin-bottom:8px">ð</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--text);margin-bottom:5px">DWC-Silver &amp; Above</div><p style="font-size:.79rem;color:var(--sub);margin-bottom:11px">Upgrade to access celebrity events.</p><button class="upg-btn" onclick="openUpgrade('DWC-Silver â â¹6,999')">UPGRADE NOW</button></div>`
-    : EVENTS.slice(0,2).map(ev=>`<div class="ev-card" style="margin-bottom:8px"><div class="ev-body" style="padding:12px 14px"><div class="ev-date">ð ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">ð ${ev.v}</div></div></div>`).join('');
+    ? `<div class="card" style="text-align:center;padding:24px 16px"><div style="font-size:1.8rem;margin-bottom:8px">Ã°ÂÂÂ</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--text);margin-bottom:5px">DWC-Silver &amp; Above</div><p style="font-size:.79rem;color:var(--sub);margin-bottom:11px">Upgrade to access celebrity events.</p><button class="upg-btn" onclick="openUpgrade('DWC-Silver Ã¢ÂÂ Ã¢ÂÂ¹6,999')">UPGRADE NOW</button></div>`
+    : EVENTS.slice(0,2).map(ev=>`<div class="ev-card" style="margin-bottom:8px"><div class="ev-body" style="padding:12px 14px"><div class="ev-date">Ã°ÂÂÂ ${ev.d}</div><div class="ev-title">${ev.t}</div><div class="ev-place">Ã°ÂÂÂ ${ev.v}</div></div></div>`).join('');
 }
 
 function renderPoints(pts, tier) {
@@ -719,27 +719,27 @@ function renderPoints(pts, tier) {
 
 function renderPlans(currentTier) {
   const plans = [
-    {key:'free',  name:'DWC-Free',   price:'â¹0',      note:'No payment', hook:'Explore only',             perks:['Browse limited restaurants','See events (full price only)','1 trial coupon'],btnCls:'plan-btn-free',btnTxt:'Free Plan'},
-    {key:'bronze',name:'DWC-Bronze', price:'â¹4,999',  note:'One time',   hook:'Entry level savings',      perks:['10-15% off restaurants','Max discount â¹1,500','Event discount 10-15%','1-2 event coupons/year'],btnCls:'plan-btn-bronze',btnTxt:'Choose Bronze'},
-    {key:'silver',name:'DWC-Silver', price:'â¹6,999',  note:'One time',   hook:'Best value for most members',perks:['20% off all restaurants','Max discount â¹3,000','Event discount 20-25%','3-4 event coupons/year','Early booking access'],btnCls:'plan-btn-silver',btnTxt:'Choose Silver',featured:true},
-    {key:'gold',  name:'DWC-Gold',   price:'â¹9,999',  note:'One time',   hook:'For serious diners',       perks:['25-30% off restaurants','Max discount â¹5,000','Event discount 30-35%','5-6 event coupons/year','Priority booking','Free birthday meal ð'],btnCls:'plan-btn-gold',btnTxt:'Choose Gold'},
-    {key:'purple',name:'DWC-Purple', price:'â¹14,999', note:'One time',   hook:'Exclusive VIP experience', perks:['35-50% off restaurants','Max discount â¹10,000','Up to 50% event discount','Unlimited event coupons','VIP seating','Meet &amp; greet access','24/7 dedicated support'],btnCls:'plan-btn-purple',btnTxt:'Choose Purple',vip:true}
+    {key:'free',  name:'DWC-Free',   price:'Ã¢ÂÂ¹0',      note:'No payment', hook:'Explore only',             perks:['Browse limited restaurants','See events (full price only)','1 trial coupon'],btnCls:'plan-btn-free',btnTxt:'Free Plan'},
+    {key:'bronze',name:'DWC-Bronze', price:'Ã¢ÂÂ¹4,999',  note:'One time',   hook:'Entry level savings',      perks:['10-15% off restaurants','Max discount Ã¢ÂÂ¹1,500','Event discount 10-15%','1-2 event coupons/year'],btnCls:'plan-btn-bronze',btnTxt:'Choose Bronze'},
+    {key:'silver',name:'DWC-Silver', price:'Ã¢ÂÂ¹6,999',  note:'One time',   hook:'Best value for most members',perks:['20% off all restaurants','Max discount Ã¢ÂÂ¹3,000','Event discount 20-25%','3-4 event coupons/year','Early booking access'],btnCls:'plan-btn-silver',btnTxt:'Choose Silver',featured:true},
+    {key:'gold',  name:'DWC-Gold',   price:'Ã¢ÂÂ¹9,999',  note:'One time',   hook:'For serious diners',       perks:['25-30% off restaurants','Max discount Ã¢ÂÂ¹5,000','Event discount 30-35%','5-6 event coupons/year','Priority booking','Free birthday meal Ã°ÂÂÂ'],btnCls:'plan-btn-gold',btnTxt:'Choose Gold'},
+    {key:'purple',name:'DWC-Purple', price:'Ã¢ÂÂ¹14,999', note:'One time',   hook:'Exclusive VIP experience', perks:['35-50% off restaurants','Max discount Ã¢ÂÂ¹10,000','Up to 50% event discount','Unlimited event coupons','VIP seating','Meet &amp; greet access','24/7 dedicated support'],btnCls:'plan-btn-purple',btnTxt:'Choose Purple',vip:true}
   ];
   document.getElementById('plansGrid').innerHTML = plans.map(p => {
     const isCurrent = p.key === currentTier;
     const cls = p.featured ? 'plan-card featured' : p.vip ? 'plan-card vip-card' : 'plan-card';
     const btn = isCurrent
-      ? `<div class="current-plan">â YOUR CURRENT PLAN</div>`
+      ? `<div class="current-plan">Ã¢ÂÂ YOUR CURRENT PLAN</div>`
       : p.key==='free'
         ? `<button class="plan-btn plan-btn-free" disabled>Free Plan</button>`
-        : `<button class="plan-btn ${p.btnCls}" onclick="openUpgrade('${p.name} â ${p.price}')">${p.btnTxt}</button>`;
+        : `<button class="plan-btn ${p.btnCls}" onclick="openUpgrade('${p.name} Ã¢ÂÂ ${p.price}')">${p.btnTxt}</button>`;
     return `<div class="${cls}"><div class="plan-name">${p.name}</div><div class="plan-price">${p.price}</div><div class="plan-note">${p.note}</div><div class="plan-hook">${p.hook}</div><ul class="plan-perks">${p.perks.map(pk=>`<li>${pk}</li>`).join('')}</ul>${btn}</div>`;
   }).join('');
 }
 
-// ââ ACTIONS ââ
+// Ã¢ÂÂÃ¢ÂÂ ACTIONS Ã¢ÂÂÃ¢ÂÂ
 window.openUpgrade = (planName) => {
-  document.getElementById('modalPlan').textContent = planName.split('â')[0].trim();
+  document.getElementById('modalPlan').textContent = planName.split('Ã¢ÂÂ')[0].trim();
   document.getElementById('mPlan').value = planName;
   document.getElementById('modalForm').style.display = 'block';
   document.getElementById('modalOk').style.display   = 'none';
@@ -754,10 +754,10 @@ window.submitUpgrade = async () => {
   const plan  = document.getElementById('mPlan').value;
   if(!name||!phone||!email){ showToast('Please fill in all fields.','err'); return; }
   const btn = document.getElementById('modalSubmitBtn');
-  btn.disabled=true; btn.textContent='Sendingâ¦';
+  btn.disabled=true; btn.textContent='SendingÃ¢ÂÂ¦';
   const fd=new FormData();
   fd.append('access_key','d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9');
-  fd.append('subject','Upgrade Request â '+plan);
+  fd.append('subject','Upgrade Request Ã¢ÂÂ '+plan);
   fd.append('from_name','DWC Upgrade');
   fd.append('email',email);
   fd.append('redirect','false');
@@ -780,14 +780,14 @@ window.saveProfile = async () => {
   if(error){ showToast('Could not save. Please try again.','err'); return; }
   document.getElementById('sbName').textContent = updates.first_name + ' ' + updates.last_name;
   ['sbAv','tbAv'].forEach(id => document.getElementById(id).textContent = updates.first_name.charAt(0).toUpperCase());
-  showToast('Your profile has been saved â');
+  showToast('Your profile has been saved Ã¢ÂÂ');
 };
 
 window.markAllRead = () => {
   document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
   document.getElementById('nBadge').style.display = 'none';
   document.getElementById('tbDot').style.display  = 'none';
-  showToast('All notifications marked as read â');
+  showToast('All notifications marked as read Ã¢ÂÂ');
 };
 
 window.doSignOut = async () => {
@@ -795,7 +795,7 @@ window.doSignOut = async () => {
   window.location.href = '/signin.html';
 };
 
-// ââ PANEL SWITCHING ââ
+// Ã¢ÂÂÃ¢ÂÂ PANEL SWITCHING Ã¢ÂÂÃ¢ÂÂ
 const TITLES = {overview:'Overview',coupons:'My Coupons',restaurants:'Restaurants',events:'Celebrity Events',bookings:'My Bookings',points:'My Points',notifications:'Notifications',upgrade:'Upgrade Plan',profile:'My Profile'};
 window.go = (id, btn) => {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -808,7 +808,7 @@ window.go = (id, btn) => {
   document.body.style.overflow = '';
 };
 
-// ââ MOBILE MENU ââ
+// Ã¢ÂÂÃ¢ÂÂ MOBILE MENU Ã¢ÂÂÃ¢ÂÂ
 document.getElementById('hamBtn').addEventListener('click', () => {
   const sb=document.getElementById('sidebar'), ov=document.getElementById('sbOv');
   const open=sb.classList.toggle('open');
@@ -821,7 +821,7 @@ document.getElementById('sbOv').addEventListener('click', () => {
   document.body.style.overflow='';
 });
 
-// ââ TOAST ââ
+// Ã¢ÂÂÃ¢ÂÂ TOAST Ã¢ÂÂÃ¢ÂÂ
 function showToast(msg, type='ok') {
   const el=document.getElementById('toastEl');
   el.textContent=msg;
@@ -831,7 +831,7 @@ function showToast(msg, type='ok') {
 }
 window.showToast = showToast;
 
-// ââ AUTH â MAIN ENTRY POINT ââ
+// Ã¢ÂÂÃ¢ÂÂ AUTH Ã¢ÂÂ MAIN ENTRY POINT Ã¢ÂÂÃ¢ÂÂ
 (async () => {
   // Timeout: 8 seconds, then redirect to sign in
   const timeout = setTimeout(() => { window.location.href = '/signin.html'; }, 8000);
@@ -856,7 +856,7 @@ window.showToast = showToast;
       .single();
 
     if(profErr || !prof) {
-      // Profile doesn't exist yet â create it
+      // Profile doesn't exist yet Ã¢ÂÂ create it
       const fname = user.user_metadata?.first_name || user.email.split('@')[0];
       const lname = user.user_metadata?.last_name  || '';
       prof = {
@@ -897,7 +897,7 @@ window.showToast = showToast;
   } catch(e) {
     console.error('Dashboard init error:', e);
     clearTimeout(timeout);
-    // Even if something fails â try to show dashboard anyway
+    // Even if something fails Ã¢ÂÂ try to show dashboard anyway
     document.getElementById('gate').style.display = 'none';
     document.getElementById('app').classList.add('ready');
   }
