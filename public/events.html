@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Celebrity Events | Dine With Celebrity</title>
+<meta name="description" content="Book exclusive celebrity dining events on Dine With Celebrity. Dine with Bollywood stars, world-class chefs, and icons at premium venues across India."/>
+<meta name="keywords" content="celebrity dining events India, Bollywood dinner events, celebrity events Hyderabad, VIP dining experiences, exclusive celebrity dinner booking"/>
+<link rel="canonical" href="https://dinewithcelebrity.com/events"/>
+<meta property="og:title" content="Celebrity Events | Dine With Celebrity"/>
+<meta property="og:description" content="Book exclusive celebrity dining events. Limited seats, unforgettable experiences."/>
+<meta property="og:url" content="https://dinewithcelebrity.com/events"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Celebrity Events","url":"https://dinewithcelebrity.com/events","description":"Exclusive celebrity dining events across India","isPartOf":{"@type":"WebSite","name":"Dine With Celebrity","url":"https://dinewithcelebrity.com"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --black:#0B0B0B;--black2:#111111;--black3:#181818;
+  --gold:#D4AF37;--gold2:#F5CC50;
+  --gold-dim:rgba(212,175,55,0.12);--gold-border:rgba(212,175,55,0.25);
+  --white:#FFFFFF;--accent:#FF4D4D;--green:#00C853;
+  --text:rgba(255,255,255,0.95);--subtext:rgba(255,255,255,0.72);
+  --label:rgba(255,255,255,0.5);
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+  --header-h:64px;--footer-h:64px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);font-family:'Poppins',sans-serif;
+  color:var(--text);font-size:1rem;padding-bottom:var(--footer-h);
+}
+h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:0.04em;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:10px;}
+
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  height:var(--header-h);
+  background:rgba(11,11,11,0.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--glass-border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.header-back{
+  width:38px;height:38px;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--subtext);font-size:1.1rem;text-decoration:none;transition:all 0.2s;
+}
+.header-back:hover{border-color:var(--gold-border);color:var(--gold);}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;}
+.header-spacer{flex:1;}
+.header-location{
+  display:flex;align-items:center;gap:5px;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:20px;padding:5px 12px;font-size:0.78rem;color:var(--subtext);cursor:pointer;
+}
+.header-location:hover{border-color:var(--gold-border);color:var(--text);}
+
+/* ── PAGE ── */
+.page{max-width:1200px;margin:0 auto;padding:24px 16px;}
+
+/* ── FEATURED EVENT (HERO CARD) ── */
+.featured-event{
+  background:linear-gradient(160deg,#1a0a00 0%,#110800 40%,#0B0B0B 100%);
+  border:1px solid var(--gold-border);
+  border-radius:20px;overflow:hidden;margin-bottom:28px;
+  display:grid;grid-template-columns:1fr 1.2fr;
+  min-height:280px;position:relative;
+}
+.featured-event::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 40%,rgba(11,11,11,0.6) 100%);
+  pointer-events:none;z-index:1;
+}
+.featured-left{
+  padding:32px 28px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:2;
+}
+.featured-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,77,77,0.15);border:1px solid rgba(255,77,77,0.35);
+  border-radius:20px;padding:4px 12px;
+  font-size:0.7rem;font-weight:700;color:var(--accent);
+  letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:14px;width:fit-content;
+}
+.featured-celeb{
+  font-size:0.78rem;color:var(--gold);font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
+}
+.featured-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;color:var(--white);line-height:1.05;margin-bottom:14px;
+}
+.featured-meta{
+  display:flex;flex-wrap:wrap;gap:12px;
+  font-size:0.8rem;color:var(--subtext);margin-bottom:20px;
+}
+.featured-meta-item{display:flex;align-items:center;gap:5px;}
+.featured-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);font-family:'Bebas Neue',sans-serif;
+  font-size:1rem;letter-spacing:0.08em;
+  padding:12px 22px;border-radius:10px;border:none;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,0.35);}
+.btn-outline{
+  background:transparent;color:var(--text);
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;
+  padding:12px 22px;border-radius:10px;border:1px solid var(--glass-border);
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;
+}
+.btn-outline:hover{border-color:var(--gold-border);color:var(--gold);}
+.featured-right{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#1a1200,#0f0900);
+  font-size:8rem;
+}
+.seats-counter{
+  position:absolute;bottom:16px;right:16px;
+  background:rgba(255,77,77,0.9);color:#fff;
+  border-radius:10px;padding:8px 14px;text-align:center;
+}
+.seats-num{
+  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1;
+}
+.seats-label{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;}
+
+/* ── FILTERS ── */
+.filters-row{
+  display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px;
+  scrollbar-width:none;
+}
+.filters-row::-webkit-scrollbar{display:none;}
+.filter-chip{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:20px;padding:6px 16px;
+  font-size:0.78rem;color:var(--subtext);cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;
+}
+.filter-chip:hover,.filter-chip.active{
+  background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold);
+}
+
+/* ── EVENTS GRID ── */
+.events-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;
+}
+.event-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:16px;overflow:hidden;cursor:pointer;
+  transition:all 0.25s;display:flex;flex-direction:column;
+}
+.event-card:hover{
+  border-color:var(--gold-border);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5);
+}
+.event-img{
+  height:180px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1a1a1a,#262626);
+  display:flex;align-items:center;justify-content:center;font-size:5rem;
+}
+.event-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.event-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(11,11,11,0.85) 0%,transparent 55%);
+}
+.badge-urgency{
+  position:absolute;top:10px;right:10px;
+  background:var(--accent);color:#fff;
+  font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  padding:3px 8px;border-radius:6px;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.7;}}
+.badge-vip{
+  position:absolute;top:10px;left:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:6px;
+}
+.badge-sold-out{
+  position:absolute;top:10px;right:10px;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,0.2);
+  color:var(--label);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;
+  padding:3px 8px;border-radius:6px;
+}
+.event-body{padding:14px;flex:1;display:flex;flex-direction:column;}
+.event-celeb{font-size:0.7rem;color:var(--gold);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.event-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--text);line-height:1.15;margin-bottom:10px;}
+.event-details{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.event-detail-item{display:flex;align-items:center;gap:7px;font-size:0.77rem;color:var(--subtext);}
+.event-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;flex-wrap:wrap;gap:6px;margin-top:auto;
+}
+.event-price{
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);line-height:1;
+}
+.event-price span{font-size:0.75rem;color:var(--subtext);font-family:'Poppins',sans-serif;font-weight:400;}
+.seats-pill{
+  font-size:0.68rem;font-weight:600;border-radius:20px;padding:3px 10px;
+}
+.seats-urgent{background:rgba(255,77,77,0.12);border:1px solid rgba(255,77,77,0.3);color:var(--accent);}
+.seats-ok{background:rgba(0,200,83,0.1);border:1px solid rgba(0,200,83,0.25);color:var(--green);}
+.seats-locked{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);}
+.event-cta{
+  display:block;width:100%;
+  background:var(--gold-dim);border:1px solid var(--gold-border);
+  border-radius:10px;padding:10px;text-align:center;
+  font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;
+  color:var(--gold);cursor:pointer;transition:all 0.2s;
+}
+.event-cta:hover{background:var(--gold);color:var(--black);}
+.event-cta.locked{color:var(--accent);background:rgba(255,77,77,0.06);border-color:rgba(255,77,77,0.2);}
+.event-cta.locked:hover{background:var(--accent);color:#fff;}
+.event-cta.sold-out{color:var(--label);background:rgba(255,255,255,0.03);border-color:var(--glass-border);cursor:not-allowed;}
+
+/* ── COUNTDOWN TIMER ── */
+.countdown-wrap{
+  display:flex;gap:6px;margin-bottom:12px;
+}
+.count-box{
+  background:rgba(212,175,55,0.1);border:1px solid var(--gold-border);
+  border-radius:8px;padding:6px 10px;text-align:center;min-width:44px;
+}
+.count-num{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);line-height:1;}
+.count-label{font-size:0.55rem;color:var(--label);letter-spacing:0.1em;text-transform:uppercase;}
+
+/* ── LOCKED OVERLAY ── */
+.event-card.locked .event-img::after{
+  content:'🔒 UPGRADE TO ACCESS';
+  position:absolute;inset:0;
+  background:rgba(11,11,11,0.82);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--gold);
+}
+
+/* ── UPGRADE BANNER ── */
+.upgrade-banner{
+  background:linear-gradient(135deg,#1a0800 0%,#0f0600 50%,#0B0B0B 100%);
+  border:1px solid rgba(255,77,77,0.2);
+  border-radius:16px;padding:24px;margin-bottom:28px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.upgrade-banner::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:240px;height:240px;
+  background:radial-gradient(circle,rgba(255,77,77,0.08) 0%,transparent 65%);
+}
+.upgrade-text h2{
+  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--text);margin-bottom:6px;
+}
+.upgrade-text p{font-size:0.85rem;color:var(--subtext);}
+.upgrade-text p strong{color:var(--text);}
+.btn-accent{
+  background:linear-gradient(135deg,var(--accent),#ff6b6b);
+  color:#fff;font-family:'Bebas Neue',sans-serif;
+  font-size:1rem;letter-spacing:0.08em;
+  padding:12px 22px;border-radius:10px;border:none;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;
+  white-space:nowrap;flex-shrink:0;
+}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,77,77,0.35);}
+
+/* ── BOOKING MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(8px);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--black2);border:1px solid var(--gold-border);
+  border-radius:20px;padding:28px;width:100%;max-width:480px;
+  transform:scale(0.92);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  max-height:90vh;overflow-y:auto;
+}
+.modal-overlay.open .modal{transform:scale(1);}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:10px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--text);line-height:1.1;}
+.modal-close{
+  width:34px;height:34px;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--subtext);font-size:1rem;flex-shrink:0;transition:all 0.2s;
+}
+.modal-close:hover{border-color:var(--accent);color:var(--accent);}
+.event-summary-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;padding:14px;margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+}
+.event-summary-icon{font-size:2.2rem;flex-shrink:0;}
+.event-summary-name{font-weight:600;font-size:0.9rem;color:var(--text);}
+.event-summary-meta{font-size:0.75rem;color:var(--subtext);}
+.form-field{margin-bottom:16px;}
+.form-label{
+  display:block;font-size:0.78rem;font-weight:600;
+  color:var(--subtext);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;
+}
+.form-input{
+  width:100%;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;padding:11px 14px;
+  color:var(--text);font-family:'Poppins',sans-serif;font-size:0.9rem;
+  outline:none;transition:border-color 0.2s;
+}
+.form-input:focus{border-color:var(--gold-border);}
+.form-input option{background:var(--black2);}
+.price-summary{
+  background:rgba(212,175,55,0.04);border:1px solid var(--gold-border);
+  border-radius:12px;padding:14px;margin:16px 0;
+}
+.price-row{
+  display:flex;justify-content:space-between;
+  font-size:0.82rem;color:var(--subtext);padding:4px 0;
+}
+.price-row.total{
+  border-top:1px solid var(--glass-border);margin-top:6px;padding-top:10px;
+  font-weight:700;font-size:0.95rem;color:var(--text);
+}
+
+/* ── MOBILE FOOTER NAV ── */
+.mobile-nav{
+  position:fixed;bottom:0;left:0;right:0;height:var(--footer-h);
+  background:rgba(11,11,11,0.96);backdrop-filter:blur(20px);
+  border-top:1px solid var(--glass-border);
+  display:flex;align-items:center;z-index:100;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;padding:8px 0;cursor:pointer;transition:all 0.2s;
+  font-size:0.62rem;color:var(--label);font-weight:500;
+}
+.nav-item.active{color:var(--gold);}
+.nav-icon{font-size:1.25rem;line-height:1;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.featured-event{animation:fadeUp 0.4s ease;}
+.events-grid{animation:fadeUp 0.4s ease 0.08s both;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.events-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){
+  .featured-event{grid-template-columns:1fr;}
+  .featured-right{display:none;}
+  .events-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <a class="header-back" href="dashboard.html" aria-label="Back to dashboard">←</a>
+  <h1 class="header-title">🌟 CELEBRITY EVENTS</h1>
+  <div class="header-spacer"></div>
+  <div class="header-location">📍 All Cities ▾</div>
+</header>
+
+<main class="page">
+
+  <!-- ── FEATURED EVENT ── -->
+  <div class="featured-event" aria-label="Featured event: Bollywood Dinner Night">
+    <div class="featured-left">
+      <div class="featured-tag">🔥 TRENDING EVENT</div>
+      <div class="featured-celeb">⭐ Ranveer Singh</div>
+      <h2 class="featured-title">Bollywood<br>Dinner Night</h2>
+      <div class="featured-meta">
+        <span class="featured-meta-item">📅 Mar 28, 2026</span>
+        <span class="featured-meta-item">📍 Novotel, Hyderabad</span>
+        <span class="featured-meta-item">👥 30 Guests</span>
+        <span class="featured-meta-item">💰 ₹4,999 / person</span>
+      </div>
+      <div class="featured-btns">
+        <button class="btn-gold" onclick="openModal('Bollywood Dinner Night','Ranveer Singh','Mar 28, 2026','Novotel, Hyderabad','4999','🎬')">
+          🎟 RESERVE MY SEAT
+        </button>
+        <button class="btn-outline">LEARN MORE</button>
+      </div>
+    </div>
+    <div class="featured-right">
+      🎬
+      <div class="seats-counter">
+        <div class="seats-num">8</div>
+        <div class="seats-label">Seats Left</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FILTERS ── -->
+  <div class="filters-row" role="group" aria-label="Filter events">
+    <button class="filter-chip active" onclick="setFilter(this,'all')">All Events</button>
+    <button class="filter-chip" onclick="setFilter(this,'upcoming')">Upcoming</button>
+    <button class="filter-chip" onclick="setFilter(this,'hyderabad')">Hyderabad</button>
+    <button class="filter-chip" onclick="setFilter(this,'mumbai')">Mumbai</button>
+    <button class="filter-chip" onclick="setFilter(this,'delhi')">Delhi</button>
+    <button class="filter-chip" onclick="setFilter(this,'bollywood')">Bollywood</button>
+    <button class="filter-chip" onclick="setFilter(this,'chef')">Celebrity Chefs</button>
+    <button class="filter-chip" onclick="setFilter(this,'vip')">👑 VIP Only</button>
+  </div>
+
+  <!-- ── UPGRADE BANNER (shown to FREE users) ── -->
+  <div class="upgrade-banner" id="upgrade-banner">
+    <div class="upgrade-text">
+      <h2>🔒 3 EVENTS LOCKED FOR YOUR PLAN</h2>
+      <p>Upgrade to <strong>DWC Silver</strong> to access all celebrity events, VIP dinners and exclusive experiences. Starting at just ₹4,999/year.</p>
+    </div>
+    <button class="btn-accent" onclick="window.location.href='dashboard.html'">⚡ UPGRADE NOW →</button>
+  </div>
+
+  <!-- ── EVENTS GRID ── -->
+  <div class="events-grid" id="events-grid">
+
+    <!-- Event 1 — Featured/Accessible -->
+    <article class="event-card" tabindex="0" onclick="openModal('Bollywood Dinner Night','Ranveer Singh','Mar 28, 2026','Novotel, Hyderabad','4999','🎬')">
+      <div class="event-img">
+        🎬
+        <div class="event-img-overlay"></div>
+        <span class="badge-urgency">🔥 8 SEATS LEFT</span>
+      </div>
+      <div class="event-body">
+        <div class="event-celeb">⭐ Ranveer Singh</div>
+        <div class="event-title">Bollywood Dinner Night</div>
+
+        <div class="countdown-wrap" id="countdown-1"></div>
+
+        <div class="event-details">
+          <div class="event-detail-item">📅 Mar 28, 2026 · 7:30 PM</div>
+          <div class="event-detail-item">📍 Novotel, Hyderabad</div>
+          <div class="event-detail-item">👥 30 guests · Intimate setting</div>
+        </div>
+        <div class="event-footer">
+          <div class="event-price">₹4,999 <span>/ person</span></div>
+          <div class="seats-pill seats-urgent">8 seats left</div>
+        </div>
+        <button class="event-cta">RESERVE MY SEAT →</button>
+      </div>
+    </article>
+
+    <!-- Event 2 -->
+    <article class="event-card" tabindex="0" onclick="openModal('Chef\'s Table Experience','Vikas Khanna','Apr 12, 2026','Junoon, Mumbai','6999','👨‍🍳')">
+      <div class="event-img">
+        👨‍🍳
+        <div class="event-img-overlay"></div>
+      </div>
+      <div class="event-body">
+        <div class="event-celeb">⭐ Vikas Khanna</div>
+        <div class="event-title">Chef's Table Experience</div>
+
+        <div class="countdown-wrap" id="countdown-2"></div>
+
+        <div class="event-details">
+          <div class="event-detail-item">📅 Apr 12, 2026 · 8:00 PM</div>
+          <div class="event-detail-item">📍 Junoon, Mumbai</div>
+          <div class="event-detail-item">👥 16 guests · 7-course menu</div>
+        </div>
+        <div class="event-footer">
+          <div class="event-price">₹6,999 <span>/ person</span></div>
+          <div class="seats-pill seats-ok">22 seats left</div>
+        </div>
+        <button class="event-cta">RESERVE MY SEAT →</button>
+      </div>
+    </article>
+
+    <!-- Event 3 — LOCKED (Silver+) -->
+    <article class="event-card locked" tabindex="0" onclick="openUpgrade()">
+      <div class="event-img">
+        🥂
+        <div class="event-img-overlay"></div>
+        <span class="badge-vip">👑 SILVER+</span>
+      </div>
+      <div class="event-body">
+        <div class="event-celeb" style="color:var(--label);">⭐ Surprise Celebrity</div>
+        <div class="event-title" style="color:var(--subtext);">Exclusive Rooftop Gala</div>
+        <div class="event-details">
+          <div class="event-detail-item" style="color:var(--label);">📅 May 5, 2026</div>
+          <div class="event-detail-item" style="color:var(--label);">📍 Taj Hotel, Delhi</div>
+          <div class="event-detail-item" style="color:var(--label);">👥 20 guests only</div>
+        </div>
+        <div class="event-footer">
+          <div class="event-price" style="color:var(--label);">₹9,999 <span>/ person</span></div>
+          <div class="seats-pill seats-locked">SILVER+</div>
+        </div>
+        <button class="event-cta locked">UNLOCK WITH SILVER →</button>
+      </div>
+    </article>
+
+    <!-- Event 4 — LOCKED (Gold+) -->
+    <article class="event-card locked" tabindex="0" onclick="openUpgrade()">
+      <div class="event-img">
+        🏏
+        <div class="event-img-overlay"></div>
+        <span class="badge-vip">👑 GOLD+</span>
+      </div>
+      <div class="event-body">
+        <div class="event-celeb" style="color:var(--label);">⭐ Cricket Legend</div>
+        <div class="event-title" style="color:var(--subtext);">Champions Dinner Night</div>
+        <div class="event-details">
+          <div class="event-detail-item" style="color:var(--label);">📅 May 20, 2026</div>
+          <div class="event-detail-item" style="color:var(--label);">📍 ITC Grand, Mumbai</div>
+          <div class="event-detail-item" style="color:var(--label);">👥 25 guests only</div>
+        </div>
+        <div class="event-footer">
+          <div class="event-price" style="color:var(--label);">₹12,999 <span>/ person</span></div>
+          <div class="seats-pill seats-locked">GOLD+</div>
+        </div>
+        <button class="event-cta locked">UNLOCK WITH GOLD →</button>
+      </div>
+    </article>
+
+    <!-- Event 5 — Sold Out -->
+    <article class="event-card" tabindex="0" style="opacity:0.6;">
+      <div class="event-img">
+        🎵
+        <div class="event-img-overlay"></div>
+        <span class="badge-sold-out">SOLD OUT</span>
+      </div>
+      <div class="event-body">
+        <div class="event-celeb">⭐ AR Rahman</div>
+        <div class="event-title">Music & Masterchef Night</div>
+        <div class="event-details">
+          <div class="event-detail-item">📅 Mar 15, 2026 (Past)</div>
+          <div class="event-detail-item">📍 ITC Royal, Chennai</div>
+          <div class="event-detail-item">👥 Sold out in 48 hours</div>
+        </div>
+        <div class="event-footer">
+          <div class="event-price">₹7,999 <span>/ person</span></div>
+          <div class="seats-pill" style="background:rgba(255,255,255,0.05);color:var(--label);border:1px solid var(--glass-border);">SOLD OUT</div>
+        </div>
+        <button class="event-cta sold-out">JOIN WAITLIST →</button>
+      </div>
+    </article>
+
+    <!-- Event 6 -->
+    <article class="event-card" tabindex="0" onclick="openModal('Sunset Dinner Experience','Bear Grylls','Jun 1, 2026','Burj Al Arab, Dubai','14999','🌅')">
+      <div class="event-img">
+        🌅
+        <div class="event-img-overlay"></div>
+        <span class="badge-vip">🌍 INTERNATIONAL</span>
+      </div>
+      <div class="event-body">
+        <div class="event-celeb">⭐ Bear Grylls</div>
+        <div class="event-title">Sunset Dinner Experience</div>
+        <div class="event-details">
+          <div class="event-detail-item">📅 Jun 1, 2026 · 6:00 PM</div>
+          <div class="event-detail-item">📍 Burj Al Arab, Dubai</div>
+          <div class="event-detail-item">👥 20 guests · International</div>
+        </div>
+        <div class="event-footer">
+          <div class="event-price">₹14,999 <span>/ person</span></div>
+          <div class="seats-pill seats-ok">18 seats left</div>
+        </div>
+        <button class="event-cta">RESERVE MY SEAT →</button>
+      </div>
+    </article>
+
+  </div>
+
+</main>
+
+<!-- ── BOOKING MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" role="dialog" aria-label="Book event">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">RESERVE YOUR<br>SEAT</div>
+      <button class="modal-close" onclick="closeModalDirect()" aria-label="Close">✕</button>
+    </div>
+
+    <div class="event-summary-card">
+      <div class="event-summary-icon" id="modal-icon">🎬</div>
+      <div>
+        <div class="event-summary-name" id="modal-event-name">Bollywood Dinner Night</div>
+        <div class="event-summary-meta" id="modal-event-meta">Ranveer Singh · Mar 28, 2026 · Hyderabad</div>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="modal-guests">Number of Seats</label>
+      <select id="modal-guests" class="form-input" onchange="updateModalPrice()" aria-label="Number of seats">
+        <option value="1">1 Seat</option>
+        <option value="2" selected>2 Seats</option>
+        <option value="3">3 Seats</option>
+        <option value="4">4 Seats</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="modal-special">Special Requests (Optional)</label>
+      <input type="text" id="modal-special" class="form-input" placeholder="Dietary preferences, occasion..." aria-label="Special requests"/>
+    </div>
+
+    <div class="price-summary">
+      <div class="price-row"><span>Ticket Price</span><span id="modal-price-per">₹4,999 × 2</span></div>
+      <div class="price-row"><span>Subtotal</span><span id="modal-subtotal">₹9,998</span></div>
+      <div class="price-row"><span>DWC Member Discount</span><span style="color:var(--green);" id="modal-discount">-₹0</span></div>
+      <div class="price-row total"><span>Total</span><span id="modal-total">₹9,998</span></div>
+    </div>
+
+    <button class="btn-gold" style="width:100%;justify-content:center;" onclick="confirmEvent()">
+      🎟 CONFIRM & PAY →
+    </button>
+    <p style="font-size:0.7rem;color:var(--label);text-align:center;margin-top:10px;">
+      Secured by Razorpay · Seats reserved after payment
+    </p>
+  </div>
+</div>
+
+<!-- ── MOBILE FOOTER NAV ── -->
+<nav class="mobile-nav">
+  <div class="nav-item" onclick="window.location.href='dashboard.html'">
+    <span class="nav-icon">🏠</span>Home
+  </div>
+  <div class="nav-item" onclick="window.location.href='restaurants.html'">
+    <span class="nav-icon">🍽</span>Restaurants
+  </div>
+  <div class="nav-item active">
+    <span class="nav-icon">🎟</span>Events
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">👤</span>Profile
+  </div>
+</nav>
+
+<script>
+// ── FILTER ──
+function setFilter(el, filter){
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── COUNTDOWN TIMER ──
+function buildCountdown(targetDate, containerId){
+  function update(){
+    const diff = new Date(targetDate) - new Date();
+    if(diff <= 0){ document.getElementById(containerId).innerHTML = ''; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById(containerId).innerHTML = `
+      <div class="count-box"><div class="count-num">${String(d).padStart(2,'0')}</div><div class="count-label">Days</div></div>
+      <div class="count-box"><div class="count-num">${String(h).padStart(2,'0')}</div><div class="count-label">Hrs</div></div>
+      <div class="count-box"><div class="count-num">${String(m).padStart(2,'0')}</div><div class="count-label">Min</div></div>
+      <div class="count-box"><div class="count-num">${String(s).padStart(2,'0')}</div><div class="count-label">Sec</div></div>
+    `;
+  }
+  update();
+  setInterval(update, 1000);
+}
+buildCountdown('2026-03-28T19:30:00', 'countdown-1');
+buildCountdown('2026-04-12T20:00:00', 'countdown-2');
+
+// ── MODAL ──
+let modalData = {};
+function openModal(name, celeb, date, venue, price, icon){
+  modalData = { name, celeb, date, venue, price: parseInt(price), icon };
+  document.getElementById('modal-icon').textContent = icon;
+  document.getElementById('modal-event-name').textContent = name;
+  document.getElementById('modal-event-meta').textContent = `${celeb} · ${date} · ${venue}`;
+  updateModalPrice();
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e){
+  if(e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function updateModalPrice(){
+  const guests = parseInt(document.getElementById('modal-guests').value);
+  const total = modalData.price * guests;
+  document.getElementById('modal-price-per').textContent = `₹${modalData.price.toLocaleString('en-IN')} × ${guests}`;
+  document.getElementById('modal-subtotal').textContent = `₹${total.toLocaleString('en-IN')}`;
+  document.getElementById('modal-discount').textContent = '-₹0';
+  document.getElementById('modal-total').textContent = `₹${total.toLocaleString('en-IN')}`;
+}
+function confirmEvent(){
+  closeModalDirect();
+  setTimeout(() => alert(`🎟 Booking initiated for ${modalData.name}!\n\nRazorpay payment window will open.\n(Connect Supabase + Razorpay to activate real payments.)`), 200);
+}
+function openUpgrade(){
+  alert('Upgrade your DWC membership to access this exclusive event!');
+}
+
+// ── KEYBOARD ──
+document.querySelectorAll('.event-card').forEach(c => {
+  c.addEventListener('keydown', e => { if(e.key==='Enter') c.click(); });
+});
+</script>
+</body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sg2plzcpnl508079'},{'dcenter':'sg2'},{'cp_id':'10889043'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>
