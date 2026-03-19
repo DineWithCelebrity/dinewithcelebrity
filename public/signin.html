@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>Sign In | Dine With Celebrity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:#06040A;color:rgba(255,255,255,.9);min-height:100vh;display:flex;flex-direction:column;font-size:1rem}
+h1,h2{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em}
+button{cursor:pointer;font-family:'Poppins',sans-serif}
+a{text-decoration:none}
+.nav{background:rgba(6,4,10,.97);padding:0 clamp(20px,5vw,60px);display:flex;align-items:center;justify-content:space-between;height:68px;border-bottom:1px solid rgba(242,183,5,.22);position:sticky;top:0;z-index:100}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:#F2B705}
+.logo span{color:rgba(255,255,255,.65)}
+.nav-link{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.65)}
+.nav-link:hover{color:#F2B705}
+.page{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 68px)}
+.left{background:linear-gradient(160deg,rgba(212,0,42,.2) 0%,rgba(6,4,10,.92) 60%),url('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1200&q=80') center/cover no-repeat;padding:clamp(40px,6vw,80px);display:flex;flex-direction:column;justify-content:center}
+.left h2{font-size:clamp(2.8rem,5vw,4.8rem);color:#fff;line-height:.97;margin-bottom:20px}
+.left h2 span{color:#F2B705}
+.left p{font-size:.95rem;color:rgba(255,255,255,.75);line-height:1.75;max-width:400px;margin-bottom:36px}
+.divider{width:48px;height:2px;background:#F2B705;margin-bottom:28px}
+.stats{display:flex;gap:36px}
+.snum{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#F2B705;display:block;line-height:1}
+.slbl{font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.right{background:#0e0a14;padding:clamp(40px,6vw,80px) clamp(32px,5vw,72px);display:flex;flex-direction:column;justify-content:center}
+.hdr{margin-bottom:30px}
+.hdr h1{font-size:clamp(2rem,4vw,3.2rem);color:#fff;margin-bottom:8px}
+.hdr h1 span{color:#F2B705}
+.hdr p{font-size:.9rem;color:rgba(255,255,255,.65)}
+.hdr p a{color:#F2B705;font-weight:500}
+.hdr p a:hover{text-decoration:underline}
+.form{display:flex;flex-direction:column;gap:18px}
+.fg{display:flex;flex-direction:column;gap:6px}
+.fg label{font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#F2B705}
+.fg input{background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.2);color:rgba(255,255,255,.9);padding:13px 16px;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;width:100%;transition:border-color .2s}
+.fg input:focus{border-color:#F2B705;background:rgba(242,183,5,.04)}
+.fg input::placeholder{color:rgba(255,255,255,.35)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:46px}
+.pw-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.45);font-size:1rem;padding:0;line-height:1}
+.pw-eye:hover{color:#F2B705}
+.foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.cb-row{display:flex;align-items:center;gap:10px}
+.cb-row input[type=checkbox]{width:15px;height:15px;accent-color:#F2B705}
+.cb-row label{font-size:.82rem;color:rgba(255,255,255,.65)}
+.forgot{font-size:.82rem;color:rgba(255,255,255,.4)}
+.forgot:hover{color:#F2B705}
+.btn{background:#F2B705;color:#06040A;border:none;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.14em;padding:16px;transition:all .25s;width:100%;box-shadow:0 4px 24px rgba(242,183,5,.2)}
+.btn:hover:not(:disabled){background:#FFD166;transform:translateY(-2px)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.sp{display:none;width:18px;height:18px;border:2px solid rgba(6,4,10,.3);border-top-color:#06040A;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
+.loading .bt{display:none}.loading .sp{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sep{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.3);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:rgba(242,183,5,.12)}
+.join-cta{text-align:center;font-size:.88rem;color:rgba(255,255,255,.65)}
+.join-cta a{color:#F2B705;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;margin-left:6px}
+.join-cta a:hover{color:#FFD166}
+.msg{display:none;padding:13px 15px;font-size:.84rem;font-weight:500;border-left:3px solid;line-height:1.6}
+.msg.show{display:block}
+.msg-ok{background:rgba(0,200,83,.07);border-color:#00C853;color:#5fffb0}
+.msg-err{background:rgba(212,0,42,.07);border-color:#D4002A;color:#ff8fa0}
+footer{text-align:center;padding:20px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(242,183,5,.15)}
+footer a{color:rgba(242,183,5,.5)}
+@media(max-width:860px){.page{grid-template-columns:1fr}.left{min-height:200px}.left p,.divider,.stats{display:none}}
+@media(max-width:480px){.left{display:none}.right{padding:40px 24px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="logo">DINE<span>WITH</span>CELEBRITY</a>
+  <a href="/signup.html" class="nav-link">New here? Join for Free →</a>
+</nav>
+<div class="page">
+  <div class="left">
+    <h2>WELCOME<br>BACK TO<br><span>THE TABLE.</span></h2>
+    <p>Sign in to see your coupons, book celebrity events, and check your rewards.</p>
+    <div class="divider"></div>
+    <div class="stats">
+      <div><span class="snum">3,000+</span><span class="slbl">Active Members</span></div>
+      <div><span class="snum">120+</span><span class="slbl">Partner Restaurants</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="hdr">
+      <h1>SIGN <span>IN</span></h1>
+      <p>Good to see you again! &nbsp;|&nbsp; <a href="/signup.html">New here? Join for Free</a></p>
+    </div>
+    <form class="form" id="loginForm" novalidate>
+      <div class="fg">
+        <label for="email">Your Email Address *</label>
+        <input type="email" id="email" placeholder="Enter your email" required autocomplete="email">
+      </div>
+      <div class="fg">
+        <label for="password">Your Password *</label>
+        <div class="pw-wrap">
+          <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+          <button type="button" class="pw-eye" id="pwEye">👁</button>
+        </div>
+      </div>
+      <div class="foot-row">
+        <div class="cb-row">
+          <input type="checkbox" id="remember">
+          <label for="remember">Keep me signed in</label>
+        </div>
+        <a href="/forgot-password.html" class="forgot">Forgot your password?</a>
+      </div>
+      <div class="msg msg-err" id="msgErr"><span id="errTxt">Please check your email and password.</span></div>
+      <div class="msg msg-ok"  id="msgOk">Welcome back! ✦ Taking you to your account now…</div>
+      <button type="submit" class="btn" id="submitBtn">
+        <span class="bt">SIGN IN TO MY ACCOUNT</span>
+        <span class="sp"></span>
+      </button>
+      <div class="sep">or</div>
+      <div class="join-cta">New to DWC? <a href="/signup.html">JOIN FOR FREE →</a></div>
+    </form>
+  </div>
+</div>
+<footer><p>© 2026 Dine With Celebrity. All Rights Reserved. &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a> &nbsp;|&nbsp; <a href="/terms">Terms</a></p></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const { createClient } = supabase;
+
+const sbClient = createClient(
+  'https://blwqqqzhnovsveeryjlm.supabase.co',
+  'sb_publishable_GmOnQPXPLfr4cKuuPbY9NA_BAu3ut6X'
+);
+
+const form      = document.getElementById('loginForm');
+const submitBtn = document.getElementById('submitBtn');
+const msgErr    = document.getElementById('msgErr');
+const msgOk     = document.getElementById('msgOk');
+const errTxt    = document.getElementById('errTxt');
+const pwEye     = document.getElementById('pwEye');
+const pwField   = document.getElementById('password');
+
+// Show / hide password
+pwEye.addEventListener('click', () => {
+  const show = pwField.type === 'password';
+  pwField.type = show ? 'text' : 'password';
+  pwEye.textContent = show ? '🙈' : '👁';
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  msgErr.classList.remove('show');
+  msgOk.classList.remove('show');
+
+  const email = document.getElementById('email').value.trim();
+  const pw    = pwField.value;
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr('Please enter a correct email address.');
+  if (!pw || pw.length < 6) return showErr('Please enter your password (at least 6 characters).');
+
+  setLoading(true);
+
+  const { error } = await sbClient.auth.signInWithPassword({ email, password: pw });
+
+  if (error) {
+    setLoading(false);
+    return showErr(friendlyError(error.message));
+  }
+
+  // Success — redirect to dashboard
+  setLoading(false);
+  msgOk.classList.add('show');
+  setTimeout(() => { window.location.href = '/dashboard.html'; }, 1500);
+});
+
+function friendlyError(msg) {
+  if (msg.includes('Invalid login') || msg.includes('invalid'))  return 'Wrong email or password. Please check and try again.';
+  if (msg.includes('Email not confirmed'))                        return 'Please check your email inbox and confirm your account first.';
+  if (msg.includes('Too many'))                                   return 'Too many wrong tries. Please wait a few minutes and try again.';
+  if (msg.includes('network') || msg.includes('fetch'))          return 'No internet. Please check your connection.';
+  return 'Sign in failed. Please try again or contact hello@dinewithcelebrity.com';
+}
+function showErr(msg) {
+  errTxt.innerHTML = msg;
+  msgErr.classList.add('show');
+}
+function setLoading(on) {
+  submitBtn.disabled = on;
+  submitBtn.classList.toggle('loading', on);
+}
+</script>
+</body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sg2plzcpnl508079'},{'dcenter':'sg2'},{'cp_id':'10889043'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>
