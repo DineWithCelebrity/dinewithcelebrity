@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login | Dine With Celebrity</title>
+<meta name="description" content="Login to your Dine With Celebrity member account. Access exclusive celebrity dining experiences, manage bookings and track your savings."/>
+<meta name="keywords" content="Dine With Celebrity login, DWC member login, celebrity dining account, exclusive dining membership login"/>
+<link rel="canonical" href="https://dinewithcelebrity.com/login"/>
+<meta property="og:title" content="Login | Dine With Celebrity"/>
+<meta property="og:description" content="Access your exclusive DWC member account."/>
+<meta property="og:url" content="https://dinewithcelebrity.com/login"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Login","url":"https://dinewithcelebrity.com/login","isPartOf":{"@type":"WebSite","name":"Dine With Celebrity","url":"https://dinewithcelebrity.com"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --black:#0B0B0B;
+  --black2:#111111;
+  --black3:#181818;
+  --gold:#D4AF37;
+  --gold2:#F5CC50;
+  --gold-dim:rgba(212,175,55,0.12);
+  --gold-border:rgba(212,175,55,0.28);
+  --white:#FFFFFF;
+  --accent:#FF4D4D;
+  --green:#00C853;
+  --text:rgba(255,255,255,0.95);
+  --subtext:rgba(255,255,255,0.72);
+  --label:rgba(255,255,255,0.5);
+  --glass:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--black);
+  font-family:'Poppins',sans-serif;
+  color:var(--text);
+  font-size:1rem;
+  line-height:1.6;
+  min-height:100vh;
+  display:flex;
+  align-items:stretch;
+}
+
+/* ── SPLIT LAYOUT ── */
+.login-wrap{
+  display:flex;
+  width:100%;
+  min-height:100vh;
+}
+
+/* LEFT — BRAND SIDE */
+.brand-side{
+  flex:1;
+  background:linear-gradient(160deg,#0f0a00 0%,#1a1000 40%,#0B0B0B 100%);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  padding:60px 56px;
+  position:relative;
+  overflow:hidden;
+}
+.brand-side::before{
+  content:'';
+  position:absolute;top:-100px;right:-100px;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(212,175,55,0.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+.brand-side::after{
+  content:'';
+  position:absolute;bottom:-60px;left:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(212,175,55,0.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.brand-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.8rem;
+  letter-spacing:0.08em;
+  color:var(--white);
+  margin-bottom:48px;
+}
+.brand-logo span{color:var(--gold);}
+.brand-tagline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.8rem;
+  line-height:1;
+  color:var(--white);
+  margin-bottom:20px;
+}
+.brand-tagline span{
+  display:block;
+  color:var(--gold);
+}
+.brand-desc{
+  font-size:1rem;
+  color:var(--subtext);
+  max-width:380px;
+  line-height:1.7;
+  margin-bottom:40px;
+}
+.brand-stats{
+  display:flex;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.brand-stat-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem;
+  color:var(--gold);
+  line-height:1;
+}
+.brand-stat-label{
+  font-size:0.75rem;
+  color:var(--label);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-top:2px;
+}
+.brand-reviews{
+  margin-top:48px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.review-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--glass-border);
+  border-radius:40px;
+  padding:10px 16px;
+  max-width:400px;
+}
+.review-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;font-weight:700;color:var(--black);
+  flex-shrink:0;
+}
+.review-text{font-size:0.78rem;color:var(--subtext);}
+.review-text strong{color:var(--text);}
+
+/* RIGHT — FORM SIDE */
+.form-side{
+  width:480px;
+  flex-shrink:0;
+  background:var(--black2);
+  border-left:1px solid var(--glass-border);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:56px 48px;
+  position:relative;
+}
+.form-header{
+  margin-bottom:36px;
+}
+.form-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;
+  color:var(--white);
+  line-height:1;
+  margin-bottom:8px;
+}
+.form-title span{color:var(--gold);}
+.form-subtitle{
+  font-size:0.88rem;
+  color:var(--subtext);
+}
+
+/* Steps */
+.step{display:none;}
+.step.active{display:block;}
+
+/* Input group */
+.input-group{margin-bottom:20px;}
+.input-label{
+  display:block;
+  font-size:0.8rem;
+  font-weight:600;
+  color:var(--subtext);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.phone-input-wrap{
+  display:flex;
+  gap:10px;
+  align-items:stretch;
+}
+.country-code{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  padding:0 14px;
+  color:var(--text);
+  font-family:'Poppins',sans-serif;
+  font-size:0.95rem;
+  font-weight:600;
+  display:flex;align-items:center;gap:6px;
+  cursor:pointer;
+  flex-shrink:0;
+  white-space:nowrap;
+}
+.input-field{
+  flex:1;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  padding:14px 16px;
+  color:var(--text);
+  font-family:'Poppins',sans-serif;
+  font-size:1rem;
+  outline:none;
+  width:100%;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  -webkit-appearance:none;
+}
+.input-field::placeholder{color:var(--label);}
+.input-field:focus{
+  border-color:var(--gold-border);
+  box-shadow:0 0 0 3px rgba(212,175,55,0.08);
+}
+.input-field.error{border-color:rgba(255,77,77,0.6);}
+
+/* OTP boxes */
+.otp-wrap{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin:8px 0;
+}
+.otp-box{
+  width:52px;height:60px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  text-align:center;
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--text);
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:0.05em;
+  outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  caret-color:var(--gold);
+  -webkit-appearance:none;
+}
+.otp-box:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,175,55,0.12);
+}
+.otp-box.filled{
+  border-color:var(--gold-border);
+  background:rgba(212,175,55,0.05);
+}
+
+/* Submit button */
+.submit-btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.15rem;
+  letter-spacing:0.1em;
+  padding:15px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:8px;
+}
+.submit-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(212,175,55,0.35);
+}
+.submit-btn:disabled{
+  opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;
+}
+.submit-btn.loading::after{
+  content:'';
+  width:18px;height:18px;
+  border:2px solid rgba(0,0,0,0.3);
+  border-top-color:var(--black);
+  border-radius:50%;
+  animation:spin 0.7s linear infinite;
+  margin-left:8px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Helper text */
+.helper-text{
+  font-size:0.75rem;
+  color:var(--label);
+  margin-top:8px;
+  text-align:center;
+}
+.helper-text a{color:var(--gold);cursor:pointer;}
+.error-msg{
+  font-size:0.78rem;
+  color:var(--accent);
+  margin-top:6px;
+  display:none;
+}
+.error-msg.show{display:block;}
+
+/* Timer */
+.resend-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:16px;
+}
+.timer{
+  font-size:0.78rem;
+  color:var(--label);
+}
+.resend-btn{
+  font-size:0.78rem;
+  color:var(--gold);
+  cursor:pointer;
+  background:none;border:none;
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  opacity:0.4;
+  transition:opacity 0.2s;
+}
+.resend-btn.active{opacity:1;}
+.resend-btn.active:hover{opacity:0.75;}
+
+/* Phone display */
+.phone-display{
+  display:flex;align-items:center;gap:10px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  padding:12px 16px;
+  margin-bottom:24px;
+}
+.phone-display-num{font-weight:600;color:var(--text);font-size:0.95rem;}
+.change-link{
+  margin-left:auto;
+  font-size:0.75rem;color:var(--gold);
+  cursor:pointer;
+  background:none;border:none;
+  font-family:'Poppins',sans-serif;
+}
+
+/* Progress dots */
+.progress-dots{
+  display:flex;gap:6px;
+  margin-bottom:28px;
+}
+.dot{
+  height:4px;border-radius:10px;
+  background:var(--glass-border);
+  transition:all 0.3s;
+}
+.dot.active{background:var(--gold);width:24px;}
+.dot.done{background:var(--green);}
+.dot:not(.active):not(.done){width:4px;}
+
+/* Success state */
+.success-wrap{
+  text-align:center;
+  padding:20px 0;
+}
+.success-icon{
+  width:72px;height:72px;
+  background:rgba(0,200,83,0.12);
+  border:2px solid rgba(0,200,83,0.3);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;
+  margin:0 auto 20px;
+  animation:popIn 0.4s ease;
+}
+@keyframes popIn{
+  0%{transform:scale(0.5);opacity:0;}
+  70%{transform:scale(1.1);}
+  100%{transform:scale(1);opacity:1;}
+}
+.success-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem;color:var(--text);
+  margin-bottom:8px;
+}
+.success-sub{font-size:0.85rem;color:var(--subtext);}
+
+/* Divider */
+.or-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:20px 0;
+}
+.or-divider::before,.or-divider::after{
+  content:'';flex:1;height:1px;
+  background:var(--glass-border);
+}
+.or-text{font-size:0.75rem;color:var(--label);}
+
+/* Google btn */
+.google-btn{
+  width:100%;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  padding:13px;
+  color:var(--text);
+  font-family:'Poppins',sans-serif;
+  font-size:0.9rem;font-weight:500;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all 0.2s;
+}
+.google-btn:hover{
+  background:rgba(255,255,255,0.07);
+  border-color:rgba(255,255,255,0.15);
+}
+
+/* Terms */
+.terms-text{
+  font-size:0.7rem;
+  color:var(--label);
+  text-align:center;
+  margin-top:20px;
+  line-height:1.5;
+}
+.terms-text a{color:var(--gold);cursor:pointer;}
+
+/* Animations */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.step.active{animation:fadeUp 0.3s ease;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .brand-side{display:none;}
+  .form-side{
+    width:100%;border-left:none;
+    padding:40px 28px;
+    justify-content:flex-start;
+    padding-top:60px;
+  }
+  .login-wrap{flex-direction:column;}
+}
+@media(max-width:480px){
+  .form-side{padding:32px 20px;}
+  .otp-box{width:44px;height:54px;font-size:1.4rem;}
+  .brand-tagline{font-size:2.8rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+
+  <!-- ── BRAND SIDE ── -->
+  <div class="brand-side" aria-hidden="true">
+    <div class="brand-logo">DINE<span>WITH</span>CELEBRITY</div>
+    <h1 class="brand-tagline">
+      DINE LIKE
+      <span>A STAR.</span>
+    </h1>
+    <p class="brand-desc">
+      India's most exclusive celebrity dining membership. Get discounts at 120+ premium restaurants, access celebrity events, and save thousands every month.
+    </p>
+    <div class="brand-stats">
+      <div>
+        <div class="brand-stat-val">12,000+</div>
+        <div class="brand-stat-label">Members</div>
+      </div>
+      <div>
+        <div class="brand-stat-val">₹38K</div>
+        <div class="brand-stat-label">Avg. Annual Savings</div>
+      </div>
+      <div>
+        <div class="brand-stat-val">120+</div>
+        <div class="brand-stat-label">Partner Restaurants</div>
+      </div>
+    </div>
+    <div class="brand-reviews">
+      <div class="review-pill">
+        <div class="review-avatar">AK</div>
+        <div class="review-text">"Saved <strong>₹15,000 in 2 months.</strong> Unbelievable value!" — Aditya, Hyderabad</div>
+      </div>
+      <div class="review-pill">
+        <div class="review-avatar">PS</div>
+        <div class="review-text">"<strong>Best dining membership</strong> in the city, hands down." — Priya, Mumbai</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORM SIDE ── -->
+  <div class="form-side">
+
+    <!-- Mobile logo -->
+    <div class="brand-logo" style="display:none;margin-bottom:28px;" id="mobile-logo">
+      DINE<span style="color:var(--gold);">WITH</span>CELEBRITY
+    </div>
+
+    <div class="progress-dots" id="progress-dots">
+      <div class="dot active" id="dot-1"></div>
+      <div class="dot" id="dot-2"></div>
+      <div class="dot" id="dot-3"></div>
+    </div>
+
+    <!-- ── STEP 1: Phone ── -->
+    <div class="step active" id="step-phone">
+      <div class="form-header">
+        <h2 class="form-title">WELCOME<br><span>BACK</span></h2>
+        <p class="form-subtitle">Enter your phone number to receive a login OTP.</p>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="phone-input">Mobile Number</label>
+        <div class="phone-input-wrap">
+          <div class="country-code">🇮🇳 +91</div>
+          <input
+            type="tel"
+            id="phone-input"
+            class="input-field"
+            placeholder="98765 43210"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            aria-label="Mobile number"
+          />
+        </div>
+        <div class="error-msg" id="phone-error">Please enter a valid 10-digit mobile number.</div>
+      </div>
+
+      <button class="submit-btn" id="send-otp-btn" onclick="sendOTP()">
+        SEND OTP →
+      </button>
+
+      <div class="or-divider"><span class="or-text">or continue with</span></div>
+
+      <button class="google-btn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+          <path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957C.347 6.175 0 7.548 0 9s.348 2.825.957 4.039l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 6.293C4.672 4.166 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <p class="terms-text">
+        By continuing, you agree to DWC's
+        <a>Terms of Service</a> and <a>Privacy Policy</a>
+      </p>
+    </div>
+
+    <!-- ── STEP 2: OTP ── -->
+    <div class="step" id="step-otp">
+      <div class="form-header">
+        <h2 class="form-title">VERIFY<br><span>OTP</span></h2>
+        <p class="form-subtitle">We sent a 6-digit code to your number.</p>
+      </div>
+
+      <div class="phone-display">
+        <span>📱</span>
+        <span class="phone-display-num" id="phone-display-num">+91 98765 43210</span>
+        <button class="change-link" onclick="changePhone()">Change</button>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Enter 6-Digit OTP</label>
+        <div class="otp-wrap" id="otp-wrap">
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" aria-label="OTP digit 1"/>
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" aria-label="OTP digit 2"/>
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" aria-label="OTP digit 3"/>
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" aria-label="OTP digit 4"/>
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" aria-label="OTP digit 5"/>
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" aria-label="OTP digit 6"/>
+        </div>
+        <div class="error-msg" id="otp-error">Invalid OTP. Please try again.</div>
+      </div>
+
+      <button class="submit-btn" id="verify-otp-btn" onclick="verifyOTP()" disabled>
+        VERIFY & LOGIN →
+      </button>
+
+      <div class="resend-row">
+        <span class="timer" id="timer-text">Resend OTP in <strong id="countdown">30</strong>s</span>
+        <button class="resend-btn" id="resend-btn" onclick="resendOTP()" disabled>Resend OTP</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 3: Success ── -->
+    <div class="step" id="step-success">
+      <div class="success-wrap">
+        <div class="success-icon">✓</div>
+        <div class="success-title">YOU'RE IN!</div>
+        <p class="success-sub" id="success-msg">Welcome back! Redirecting to your dashboard...</p>
+        <div style="margin-top:24px;">
+          <div style="height:4px;background:var(--glass-border);border-radius:10px;overflow:hidden;">
+            <div id="redirect-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:10px;transition:width 2s linear;"></div>
+          </div>
+          <p style="font-size:0.72rem;color:var(--label);margin-top:8px;text-align:center;">Taking you to your dashboard...</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-side -->
+</div>
+
+<script>
+// ── SHOW MOBILE LOGO ──
+if(window.innerWidth <= 900){
+  document.getElementById('mobile-logo').style.display = 'block';
+}
+
+// ── STEP NAVIGATION ──
+function showStep(stepId, dotIndex){
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(stepId).classList.add('active');
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.remove('active','done');
+    if(i < dotIndex - 1) d.classList.add('done');
+    if(i === dotIndex - 1) d.classList.add('active');
+    // fix widths
+    if(d.classList.contains('active')) d.style.width = '24px';
+    else if(d.classList.contains('done')) d.style.width = '16px';
+    else d.style.width = '4px';
+  });
+}
+
+// ── PHONE VALIDATION ──
+const phoneInput = document.getElementById('phone-input');
+phoneInput.addEventListener('input', function(){
+  this.value = this.value.replace(/\D/g,'').slice(0,10);
+});
+
+function validatePhone(phone){
+  return /^[6-9]\d{9}$/.test(phone);
+}
+
+// ── SEND OTP ──
+function sendOTP(){
+  const phone = phoneInput.value.trim();
+  const errorEl = document.getElementById('phone-error');
+  if(!validatePhone(phone)){
+    phoneInput.classList.add('error');
+    errorEl.classList.add('show');
+    phoneInput.focus();
+    return;
+  }
+  phoneInput.classList.remove('error');
+  errorEl.classList.remove('show');
+
+  const btn = document.getElementById('send-otp-btn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  btn.textContent = '';
+
+  // Simulate API call (replace with Supabase auth.signInWithOtp)
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    btn.textContent = 'SEND OTP →';
+
+    // Format phone for display
+    const formatted = '+91 ' + phone.slice(0,5) + ' ' + phone.slice(5);
+    document.getElementById('phone-display-num').textContent = formatted;
+
+    showStep('step-otp', 2);
+    startTimer();
+    // Focus first OTP box
+    setTimeout(() => document.querySelectorAll('.otp-box')[0].focus(), 100);
+  }, 1200);
+
+  /* REAL SUPABASE CODE:
+  await supabase.auth.signInWithOtp({ phone: '+91' + phone });
+  */
+}
+
+// ── TIMER ──
+let timerInterval;
+function startTimer(){
+  let seconds = 30;
+  const timerText = document.getElementById('timer-text');
+  const countdown = document.getElementById('countdown');
+  const resendBtn = document.getElementById('resend-btn');
+
+  clearInterval(timerInterval);
+  resendBtn.disabled = true;
+  resendBtn.classList.remove('active');
+  countdown.textContent = seconds;
+
+  timerInterval = setInterval(() => {
+    seconds--;
+    countdown.textContent = seconds;
+    if(seconds <= 0){
+      clearInterval(timerInterval);
+      timerText.style.display = 'none';
+      resendBtn.disabled = false;
+      resendBtn.classList.add('active');
+    }
+  }, 1000);
+}
+
+// ── RESEND OTP ──
+function resendOTP(){
+  document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
+  document.getElementById('verify-otp-btn').disabled = true;
+  document.getElementById('timer-text').style.display = '';
+  startTimer();
+  document.querySelectorAll('.otp-box')[0].focus();
+}
+
+// ── CHANGE PHONE ──
+function changePhone(){
+  showStep('step-phone', 1);
+  clearInterval(timerInterval);
+}
+
+// ── OTP INPUT HANDLING ──
+const otpBoxes = document.querySelectorAll('.otp-box');
+otpBoxes.forEach((box, index) => {
+  box.addEventListener('input', function(e){
+    this.value = this.value.replace(/\D/g,'').slice(-1);
+    if(this.value) this.classList.add('filled');
+    else this.classList.remove('filled');
+
+    if(this.value && index < otpBoxes.length - 1){
+      otpBoxes[index + 1].focus();
+    }
+
+    // Enable verify button when all filled
+    const allFilled = Array.from(otpBoxes).every(b => b.value !== '');
+    document.getElementById('verify-otp-btn').disabled = !allFilled;
+  });
+
+  box.addEventListener('keydown', function(e){
+    if(e.key === 'Backspace' && !this.value && index > 0){
+      otpBoxes[index - 1].focus();
+      otpBoxes[index - 1].value = '';
+      otpBoxes[index - 1].classList.remove('filled');
+    }
+  });
+
+  // Handle paste
+  box.addEventListener('paste', function(e){
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+    otpBoxes.forEach((b, i) => {
+      if(pasted[i]){
+        b.value = pasted[i];
+        b.classList.add('filled');
+      }
+    });
+    const allFilled = Array.from(otpBoxes).every(b => b.value !== '');
+    document.getElementById('verify-otp-btn').disabled = !allFilled;
+    if(pasted.length >= 6) document.getElementById('verify-otp-btn').focus();
+  });
+});
+
+// ── VERIFY OTP ──
+function verifyOTP(){
+  const otp = Array.from(otpBoxes).map(b => b.value).join('');
+  const btn = document.getElementById('verify-otp-btn');
+  const errorEl = document.getElementById('otp-error');
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+  btn.textContent = '';
+
+  // Simulate API call (replace with Supabase auth.verifyOtp)
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.textContent = 'VERIFY & LOGIN →';
+
+    // Demo: accept any 6-digit OTP
+    if(otp.length === 6){
+      errorEl.classList.remove('show');
+      showStep('step-success', 3);
+      // Animate redirect bar
+      setTimeout(() => {
+        document.getElementById('redirect-bar').style.width = '100%';
+      }, 100);
+      // Redirect after 2.5s
+      setTimeout(() => {
+        window.location.href = '/dashboard.html';
+      }, 2600);
+    } else {
+      otpBoxes.forEach(b => b.classList.add('error'));
+      errorEl.classList.add('show');
+      btn.disabled = false;
+    }
+  }, 1000);
+
+  /* REAL SUPABASE CODE:
+  const phone = document.getElementById('phone-display-num').textContent.replace(/\D/g,'');
+  const { error } = await supabase.auth.verifyOtp({
+    phone: '+' + phone,
+    token: otp,
+    type: 'sms'
+  });
+  if(error){ showError(); return; }
+  window.location.href = '/dashboard';
+  */
+}
+
+// ── GOOGLE LOGIN ──
+function googleLogin(){
+  /* REAL SUPABASE CODE:
+  await supabase.auth.signInWithOAuth({ provider: 'google' });
+  */
+  alert('Google login — connect Supabase OAuth to enable.');
+}
+
+// ── KEYBOARD SUBMIT ──
+phoneInput.addEventListener('keydown', e => {
+  if(e.key === 'Enter') sendOTP();
+});
+</script>
+</body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sg2plzcpnl508079'},{'dcenter':'sg2'},{'cp_id':'10889043'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>
