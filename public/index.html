@@ -285,6 +285,28 @@ button{cursor:pointer;font-family:'Poppins',sans-serif}
   /* Reduce hero top padding - remove empty space */
   .hero { padding-top:32px !important; }
   
+
+  /* === HERO LAYOUT FIX === */
+  /* Account for fixed ticker (44px) + fixed nav (70px) = 114px */
+  .hero { margin-top:114px !important; padding:24px 48px 40px 56px !important; min-height:auto !important; align-items:start !important; }
+  /* Compact the form card to fit viewport */
+  .signup-card { padding:18px 20px 16px !important; }
+  .signup-card .form-group { margin-bottom:9px !important; }
+  .signup-card .form-input { padding:8px 12px !important; font-size:0.85rem !important; }
+  .signup-card .phone-code, .signup-card [style*="phone-code"] { padding:8px 10px !important; font-size:0.85rem !important; }
+  .signup-title { font-size:1.55rem !important; margin-bottom:2px !important; }
+  .signup-sub { margin-bottom:12px !important; font-size:0.76rem !important; }
+  .scarcity-bar, .signup-card > div:first-child { margin-bottom:12px !important; padding:8px 11px !important; font-size:0.74rem !important; }
+  .coupon-pill, .signup-card > div:nth-child(4) { padding:8px 11px !important; margin-bottom:12px !important; }
+  .btn-submit { padding:12px !important; font-size:0.88rem !important; }
+  .form-trust { margin-top:8px !important; font-size:0.65rem !important; }
+  /* Hero eyebrow bigger and more visible */
+  .hero-left .eyebrow { font-size:0.75rem !important; font-weight:700 !important; letter-spacing:2px !important; margin-bottom:14px !important; color:#F2B705 !important; display:inline-flex !important; }
+  /* Slightly reduce hero headline */
+  .hero-title { font-size:clamp(44px,6.5vw,80px) !important; margin-bottom:16px !important; }
+  .hero-desc { font-size:0.92rem !important; margin-bottom:20px !important; }
+  .industry-tags { margin-bottom:18px !important; }
+  .hero-sub-text { font-size:0.8rem !important; margin-bottom:10px !important; }
 </style>
 </head>
 <body>
