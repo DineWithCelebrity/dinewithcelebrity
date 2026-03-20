@@ -368,7 +368,7 @@ body>*:not(#star-canvas){position:relative;z-index:1;}
   function startStars(){
     var c=document.getElementById('star-canvas');
     if(!c)return;
-    c.style.position='fixed';c.style.top='0';c.style.left='0';c.style.zIndex='0';c.style.pointerEvents='none';
+    c.style.cssText='position:fixed!important;top:0!important;left:0!important;z-index:0!important;pointer-events:none!important;';
     var x=c.getContext('2d'),W,H,stars=[],N=700;
     function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
     window.addEventListener('resize',resize);resize();
