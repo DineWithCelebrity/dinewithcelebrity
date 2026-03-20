@@ -245,11 +245,40 @@ button{cursor:pointer;font-family:'Poppins',sans-serif}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .hero-body>*{animation:fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) both}
 .hero-pill{animation-delay:0.05s}.hero-h1{animation-delay:0.15s}.hero-tags{animation-delay:0.22s}.hero-desc{animation-delay:0.3s}.hero-btns{animation-delay:0.38s}.hero-stats{animation-delay:0.46s}
+
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .industry-tags { display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px; }
+  .industry-tag { padding:5px 13px;border:1px solid rgba(242,183,5,0.22);border-radius:3px;font-size:0.7rem;font-weight:600;letter-spacing:1.5px;color:rgba(242,183,5,0.75);text-transform:uppercase;background:rgba(242,183,5,0.04); }
+  .industry-tag:hover { border-color:#F2B705;color:#F2B705; }
+  .title-red { color:#D4002A !important; }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
+
+<!-- Ticker -->
+<div class="ticker-wrap" style="background:#D4002A;overflow:hidden;padding:9px 0;">
+  <div class="ticker-track" style="display:flex;animation:ticker 28s linear infinite;white-space:nowrap;">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">TOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">BOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">KOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">CRICKET LEGENDS <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">MOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">SANDALWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">HOCKEY STARS <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">KABADDI <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">TOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">BOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">KOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">CRICKET LEGENDS <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">MOLLYWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">SANDALWOOD <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">HOCKEY STARS <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:2.5px;padding:0 28px;color:rgba(255,255,255,0.95);">KABADDI <span style="color:rgba(255,255,255,0.45)">✦</span></span>
+  </div>
+</div>
 <nav class="nav">
   <a href="index.html" class="nav-logo">
     <img src="images/dwc-logo.png" alt="DWC" onerror="this.style.display='none'">
@@ -303,70 +332,84 @@ button{cursor:pointer;font-family:'Poppins',sans-serif}
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-pattern"></div>
-  <div class="hero-body">
-    <div class="hero-pill">India's #1 Celebrity Dining Club — </div>
-    <h1 class="hero-h1">
-      <span class="h1-w">DINE WITH YOUR</span>
-      <span class="h1-g">FAVOURITE MOVIE</span>
-      <span class="h1-r">&amp; SPORTS STAR</span>
+  <div class="hero-left">
+    <div class="eyebrow" style="display:inline-flex;align-items:center;gap:8px;font-size:0.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#F2B705;margin-bottom:20px;">
+      <span style="width:24px;height:2px;background:#F2B705;border-radius:2px;display:inline-block;"></span>
+      India's Celebrity Dining Club
+    </div>
+    <h1 class="hero-title">
+      <span class="title-line">DINE WITH</span>
+      <span class="title-accent">YOUR FAVOURITE</span>
+      <span class="title-red">STAR.</span>
     </h1>
-    <div class="hero-tags">
-      <span class="hero-tag">Tollywood</span>
-      <span class="hero-tag">Bollywood</span>
-      <span class="hero-tag">Kollywood</span>
-      <span class="hero-tag">Sandalwood</span>
-      <span class="hero-tag">Mollywood</span>
-      <span class="hero-tag">Cricket</span>
-      <span class="hero-tag">Hockey</span>
-      <span class="hero-tag">Kabaddi</span>
-    </div>
     <p class="hero-desc">
-      Private celebrity dining events with India's biggest stars.<br>
-      <strong>Every membership funds a life</strong> — 15% of profits go to cancer, heart surgery &amp; education causes.
+      Real dinners. Real celebrities. Real memories.<br>
+      <strong>Join free</strong> — get your first coupon instantly and use it at any DWC celebrity dining event near you.
     </p>
-    <div class="hero-btns">
-      <a href="signup.html" class="btn-red">Join Free — Get 1 Coupon</a>
-      <a href="stars.html" class="btn-ghost">View All Stars →</a>
+    <div style="font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px;">We cover</div>
+    <div class="industry-tags">
+      <span class="industry-tag">Tollywood</span>
+      <span class="industry-tag">Bollywood</span>
+      <span class="industry-tag">Kollywood</span>
+      <span class="industry-tag">Sandalwood</span>
+      <span class="industry-tag">Mollywood</span>
+      <span class="industry-tag">Cricket</span>
+      <span class="industry-tag">Hockey</span>
+      <span class="industry-tag">Kabaddi</span>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-n">Founding</div><div class="stat-l">Members</div></div>
-      <div class="stat"><div class="stat-n">2026</div><div class="stat-l">Launch Event</div></div>
-      <div class="stat"><div class="stat-n">5+</div><div class="stat-l">Film Industries</div></div>
+    <div class="hero-sub-text">
+      <span>Every membership funds a life</span> — 15% of profits go to cancer, heart surgery &amp; education causes.
+    </div>
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px;">
+      <a href="/signup.html" class="btn-primary" style="background:#F2B705;color:#06040A;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.92rem;padding:14px 30px;border-radius:6px;text-decoration:none;transition:all 0.25s;letter-spacing:0.2px;">Join Free — Get 1 Coupon 🎟️</a>
+      <a href="/stars.html" style="color:rgba(255,255,255,0.7);font-family:'Poppins',sans-serif;font-weight:500;font-size:0.88rem;background:transparent;border:1px solid rgba(255,255,255,0.18);padding:13px 24px;border-radius:6px;text-decoration:none;transition:all 0.2s;">See Our Stars →</a>
     </div>
   </div>
-
-  <!-- RIGHT SIDE JOIN CARD — desktop only -->
   <div class="hero-right">
-    <div class="join-card">
-      <div class="join-card-title">CLAIM YOUR<br>FREE MEMBERSHIP</div>
-      <div class="join-card-sub">Join free today. <strong>Get +1 coupon instantly.</strong> No card needed.</div>
-      <div class="join-coupon">
-        <div class="join-coupon-icon">&#127903;</div>
-        <div class="join-coupon-text"><strong>+1 Free Coupon</strong> on signup — use it to attend your first celebrity dining event</div>
+    <div class="signup-card">
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(212,0,42,0.1);border:1px solid rgba(212,0,42,0.25);border-radius:6px;padding:10px 13px;margin-bottom:18px;font-size:0.78rem;color:#ff6b6b;font-weight:600;line-height:1.4;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#ff4d6d;animation:blink 1.4s infinite;flex-shrink:0;display:inline-block;"></span>
+        Founding members getting early access — first city coming soon
       </div>
-      <div class="join-field">
-        <label>Your Name</label>
-        <input type="text" placeholder="Full name">
+      <div class="signup-title">CLAIM YOUR<br><span>FREE MEMBERSHIP</span></div>
+      <p class="signup-sub">No credit card. No commitment. Cancel anytime.</p>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(242,183,5,0.07);border:1px solid rgba(242,183,5,0.2);border-radius:7px;padding:11px 13px;margin-bottom:18px;">
+        <span style="font-size:1.2rem;flex-shrink:0;">🎟️</span>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.72);line-height:1.45;">
+          <strong style="color:#F2B705;font-weight:600;">+1 Free Coupon on signup</strong><br>
+          Use at your first celebrity dining event
+        </div>
       </div>
-      <div class="join-field">
-        <label>Email Address</label>
-        <input type="email" placeholder="your@email.com">
+      <form id="signupForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9">
+        <input type="hidden" name="subject" value="New DWC Member Signup">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" name="name" class="form-input" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <div style="display:flex;gap:7px;">
+            <span style="background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:11px 12px;font-size:0.88rem;color:rgba(255,255,255,0.55);font-family:'Poppins',sans-serif;white-space:nowrap;">🇮🇳 +91</span>
+            <input type="tel" name="phone" class="form-input" placeholder="XXXXX XXXXX" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your City</label>
+          <input type="text" name="city" class="form-input" placeholder="Your city">
+        </div>
+        <button type="submit" class="btn-submit">JOIN FREE — CLAIM MEMBERSHIP →</button>
+      </form>
+      <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:0.7rem;color:rgba(255,255,255,0.3);">
+        <span>🔒 100% Free</span>
+        <span>✦ No Card Needed</span>
+        <span>✦ Cancel Anytime</span>
       </div>
-      <div class="join-field">
-        <label>Phone Number</label>
-        <input type="tel" placeholder="+91 XXXXX XXXXX">
-      </div>
-      <button class="join-btn" onclick="location.href='signup.html'">Join Free — Claim Membership &#8594;</button>
-      <div class="join-note">&#128274; 100% free &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Cancel anytime</div>
     </div>
-  </div>
-
-</div>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track" id="tt">
-    <span>Celebrity Dining</span><span class="dot"> ✦ </span><span>Tollywood</span><span class="dot"> ✦ </span><span>Bollywood</span><span class="dot"> ✦ </span><span>Kollywood</span><span class="dot"> ✦ </span><span>Cricket Legends</span><span class="dot"> ✦ </span><span>Badminton Stars</span><span class="dot"> ✦ </span><span>DWC Gives Back</span><span class="dot"> ✦ </span><span>15% For The Needy</span><span class="dot"> ✦ </span><span></span><span class="dot"> ✦ </span><span>Join Free Today</span><span class="dot"> ✦ </span><span>Celebrity Dining</span><span class="dot"> ✦ </span><span>Tollywood</span><span class="dot"> ✦ </span><span>Bollywood</span><span class="dot"> ✦ </span><span>Kollywood</span><span class="dot"> ✦ </span><span>Cricket Legends</span><span class="dot"> ✦ </span><span>Badminton Stars</span><span class="dot"> ✦ </span><span>DWC Gives Back</span><span class="dot"> ✦ </span><span>15% For The Needy</span><span class="dot"> ✦ </span><span></span><span class="dot"> ✦ </span><span>Join Free Today</span><span class="dot"> ✦ </span>
   </div>
 </div>
 
