@@ -275,6 +275,16 @@ button{cursor:pointer;font-family:'Poppins',sans-serif}
   .hero { padding-top:40px !important; min-height:auto !important; }
   .ticker-wrap { background:#D4002A !important; overflow:hidden; padding:9px 0; position:relative; z-index:200 !important; }
   .ticker-track { display:flex !important; animation:ticker 28s linear infinite; white-space:nowrap; }
+
+  /* Hero headline - force 3 stacked lines */
+  .hero-title { font-family:'Bebas Neue',sans-serif !important; font-size:clamp(52px,7.5vw,88px) !important; line-height:0.92 !important; letter-spacing:1px !important; margin-bottom:22px !important; }
+  .hero-title span { display:block !important; }
+  .title-line { color:rgba(255,255,255,0.92) !important; }
+  .title-accent { color:#F2B705 !important; }
+  .title-red { color:#D4002A !important; }
+  /* Reduce hero top padding - remove empty space */
+  .hero { padding-top:32px !important; }
+  
 </style>
 </head>
 <body>
