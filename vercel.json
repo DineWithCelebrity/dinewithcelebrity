@@ -1,4 +1,66 @@
 {
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/stars.html",
+      "destination": "/stars",
+      "permanent": true
+    },
+    {
+      "source": "/gives-back.html",
+      "destination": "/gives-back",
+      "permanent": true
+    },
+    {
+      "source": "/signup.html",
+      "destination": "/signup",
+      "permanent": true
+    },
+    {
+      "source": "/signin.html",
+      "destination": "/signin",
+      "permanent": true
+    },
+    {
+      "source": "/login.html",
+      "destination": "/login",
+      "permanent": true
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/dashboard",
+      "permanent": true
+    },
+    {
+      "source": "/restaurants.html",
+      "destination": "/restaurants",
+      "permanent": true
+    },
+    {
+      "source": "/events.html",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/partner-restaurant.html",
+      "destination": "/partner-restaurant",
+      "permanent": true
+    },
+    {
+      "source": "/partner-sponsor.html",
+      "destination": "/partner-sponsor",
+      "permanent": true
+    },
+    {
+      "source": "/disclaimer.html",
+      "destination": "/disclaimer",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
