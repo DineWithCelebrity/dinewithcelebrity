@@ -115,6 +115,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:cen
 /* ═══ GOLD STAR FIELD ═══ */
 #star-canvas{position:fixed!important;top:0!important;left:0!important;z-index:0!important;pointer-events:none!important;}
 body>*:not(#star-canvas){position:relative;z-index:1;}
+/* DWC-STARS-START */
+#star-canvas{position:fixed!important;top:0!important;left:0!important;z-index:0!important;pointer-events:none!important;}
+body>*:not(#star-canvas){position:relative;z-index:1;}
+/* DWC-STARS-END */
 </style>
 </head>
 <body>
@@ -375,7 +379,7 @@ function filterSec(type, btn) {
   if(type==='all'){movies.style.display='';cricket.style.display='';sports.style.display='';}
   else if(type==='movies'){movies.style.display='';cricket.style.display='none';sports.style.display='none';}
   else if(t
-<script>
+<!--DWC-STARS--><script>
 (function(){
   function startStars(){
     var c=document.getElementById('star-canvas');
@@ -394,4 +398,4 @@ function filterSec(type, btn) {
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',startStars);}else{startStars();}
 })();
-</script>
+</script><!--/DWC-STARS-->
