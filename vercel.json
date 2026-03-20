@@ -1,11 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/index.html",
-      "destination": "/",
-      "permanent": true
-    },
-    {
       "source": "/stars.html",
       "destination": "/stars",
       "permanent": true
