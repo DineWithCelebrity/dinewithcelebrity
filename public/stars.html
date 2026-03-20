@@ -110,9 +110,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:cen
 .cta-title span{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .cta-sub{font-size:1.05rem;color:rgba(255,255,255,0.78);margin-bottom:1.5rem}
 .btn-cta{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:1rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:0.9rem 2.5rem;border-radius:100px;text-decoration:none}
+
+/* ═══ GOLD STAR FIELD ═══ */
+#star-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:block;}
+body>*:not(#star-canvas){position:relative;z-index:1;}
 </style>
 </head>
 <body>
+<canvas id="star-canvas"></canvas>
+
 
 <!-- NAV -->
 <nav>

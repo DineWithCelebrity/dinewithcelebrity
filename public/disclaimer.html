@@ -81,9 +81,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:cen
 .contact-type{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:0.35rem}
 .contact-email{font-size:1.05rem;color:rgba(255,255,255,0.95);word-break:break-all}
 .contact-email:hover{color:var(--gold)}
+
+/* ═══ GOLD STAR FIELD ═══ */
+#star-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:block;}
+body>*:not(#star-canvas){position:relative;z-index:1;}
 </style>
 </head>
 <body>
+<canvas id="star-canvas"></canvas>
+
 
 <nav>
   <a href="index.html" class="nav-logo">DWC</a>
