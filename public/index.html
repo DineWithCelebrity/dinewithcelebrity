@@ -174,6 +174,66 @@ footer{background:rgba(0,0,0,0.5);border-top:1px solid var(--border);padding:44p
   .btn-launching::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);animation:shimmer 2.5s ease-in-out infinite;pointer-events:none;}
   @keyframes shimmer{0%{left:-100%}100%{left:200%}}
   @keyframes pulse-gold{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,0.5);transform:scale(1)}50%{box-shadow:0 0 0 10px rgba(242,183,5,0);transform:scale(1.04)}}
+
+  /* === WHITESPACE FIX === */
+  .section { padding: 56px 60px !important; }
+  .section-alt { padding: 56px 60px !important; }
+  .hero { min-height: auto !important; padding-bottom: 48px !important; }
+
+  /* === HOW IT WORKS ICONS === */
+  .step-circle::after { font-size: 1.4rem; line-height: 1; }
+  .step:nth-child(1) .step-circle::after { content: '🎟️'; }
+  .step:nth-child(2) .step-circle::after { content: '🍽️'; }
+  .step:nth-child(3) .step-circle::after { content: '💰'; }
+  .step:nth-child(4) .step-circle::after { content: '⭐'; }
+  .step-circle { font-size: 0 !important; }
+
+  /* === SOCIAL PROOF STRIP === */
+  .proof-strip {
+    background: rgba(242,183,5,0.06);
+    border-top: 1px solid rgba(242,183,5,0.12);
+    border-bottom: 1px solid rgba(242,183,5,0.12);
+    padding: 16px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    font-weight: 500;
+  }
+  .proof-item span { color: var(--gold); font-weight: 700; }
+
+  /* === MOBILE STICKY CTA === */
+  .mobile-cta {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 500;
+    background: var(--gold);
+    padding: 14px 20px;
+    text-align: center;
+  }
+  .mobile-cta a {
+    color: var(--black);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  @media(max-width:900px) {
+    .mobile-cta { display: block !important; }
+    .section { padding: 44px 20px !important; }
+    .section-alt { padding: 44px 20px !important; }
+    .proof-strip { padding: 14px 20px; gap: 20px; }
+  }
 </style>
 </head>
 <body>
@@ -213,6 +273,13 @@ footer{background:rgba(0,0,0,0.5);border-top:1px solid var(--border);padding:44p
     </div>
   </div>
 </section>
+
+<div class="proof-strip">
+  <div class="proof-item">🇮🇳 <span>South India</span> — First Launch</div>
+  <div class="proof-item">🎟️ <span>Free</span> to Join — No Card</div>
+  <div class="proof-item">⭐ <span>70+</span> Celebrities Onboarding</div>
+  <div class="proof-item">💚 <span>15%</span> of Profits to Charity</div>
+</div>
 <section class="section section-alt" id="how">
   <div class="eyebrow">Simple Process</div>
   <h2 class="sec-title">HOW IT <span style="color:var(--gold)">WORKS</span></h2>
@@ -286,5 +353,9 @@ footer{background:rgba(0,0,0,0.5);border-top:1px solid var(--border);padding:44p
   </div>
   <div class="ft-bottom"><span>&copy; 2026 Dine With Celebrity. All Rights Reserved.</span><span>Privacy Policy &middot; Terms &middot; Booking Policy</span></div>
 </footer>
+
+<div class="mobile-cta">
+  <a href="/signup">🎟️ Join Free — Get Your Coupon Now</a>
+</div>
 </body>
 </html>
