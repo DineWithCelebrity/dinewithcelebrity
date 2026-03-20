@@ -169,6 +169,11 @@ footer{background:rgba(0,0,0,0.5);border-top:1px solid var(--border);padding:44p
   .urgency,.final{padding:56px 20px;}
   footer{padding:36px 20px 24px;}.ft-grid{grid-template-columns:1fr 1fr;}
 }
+
+  .btn-launching{position:relative;overflow:hidden;animation:pulse-gold 2s ease-in-out infinite;}
+  .btn-launching::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);animation:shimmer 2.5s ease-in-out infinite;pointer-events:none;}
+  @keyframes shimmer{0%{left:-100%}100%{left:200%}}
+  @keyframes pulse-gold{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,0.5);transform:scale(1)}50%{box-shadow:0 0 0 10px rgba(242,183,5,0);transform:scale(1.04)}}
 </style>
 </head>
 <body>
@@ -187,7 +192,7 @@ footer{background:rgba(0,0,0,0.5);border-top:1px solid var(--border);padding:44p
     <div class="hero-scarcity"><div class="sdot"></div>Founding members getting early access — first city coming soon</div>
     <div class="tags-label">We cover</div>
     <div class="industry-tags"><span class="itag">Tollywood</span><span class="itag">Bollywood</span><span class="itag">Kollywood</span><span class="itag">Sandalwood</span><span class="itag">Mollywood</span><span class="itag">Cricket</span><span class="itag">Hockey</span><span class="itag">Kabaddi</span></div>
-    <div class="hero-ctas"><button class="btn-p">Events — Launching Soon →</button><button class="btn-o">See Our Stars</button></div>
+    <div class="hero-ctas"><button class="btn-p btn-launching">Events — Launching Soon →</button><button class="btn-o">See Our Stars</button></div>
   </div>
   <div class="hero-right">
     <div class="form-card">
