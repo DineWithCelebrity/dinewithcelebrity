@@ -262,8 +262,12 @@ button{cursor:pointer;font-family:'Poppins',sans-serif}
   .signup-title span { color:#F2B705; }
   .signup-sub { font-size:0.8rem; color:rgba(255,255,255,0.45); margin-bottom:18px; line-height:1.5; }
   .btn-submit { width:100%; background:#F2B705; color:#06040A; font-family:'Poppins',sans-serif; font-weight:800; font-size:0.92rem; padding:14px; border-radius:7px; border:none; cursor:pointer; margin-top:4px; }
-  /* Ticker */
-  .ticker-wrap { background:#D4002A !important; overflow:hidden; padding:9px 0; }
+  /* Ticker */ 
+  /* Ticker visibility fix */
+  .ticker-wrap { position:relative; z-index:200 !important; display:block !important; visibility:visible !important; }
+  /* Fix hero top padding - remove excess space */
+  .hero { padding-top:40px !important; min-height:auto !important; }
+  .ticker-wrap { background:#D4002A !important; overflow:hidden; padding:9px 0; position:relative; z-index:200 !important; }
   .ticker-track { display:flex !important; animation:ticker 28s linear infinite; white-space:nowrap; }
 </style>
 </head>
