@@ -142,11 +142,15 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
     <p class="step-sub">Help us match you with the right celebrities and experiences.</p>
     <div class="field"><label>YOUR CITY</label><input type="text" id="inp-city" placeholder="e.g. Mumbai, Delhi, Hyderabad..."></div>
     <div class="int-grid">
-      <div class="int-btn" onclick="toggleInt(this,'movies')"><span class="int-icon">🎬</span><span>Movies</span><span class="tick">✓</span></div>
+      <div class="int-btn" onclick="toggleInt(this,'bollywood')"><span class="int-icon">🎬</span><span>Bollywood</span><span class="tick">✓</span></div>
+      <div class="int-btn" onclick="toggleInt(this,'tollywood')"><span class="int-icon">🎭</span><span>Tollywood</span><span class="tick">✓</span></div>
+      <div class="int-btn" onclick="toggleInt(this,'kollywood')"><span class="int-icon">🎪</span><span>Kollywood</span><span class="tick">✓</span></div>
+      <div class="int-btn" onclick="toggleInt(this,'mollywood')"><span class="int-icon">🎠</span><span>Mollywood</span><span class="tick">✓</span></div>
       <div class="int-btn" onclick="toggleInt(this,'cricket')"><span class="int-icon">🏏</span><span>Cricket</span><span class="tick">✓</span></div>
       <div class="int-btn" onclick="toggleInt(this,'music')"><span class="int-icon">🎵</span><span>Music</span><span class="tick">✓</span></div>
       <div class="int-btn" onclick="toggleInt(this,'influencers')"><span class="int-icon">🎤</span><span>Influencers</span><span class="tick">✓</span></div>
       <div class="int-btn" onclick="toggleInt(this,'sports')"><span class="int-icon">🏆</span><span>Sports</span><span class="tick">✓</span></div>
+      <div class="int-btn" onclick="toggleInt(this,'otts')"><span class="int-icon">📱</span><span>OTT / Web</span><span class="tick">✓</span></div>
       <div class="int-btn" onclick="toggleInt(this,'food')"><span class="int-icon">🍽️</span><span>Food &amp; Travel</span><span class="tick">✓</span></div>
     </div>
     <button class="btn-g" onclick="goStep(4)"><span>Continue</span><span>→</span></button>
@@ -158,12 +162,15 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
     <div class="step-title">Who Would You<br><em>Love to Dine With?</em></div>
     <div class="celeb-note">Pick 1–3 — we'll alert you when they're available 🔔</div>
     <div class="celeb-grid">
-      <div class="cc" onclick="toggleCeleb(this,'bollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎬</div><div class="cc-name">Bollywood Actor</div><div class="cc-type">Movies</div></div>
+      <div class="cc" onclick="toggleCeleb(this,'bollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎬</div><div class="cc-name">Bollywood Star</div><div class="cc-type">Hindi Cinema</div></div>
+      <div class="cc" onclick="toggleCeleb(this,'tollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎭</div><div class="cc-name">Tollywood Star</div><div class="cc-type">Telugu Cinema</div></div>
+      <div class="cc" onclick="toggleCeleb(this,'kollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎪</div><div class="cc-name">Kollywood Star</div><div class="cc-type">Tamil Cinema</div></div>
+      <div class="cc" onclick="toggleCeleb(this,'mollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎠</div><div class="cc-name">Mollywood Star</div><div class="cc-type">Malayalam Cinema</div></div>
+      <div class="cc" onclick="toggleCeleb(this,'sandalwood')"><div class="cc-tick">✓</div><div class="cc-av">🌟</div><div class="cc-name">Sandalwood Star</div><div class="cc-type">Kannada Cinema</div></div>
       <div class="cc" onclick="toggleCeleb(this,'cricket')"><div class="cc-tick">✓</div><div class="cc-av">🏏</div><div class="cc-name">Cricket Star</div><div class="cc-type">Sports</div></div>
       <div class="cc" onclick="toggleCeleb(this,'tv')"><div class="cc-tick">✓</div><div class="cc-av">📺</div><div class="cc-name">TV Celebrity</div><div class="cc-type">Television</div></div>
       <div class="cc" onclick="toggleCeleb(this,'music')"><div class="cc-tick">✓</div><div class="cc-av">🎵</div><div class="cc-name">Music Artist</div><div class="cc-type">Music</div></div>
       <div class="cc" onclick="toggleCeleb(this,'influencer')"><div class="cc-tick">✓</div><div class="cc-av">🎤</div><div class="cc-name">Top Influencer</div><div class="cc-type">Digital</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'chef')"><div class="cc-tick">✓</div><div class="cc-av">👨‍🍳</div><div class="cc-name">Celebrity Chef</div><div class="cc-type">Food</div></div>
     </div>
     <button class="btn-g" id="btn4" onclick="submitFinal()"><span>🎉 Start My Journey</span></button>
     <button class="btn-skip" onclick="submitFinal()">Skip — take me to my dashboard →</button>
