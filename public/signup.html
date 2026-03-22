@@ -148,6 +148,11 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
       <input type="tel" id="inp-phone" placeholder="+91 98765 43210" autocomplete="tel" maxlength="15">
       <div class="field-note">🔒 Your number is safe. Used only for celebrity event alerts.</div>
     </div>
+    <div class="field">
+      <label>REFERRAL CODE <span style="font-size:0.75rem;opacity:0.6;font-weight:400;">(Optional)</span></label>
+      <input type="text" id="inp-referral" placeholder="e.g. DWC-RAHUL2025" autocomplete="off" maxlength="30" style="text-transform:uppercase;">
+      <div class="field-note">🎁 Have a referral code? Enter it to unlock bonus points!</div>
+    </div>
     <div class="hint-row">
       💡 You'll personalise your interests and pick your favourite celebrities <strong>inside your dashboard</strong> — and earn extra points for it!
     </div>
@@ -213,6 +218,7 @@ async function submitStep2(){
   if(!name){showErr(err,'Please enter your name');return;}
   if(!email||!email.includes('@')){showErr(err,'Please enter a valid email address');return;}
   userData={name,email,phone};
+  const referralCode=document.getElementById('inp-referral').value.trim().toUpperCase()||null;
   const btn=document.getElementById('btn2');
   btn.disabled=true;
   btn.innerHTML='<div class="spinner"></div><span>Creating your account...</span>';
@@ -225,7 +231,7 @@ async function submitStep2(){
     if(error&&!error.message.includes('already registered')) throw error;
     await sbClient.from('members').upsert({
       email,full_name:name,phone:phone||'',
-      points:100,tier:'free',joined_at:new Date().toISOString()
+      points:100,tier:'free',joined_at:new Date().toISOString(),referred_by:referralCode||null
     },{onConflict:'email'});
     document.getElementById('welcomeName').textContent=(name.split(' ')[0]||'Star')+'!';
     goStep(3);
