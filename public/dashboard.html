@@ -102,6 +102,25 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
 @media(max-width:768px){.grid-2{grid-template-columns:1fr}.welcome-banner{flex-direction:column}.wb-right{text-align:left}}
 @media(max-width:480px){.main{padding:78px 14px 50px}.earn-row{flex-direction:column}.ref-box{flex-direction:column}.ref-code,.ref-copy{width:100%}}
+
+/* INTEREST PICKER */
+.interest-card{background:rgba(15,0,3,.7);border:1px solid rgba(242,183,5,.25);border-radius:14px;padding:22px;margin-bottom:24px;animation:up .5s ease .2s both}
+.interest-card h3{font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.08em;color:var(--gold);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.interest-card .ic-sub{font-size:.78rem;color:var(--sub);margin-bottom:16px}
+.ic-pts{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.2);border-radius:4px;padding:2px 10px;font-size:.68rem;color:var(--gold);font-weight:700;margin-left:auto}
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;margin-bottom:16px}
+.ind-btn{background:rgba(255,255,255,.05);border:1.5px solid rgba(242,183,5,.12);border-radius:10px;padding:12px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.78rem;color:var(--sub);transition:all .2s;text-align:center}
+.ind-btn:hover{border-color:rgba(242,183,5,.4);background:rgba(242,183,5,.06)}
+.ind-btn.sel{border-color:var(--gold);background:rgba(242,183,5,.1);color:var(--text)}
+.ind-icon{font-size:1.6rem}
+.ind-name{font-weight:600;font-size:.76rem}
+.ind-type{font-size:.65rem;color:var(--muted)}
+.ind-tick{display:none;color:var(--gold);font-size:.7rem;font-weight:700}
+.ind-btn.sel .ind-tick{display:block}
+.btn-save-int{background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1rem;letter-spacing:.1em;padding:12px 28px;border:none;border-radius:8px;cursor:pointer;transition:all .2s}
+.btn-save-int:hover{background:var(--gold2)}
+.btn-save-int:disabled{opacity:.5;cursor:not-allowed}
+.saved-badge{display:none;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:6px;padding:8px 14px;font-size:.76rem;color:#00C853;text-align:center;margin-top:10px}
 </style>
 </head>
 <body>
@@ -250,6 +269,29 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
       <span style="color:var(--gold);font-size:1.2rem;margin-left:auto">→</span>
     </div>
 
+    
+    <!-- INDUSTRY INTEREST PICKER -->
+    <div class="interest-card" id="interestSection">
+      <h3>🎬 Pick Your Interests <span class="ic-pts">+50 pts</span></h3>
+      <div class="ic-sub">Tell us which film industries & categories excite you — we'll match you with the right celebrities and events.</div>
+      <div class="ind-grid">
+        <div class="ind-btn" onclick="toggleInd(this,'bollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🎬</div><div class="ind-name">Bollywood</div><div class="ind-type">Hindi Cinema</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'tollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🎭</div><div class="ind-name">Tollywood</div><div class="ind-type">Telugu Cinema</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'kollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🎪</div><div class="ind-name">Kollywood</div><div class="ind-type">Tamil Cinema</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'mollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🌴</div><div class="ind-name">Mollywood</div><div class="ind-type">Malayalam Cinema</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'sandalwood')"><div class="ind-tick">✓</div><div class="ind-icon">🌟</div><div class="ind-name">Sandalwood</div><div class="ind-type">Kannada Cinema</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'cricket')"><div class="ind-tick">✓</div><div class="ind-icon">🏏</div><div class="ind-name">Cricket</div><div class="ind-type">Sports</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'music')"><div class="ind-tick">✓</div><div class="ind-icon">🎵</div><div class="ind-name">Music</div><div class="ind-type">Artists & Bands</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'tv')"><div class="ind-tick">✓</div><div class="ind-icon">📺</div><div class="ind-name">TV & OTT</div><div class="ind-type">Web Series</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'influencers')"><div class="ind-tick">✓</div><div class="ind-icon">🎤</div><div class="ind-name">Influencers</div><div class="ind-type">Digital Creators</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'sports')"><div class="ind-tick">✓</div><div class="ind-icon">🏆</div><div class="ind-name">Other Sports</div><div class="ind-type">Football & More</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'food')"><div class="ind-tick">✓</div><div class="ind-icon">🍽️</div><div class="ind-name">Food & Travel</div><div class="ind-type">Celebrity Chefs</div></div>
+        <div class="ind-btn" onclick="toggleInd(this,'business')"><div class="ind-tick">✓</div><div class="ind-icon">💼</div><div class="ind-name">Business</div><div class="ind-type">Entrepreneurs</div></div>
+      </div>
+      <button class="btn-save-int" id="btnSaveInt" onclick="saveInterests()">Save Interests → Earn 50 pts</button>
+      <div class="saved-badge" id="savedBadge">✓ Interests saved! +50 points added to your account</div>
+    </div>
+
     <!-- UPGRADE NUDGE -->
     <div class="upgrade-card">
       <h3>Unlock <span>VIP Celebrity Access</span></h3>
@@ -314,6 +356,37 @@ function copyRef(){
 function waOptIn(){
   const msg=encodeURIComponent('Hi! I am a DWC member. Please send me alerts for celebrity dining events!');
   window.open('https://wa.me/919999999999?text='+msg,'_blank');
+}
+
+function toggleInd(el,val){
+  el.classList.toggle('sel');
+}
+
+async function saveInterests(){
+  const sel=[...document.querySelectorAll('.ind-btn.sel')].map(b=>b.getAttribute('onclick').match(/'([^']+)'/)[1]);
+  if(sel.length===0){alert('Please select at least one interest!');return;}
+  const btn=document.getElementById('btnSaveInt');
+  btn.disabled=true;btn.textContent='Saving...';
+  try{
+    const {data:{session}}=await sbClient.auth.getSession();
+    if(!session) return;
+    await sbClient.from('members').update({interests:sel,points:sbClient.rpc?undefined:undefined}).eq('email',session.user.email);
+    // Update points
+    const {data:m}=await sbClient.from('members').select('points').eq('email',session.user.email).single();
+    const newPts=(m?.points||100)+50;
+    await sbClient.from('members').update({interests:sel,points:newPts}).eq('email',session.user.email);
+    // Update UI
+    document.getElementById('ptsNum').textContent=newPts;
+    document.getElementById('barPts').textContent=newPts;
+    document.getElementById('navPts').innerHTML='⭐ '+newPts+' pts';
+    document.getElementById('barFg').style.width=Math.min((newPts/1000)*100,100)+'%';
+    document.getElementById('savedBadge').style.display='block';
+    btn.style.display='none';
+    document.getElementById('ptsLeft').textContent=Math.max(1000-newPts,0)+' points to your first celebrity dinner';
+  }catch(e){
+    btn.disabled=false;btn.textContent='Save Interests → Earn 50 pts';
+    console.log(e.message);
+  }
 }
 </script>
 </body>
