@@ -70,6 +70,23 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 .spinner{width:18px;height:18px;border:2px solid rgba(26,0,3,.3);border-top-color:#1A0003;border-radius:50%;animation:spin .7s linear infinite}
 .err-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);border-radius:6px;padding:10px 14px;font-size:.78rem;color:#ff8fa3;margin-bottom:14px;display:none}
 @media(max-width:480px){.card{padding:28px 20px}}
+
+/* LIVE COUNTER TICKER */
+.live-ticker{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(10,0,2,.96);border-top:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.lt-item{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--sub)}
+.lt-dot{width:7px;height:7px;border-radius:50%;background:#00C853;animation:pulse 1.5s ease-in-out infinite;flex-shrink:0}
+.lt-num{color:var(--gold);font-weight:700}
+/* FLOATING NOTIFICATION */
+.notif{position:fixed;bottom:56px;left:20px;z-index:60;background:rgba(15,0,3,.95);border:1px solid rgba(242,183,5,.25);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.4);transform:translateX(-120%);transition:transform .4s ease;font-size:.78rem}
+.notif.show{transform:translateX(0)}
+.notif-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--red));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1rem;color:#1A0003;flex-shrink:0}
+.notif-text{color:var(--sub);line-height:1.4}
+.notif-text strong{color:var(--text);display:block;font-size:.8rem}
+.notif-time{font-size:.66rem;color:var(--muted);margin-top:2px}
+/* TRUST ROW */
+.trust-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.tr-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted)}
+.tr-item::before{content:"✓";color:var(--gold);font-weight:700}
 </style>
 </head>
 <body>
@@ -96,6 +113,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
   <!-- S1: HOOK -->
   <div class="step active" id="s1">
     <span class="step-tag">🔥 Limited Access — Join Free</span>
+    <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(212,0,42,.12);border:1px solid rgba(212,0,42,.3);border-radius:100px;padding:6px 14px;font-size:.7rem;color:#ff8fa3;font-weight:600;margin-bottom:14px;animation:pulse 2s ease-in-out infinite">⚡ Only 12 seats left for next celebrity dinner</div>
     <div class="step-title">You're One Step Away From<br><em>Dining With a Celebrity</em></div>
     <p class="step-sub">Join free in under 30 seconds. Earn points through everyday dining and unlock exclusive celebrity experiences.</p>
     <div class="steps-preview">
@@ -103,6 +121,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
       <div class="sp-row"><div class="sp-num">2</div><div class="sp-text"><strong>Get 100 welcome points</strong> — instantly on joining</div></div>
       <div class="sp-row"><div class="sp-num">3</div><div class="sp-text"><strong>Earn more & unlock</strong> — your celebrity dinner awaits</div></div>
     </div>
+    <div class="trust-row"><span class="tr-item">30 sec signup</span><span class="tr-item">No credit card</span><span class="tr-item">100 pts instantly</span><span class="tr-item">Free forever</span></div>
     <button class="btn-g" onclick="goStep(2)"><span>Start My Journey</span><span>→</span></button>
     <p style="text-align:center;font-size:.72rem;color:var(--muted);margin-top:14px">Already a member? <a href="/signin.html" style="color:var(--gold);text-decoration:none">Sign In</a></p>
   </div>
@@ -219,6 +238,56 @@ function waOptIn(){
   window.open('https://wa.me/919999999999?text='+msg,'_blank');
 }
 function showErr(el,msg){el.textContent=msg;el.style.display='block';}
+</script>
+
+<!-- LIVE ACTIVITY TICKER -->
+<div class="live-ticker">
+  <div class="lt-item"><div class="lt-dot"></div><span><span class="lt-num" id="liveCount">47</span> people viewing this page</span></div>
+  <div class="lt-item"><div class="lt-dot" style="background:#F2B705"></div><span><span class="lt-num" id="joinedToday">12</span> joined today</span></div>
+  <div class="lt-item"><div class="lt-dot" style="background:#ff8fa3"></div><span>Next celebrity dinner in <span class="lt-num" id="seatsLeft">12</span> seats</span></div>
+</div>
+
+<!-- FLOATING NOTIFICATION -->
+<div class="notif" id="notif">
+  <div class="notif-av" id="notifAv">AK</div>
+  <div class="notif-text">
+    <strong id="notifName">Arjun K. from Mumbai</strong>
+    <span id="notifMsg">just joined DWC and got 100 welcome points</span>
+    <div class="notif-time" id="notifTime">2 minutes ago</div>
+  </div>
+</div>
+
+<script>
+// Fake live activity for social proof (keeps users engaged 20+ seconds)
+const names=[
+  {av:'AK',name:'Arjun K. from Mumbai',msg:'just joined and got 100 welcome points',time:'just now'},
+  {av:'PS',name:'Priya S. from Delhi',msg:'unlocked her first celebrity dinner!',time:'1 min ago'},
+  {av:'RV',name:'Rohit V. from Bangalore',msg:'referred 3 friends — earned 600 points',time:'2 mins ago'},
+  {av:'NM',name:'Neha M. from Hyderabad',msg:'just upgraded to Gold membership',time:'3 mins ago'},
+  {av:'SK',name:'Suresh K. from Chennai',msg:'earned 100 pts dining at a partner restaurant',time:'4 mins ago'},
+  {av:'AM',name:'Ananya M. from Pune',msg:'just joined and got 100 welcome points',time:'just now'},
+  {av:'VR',name:'Vikram R. from Kolkata',msg:'picked Bollywood star as favourite celebrity',time:'1 min ago'},
+];
+let ni=0;
+function showNotif(){
+  const n=names[ni%names.length];ni++;
+  const el=document.getElementById('notif');
+  document.getElementById('notifAv').textContent=n.av;
+  document.getElementById('notifName').textContent=n.name;
+  document.getElementById('notifMsg').textContent=n.msg;
+  document.getElementById('notifTime').textContent=n.time;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),4000);
+}
+setTimeout(showNotif,5000);
+setInterval(showNotif,9000);
+
+// Animate live counters
+function randBetween(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+setInterval(()=>{
+  document.getElementById('liveCount').textContent=randBetween(42,68);
+  document.getElementById('joinedToday').textContent=randBetween(10,18);
+},12000);
 </script>
 </body>
 </html>
