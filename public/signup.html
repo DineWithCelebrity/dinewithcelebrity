@@ -10,25 +10,26 @@
 :root{--bg:#1A0003;--mid:#3D0008;--hi:#7A0015;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--text:rgba(255,255,255,.96);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.50);--border:rgba(242,183,5,.2)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}#stars i{position:absolute;color:#F2B705;font-style:normal}
-.sA{animation:twA 3.2s ease-in-out infinite alternate}.sB{animation:twB 4.1s ease-in-out infinite alternate}.sC{animation:twC 2.8s ease-in-out infinite alternate}.sD{animation:twD 5s ease-in-out infinite alternate}.sE{animation:twE 3.7s ease-in-out infinite alternate}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}
+#stars i{position:absolute;color:#F2B705;font-style:normal}
+.sA{animation:twA 3.2s ease-in-out infinite alternate}
+.sB{animation:twB 4.1s ease-in-out infinite alternate}
+.sC{animation:twC 2.8s ease-in-out infinite alternate}
 @keyframes twA{0%{opacity:.15;transform:scale(.9)}100%{opacity:.45;transform:scale(1.2)}}
 @keyframes twB{0%{opacity:.18;transform:scale(1)}100%{opacity:.42;transform:scale(1.15)}}
 @keyframes twC{0%{opacity:.10;transform:scale(.95)}100%{opacity:.38;transform:scale(1.25)}}
-@keyframes twD{0%{opacity:.15;transform:scale(1)}100%{opacity:.44;transform:scale(1.1)}}
-@keyframes twE{0%{opacity:.10;transform:scale(.9)}100%{opacity:.40;transform:scale(1.2)}}
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 @keyframes popIn{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(15,0,3,.95);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:'Bebas Neue',cursive;font-size:1.15rem;color:var(--gold);text-decoration:none;letter-spacing:.08em}
 .nav-back{color:var(--muted);font-size:.8rem;text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s}.nav-back:hover{color:var(--gold)}
-.prog-bar-wrap{position:fixed;top:58px;left:0;right:0;z-index:99;background:rgba(15,0,3,.92);padding:10px 20px 12px;border-bottom:1px solid rgba(255,255,255,.04)}
+.prog-wrap{position:fixed;top:58px;left:0;right:0;z-index:99;background:rgba(15,0,3,.92);padding:10px 20px 12px;border-bottom:1px solid rgba(255,255,255,.04)}
 .prog-dots{display:flex;align-items:center;justify-content:center;gap:8px}
 .pd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .4s}
-.pd.on{background:var(--gold);width:26px;border-radius:4px}
+.pd.on{background:var(--gold);width:28px;border-radius:4px}
 .pd.done{background:rgba(242,183,5,.45)}
 .prog-text{font-size:.68rem;color:var(--muted);text-align:center;margin-top:5px;letter-spacing:.05em}
 .page{position:relative;z-index:1;min-height:100vh;padding:118px 20px 60px;display:flex;align-items:center;justify-content:center}
@@ -51,26 +52,8 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 .btn-g{width:100%;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.12rem;letter-spacing:.1em;padding:15px;border:none;border-radius:8px;cursor:pointer;transition:all .2s;box-shadow:0 0 22px rgba(242,183,5,.22);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-g:hover{background:var(--gold2);transform:translateY(-1px)}
 .btn-g:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-skip{width:100%;background:transparent;color:var(--muted);font-size:.8rem;padding:10px;border:none;cursor:pointer;margin-top:6px;transition:color .2s}
-.btn-skip:hover{color:var(--sub)}
-.int-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
-.int-btn{background:rgba(255,255,255,.05);border:1.5px solid rgba(242,183,5,.12);border-radius:10px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--sub);transition:all .2s}
-.int-btn:hover{border-color:rgba(242,183,5,.35);background:rgba(242,183,5,.06)}
-.int-btn.sel{border-color:var(--gold);background:rgba(242,183,5,.1);color:var(--text)}
-.int-btn .tick{margin-left:auto;color:var(--gold);font-weight:700;font-size:.8rem;display:none}
-.int-btn.sel .tick{display:block}
-.int-icon{font-size:1.3rem}
-.celeb-note{font-size:.74rem;color:var(--muted);text-align:center;margin-bottom:14px}
-.celeb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px}
-.cc{background:rgba(255,255,255,.05);border:2px solid rgba(242,183,5,.1);border-radius:12px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .22s;position:relative}
-.cc:hover{border-color:rgba(242,183,5,.4);transform:translateY(-2px)}
-.cc.sel{border-color:var(--gold);background:rgba(242,183,5,.08)}
-.cc-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--mid),var(--hi));display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 8px;border:2px solid rgba(242,183,5,.15)}
-.cc.sel .cc-av{border-color:var(--gold)}
-.cc-name{font-size:.7rem;font-weight:600;color:var(--sub);line-height:1.3}
-.cc-type{font-size:.62rem;color:var(--muted);margin-top:1px}
-.cc-tick{position:absolute;top:5px;right:5px;width:17px;height:17px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:.55rem;color:#1A0003;font-weight:900}
-.cc.sel .cc-tick{display:flex}
+.btn-back{width:100%;background:transparent;color:var(--muted);font-size:.8rem;padding:10px;border:none;cursor:pointer;margin-top:6px;transition:color .2s}
+.btn-back:hover{color:var(--sub)}
 .welcome-emoji{font-size:3.5rem;text-align:center;margin-bottom:16px;animation:popIn .6s ease both}
 .pts-box{background:linear-gradient(135deg,rgba(242,183,5,.12),rgba(242,183,5,.04));border:1px solid var(--gold);border-radius:14px;padding:20px;text-align:center;margin:18px 0}
 .pts-num{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1}
@@ -78,6 +61,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 .bar-track{background:rgba(255,255,255,.08);border-radius:100px;height:9px;overflow:hidden;margin:16px 0 6px}
 .bar-fill{height:100%;width:10%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:100px;background-size:200%;animation:shimmer 2s linear infinite}
 .bar-pts{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)}.bar-pts strong{color:var(--gold)}
+.hint-row{display:flex;align-items:flex-start;gap:10px;background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:12px 14px;margin:14px 0;font-size:.78rem;color:var(--sub);line-height:1.5}
 .wa-box{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.3);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin:16px 0;cursor:pointer;transition:background .2s}
 .wa-box:hover{background:rgba(37,211,102,.13)}
 .wa-icon{font-size:1.6rem;flex-shrink:0}
@@ -90,93 +74,67 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 </head>
 <body>
 <div id="stars" aria-hidden="true"></div>
-<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC','sD','sE'],sh=['★','✦','·','★','✧'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48],[63,15],[18,62],[71,30],[47,75],[86,22]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%5],s=sh[i%5],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
+<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC'],sh=['★','✦','·'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48],[63,15],[18,62]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%3],s=sh[i%3],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
+
 <nav class="nav">
   <a href="/" class="nav-logo">★ DINE WITH CELEBRITY</a>
   <a href="/" class="nav-back">← Back</a>
 </nav>
-<div class="prog-bar-wrap" id="progWrap">
+
+<div class="prog-wrap" id="progWrap">
   <div class="prog-dots">
     <div class="pd on" id="pd1"></div>
     <div class="pd" id="pd2"></div>
     <div class="pd" id="pd3"></div>
-    <div class="pd" id="pd4"></div>
   </div>
-  <div class="prog-text" id="progText">Step 1 of 4 — Getting Started</div>
+  <div class="prog-text" id="progText">Step 1 of 3 — Getting Started</div>
 </div>
+
 <div class="page">
 <div class="card">
+
   <!-- S1: HOOK -->
   <div class="step active" id="s1">
     <span class="step-tag">🔥 Limited Access — Join Free</span>
-    <div class="step-title">You're 3 Steps Away From<br><em>Dining With a Celebrity</em></div>
-    <p class="step-sub">Join free and start unlocking exclusive experiences through your everyday spending.</p>
+    <div class="step-title">You're One Step Away From<br><em>Dining With a Celebrity</em></div>
+    <p class="step-sub">Join free in under 30 seconds. Earn points through everyday dining and unlock exclusive celebrity experiences.</p>
     <div class="steps-preview">
-      <div class="sp-row"><div class="sp-num">1</div><div class="sp-text"><strong>Tell us who you are</strong> — takes 20 seconds</div></div>
-      <div class="sp-row"><div class="sp-num">2</div><div class="sp-text"><strong>Pick your interests</strong> — personalise your experience</div></div>
-      <div class="sp-row"><div class="sp-num">3</div><div class="sp-text"><strong>Choose your star</strong> — we'll notify you first</div></div>
+      <div class="sp-row"><div class="sp-num">1</div><div class="sp-text"><strong>Create your free account</strong> — 30 seconds, no credit card</div></div>
+      <div class="sp-row"><div class="sp-num">2</div><div class="sp-text"><strong>Get 100 welcome points</strong> — instantly on joining</div></div>
+      <div class="sp-row"><div class="sp-num">3</div><div class="sp-text"><strong>Earn more & unlock</strong> — your celebrity dinner awaits</div></div>
     </div>
-    <button class="btn-g" onclick="goStep(2)"><span>Continue</span><span>→</span></button>
+    <button class="btn-g" onclick="goStep(2)"><span>Start My Journey</span><span>→</span></button>
     <p style="text-align:center;font-size:.72rem;color:var(--muted);margin-top:14px">Already a member? <a href="/signin.html" style="color:var(--gold);text-decoration:none">Sign In</a></p>
   </div>
+
   <!-- S2: NAME + EMAIL + PHONE -->
   <div class="step" id="s2">
-    <span class="step-tag">Step 1 of 3 — Your Details</span>
+    <span class="step-tag">Step 1 of 2 — Your Details</span>
     <div class="step-title">Let's Get<br><em>You Set Up</em></div>
-    <p class="step-sub">Quick and easy — no passwords, no credit card.</p>
+    <p class="step-sub">Quick and easy — no passwords, no credit card, no lengthy forms.</p>
     <div class="err-msg" id="err2"></div>
-    <div class="field"><label>YOUR NAME</label><input type="text" id="inp-name" placeholder="e.g. Rahul Kumar" autocomplete="name"></div>
-    <div class="field"><label>EMAIL ADDRESS</label><input type="email" id="inp-email" placeholder="hello@example.com" autocomplete="email"></div>
+    <div class="field">
+      <label>YOUR NAME</label>
+      <input type="text" id="inp-name" placeholder="e.g. Rahul Kumar" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>EMAIL ADDRESS</label>
+      <input type="email" id="inp-email" placeholder="hello@example.com" autocomplete="email">
+    </div>
     <div class="field">
       <label>MOBILE NUMBER</label>
       <input type="tel" id="inp-phone" placeholder="+91 98765 43210" autocomplete="tel" maxlength="15">
       <div class="field-note">🔒 Your number is safe. Used only for celebrity event alerts.</div>
     </div>
+    <div class="hint-row">
+      💡 You'll personalise your interests and pick your favourite celebrities <strong>inside your dashboard</strong> — and earn extra points for it!
+    </div>
     <button class="btn-g" id="btn2" onclick="submitStep2()"><span>Unlock Access</span><span>→</span></button>
-    <button class="btn-skip" onclick="goStep(1)">← Back</button>
+    <button class="btn-back" onclick="goStep(1)">← Back</button>
   </div>
-  <!-- S3: INTERESTS -->
+
+  <!-- S3: WELCOME -->
   <div class="step" id="s3">
-    <span class="step-tag">Step 2 of 3 — Personalise</span>
-    <div class="step-title">What Gets<br><em>You Excited?</em></div>
-    <p class="step-sub">Help us match you with the right celebrities and experiences.</p>
-    <div class="field"><label>YOUR CITY</label><input type="text" id="inp-city" placeholder="e.g. Mumbai, Delhi, Hyderabad..."></div>
-    <div class="int-grid">
-      <div class="int-btn" onclick="toggleInt(this,'bollywood')"><span class="int-icon">🎬</span><span>Bollywood</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'tollywood')"><span class="int-icon">🎭</span><span>Tollywood</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'kollywood')"><span class="int-icon">🎪</span><span>Kollywood</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'mollywood')"><span class="int-icon">🎠</span><span>Mollywood</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'cricket')"><span class="int-icon">🏏</span><span>Cricket</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'music')"><span class="int-icon">🎵</span><span>Music</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'influencers')"><span class="int-icon">🎤</span><span>Influencers</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'sports')"><span class="int-icon">🏆</span><span>Sports</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'otts')"><span class="int-icon">📱</span><span>OTT / Web</span><span class="tick">✓</span></div>
-      <div class="int-btn" onclick="toggleInt(this,'food')"><span class="int-icon">🍽️</span><span>Food &amp; Travel</span><span class="tick">✓</span></div>
-    </div>
-    <button class="btn-g" onclick="goStep(4)"><span>Continue</span><span>→</span></button>
-    <button class="btn-skip" onclick="goStep(4)">Skip for now →</button>
-  </div>
-  <!-- S4: CELEBRITY PICKS -->
-  <div class="step" id="s4">
-    <span class="step-tag">Step 3 of 3 — Choose Your Stars</span>
-    <div class="step-title">Who Would You<br><em>Love to Dine With?</em></div>
-    <div class="celeb-note">Pick 1–3 — we'll alert you when they're available 🔔</div>
-    <div class="celeb-grid">
-      <div class="cc" onclick="toggleCeleb(this,'bollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎬</div><div class="cc-name">Bollywood Star</div><div class="cc-type">Hindi Cinema</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'tollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎭</div><div class="cc-name">Tollywood Star</div><div class="cc-type">Telugu Cinema</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'kollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎪</div><div class="cc-name">Kollywood Star</div><div class="cc-type">Tamil Cinema</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'mollywood')"><div class="cc-tick">✓</div><div class="cc-av">🎠</div><div class="cc-name">Mollywood Star</div><div class="cc-type">Malayalam Cinema</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'sandalwood')"><div class="cc-tick">✓</div><div class="cc-av">🌟</div><div class="cc-name">Sandalwood Star</div><div class="cc-type">Kannada Cinema</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'cricket')"><div class="cc-tick">✓</div><div class="cc-av">🏏</div><div class="cc-name">Cricket Star</div><div class="cc-type">Sports</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'tv')"><div class="cc-tick">✓</div><div class="cc-av">📺</div><div class="cc-name">TV Celebrity</div><div class="cc-type">Television</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'music')"><div class="cc-tick">✓</div><div class="cc-av">🎵</div><div class="cc-name">Music Artist</div><div class="cc-type">Music</div></div>
-      <div class="cc" onclick="toggleCeleb(this,'influencer')"><div class="cc-tick">✓</div><div class="cc-av">🎤</div><div class="cc-name">Top Influencer</div><div class="cc-type">Digital</div></div>
-    </div>
-    <button class="btn-g" id="btn4" onclick="submitFinal()"><span>🎉 Start My Journey</span></button>
-    <button class="btn-skip" onclick="submitFinal()">Skip — take me to my dashboard →</button>
-  </div>
-  <!-- S5: WELCOME -->
-  <div class="step" id="s5">
     <div class="welcome-emoji">🎉</div>
     <span class="step-tag" style="text-align:center;display:block">Welcome to the Club!</span>
     <div class="step-title" style="text-align:center">You're In,<br><em id="welcomeName">Star!</em></div>
@@ -189,50 +147,50 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
     </div>
     <div class="wa-box" onclick="waOptIn()">
       <span class="wa-icon">📲</span>
-      <div class="wa-text"><strong>Get Celebrity Alerts on WhatsApp</strong>Be first to know when your favourite star is available to dine</div>
+      <div class="wa-text">
+        <strong>Get Celebrity Alerts on WhatsApp</strong>
+        Be first to know when your favourite star is available
+      </div>
     </div>
-    <button class="btn-g" onclick="window.location.href='/dashboard.html'"><span>Go to My Dashboard</span><span>→</span></button>
-    <p style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:12px">Your locked experiences are waiting inside 🔒</p>
+    <button class="btn-g" onclick="window.location.href='/dashboard.html'">
+      <span>Go to My Dashboard</span><span>→</span>
+    </button>
+    <p style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:12px">Pick your interests & earn more points inside 🔒</p>
   </div>
+
 </div>
 </div>
+
 <script>
 const sbClient = supabase.createClient(
   'https://blwqqqzhnovsveeryjlm.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
 );
-let userData={name:'',email:'',phone:'',city:'',interests:[],celebrities:[]};
+let userData={name:'',email:'',phone:''};
+
 function goStep(n){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
-  const labels=['','Getting Started','Your Details','Personalise','Choose Stars'];
+  const labels={1:'Getting Started',2:'Your Details',3:'Welcome!'};
   document.querySelectorAll('.pd').forEach((d,i)=>{
     d.classList.remove('on','done');
     if(i+1===n) d.classList.add('on');
     else if(i+1<n) d.classList.add('done');
   });
-  if(n<=4) document.getElementById('progText').textContent='Step '+n+' of 4 — '+labels[n];
+  if(n<3) document.getElementById('progText').textContent='Step '+n+' of 3 — '+labels[n];
   else{document.getElementById('progText').textContent='Welcome! 🎉';document.getElementById('progWrap').style.display='none';}
   window.scrollTo(0,0);
 }
-function toggleInt(el,val){
-  el.classList.toggle('sel');
-  userData.interests=el.classList.contains('sel')?[...userData.interests,val]:userData.interests.filter(i=>i!==val);
-}
-function toggleCeleb(el,val){
-  const sel=document.querySelectorAll('.cc.sel');
-  if(!el.classList.contains('sel')&&sel.length>=3) return;
-  el.classList.toggle('sel');
-  userData.celebrities=el.classList.contains('sel')?[...userData.celebrities,val]:userData.celebrities.filter(c=>c!==val);
-}
+
 async function submitStep2(){
   const name=document.getElementById('inp-name').value.trim();
   const email=document.getElementById('inp-email').value.trim();
+  const phone=document.getElementById('inp-phone').value.trim();
   const err=document.getElementById('err2');
   err.style.display='none';
   if(!name){showErr(err,'Please enter your name');return;}
   if(!email||!email.includes('@')){showErr(err,'Please enter a valid email address');return;}
-  userData.name=name;userData.email=email;userData.phone=document.getElementById('inp-phone').value.trim();
+  userData={name,email,phone};
   const btn=document.getElementById('btn2');
   btn.disabled=true;
   btn.innerHTML='<div class="spinner"></div><span>Creating your account...</span>';
@@ -243,6 +201,11 @@ async function submitStep2(){
       options:{data:{full_name:name},emailRedirectTo:'https://www.dinewithcelebrity.com/dashboard.html'}
     });
     if(error&&!error.message.includes('already registered')) throw error;
+    await sbClient.from('members').upsert({
+      email,full_name:name,phone:phone||'',
+      points:100,tier:'free',joined_at:new Date().toISOString()
+    },{onConflict:'email'});
+    document.getElementById('welcomeName').textContent=(name.split(' ')[0]||'Star')+'!';
     goStep(3);
   }catch(e){
     showErr(err,e.message||'Something went wrong. Please try again.');
@@ -250,20 +213,7 @@ async function submitStep2(){
     btn.innerHTML='<span>Unlock Access</span><span>→</span>';
   }
 }
-async function submitFinal(){
-  userData.city=document.getElementById('inp-city')?.value?.trim()||'';
-  const btn=document.getElementById('btn4');
-  if(btn){btn.disabled=true;btn.innerHTML='<div class="spinner"></div><span>Setting up your dashboard...</span>';}
-  try{
-    await sbClient.from('members').upsert({
-      email:userData.email,full_name:userData.name,phone:userData.phone||'',city:userData.city,
-      interests:userData.interests,celebrity_picks:userData.celebrities,
-      points:100,tier:'free',joined_at:new Date().toISOString()
-    },{onConflict:'email'});
-  }catch(e){console.log('Profile:',e.message);}
-  document.getElementById('welcomeName').textContent=(userData.name.split(' ')[0]||'Star')+'!';
-  goStep(5);
-}
+
 function waOptIn(){
   const msg=encodeURIComponent('Hi! I just joined Dine With Celebrity. Please send me alerts for celebrity dining events!');
   window.open('https://wa.me/919999999999?text='+msg,'_blank');
