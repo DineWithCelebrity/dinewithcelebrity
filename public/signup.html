@@ -219,6 +219,7 @@ async function submitStep2(){
   if(!email||!email.includes('@')){showErr(err,'Please enter a valid email address');return;}
   userData={name,email,phone};
   const referralCode=document.getElementById('inp-referral').value.trim().toUpperCase()||null;
+  const myRefCode='DWC-'+name.replace(/\s+/g,'').slice(0,5).toUpperCase()+Math.floor(1000+Math.random()*9000);
   const btn=document.getElementById('btn2');
   btn.disabled=true;
   btn.innerHTML='<div class="spinner"></div><span>Creating your account...</span>';
@@ -231,9 +232,17 @@ async function submitStep2(){
     if(error&&!error.message.includes('already registered')) throw error;
     await sbClient.from('members').upsert({
       email,full_name:name,phone:phone||'',
-      points:100,tier:'free',joined_at:new Date().toISOString(),referred_by:referralCode||null
+      points:100,tier:'free',joined_at:new Date().toISOString(),referred_by:referralCode||null,referral_code:myRefCode
     },{onConflict:'email'});
     document.getElementById('welcomeName').textContent=(name.split(' ')[0]||'Star')+'!';
+    // Referral rewards
+    if(referralCode){
+      const {data:ref}=await sbClient.from('members').select('points').eq('referral_code',referralCode).maybeSingle();
+      if(ref){
+        await sbClient.from('members').update({points:(ref.points||0)+500}).eq('referral_code',referralCode);
+        await sbClient.from('members').update({points:300}).eq('email',email);
+      }
+    }
     goStep(3);
   }catch(e){
     showErr(err,e.message||'Something went wrong. Please try again.');
