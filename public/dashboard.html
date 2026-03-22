@@ -171,7 +171,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
       </div>
       <div class="earn-row">
         <a href="#earn" class="earn-btn">🍽️ Dine at partner restaurant <span class="earn-pts">+100 pts</span></a>
-        <a href="#refer" class="earn-btn">👥 Refer a friend <span class="earn-pts">+200 pts</span></a>
+        <a href="#refer" class="earn-btn">👥 Refer a friend <span class="earn-pts">+500 pts</span></a>
         <a href="#" class="earn-btn">✅ Complete profile <span class="earn-pts">+50 pts</span></a>
       </div>
     </div>
@@ -326,7 +326,7 @@ const sbClient = supabase.createClient(
   const name = member?.full_name || session.user.user_metadata?.full_name || 'Star';
   const pts = member?.points || 100;
   const firstName = name.split(' ')[0];
-  const refCode = 'DWC-'+firstName.toUpperCase().substring(0,4)+(Math.random()*9000+1000|0);
+  const refCode = member?.referral_code || 'DWC-'+firstName.toUpperCase().substring(0,4)+(Math.random()*9000+1000|0);
 
   // Update UI
   document.getElementById('memberName').textContent = firstName;
@@ -337,6 +337,7 @@ const sbClient = supabase.createClient(
   document.getElementById('barFg').style.width = Math.min((pts/1000)*100,100)+'%';
   document.getElementById('ptsLeft').textContent = Math.max(1000-pts,0)+' points to your first celebrity dinner';
   document.getElementById('refCode').textContent = refCode;
+  sbClient.from('members').select('*',{count:'exact',head:true}).eq('referred_by',refCode).then(({count})=>{ document.getElementById('refCount').textContent = count||0; });
 
   if(pts >= 1000){
     document.getElementById('memberSub').textContent = '🎉 You have enough points! Book your celebrity dinner now.';
@@ -387,6 +388,15 @@ async function saveInterests(){
     btn.disabled=false;btn.textContent='Save Interests → Earn 50 pts';
     console.log(e.message);
   }
+}
+
+function copyRefCode(){
+  const code=document.getElementById('refCode').textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='✅ Copied! Share with friends';
+    setTimeout(()=>{btn.innerHTML='📋 Copy Referral Code';},2500);
+  }).catch(()=>alert('Your code: '+code));
 }
 </script>
 </body>
