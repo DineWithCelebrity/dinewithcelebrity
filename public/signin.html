@@ -3,223 +3,175 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sign In — Dine With Celebrity Pvt Ltd</title>
-<meta name="robots" content="noindex">
+<meta name="description" content="Sign in to your Dine With Celebrity account and access your exclusive member dashboard.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#1A0003;--mid:#3D0008;--hi:#7A0015;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--text:rgba(255,255,255,.96);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.50);--border:rgba(242,183,5,.2)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}
-#stars i{position:absolute;color:#F2B705;font-style:normal}
-.sA{animation:twA 3.2s ease-in-out infinite alternate}
-.sB{animation:twB 4.1s ease-in-out infinite alternate}
-.sC{animation:twC 2.8s ease-in-out infinite alternate}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden;display:flex;flex-direction:column}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}#stars i{position:absolute;color:#F2B705;font-style:normal}
+.sA{animation:twA 3.2s ease-in-out infinite alternate}.sB{animation:twB 4.1s ease-in-out infinite alternate}.sC{animation:twC 2.8s ease-in-out infinite alternate}
 @keyframes twA{0%{opacity:.15;transform:scale(.9)}100%{opacity:.45;transform:scale(1.2)}}
 @keyframes twB{0%{opacity:.18;transform:scale(1)}100%{opacity:.42;transform:scale(1.15)}}
 @keyframes twC{0%{opacity:.10;transform:scale(.95)}100%{opacity:.38;transform:scale(1.25)}}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-@keyframes shimmer{0%{left:-100%}100%{left:100%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
 /* SPLIT LAYOUT */
-.layout{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;position:relative;z-index:1}
+.page{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
 
-/* LEFT PANEL — Visual/emotional side */
-.panel-left{background:radial-gradient(ellipse 80% 90% at 40% 50%,var(--hi) 0%,var(--mid) 55%,var(--bg) 100%);padding:60px 50px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
-.pl-logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.1em;margin-bottom:60px;text-decoration:none;display:block}
-.pl-headline{font-family:'Bebas Neue',cursive;font-size:clamp(2.4rem,5vw,4rem);line-height:.92;letter-spacing:.04em;margin-bottom:20px}
-.pl-headline em{color:var(--gold);font-style:normal;display:block}
-.pl-sub{color:var(--sub);font-size:.92rem;line-height:1.7;max-width:340px;margin-bottom:40px}
-
-/* TESTIMONIAL TICKER */
-.ticker-wrap{overflow:hidden;position:relative}
-.ticker{display:flex;flex-direction:column;gap:14px}
-.tick-card{background:rgba(255,255,255,.06);border:1px solid rgba(242,183,5,.15);border-radius:12px;padding:16px 18px;animation:up .6s ease both}
-.tick-stars{color:var(--gold);font-size:.8rem;letter-spacing:2px;margin-bottom:6px}
-.tick-text{font-size:.8rem;color:var(--sub);line-height:1.55;font-style:italic;margin-bottom:10px}
-.tick-author{display:flex;align-items:center;gap:10px}
-.tick-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--red));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:.9rem;color:#1A0003;flex-shrink:0}
-.tick-name{font-size:.76rem;font-weight:600;color:var(--text)}
-.tick-loc{font-size:.68rem;color:var(--muted)}
-
-/* Stats bar */
-.stats-bar{display:flex;gap:24px;margin-top:36px;flex-wrap:wrap}
-.stat-item{text-align:left}
+/* LEFT PANEL — Aspirational */
+.left-panel{background:linear-gradient(160deg,#3D0008 0%,#1A0003 100%);display:flex;flex-direction:column;justify-content:center;padding:60px 56px;position:relative;overflow:hidden}
+.left-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 50%,rgba(122,0,21,.4) 0%,transparent 70%);pointer-events:none}
+.lp-content{position:relative;z-index:1}
+.lp-logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.1em;margin-bottom:48px;text-decoration:none;display:block}
+.lp-headline{font-family:'Bebas Neue',cursive;font-size:clamp(2.4rem,4vw,3.6rem);line-height:.93;letter-spacing:.04em;margin-bottom:16px}
+.lp-headline em{color:var(--gold);font-style:normal;display:block}
+.lp-sub{color:var(--sub);font-size:.9rem;line-height:1.7;margin-bottom:36px;max-width:340px}
+/* Floating celeb cards */
+.celeb-stack{display:flex;flex-direction:column;gap:12px;max-width:320px}
+.celeb-chip{background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.18);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;animation:float 4s ease-in-out infinite}
+.celeb-chip:nth-child(2){animation-delay:-1.3s}
+.celeb-chip:nth-child(3){animation-delay:-2.6s}
+.chip-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--mid),var(--hi));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:2px solid rgba(242,183,5,.25)}
+.chip-info{flex:1}
+.chip-name{font-size:.8rem;font-weight:600;color:var(--text)}
+.chip-meta{font-size:.68rem;color:var(--muted);margin-top:1px}
+.chip-pts{font-size:.7rem;color:var(--gold);font-weight:700;background:rgba(242,183,5,.1);border-radius:4px;padding:2px 8px;white-space:nowrap}
+.lp-bottom{margin-top:36px;padding-top:24px;border-top:1px solid rgba(242,183,5,.1)}
+.lp-stats{display:flex;gap:28px}
 .stat-num{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--gold);line-height:1}
-.stat-lbl{font-size:.66rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.stat-lbl{font-size:.66rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
 
-/* RIGHT PANEL — Form side */
-.panel-right{background:rgba(10,0,2,.96);display:flex;align-items:center;justify-content:center;padding:40px 50px;position:relative}
-.form-wrap{width:100%;max-width:400px;animation:up .5s ease .1s both}
+/* RIGHT PANEL — Form */
+.right-panel{background:rgba(10,0,2,.85);display:flex;flex-direction:column;justify-content:center;padding:60px 56px;backdrop-filter:blur(20px)}
+.rp-inner{max-width:380px;width:100%;margin:0 auto;animation:up .5s ease both}
+.rp-tag{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+.rp-title{font-family:'Bebas Neue',cursive;font-size:clamp(2rem,4vw,2.8rem);line-height:.95;letter-spacing:.04em;margin-bottom:8px}
+.rp-title em{color:var(--gold);font-style:normal;display:block}
+.rp-sub{color:var(--sub);font-size:.84rem;margin-bottom:28px;line-height:1.6}
 
-.form-tag{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
-.form-title{font-family:'Bebas Neue',cursive;font-size:2.4rem;line-height:.95;letter-spacing:.04em;margin-bottom:8px}
-.form-title em{color:var(--gold);font-style:normal}
-.form-sub{color:var(--sub);font-size:.86rem;line-height:1.6;margin-bottom:28px}
+/* TABS */
+.auth-tabs{display:flex;gap:0;background:rgba(255,255,255,.05);border-radius:8px;padding:3px;margin-bottom:24px}
+.tab-btn{flex:1;background:transparent;border:none;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:600;padding:9px;border-radius:6px;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--gold);color:#1A0003}
 
-/* MAGIC LINK FLOW */
-.step{display:none}.step.active{display:block;animation:up .4s ease both}
-
+/* FIELDS */
 .field{margin-bottom:16px}
-.field label{display:block;font-size:.74rem;font-weight:600;color:var(--sub);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase}
-.field input{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(242,183,5,.15);border-radius:9px;padding:14px 16px;font-family:'Poppins',sans-serif;font-size:.94rem;color:var(--text);outline:none;transition:all .2s}
-.field input:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
+.field label{display:block;font-size:.73rem;font-weight:600;color:var(--sub);margin-bottom:6px;letter-spacing:.05em}
+.field input{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(242,183,5,.16);border-radius:8px;padding:13px 15px;font-family:'Poppins',sans-serif;font-size:.94rem;color:var(--text);outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--gold);background:rgba(255,255,255,.09)}
 .field input::placeholder{color:var(--muted)}
 
-.btn-primary{width:100%;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.1em;padding:15px;border:none;border-radius:9px;cursor:pointer;transition:all .2s;box-shadow:0 0 20px rgba(242,183,5,.2);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
-.btn-primary:hover{background:var(--gold2);transform:translateY(-1px)}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+/* MAGIC LINK SENT */
+.magic-sent{display:none;background:rgba(0,200,83,.07);border:1px solid rgba(0,200,83,.25);border-radius:10px;padding:18px;text-align:center;margin-bottom:16px}
+.magic-sent .ms-icon{font-size:2rem;margin-bottom:8px}
+.magic-sent p{font-size:.82rem;color:var(--sub);line-height:1.6}
+.magic-sent p strong{color:var(--text)}
 
-.divider{display:flex;align-items:center;gap:12px;margin:20px 0}
-.divider span{font-size:.72rem;color:var(--muted);white-space:nowrap}
+.btn-g{width:100%;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.1em;padding:15px;border:none;border-radius:8px;cursor:pointer;transition:all .2s;box-shadow:0 0 22px rgba(242,183,5,.2);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-g:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-g:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--muted);font-size:.74rem}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
-
-.btn-secondary{width:100%;background:transparent;border:1.5px solid rgba(242,183,5,.2);color:var(--sub);font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:500;padding:13px;border-radius:9px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
-
-/* OTP BOXES */
-.otp-wrap{display:flex;gap:10px;justify-content:center;margin:20px 0}
-.otp-box{width:52px;height:60px;background:rgba(255,255,255,.07);border:1.5px solid rgba(242,183,5,.2);border-radius:10px;font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--gold);text-align:center;outline:none;transition:border-color .2s}
-.otp-box:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
-
-/* MAGIC LINK SUCCESS */
-.magic-sent{text-align:center;padding:20px 0}
-.magic-icon{font-size:3rem;margin-bottom:16px;animation:up .5s ease both}
-.magic-title{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--gold);letter-spacing:.05em;margin-bottom:8px}
-.magic-sub{font-size:.84rem;color:var(--sub);line-height:1.65;margin-bottom:20px}
-.magic-email-shown{background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.2);border-radius:8px;padding:10px 16px;font-size:.88rem;color:var(--gold);text-align:center;margin-bottom:20px;font-weight:600}
-.resend-txt{font-size:.76rem;color:var(--muted);text-align:center}
-.resend-txt a{color:var(--gold);cursor:pointer;text-decoration:none}
-
+.btn-magic{width:100%;background:transparent;border:1.5px solid var(--border);color:var(--sub);font-family:'Poppins',sans-serif;font-size:.86rem;font-weight:500;padding:13px;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-magic:hover{border-color:var(--gold);color:var(--gold)}
 .err-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);border-radius:6px;padding:10px 14px;font-size:.76rem;color:#ff8fa3;margin-bottom:14px;display:none}
+.rp-footer{margin-top:20px;text-align:center;font-size:.74rem;color:var(--muted)}
+.rp-footer a{color:var(--gold);text-decoration:none}
 .spinner{width:18px;height:18px;border:2px solid rgba(26,0,3,.3);border-top-color:#1A0003;border-radius:50%;animation:spin .7s linear infinite}
-
-.signup-link{text-align:center;margin-top:22px;font-size:.78rem;color:var(--muted)}
-.signup-link a{color:var(--gold);text-decoration:none;font-weight:600}
-
-/* Countdown timer (creates urgency, keeps user on page) */
-.urgency-bar{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.25);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:.76rem;color:#ff8fa3}
-.urgency-bar::before{content:"⚡";flex-shrink:0}
+.forgot{font-size:.72rem;color:var(--muted);text-align:right;margin-top:-8px;margin-bottom:14px;cursor:pointer;transition:color .2s}.forgot:hover{color:var(--gold)}
 
 @media(max-width:768px){
-  .layout{grid-template-columns:1fr}
-  .panel-left{display:none}
-  .panel-right{padding:40px 24px;min-height:100vh}
+  .page{grid-template-columns:1fr}
+  .left-panel{display:none}
+  .right-panel{padding:40px 28px;justify-content:flex-start;padding-top:80px}
+  .rp-inner{max-width:100%}
 }
 </style>
 </head>
 <body>
-
 <div id="stars" aria-hidden="true"></div>
-<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC'],sh=['★','✦','·'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%3],s=sh[i%3],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
+<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC'],sh=['★','✦','·'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%8+4),c=cls[i%3],s=sh[i%3],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
 
-<div class="layout">
-
-  <!-- LEFT PANEL -->
-  <div class="panel-left">
-    <a href="/" class="pl-logo">★ DINE WITH CELEBRITY</a>
-    <div class="pl-headline">Welcome<br><em>Back, Star.</em></div>
-    <p class="pl-sub">Your celebrity dining experiences are waiting. Sign in to check your points, upcoming events, and exclusive member perks.</p>
-
-    <div class="ticker">
-      <div class="tick-card" style="animation-delay:.1s">
-        <div class="tick-stars">★★★★★</div>
-        <p class="tick-text">Sat next to my favourite actor for two hours. Couldn't believe it was real. Best evening of my life.</p>
-        <div class="tick-author">
-          <div class="tick-av">RK</div>
-          <div><div class="tick-name">Rahul K.</div><div class="tick-loc">Mumbai · Gold Member</div></div>
+<div class="page">
+  <!-- LEFT: ASPIRATIONAL PANEL -->
+  <div class="left-panel">
+    <div class="lp-content">
+      <a href="/" class="lp-logo">★ DINE WITH CELEBRITY</a>
+      <div class="lp-headline">Your Celebrity<br><em>Dinner Awaits.</em></div>
+      <p class="lp-sub">Sign in and check how close you are to dining with your favourite star. Your points are waiting.</p>
+      <div class="celeb-stack">
+        <div class="celeb-chip">
+          <div class="chip-av">🎬</div>
+          <div class="chip-info"><div class="chip-name">Rahul K. — Mumbai</div><div class="chip-meta">Dined with a Bollywood star last week</div></div>
+          <div class="chip-pts">★ Gold</div>
+        </div>
+        <div class="celeb-chip">
+          <div class="chip-av">🏏</div>
+          <div class="chip-info"><div class="chip-name">Priya S. — Delhi</div><div class="chip-meta">900 pts · Celebrity dinner unlocked!</div></div>
+          <div class="chip-pts">🔓 900</div>
+        </div>
+        <div class="celeb-chip">
+          <div class="chip-av">🎵</div>
+          <div class="chip-info"><div class="chip-name">Arjun M. — Bangalore</div><div class="chip-meta">Just referred 3 friends · +600 pts</div></div>
+          <div class="chip-pts">+600 pts</div>
         </div>
       </div>
-      <div class="tick-card" style="animation-delay:.2s">
-        <div class="tick-stars">★★★★★</div>
-        <p class="tick-text">The restaurant discounts paid for my membership in the first month. The celebrity dinner was a bonus I'll never forget.</p>
-        <div class="tick-author">
-          <div class="tick-av">PS</div>
-          <div><div class="tick-name">Priya S.</div><div class="tick-loc">Delhi · Platinum Member</div></div>
+      <div class="lp-bottom">
+        <div class="lp-stats">
+          <div><div class="stat-num">2,000+</div><div class="stat-lbl">Active Members</div></div>
+          <div><div class="stat-num">4.9★</div><div class="stat-lbl">Member Rating</div></div>
+          <div><div class="stat-num">15%</div><div class="stat-lbl">To Social Causes</div></div>
         </div>
       </div>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat-item"><div class="stat-num">2,000+</div><div class="stat-lbl">Active Members</div></div>
-      <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-lbl">Member Rating</div></div>
-      <div class="stat-item"><div class="stat-num">15%</div><div class="stat-lbl">To Social Causes</div></div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
-  <div class="panel-right">
-    <div class="form-wrap">
+  <!-- RIGHT: FORM PANEL -->
+  <div class="right-panel">
+    <div class="rp-inner">
+      <span class="rp-tag">👋 Welcome Back</span>
+      <div class="rp-title">Sign In to<br><em>Your Dashboard</em></div>
+      <p class="rp-sub">Access your points, locked events, and celebrity alerts.</p>
 
-      <div class="urgency-bar" id="urgencyBar">
-        Next celebrity dinner in <strong id="urgencyTimer" style="margin:0 4px;color:#ff8fa3">7 days</strong> — members get first access
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="tab-btn active" id="tabEmail" onclick="switchTab('email')">📧 Email Link</button>
+        <button class="tab-btn" id="tabPassword" onclick="switchTab('password')">🔒 Password</button>
       </div>
 
-      <!-- STEP 1: EMAIL -->
-      <div class="step active" id="step1">
-        <span class="form-tag">Member Sign In</span>
-        <div class="form-title">Sign In to<br><em>Your Dashboard</em></div>
-        <p class="form-sub">Enter your email and we'll send you a magic link — no password needed.</p>
-        <div class="err-msg" id="err1"></div>
-        <div class="field">
-          <label>Your Email Address</label>
-          <input type="email" id="inp-email" placeholder="hello@example.com" autocomplete="email">
+      <div class="err-msg" id="errMsg"></div>
+
+      <!-- EMAIL MAGIC LINK FORM -->
+      <div id="formEmail">
+        <div class="magic-sent" id="magicSent">
+          <div class="ms-icon">📬</div>
+          <p>We've sent a magic sign-in link to<br><strong id="sentEmail">your email</strong><br>Click the link to sign in instantly — no password needed.</p>
         </div>
-        <button class="btn-primary" id="btnMagic" onclick="sendMagicLink()">
-          <span>✉️ Send Magic Link</span>
-        </button>
-        <div class="divider"><span>or sign in with password</span></div>
-        <button class="btn-secondary" onclick="showPasswordForm()">
-          🔒 Use Email & Password
-        </button>
-        <div class="signup-link">
-          New to DWC? <a href="/signup.html">Join Free — Start Your Journey →</a>
+        <div id="emailFields">
+          <div class="field"><label>EMAIL ADDRESS</label><input type="email" id="ml-email" placeholder="hello@example.com" autocomplete="email"></div>
+          <button class="btn-g" id="btnMagic" onclick="sendMagicLink()"><span>Send Sign-In Link</span><span>→</span></button>
         </div>
       </div>
 
-      <!-- STEP 1B: PASSWORD -->
-      <div class="step" id="step1b">
-        <span class="form-tag">Member Sign In</span>
-        <div class="form-title">Sign In to<br><em>Your Dashboard</em></div>
-        <p class="form-sub">Enter your email and password to access your dashboard.</p>
-        <div class="err-msg" id="err1b"></div>
-        <div class="field">
-          <label>Email Address</label>
-          <input type="email" id="inp-email-pw" placeholder="hello@example.com" autocomplete="email">
-        </div>
-        <div class="field">
-          <label>Password</label>
-          <input type="password" id="inp-password" placeholder="Your password" autocomplete="current-password">
-        </div>
-        <button class="btn-primary" id="btnPw" onclick="signInWithPassword()">
-          <span>Sign In →</span>
-        </button>
-        <div class="divider"><span>or</span></div>
-        <button class="btn-secondary" onclick="showStep('step1')">
-          ✉️ Use Magic Link Instead
-        </button>
-        <div style="text-align:center;margin-top:14px">
-          <a href="/forgot-password.html" style="font-size:.76rem;color:var(--muted);text-decoration:none">Forgot password?</a>
-        </div>
-        <div class="signup-link">
-          New to DWC? <a href="/signup.html">Join Free →</a>
-        </div>
+      <!-- PASSWORD FORM -->
+      <div id="formPassword" style="display:none">
+        <div class="field"><label>EMAIL ADDRESS</label><input type="email" id="pw-email" placeholder="hello@example.com" autocomplete="email"></div>
+        <div class="field"><label>PASSWORD</label><input type="password" id="pw-pass" placeholder="Your password" autocomplete="current-password"></div>
+        <div class="forgot" onclick="forgotPassword()">Forgot password?</div>
+        <button class="btn-g" id="btnSignin" onclick="signInPassword()"><span>Sign In</span><span>→</span></button>
+        <div class="divider">or</div>
+        <button class="btn-magic" onclick="switchTab('email')">📧 Sign in with email link instead</button>
       </div>
 
-      <!-- STEP 2: MAGIC LINK SENT -->
-      <div class="step" id="step2">
-        <div class="magic-sent">
-          <div class="magic-icon">📬</div>
-          <div class="magic-title">Check Your Email!</div>
-          <p class="magic-sub">We've sent a magic sign-in link to:</p>
-          <div class="magic-email-shown" id="sentEmail">—</div>
-          <p class="magic-sub">Click the link in your email to sign in instantly. No password needed.</p>
-          <p class="resend-txt">Didn't receive it? Check spam or <a onclick="showStep('step1')">try again →</a></p>
-        </div>
+      <div class="rp-footer">
+        Don't have an account? <a href="/signup.html">Join Free →</a>
       </div>
-
     </div>
   </div>
 </div>
@@ -236,73 +188,70 @@ const sbClient = supabase.createClient(
   if(session) window.location.href='/dashboard.html';
 })();
 
-// Urgency countdown
-(function(){
-  var t=new Date();t.setDate(t.getDate()+7);t.setHours(20);t.setMinutes(0);
-  function upd(){
-    var diff=t-new Date();
-    if(diff<=0)return;
-    var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000);
-    document.getElementById('urgencyTimer').textContent=d+'d '+h+'h left';
-  }
-  upd();setInterval(upd,60000);
-})();
-
-function showStep(id){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function showPasswordForm(){
-  const email=document.getElementById('inp-email').value;
-  if(email) document.getElementById('inp-email-pw').value=email;
-  showStep('step1b');
+function switchTab(tab){
+  document.getElementById('formEmail').style.display = tab==='email'?'block':'none';
+  document.getElementById('formPassword').style.display = tab==='password'?'block':'none';
+  document.getElementById('tabEmail').classList.toggle('active',tab==='email');
+  document.getElementById('tabPassword').classList.toggle('active',tab==='password');
+  document.getElementById('errMsg').style.display='none';
 }
 
 async function sendMagicLink(){
-  const email=document.getElementById('inp-email').value.trim();
-  const err=document.getElementById('err1');
+  const email=document.getElementById('ml-email').value.trim();
+  const err=document.getElementById('errMsg');
   err.style.display='none';
-  if(!email||!email.includes('@')){showErr(err,'Please enter a valid email address');return;}
+  if(!email||!email.includes('@')){showErr('Please enter a valid email address');return;}
   const btn=document.getElementById('btnMagic');
-  btn.disabled=true;btn.innerHTML='<div class="spinner"></div><span>Sending...</span>';
-  try{
-    const {error}=await sbClient.auth.signInWithOtp({
-      email,
-      options:{emailRedirectTo:'https://www.dinewithcelebrity.com/dashboard.html'}
-    });
-    if(error) throw error;
-    document.getElementById('sentEmail').textContent=email;
-    showStep('step2');
-  }catch(e){
-    showErr(err,e.message||'Something went wrong. Please try again.');
-    btn.disabled=false;btn.innerHTML='<span>✉️ Send Magic Link</span>';
-  }
+  btn.disabled=true;btn.innerHTML='<div class="spinner"></div><span>Sending link...</span>';
+  const {error}=await sbClient.auth.signInWithOtp({
+    email,
+    options:{emailRedirectTo:'https://www.dinewithcelebrity.com/dashboard.html'}
+  });
+  if(error){showErr(error.message);btn.disabled=false;btn.innerHTML='<span>Send Sign-In Link</span><span>→</span>';return;}
+  document.getElementById('sentEmail').textContent=email;
+  document.getElementById('emailFields').style.display='none';
+  document.getElementById('magicSent').style.display='block';
 }
 
-async function signInWithPassword(){
-  const email=document.getElementById('inp-email-pw').value.trim();
-  const password=document.getElementById('inp-password').value;
-  const err=document.getElementById('err1b');
+async function signInPassword(){
+  const email=document.getElementById('pw-email').value.trim();
+  const pass=document.getElementById('pw-pass').value;
+  const err=document.getElementById('errMsg');
   err.style.display='none';
-  if(!email||!password){showErr(err,'Please enter your email and password');return;}
-  const btn=document.getElementById('btnPw');
+  if(!email||!pass){showErr('Please enter your email and password');return;}
+  const btn=document.getElementById('btnSignin');
   btn.disabled=true;btn.innerHTML='<div class="spinner"></div><span>Signing in...</span>';
-  try{
-    const {error}=await sbClient.auth.signInWithPassword({email,password});
-    if(error) throw error;
-    window.location.href='/dashboard.html';
-  }catch(e){
-    showErr(err,'Invalid email or password. Try magic link instead.');
-    btn.disabled=false;btn.innerHTML='<span>Sign In →</span>';
+  const {error}=await sbClient.auth.signInWithPassword({email,password:pass});
+  if(error){
+    showErr(error.message.includes('Invalid')?'Incorrect email or password. Try the email link instead.':error.message);
+    btn.disabled=false;btn.innerHTML='<span>Sign In</span><span>→</span>';
+    return;
   }
+  window.location.href='/dashboard.html';
 }
 
-function showErr(el,msg){el.textContent=msg;el.style.display='block';}
+async function forgotPassword(){
+  const email=document.getElementById('pw-email').value.trim();
+  if(!email){showErr('Enter your email address above first');return;}
+  const {error}=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://www.dinewithcelebrity.com/update-password.html'});
+  if(error){showErr(error.message);return;}
+  showErr('Password reset link sent to '+email,'success');
+}
 
-// Handle magic link on page load (Supabase redirects back with token)
-sbClient.auth.onAuthStateChange((event,session)=>{
-  if(event==='SIGNED_IN'&&session) window.location.href='/dashboard.html';
+function showErr(msg,type){
+  const el=document.getElementById('errMsg');
+  el.textContent=msg;
+  el.style.display='block';
+  if(type==='success'){el.style.background='rgba(0,200,83,.07)';el.style.borderColor='rgba(0,200,83,.25)';el.style.color='#69f0ae';}
+  else{el.style.background='rgba(212,0,42,.1)';el.style.borderColor='rgba(212,0,42,.3)';el.style.color='#ff8fa3';}
+}
+
+// Enter key support
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    if(document.getElementById('formPassword').style.display!=='none') signInPassword();
+    else sendMagicLink();
+  }
 });
 </script>
 </body>
