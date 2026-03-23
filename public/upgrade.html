@@ -1,311 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Upgrade Your Membership — Dine With Celebrity Pvt Ltd</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Upgrade Membership — Dine With Celebrity Pvt Ltd</title>
 <meta name="robots" content="noindex">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#1A0003;--mid:#3D0008;--hi:#7A0015;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--text:rgba(255,255,255,.96);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.50);--border:rgba(242,183,5,.2)}
+:root{--bg:#06040A;--card:#110916;--card2:#180e1c;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--purple:#9b59b6;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}#stars i{position:absolute;color:#F2B705;font-style:normal}
-.sA{animation:twA 3.2s ease-in-out infinite alternate}.sB{animation:twB 4.1s ease-in-out infinite alternate}.sC{animation:twC 2.8s ease-in-out infinite alternate}
-@keyframes twA{0%{opacity:.15;transform:scale(.9)}100%{opacity:.45;transform:scale(1.2)}}
-@keyframes twB{0%{opacity:.18;transform:scale(1)}100%{opacity:.42;transform:scale(1.15)}}
-@keyframes twC{0%{opacity:.10;transform:scale(.95)}100%{opacity:.38;transform:scale(1.25)}}
-@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
+@keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
+.brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;text-decoration:none}
+.nav-logo span{color:var(--text)}
+.nav-back{font-size:.85rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+.nav-back:hover{color:var(--gold)}
+/* LAYOUT */
+.page{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 58px);position:relative;z-index:1}
+/* LEFT — FOMO PANEL */
+.left{background:linear-gradient(180deg,#0d0612 0%,#080410 100%);border-right:1px solid var(--border2);padding:36px 28px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;display:flex;flex-direction:column;gap:20px}
+.fomo-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:8px}
+.fomo-label::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.fomo-heading{font-family:'Bebas Neue',cursive;font-size:2rem;line-height:1.05;color:var(--text)}
+.fomo-heading em{color:var(--gold);font-style:normal}
+/* Current price card */
+.price-card{background:linear-gradient(135deg,#1a0a22,#0f0618);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden}
+.price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.pc-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.pc-price{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--red);line-height:1}
+.pc-sub{font-size:.85rem;color:var(--sub);margin-top:6px}
+/* What you're missing */
+.missing-title{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--text);margin-bottom:12px}
+.missing-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(212,0,42,.05);border:1px solid rgba(212,0,42,.15);border-radius:10px;margin-bottom:8px}
+.mi-icon{font-size:1.1rem;flex-shrink:0}
+.mi-text{}
+.mi-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.mi-desc{font-size:.78rem;color:var(--muted);line-height:1.4}
+/* Instant savings preview */
+.savings-preview{background:rgba(0,200,83,.07);border:1px solid rgba(0,200,83,.2);border-radius:12px;padding:16px;margin-top:4px}
+.sp-label{font-size:.72rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.sp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sp-tier{font-size:.88rem;color:var(--sub)}
+.sp-price{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--green)}
+/* RIGHT — TIER CARDS */
+.right{padding:36px 32px;overflow-y:auto}
+.right-heading{font-family:'Bebas Neue',cursive;font-size:2.2rem;color:var(--text);margin-bottom:6px}
+.right-heading em{color:var(--gold);font-style:normal}
+.right-sub{font-size:.92rem;color:var(--sub);margin-bottom:28px}
+.tiers{display:flex;flex-direction:column;gap:16px}
+/* Tier card */
+.tier-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:border-color .3s,transform .2s;cursor:pointer}
+.tier-card:hover{transform:translateY(-2px)}
+.tier-card.gold-card{border-color:rgba(242,183,5,.3)}
+.tier-card.gold-card:hover{border-color:var(--gold)}
+.tier-card.platinum-card{border-color:rgba(255,255,255,.15)}
+.tier-card.platinum-card:hover{border-color:rgba(255,255,255,.4)}
+.tier-card.purple-card{border-color:rgba(155,89,182,.3)}
+.tier-card.purple-card:hover{border-color:var(--purple)}
+.tier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.gold-card::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.platinum-card::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
+.purple-card::before{background:linear-gradient(90deg,transparent,var(--purple),transparent)}
+.tc-popular{position:absolute;top:16px;right:16px;font-size:.68rem;font-weight:800;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em}
+.popular-gold{background:rgba(242,183,5,.15);border:1px solid var(--border);color:var(--gold)}
+.popular-purple{background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);color:#c39bd3}
+.tc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px}
+.tc-name{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--text);line-height:1}
+.tc-price-wrap{}
+.tc-price{font-family:'Bebas Neue',cursive;font-size:2.2rem;line-height:1}
+.gold-price{color:var(--gold)}
+.platinum-price{color:rgba(255,255,255,.85)}
+.purple-price{color:#c39bd3}
+.tc-per{font-size:.78rem;color:var(--muted)}
+.tc-saving{display:inline-block;background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:var(--green);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:100px;margin-top:4px}
+.tc-perks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.tc-perk{display:flex;align-items:flex-start;gap:8px;font-size:.82rem;color:var(--sub)}
+.tc-perk::before{content:'\2713';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.tc-perk.highlight{color:var(--text);font-weight:600}
+.btn-pay{width:100%;padding:15px;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-pay:hover{opacity:.88}
+.btn-pay:disabled{opacity:.5;cursor:not-allowed}
+.btn-gold{background:var(--gold);color:#06040A}
+.btn-platinum{background:linear-gradient(135deg,#c0c0c0,#808080);color:#06040A}
+.btn-purple{background:linear-gradient(135deg,#9b59b6,#6c3483);color:#fff}
+/* Loading */
+#loadingState{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loader{width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(10,0,2,.96);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.15rem;color:var(--gold);text-decoration:none;letter-spacing:.08em}
-.nav-back{color:var(--muted);font-size:.8rem;text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s}.nav-back:hover{color:var(--gold)}
-.main{position:relative;z-index:1;padding:90px 20px 60px;max-width:960px;margin:0 auto}
-.page-title{text-align:center;margin-bottom:40px;animation:up .5s ease both}
-.page-tag{font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px}
-.page-title h1{font-family:'Bebas Neue',cursive;font-size:clamp(2.2rem,6vw,3.8rem);line-height:.95;letter-spacing:.04em}
-.page-title h1 span{color:var(--gold)}
-.page-title p{color:var(--sub);font-size:.94rem;margin-top:10px;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.65}
-/* PLANS GRID */
-.plans{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:36px}
-.plan{background:rgba(15,0,3,.75);border:2px solid var(--border);border-radius:18px;padding:36px 30px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s;animation:up .5s ease .1s both}
-.plan:hover{transform:translateY(-4px);border-color:rgba(242,183,5,.4)}
-.plan.featured{border-color:var(--gold);background:rgba(50,0,10,.9);transform:scale(1.03)}
-.plan.featured:hover{transform:scale(1.03) translateY(-4px)}
-.plan-badge{position:absolute;top:16px;right:-32px;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:.7rem;letter-spacing:.12em;padding:5px 48px;transform:rotate(45deg)}
-.plan-icon{font-size:2.2rem;margin-bottom:14px}
-.plan-name{font-family:'Bebas Neue',cursive;font-size:1.8rem;letter-spacing:.08em;color:var(--gold);margin-bottom:4px}
-.plan-tagline{font-size:.78rem;color:var(--muted);margin-bottom:20px}
-.plan-price{margin-bottom:6px}
-.price-num{font-family:'Bebas Neue',cursive;font-size:3.4rem;color:var(--text);line-height:1}
-.price-cur{font-size:1.2rem;color:var(--sub);font-family:'Poppins',sans-serif;vertical-align:top;margin-top:8px;display:inline-block}
-.price-period{font-size:.76rem;color:var(--muted);margin-left:4px}
-.price-perday{font-size:.74rem;color:#69f0ae;font-weight:600;margin-bottom:22px}
-.perks{list-style:none;margin-bottom:28px}
-.perks li{color:var(--sub);font-size:.84rem;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:flex-start;gap:10px}
-.perks li::before{content:"✦";color:var(--gold);font-size:.6rem;margin-top:4px;flex-shrink:0}
-.perks li strong{color:var(--text)}
-.btn-pay{width:100%;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.12rem;letter-spacing:.1em;padding:16px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;box-shadow:0 0 24px rgba(242,183,5,.25);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-pay:hover{background:var(--gold2);transform:translateY(-1px)}
-.btn-pay:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-pay.outline{background:transparent;border:2px solid var(--gold);color:var(--gold)}
-.btn-pay.outline:hover{background:var(--gold);color:#1A0003}
-/* TRUST STRIP */
-.trust-strip{display:flex;justify-content:center;align-items:center;gap:28px;flex-wrap:wrap;padding:20px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;margin-bottom:32px;animation:up .5s ease .2s both}
-.trust-item{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--sub)}
-.trust-icon{font-size:1.2rem}
-/* COMPARE TABLE */
-.compare{animation:up .5s ease .25s both}
-.compare h3{font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:.06em;text-align:center;margin-bottom:20px;color:var(--text)}
-.ctable{width:100%;border-collapse:collapse;font-size:.82rem}
-.ctable th{font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:.08em;padding:12px 16px;text-align:center;border-bottom:2px solid var(--border)}
-.ctable th:first-child{text-align:left;color:var(--sub)}
-.ctable th.gold-col{color:var(--gold)}
-.ctable th.plat-col{color:var(--gold2)}
-.ctable td{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--sub);text-align:center}
-.ctable td:first-child{text-align:left;color:var(--text);font-weight:500}
-.ctable tr:hover td{background:rgba(255,255,255,.02)}
-.check{color:var(--gold)}
-.cross{color:var(--muted)}
-/* FAQ */
-.faq{margin-top:36px;animation:up .5s ease .3s both}
-.faq h3{font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:.06em;text-align:center;margin-bottom:20px}
-.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
-.faq-q{font-size:.88rem;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.faq-a{font-size:.82rem;color:var(--sub);line-height:1.65;padding-top:10px;display:none}
-.faq-item.open .faq-a{display:block}
-.faq-item.open .faq-arrow{transform:rotate(180deg)}
-.faq-arrow{transition:transform .2s;color:var(--gold)}
-/* SUCCESS */
-.success-overlay{display:none;position:fixed;inset:0;background:rgba(10,0,2,.96);z-index:500;align-items:center;justify-content:center;flex-direction:column;gap:20px;text-align:center;padding:20px}
-.success-overlay.show{display:flex}
-.success-emoji{font-size:4rem;animation:up .5s ease both}
-.success-title{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--gold);letter-spacing:.05em}
-.success-sub{color:var(--sub);font-size:.92rem;max-width:380px;line-height:1.65}
-.spinner{width:20px;height:20px;border:2px solid rgba(26,0,3,.3);border-top-color:#1A0003;border-radius:50%;animation:spin .7s linear infinite}
-@media(max-width:768px){.plans{grid-template-columns:1fr}.plan.featured{transform:none}.ctable{font-size:.74rem}.ctable th,.ctable td{padding:9px 10px}}
+/* Success overlay */
+#successOverlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px}
+.success-icon{font-size:4rem}
+.success-title{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--green)}
+.success-sub{font-size:1rem;color:var(--sub);max-width:380px;line-height:1.6}
+.btn-dashboard{background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px 32px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+@media(max-width:900px){.page{grid-template-columns:1fr}.left{position:relative;height:auto;top:0}.tiers{gap:14px}.tc-perks{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="stars" aria-hidden="true"></div>
-<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC'],sh=['★','✦','·'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%3],s=sh[i%3],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
-
-<nav class="nav">
-  <a href="/" class="nav-logo">★ DINE WITH CELEBRITY</a>
-  <a href="/dashboard.html" class="nav-back">← Back to Dashboard</a>
-</nav>
+<div id="stars"></div>
+<div class="brand-bg">DWC</div>
+<div id="loadingState"><div class="loader"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading your upgrade options</div></div>
 
 <!-- SUCCESS OVERLAY -->
-<div class="success-overlay" id="successOverlay">
-  <div class="success-emoji">🎉</div>
-  <div class="success-title" id="successTitle">Welcome to Gold!</div>
-  <p class="success-sub" id="successSub">Your membership has been upgraded. You now have priority access to celebrity dining experiences.</p>
-  <a href="/dashboard.html" style="background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.1em;padding:14px 36px;border-radius:8px;text-decoration:none;margin-top:8px">Go to My Dashboard →</a>
+<div id="successOverlay">
+  <div class="success-icon">&#x2B50;</div>
+  <div class="success-title">WELCOME TO <span id="successTier">DWC GOLD</span>!</div>
+  <div class="success-sub" id="successMsg">Your membership has been upgraded. Your new benefits are active immediately.</div>
+  <button class="btn-dashboard" onclick="window.location.href='/dashboard.html'">Go to My Dashboard &rarr;</button>
 </div>
 
-<div class="main">
+<nav>
+  <a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
+  <a class="nav-back" href="/dashboard.html">&#x2190; Back to Dashboard</a>
+</nav>
 
-  <div class="page-title">
-    <span class="page-tag">🔥 Upgrade Your Membership</span>
-    <h1>Unlock <span>VIP Celebrity Access</span></h1>
-    <p>Skip the points queue. Get direct access to celebrity dinners, priority seating, and exclusive dining discounts across India.</p>
+<div class="page">
+  <!-- LEFT: PERSONALISED FOMO -->
+  <div class="left">
+    <div>
+      <div class="fomo-label">Your current status</div>
+      <div class="fomo-heading">YOU'RE LEAVING<br><em>MONEY ON THE TABLE</em></div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Your celebrity dinner price right now</div>
+      <div class="pc-price" id="currentPrice">&#x20B9;70,000</div>
+      <div class="pc-sub" id="currentSub">You've saved &#x20B9;0 so far. Upgrade instantly cuts this further.</div>
+    </div>
+    <div>
+      <div class="missing-title">What Free Members Miss Out On</div>
+      <div class="missing-item"><div class="mi-icon">&#x1F37D;&#xFE0F;</div><div class="mi-text"><div class="mi-title">Restaurant &amp; Brand Discounts</div><div class="mi-desc">Gold+ members get 10–20% off at partner restaurants and exclusive sponsor brand offers — you're paying full price every visit.</div></div></div>
+      <div class="missing-item"><div class="mi-icon">&#x1F3AB;</div><div class="mi-text"><div class="mi-title">Film Event Tickets</div><div class="mi-desc">Audio launches, pre-release events, success meets — Gold+ members get access. Free members don't.</div></div></div>
+      <div class="missing-item"><div class="mi-icon">&#x1F455;</div><div class="mi-text"><div class="mi-title">DWC T-Shirt</div><div class="mi-desc">Every paid member wears the DWC T-shirt to events. It's how celebrities know who you are.</div></div></div>
+    </div>
+    <div class="savings-preview">
+      <div class="sp-label">&#x26A1; Your price after upgrade</div>
+      <div class="sp-row"><span class="sp-tier">After Gold upgrade</span><span class="sp-price" id="goldPrice">&#x20B9;65,000</span></div>
+      <div class="sp-row"><span class="sp-tier">After Platinum upgrade</span><span class="sp-price" id="platPrice">&#x20B9;60,000</span></div>
+      <div class="sp-row"><span class="sp-tier">After Purple upgrade</span><span class="sp-price" id="purpPrice">&#x20B9;55,000</span></div>
+    </div>
   </div>
 
-  <!-- PLANS -->
-  <div class="plans">
+  <!-- RIGHT: TIER CARDS -->
+  <div class="right">
+    <div class="right-heading">CHOOSE YOUR<br><em>MEMBERSHIP TIER</em></div>
+    <p class="right-sub">One payment. Active immediately. Cancel anytime. All prices per year.</p>
+    <div class="tiers">
 
-    <!-- GOLD -->
-    <div class="plan">
-      <div class="plan-icon">⭐</div>
-      <div class="plan-name">DWC Gold</div>
-      <div class="plan-tagline">Perfect for regular diners who love Bollywood</div>
-      <div class="plan-price">
-        <span class="price-cur">₹</span><span class="price-num">2,499</span><span class="price-period">/year</span>
+      <!-- GOLD -->
+      <div class="tier-card gold-card">
+        <span class="tc-popular popular-gold">Best Value</span>
+        <div class="tc-top">
+          <div><div class="tc-name">DWC GOLD</div><div class="tc-saving" id="goldSaving">Saves &#x20B9;5,000 on your dinner seat</div></div>
+          <div class="tc-price-wrap"><div class="tc-price gold-price">&#x20B9;2,499</div><div class="tc-per">per year &middot; &#x20B9;208/mo</div></div>
+        </div>
+        <div class="tc-perks">
+          <div class="tc-perk highlight">DWC T-Shirt (one-time)</div>
+          <div class="tc-perk highlight">Restaurant discounts 10%</div>
+          <div class="tc-perk highlight">Sponsor brand offers</div>
+          <div class="tc-perk highlight">Film event tickets (General)</div>
+          <div class="tc-perk">Audio launch access</div>
+          <div class="tc-perk">Pre-release event access</div>
+          <div class="tc-perk">Movie success meet tickets</div>
+          <div class="tc-perk">&#x2212;&#x20B9;5,000 dinner seat</div>
+        </div>
+        <button class="btn-pay btn-gold" onclick="startPayment('gold',249900,'DWC Gold')">Upgrade to Gold &mdash; &#x20B9;2,499/yr</button>
       </div>
-      <div class="price-perday">Less than ₹7/day</div>
-      <ul class="perks">
-        <li>Everything in Free</li>
-        <li><strong>Priority access</strong> to celebrity events</li>
-        <li><strong>Up to 20% off</strong> at partner restaurants</li>
-        <li>Exclusive Gold-only dinner events</li>
-        <li>Dedicated member support</li>
-        <li>Early bird event notifications</li>
-      </ul>
-      <button class="btn-pay outline" onclick="startPayment('gold',249900,'DWC Gold Membership')">
-        <span>🔥 Upgrade to Gold</span>
-      </button>
-      <p style="font-size:.68rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">By purchasing you agree to our <a href="/refund.html" style="color:var(--gold);text-decoration:none">Refund Policy</a>. Memberships are <strong style="color:var(--text)">non-refundable</strong> except if DWC cancels an event.</p>
-    </div>
 
-    <!-- PLATINUM -->
-    <div class="plan featured">
-      <div class="plan-badge">Best Value</div>
-      <div class="plan-icon">💎</div>
-      <div class="plan-name">DWC Platinum</div>
-      <div class="plan-tagline">The ultimate VIP celebrity dining experience</div>
-      <div class="plan-price">
-        <span class="price-cur">₹</span><span class="price-num">6,999</span><span class="price-period">/year</span>
+      <!-- PLATINUM -->
+      <div class="tier-card platinum-card">
+        <div class="tc-top">
+          <div><div class="tc-name">DWC PLATINUM</div><div class="tc-saving" id="platSaving">Saves &#x20B9;10,000 on your dinner seat</div></div>
+          <div class="tc-price-wrap"><div class="tc-price platinum-price">&#x20B9;6,999</div><div class="tc-per">per year &middot; &#x20B9;583/mo</div></div>
+        </div>
+        <div class="tc-perks">
+          <div class="tc-perk highlight">Everything in Gold</div>
+          <div class="tc-perk highlight">Restaurant discounts 15%</div>
+          <div class="tc-perk highlight">Film event tickets (Premium block)</div>
+          <div class="tc-perk highlight">Priority event booking</div>
+          <div class="tc-perk">Sponsor brand premium offers</div>
+          <div class="tc-perk">&#x2212;&#x20B9;10,000 dinner seat</div>
+        </div>
+        <button class="btn-pay btn-platinum" onclick="startPayment('platinum',699900,'DWC Platinum')">Upgrade to Platinum &mdash; &#x20B9;6,999/yr</button>
       </div>
-      <div class="price-perday">VIP everything · ₹19/day</div>
-      <ul class="perks">
-        <li>Everything in Gold</li>
-        <li><strong>VIP celebrity meet & greet</strong> at every dinner</li>
-        <li><strong>Up to 40% off</strong> at partner restaurants</li>
-        <li>Platinum-only private dinners</li>
-        <li>Celebrity photo opportunities</li>
-        <li>Priority booking guarantee</li>
-        <li>Exclusive Platinum lounge access</li>
-      </ul>
-      <button class="btn-pay" onclick="startPayment('platinum',699900,'DWC Platinum Membership')">
-        <span>💎 Upgrade to Platinum</span>
-      </button>
-      <p style="font-size:.68rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">By purchasing you agree to our <a href="/refund.html" style="color:var(--gold);text-decoration:none">Refund Policy</a>. Memberships are <strong style="color:var(--text)">non-refundable</strong> except if DWC cancels an event.</p>
-    </div>
 
-  </div>
+      <!-- PURPLE -->
+      <div class="tier-card purple-card">
+        <span class="tc-popular popular-purple">VIP</span>
+        <div class="tc-top">
+          <div><div class="tc-name">DWC PURPLE</div><div class="tc-saving" style="background:rgba(155,89,182,.15);border-color:rgba(155,89,182,.3);color:#c39bd3" id="purpSaving">Saves &#x20B9;15,000 on your dinner seat</div></div>
+          <div class="tc-price-wrap"><div class="tc-price purple-price">&#x20B9;14,999</div><div class="tc-per">per year &middot; &#x20B9;1,250/mo</div></div>
+        </div>
+        <div class="tc-perks">
+          <div class="tc-perk highlight">Everything in Platinum</div>
+          <div class="tc-perk highlight">Restaurant discounts 20%</div>
+          <div class="tc-perk highlight">VIP block film event tickets</div>
+          <div class="tc-perk highlight">3rd row celebrity seating</div>
+          <div class="tc-perk highlight">1st day 1st show (Top 50 spenders)</div>
+          <div class="tc-perk highlight">Dedicated relationship manager</div>
+          <div class="tc-perk">Sponsor brand VIP offers</div>
+          <div class="tc-perk">&#x2212;&#x20B9;15,000 dinner seat</div>
+        </div>
+        <button class="btn-pay btn-purple" onclick="startPayment('purple',1499900,'DWC Purple')">Upgrade to Purple &mdash; &#x20B9;14,999/yr</button>
+      </div>
 
-  <!-- TRUST STRIP -->
-  <div class="trust-strip">
-    <div class="trust-item"><span class="trust-icon">🔒</span><span>100% Secure Payment via Razorpay</span></div>
-    <div class="trust-item"><span class="trust-icon">💳</span><span>UPI · Cards · NetBanking · Wallets</span></div>
-    <div class="trust-item"><span class="trust-icon">📋</span><span>No refunds · <a href="/refund.html" style="color:var(--gold);text-decoration:none">See Policy</a></span></div>
-    <div class="trust-item"><span class="trust-icon">📞</span><span>Support: hello@dinewithcelebrity.com</span></div>
-  </div>
-
-  <!-- COMPARE TABLE -->
-  <div class="compare">
-    <h3>Full Feature Comparison</h3>
-    <table class="ctable">
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>Free</th>
-          <th class="gold-col">Gold ₹2,499</th>
-          <th class="plat-col">Platinum ₹6,999</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Member Dashboard</td><td class="check">✦</td><td class="check">✦</td><td class="check">✦</td></tr>
-        <tr><td>Browse Celebrity Events</td><td class="check">✦</td><td class="check">✦</td><td class="check">✦</td></tr>
-        <tr><td>Earn Access Points</td><td class="check">✦</td><td class="check">✦</td><td class="check">✦</td></tr>
-        <tr><td>Restaurant Dining Discounts</td><td class="cross">—</td><td>Up to 20%</td><td>Up to 40%</td></tr>
-        <tr><td>Celebrity Dinner Access</td><td>Points only</td><td class="check">Priority</td><td class="check">Guaranteed</td></tr>
-        <tr><td>Gold-Only Events</td><td class="cross">—</td><td class="check">✦</td><td class="check">✦</td></tr>
-        <tr><td>VIP Meet & Greet</td><td class="cross">—</td><td class="cross">—</td><td class="check">✦</td></tr>
-        <tr><td>Celebrity Photo Ops</td><td class="cross">—</td><td class="cross">—</td><td class="check">✦</td></tr>
-        <tr><td>Private Platinum Dinners</td><td class="cross">—</td><td class="cross">—</td><td class="check">✦</td></tr>
-        <tr><td>Priority Booking Guarantee</td><td class="cross">—</td><td class="cross">—</td><td class="check">✦</td></tr>
-        <tr><td>15% Profits to Social Causes</td><td class="check">✦</td><td class="check">✦</td><td class="check">✦</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- FAQ -->
-  <div class="faq">
-    <h3>Frequently Asked Questions</h3>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">Can I cancel or get a refund? <span class="faq-arrow">▼</span></div>
-      <div class="faq-a">No — all membership purchases are final and non-refundable. A refund is only applicable if Dine With Celebrity Pvt Ltd cancels a scheduled event. For any queries, contact hello@dinewithcelebrity.com.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">What payment methods are accepted? <span class="faq-arrow">▼</span></div>
-      <div class="faq-a">We accept all major payment methods via Razorpay — UPI (GPay, PhonePe, Paytm), Credit/Debit Cards (Visa, Mastercard, RuPay), Net Banking, and all major digital wallets.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">How quickly is my membership activated? <span class="faq-arrow">▼</span></div>
-      <div class="faq-a">Instantly! As soon as your payment is confirmed, your dashboard upgrades automatically. No waiting, no manual processing.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">Can I upgrade from Gold to Platinum later? <span class="faq-arrow">▼</span></div>
-      <div class="faq-a">Absolutely. You can upgrade at any time. We'll prorate the difference so you only pay for the remaining period.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">Is my payment information safe? <span class="faq-arrow">▼</span></div>
-      <div class="faq-a">100%. All payments are processed by Razorpay — a PCI-DSS compliant payment gateway trusted by over 8 million businesses in India. We never store your card details.</div>
     </div>
   </div>
-
 </div>
 
 <script>
-const sbClient = supabase.createClient(
-  'https://blwqqqzhnovsveeryjlm.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
-);
+// Stars
+(function(){var se=document.getElementById('stars');for(var i=0;i<70;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
-async function startPayment(tier, amountPaise, description) {
-  const {data:{session}} = await sbClient.auth.getSession();
-  if(!session){
-    alert('Please sign in first to upgrade your membership.');
-    window.location.href='/signin.html';
-    return;
+var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+var currentUser=null, currentMember=null;
+
+(async function(){
+  var sess=await sbClient.auth.getSession();
+  if(!sess.data.session){window.location.href='/signin';return;}
+  currentUser=sess.data.session.user;
+  var res=await sbClient.from('members').select('*').eq('email',currentUser.email).single();
+  currentMember=res.data;
+
+  if(currentMember){
+    // If already paid member, show current tier
+    var tier=(currentMember.tier||'free').toLowerCase();
+    if(tier!=='free'){
+      // Hide already-owned tiers
+      if(tier==='gold'){document.querySelector('.gold-card').style.opacity='.4';document.querySelector('.btn-gold').textContent='Current Plan';document.querySelector('.btn-gold').disabled=true;}
+      if(tier==='gold'||tier==='platinum'){document.querySelector('.platinum-card').style.opacity=tier==='platinum'?'.4':'1';if(tier==='platinum'){document.querySelector('.btn-platinum').textContent='Current Plan';document.querySelector('.btn-platinum').disabled=true;}}
+    }
+    // Personalise prices
+    var dv=currentMember.dining_visits||0, dd=dv*500;
+    var refCode=currentMember.referral_code||'';
+    var rr=await sbClient.from('members').select('*',{count:'exact',head:true}).eq('referred_by',refCode);
+    var rs=(rr.count||0)*2000;
+    var existing=dd+rs;
+    var base=70000-existing;
+    document.getElementById('currentPrice').textContent='\u20B9'+Math.max(0,base).toLocaleString('en-IN');
+    document.getElementById('currentSub').textContent='You\'ve saved \u20B9'+existing.toLocaleString('en-IN')+' so far. Upgrade cuts this further instantly.';
+    document.getElementById('goldPrice').textContent='\u20B9'+(Math.max(0,base-5000)).toLocaleString('en-IN');
+    document.getElementById('platPrice').textContent='\u20B9'+(Math.max(0,base-10000)).toLocaleString('en-IN');
+    document.getElementById('purpPrice').textContent='\u20B9'+(Math.max(0,base-15000)).toLocaleString('en-IN');
+    document.getElementById('goldSaving').textContent='Instantly drops your dinner price to \u20B9'+(Math.max(0,base-5000)).toLocaleString('en-IN');
+    document.getElementById('platSaving').textContent='Instantly drops your dinner price to \u20B9'+(Math.max(0,base-10000)).toLocaleString('en-IN');
+    document.getElementById('purpSaving').textContent='Instantly drops your dinner price to \u20B9'+(Math.max(0,base-15000)).toLocaleString('en-IN');
   }
 
-  const btn = event.currentTarget;
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spinner"></div><span>Opening payment...</span>';
+  document.getElementById('loadingState').style.display='none';
+})();
 
-  const options = {
-    key: 'rzp_live_STyvlctN0h9cmG',
-    amount: amountPaise,
-    currency: 'INR',
-    name: 'Dine With Celebrity Pvt Ltd',
-    description: description,
-    image: 'https://www.dinewithcelebrity.com/logo.png',
-    prefill: {
-      email: session.user.email,
-      name: session.user.user_metadata?.full_name || ''
-    },
-    theme: { color: '#F2B705' },
-    modal: {
-      ondismiss: function() {
-        btn.disabled = false;
-        btn.innerHTML = tier === 'gold'
-          ? '<span>🔥 Upgrade to Gold</span>'
-          : '<span>💎 Upgrade to Platinum</span>';
-      }
-    },
-    handler: async function(response) {
-      // Payment successful — update member tier in Supabase
-      try {
-        const expiry = new Date();
-        expiry.setFullYear(expiry.getFullYear() + 1);
-        await sbClient.from('members').update({
-          tier: tier,
-          payment_id: response.razorpay_payment_id,
-          tier_expires_at: expiry.toISOString(),
-          upgraded_at: new Date().toISOString()
-        }).eq('email', session.user.email);
-
-        // Show success
-        document.getElementById('successTitle').textContent =
-          tier === 'gold' ? '🎉 Welcome to Gold!' : '💎 Welcome to Platinum!';
-        document.getElementById('successSub').textContent =
-          tier === 'gold'
-            ? 'Your Gold membership is active! You now have priority access to celebrity dining events and up to 20% dining discounts.'
-            : 'Your Platinum membership is active! VIP meet & greet, exclusive private dinners, and up to 40% dining discounts await you.';
-        document.getElementById('successOverlay').classList.add('show');
-      } catch(e) {
-        alert('Payment received! Membership will be activated shortly. Payment ID: ' + response.razorpay_payment_id);
-        window.location.href = '/dashboard.html';
-      }
+function startPayment(tier, amountPaise, tierLabel){
+  if(!currentUser){window.location.href='/signin';return;}
+  var options={
+    key:'rzp_live_STyvlctN0h9cmG',
+    amount:amountPaise,
+    currency:'INR',
+    name:'Dine With Celebrity Pvt Ltd',
+    description:tierLabel+' Membership — 1 Year',
+    image:'/logo.png',
+    prefill:{email:currentUser.email,name:currentMember?currentMember.full_name:''},
+    theme:{color:'#F2B705'},
+    modal:{backdropclose:false},
+    handler:async function(response){
+      // Payment success — update tier in Supabase
+      await sbClient.from('members').update({tier:tier,upgraded_at:new Date().toISOString(),payment_id:response.razorpay_payment_id}).eq('email',currentUser.email);
+      // Show success
+      document.getElementById('successTier').textContent=tierLabel.toUpperCase();
+      document.getElementById('successMsg').textContent='Your '+tierLabel+' membership is now active. Restaurant discounts, film event access and your dinner seat reduction are live immediately.';
+      document.getElementById('successOverlay').style.display='flex';
     }
   };
-
-  const rzp = new Razorpay(options);
+  var rzp=new Razorpay(options);
+  rzp.on('payment.failed',function(r){alert('Payment failed: '+r.error.description+'. Please try again.');});
   rzp.open();
-  btn.disabled = false;
-  btn.innerHTML = tier === 'gold'
-    ? '<span>🔥 Upgrade to Gold</span>'
-    : '<span>💎 Upgrade to Platinum</span>';
-}
-
-function toggleFaq(el) {
-  el.classList.toggle('open');
 }
 </script>
 </body>
-</html>
+  </html>
