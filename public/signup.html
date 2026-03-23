@@ -1,329 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Start Your Journey — Dine With Celebrity Pvt Ltd</title>
-<meta name="description" content="Join Dine With Celebrity free. Earn points, unlock exclusive celebrity dining experiences.">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Join Free — Dine With Celebrity Pvt Ltd</title>
+<meta name="description" content="Join Dine With Celebrity free. Earn points and unlock exclusive celebrity dining experiences.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#1A0003;--mid:#3D0008;--hi:#7A0015;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--text:rgba(255,255,255,.96);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.50);--border:rgba(242,183,5,.2)}
+:root{--bg:#06040A;--card:#110916;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}
-#stars i{position:absolute;color:#F2B705;font-style:normal}
-.sA{animation:twA 3.2s ease-in-out infinite alternate}
-.sB{animation:twB 4.1s ease-in-out infinite alternate}
-.sC{animation:twC 2.8s ease-in-out infinite alternate}
-@keyframes twA{0%{opacity:.15;transform:scale(.9)}100%{opacity:.45;transform:scale(1.2)}}
-@keyframes twB{0%{opacity:.18;transform:scale(1)}100%{opacity:.42;transform:scale(1.15)}}
-@keyframes twC{0%{opacity:.10;transform:scale(.95)}100%{opacity:.38;transform:scale(1.25)}}
-@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes popIn{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(15,0,3,.95);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.15rem;color:var(--gold);text-decoration:none;letter-spacing:.08em}
-.nav-back{color:var(--muted);font-size:.8rem;text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s}.nav-back:hover{color:var(--gold)}
-.prog-wrap{position:fixed;top:58px;left:0;right:0;z-index:99;background:rgba(15,0,3,.92);padding:10px 20px 12px;border-bottom:1px solid rgba(255,255,255,.04)}
-.prog-dots{display:flex;align-items:center;justify-content:center;gap:8px}
-.pd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .4s}
-.pd.on{background:var(--gold);width:28px;border-radius:4px}
-.pd.done{background:rgba(242,183,5,.45)}
-.prog-text{font-size:.68rem;color:var(--muted);text-align:center;margin-top:5px;letter-spacing:.05em}
-.page{position:relative;z-index:1;min-height:100vh;padding:118px 20px 60px;display:flex;align-items:center;justify-content:center}
-.card{width:100%;max-width:460px;background:rgba(15,0,3,.72);border:1px solid var(--border);border-radius:20px;padding:38px 34px;backdrop-filter:blur(20px)}
-.step{display:none;animation:up .4s ease both}.step.active{display:block}
-.step-tag{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
-.step-title{font-family:'Bebas Neue',cursive;font-size:clamp(1.9rem,6vw,2.8rem);line-height:.95;letter-spacing:.04em;margin-bottom:10px}
-.step-title em{color:var(--gold);font-style:normal;display:block}
-.step-sub{color:var(--sub);font-size:.9rem;line-height:1.65;margin-bottom:26px}
-.steps-preview{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
-.sp-row{display:flex;align-items:center;gap:12px}
-.sp-num{width:32px;height:32px;border-radius:50%;background:rgba(242,183,5,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:.9rem;color:var(--gold);flex-shrink:0}
-.sp-text{font-size:.86rem;color:var(--sub)}.sp-text strong{color:var(--text)}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
+@keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
+.brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
+.page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;position:relative;z-index:1}
+/* LEFT — FORM */
+.left{display:flex;align-items:center;justify-content:center;padding:48px 52px;background:var(--bg)}
+.form-box{width:100%;max-width:400px}
+.form-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;text-decoration:none;display:inline-block;margin-bottom:32px}
+.form-logo span{color:var(--text)}
+.form-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.form-title{font-family:'Bebas Neue',cursive;font-size:2.8rem;line-height:1;color:var(--text);margin-bottom:6px}
+.form-title em{color:var(--gold);font-style:normal}
+.form-sub{font-size:.92rem;color:var(--sub);margin-bottom:28px}
 .field{margin-bottom:16px}
-.field label{display:block;font-size:.76rem;font-weight:600;color:var(--sub);margin-bottom:6px;letter-spacing:.05em}
-.field input{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(242,183,5,.18);border-radius:8px;padding:13px 15px;font-family:'Poppins',sans-serif;font-size:.94rem;color:var(--text);outline:none;transition:border-color .2s}
-.field input:focus{border-color:var(--gold);background:rgba(255,255,255,.09)}
-.field input::placeholder{color:var(--muted)}
-.field-note{font-size:.7rem;color:var(--muted);margin-top:5px}
-.btn-g{width:100%;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.12rem;letter-spacing:.1em;padding:15px;border:none;border-radius:8px;cursor:pointer;transition:all .2s;box-shadow:0 0 22px rgba(242,183,5,.22);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-g:hover{background:var(--gold2);transform:translateY(-1px)}
-.btn-g:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-back{width:100%;background:transparent;color:var(--muted);font-size:.8rem;padding:10px;border:none;cursor:pointer;margin-top:6px;transition:color .2s}
-.btn-back:hover{color:var(--sub)}
-.welcome-emoji{font-size:3.5rem;text-align:center;margin-bottom:16px;animation:popIn .6s ease both}
-.pts-box{background:linear-gradient(135deg,rgba(242,183,5,.12),rgba(242,183,5,.04));border:1px solid var(--gold);border-radius:14px;padding:20px;text-align:center;margin:18px 0}
-.pts-num{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1}
-.pts-lbl{font-size:.78rem;color:var(--sub);margin-top:2px}
-.bar-track{background:rgba(255,255,255,.08);border-radius:100px;height:9px;overflow:hidden;margin:16px 0 6px}
-.bar-fill{height:100%;width:10%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:100px;background-size:200%;animation:shimmer 2s linear infinite}
-.bar-pts{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)}.bar-pts strong{color:var(--gold)}
-.hint-row{display:flex;align-items:flex-start;gap:10px;background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:12px 14px;margin:14px 0;font-size:.78rem;color:var(--sub);line-height:1.5}
-.wa-box{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.3);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin:16px 0;cursor:pointer;transition:background .2s}
-.wa-box:hover{background:rgba(37,211,102,.13)}
-.wa-icon{font-size:1.6rem;flex-shrink:0}
-.wa-text{font-size:.8rem;color:var(--sub);line-height:1.45}
-.wa-text strong{color:var(--text);display:block;font-size:.84rem}
-.spinner{width:18px;height:18px;border:2px solid rgba(26,0,3,.3);border-top-color:#1A0003;border-radius:50%;animation:spin .7s linear infinite}
-.err-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);border-radius:6px;padding:10px 14px;font-size:.78rem;color:#ff8fa3;margin-bottom:14px;display:none}
-@media(max-width:480px){.card{padding:28px 20px}}
-
-/* LIVE COUNTER TICKER */
-.live-ticker{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(10,0,2,.96);border-top:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
-.lt-item{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--sub)}
-.lt-dot{width:7px;height:7px;border-radius:50%;background:#00C853;animation:pulse 1.5s ease-in-out infinite;flex-shrink:0}
-.lt-num{color:var(--gold);font-weight:700}
-/* FLOATING NOTIFICATION */
-.notif{position:fixed;bottom:56px;left:20px;z-index:60;background:rgba(15,0,3,.95);border:1px solid rgba(242,183,5,.25);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.4);transform:translateX(-120%);transition:transform .4s ease;font-size:.78rem}
-.notif.show{transform:translateX(0)}
-.notif-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--red));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1rem;color:#1A0003;flex-shrink:0}
-.notif-text{color:var(--sub);line-height:1.4}
-.notif-text strong{color:var(--text);display:block;font-size:.8rem}
-.notif-time{font-size:.66rem;color:var(--muted);margin-top:2px}
-/* TRUST ROW */
-.trust-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
-.tr-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted)}
-.tr-item::before{content:"✓";color:var(--gold);font-weight:700}
+.field label{display:block;font-size:.8rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.field input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--gold)}
+.field input::placeholder{color:rgba(255,255,255,.25)}
+.btn-join{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;padding:15px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;margin-top:6px;transition:opacity .2s}
+.btn-join:hover{opacity:.88}
+.btn-join:disabled{opacity:.5;cursor:not-allowed}
+.error-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:12px;display:none;text-align:center}
+.success-msg{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:#00C853;font-size:.88rem;padding:12px 16px;border-radius:10px;margin-top:12px;display:none;text-align:center}
+.signin-row{text-align:center;font-size:.9rem;color:var(--sub);margin-top:20px}
+.signin-row a{color:var(--gold);font-weight:700;text-decoration:none}
+.terms{font-size:.75rem;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+/* RIGHT — BENEFITS */
+.right{background:linear-gradient(135deg,#0d0612 0%,#1a0520 100%);border-left:1px solid var(--border2);padding:48px 52px;display:flex;flex-direction:column;justify-content:center}
+.right-heading{font-family:'Bebas Neue',cursive;font-size:clamp(2.4rem,4vw,3.6rem);line-height:1.05;color:var(--text);margin-bottom:8px}
+.right-heading em{color:var(--gold);font-style:normal;display:block}
+.right-sub{font-size:.95rem;color:var(--sub);margin-bottom:36px;line-height:1.6;max-width:400px}
+.benefits{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.benefit{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:12px;transition:border-color .2s}
+.benefit:hover{border-color:var(--border)}
+.benefit-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.bi-gold{background:rgba(242,183,5,.12)}
+.bi-green{background:rgba(0,200,83,.1)}
+.bi-purple{background:rgba(155,89,182,.12)}
+.bi-red{background:rgba(212,0,42,.1)}
+.benefit-text{}
+.benefit-title{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.benefit-desc{font-size:.8rem;color:var(--muted);line-height:1.5}
+.free-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:var(--green);font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:100px}
+@media(max-width:768px){.page{grid-template-columns:1fr}.right{display:none}.left{padding:32px 24px;align-items:flex-start}}
 </style>
 </head>
 <body>
-<div id="stars" aria-hidden="true"></div>
-<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC'],sh=['★','✦','·'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48],[63,15],[18,62]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%3],s=sh[i%3],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
-
-<nav class="nav">
-  <a href="/" class="nav-logo">★ DINE WITH CELEBRITY</a>
-  <a href="/" class="nav-back">← Back</a>
-</nav>
-
-<div class="prog-wrap" id="progWrap">
-  <div class="prog-dots">
-    <div class="pd on" id="pd1"></div>
-    <div class="pd" id="pd2"></div>
-    <div class="pd" id="pd3"></div>
-  </div>
-  <div class="prog-text" id="progText">Step 1 of 3 — Getting Started</div>
-</div>
-
+<div id="stars"></div>
+<div class="brand-bg">DWC</div>
 <div class="page">
-<div class="card">
 
-  <!-- S1: HOOK -->
-  <div class="step active" id="s1">
-    <span class="step-tag">🔥 Limited Access — Join Free</span>
-    <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(212,0,42,.12);border:1px solid rgba(212,0,42,.3);border-radius:100px;padding:6px 14px;font-size:.7rem;color:#ff8fa3;font-weight:600;margin-bottom:14px;animation:pulse 2s ease-in-out infinite">⚡ Only 12 seats left for next celebrity dinner</div>
-    <div class="step-title">You're One Step Away From<br><em>Dining With a Celebrity</em></div>
-    <p class="step-sub">Join free in under 30 seconds. Earn points through everyday dining and unlock exclusive celebrity experiences.</p>
-    <div class="steps-preview">
-      <div class="sp-row"><div class="sp-num">1</div><div class="sp-text"><strong>Create your free account</strong> — 30 seconds, no credit card</div></div>
-      <div class="sp-row"><div class="sp-num">2</div><div class="sp-text"><strong>Get 100 welcome points</strong> — instantly on joining</div></div>
-      <div class="sp-row"><div class="sp-num">3</div><div class="sp-text"><strong>Earn more & unlock</strong> — your celebrity dinner awaits</div></div>
+  <!-- LEFT: FORM -->
+  <div class="left">
+    <div class="form-box">
+      <a class="form-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
+      <div class="form-eyebrow">&#x1F389; Join Free Today</div>
+      <div class="form-title">CREATE YOUR<br><em>FREE ACCOUNT</em></div>
+      <p class="form-sub">No credit card. No commitment. 100 welcome points on joining.</p>
+
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Rahul Kumar" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="hello@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password">
+      </div>
+
+      <button class="btn-join" id="btnJoin">Join Free &mdash; Get 100 Points</button>
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="success-msg" id="successMsg"></div>
+
+      <p class="terms">By joining you agree to our <a href="/disclaimer.html" style="color:var(--gold)">Terms</a> &amp; <a href="/disclaimer.html" style="color:var(--gold)">Privacy Policy</a>.</p>
+      <div class="signin-row">Already a member? <a href="/signin">Sign In &rarr;</a></div>
     </div>
-    <div class="trust-row"><span class="tr-item">30 sec signup</span><span class="tr-item">No credit card</span><span class="tr-item">100 pts instantly</span><span class="tr-item">Free forever</span></div>
-    <button class="btn-g" onclick="goStep(2)"><span>Start My Journey</span><span>→</span></button>
-    <p style="text-align:center;font-size:.72rem;color:var(--muted);margin-top:14px">Already a member? <a href="/signin.html" style="color:var(--gold);text-decoration:none">Sign In</a></p>
   </div>
 
-  <!-- S2: NAME + EMAIL + PHONE -->
-  <div class="step" id="s2">
-    <span class="step-tag">Step 1 of 2 — Your Details</span>
-    <div class="step-title">Let's Get<br><em>You Set Up</em></div>
-    <p class="step-sub">Quick and easy — no passwords, no credit card, no lengthy forms.</p>
-    <div class="err-msg" id="err2"></div>
-    <div class="field">
-      <label>YOUR NAME</label>
-      <input type="text" id="inp-name" placeholder="e.g. Rahul Kumar" autocomplete="name">
-    </div>
-    <div class="field">
-      <label>EMAIL ADDRESS</label>
-      <input type="email" id="inp-email" placeholder="hello@example.com" autocomplete="email">
-    </div>
-    <div class="field">
-      <label>MOBILE NUMBER</label>
-      <input type="tel" id="inp-phone" placeholder="+91 98765 43210" autocomplete="tel" maxlength="15">
-      <div class="field-note">🔒 Your number is safe. Used only for celebrity event alerts.</div>
-    </div>
-    <div class="field-group" id="dob-group" style="margin-top:20px"><label class="field-lbl">DATE OF BIRTH <span style="font-size:.7rem;color:var(--muted);font-weight:400">(Optional)</span></label><p style="font-size:.72rem;color:var(--gold);margin-bottom:8px">&#x1F382; Make your birthday special &#x2014; and unlock age-appropriate experiences.</p><div style="display:flex;gap:8px"><select id="dob-day" style="flex:1;background:#1a0008;border:1px solid var(--border);color:var(--text);padding:14px 10px;border-radius:8px;font-family:Poppins,sans-serif;font-size:.9rem"><option value="">Day</option><option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select><select id="dob-month" style="flex:1.4;background:#1a0008;border:1px solid var(--border);color:var(--text);padding:14px 10px;border-radius:8px;font-family:Poppins,sans-serif;font-size:.9rem"><option value="">Month</option><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><select id="dob-year" style="flex:1.2;background:#1a0008;border:1px solid var(--border);color:var(--text);padding:14px 10px;border-radius:8px;font-family:Poppins,sans-serif;font-size:.9rem"><option value="">Year</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1975">1975</option><option value="1970">1970</option><option value="1965">1965</option><option value="1960">1960</option></select></div><p id="dob-note" style="display:none;font-size:.72rem;color:var(--muted);margin-top:6px">Some events (e.g. alcohol pairings) require members to be 25+. You can still join free!</p></div>
-    <div class="field">
-      <label>REFERRAL CODE <span style="font-size:0.75rem;opacity:0.6;font-weight:400;">(Optional)</span></label>
-      <input type="text" id="inp-referral" placeholder="e.g. DWC-RAHUL2025" autocomplete="off" maxlength="30" style="text-transform:uppercase;">
-      <div class="field-note">🎁 Have a referral code? Enter it to unlock bonus points!</div>
-    </div>
-    <div class="hint-row">
-      💡 You'll personalise your interests and pick your favourite celebrities <strong>inside your dashboard</strong> — and earn extra points for it!
-    </div>
-    <button class="btn-g" id="btn2" onclick="submitStep2()"><span>Unlock Access</span><span>→</span></button>
-    <button class="btn-back" onclick="goStep(1)">← Back</button>
-  </div>
+  <!-- RIGHT: BENEFITS -->
+  <div class="right">
+    <div class="right-heading">EVERYTHING YOU<br><em>UNLOCK FOR FREE</em></div>
+    <p class="right-sub">Join thousands of members across AP &amp; Telangana already earning their way to a celebrity dinner.</p>
 
-  <!-- S3: WELCOME -->
-  <div class="step" id="s3">
-    <div class="welcome-emoji">🎉</div>
-    <span class="step-tag" style="text-align:center;display:block">Welcome to the Club!</span>
-    <div class="step-title" style="text-align:center">You're In,<br><em id="welcomeName">Star!</em></div>
-    <p class="step-sub" style="text-align:center;margin-bottom:16px">Your journey to celebrity dining starts right now.</p>
-      <div class="field-gr
-    <div class="pts-box">
-      <div class="pts-num">100</div>
-      <div class="pts-lbl">🎁 Welcome Points Added to Your Account</div>
-      <div class="bar-track"><div class="bar-fill"></div></div>
-      <div class="bar-pts"><span><strong>100 pts</strong> earned</span><span>🎯 1,000 pts to unlock</span></div>
-    </div>
-    <div class="wa-box" onclick="waOptIn()">
-      <span class="wa-icon">📲</span>
-      <div class="wa-text">
-        <strong>Get Celebrity Alerts on WhatsApp</strong>
-        Be first to know when your favourite star is available
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit-icon bi-gold">&#x1F3DB;&#xFE0F;</div>
+        <div class="benefit-text">
+          <div class="benefit-title">100 Welcome Points — Instantly</div>
+          <div class="benefit-desc">Get 100 points the moment you sign up. Start your celebrity dinner countdown immediately.</div>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon bi-green">&#x1F37D;&#xFE0F;</div>
+        <div class="benefit-text">
+          <div class="benefit-title">Dine &amp; Earn &#x2212;&#x20B9;500 Per Visit</div>
+          <div class="benefit-desc">Every visit to a DWC partner restaurant reduces your celebrity dinner ticket price by &#x20B9;500.</div>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon bi-purple">&#x1F465;</div>
+        <div class="benefit-text">
+          <div class="benefit-title">Refer Friends &#x2212;&#x20B9;2,000 Per Referral</div>
+          <div class="benefit-desc">Share your unique code. Every friend who joins cuts your seat price by &#x20B9;2,000.</div>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon bi-red">&#x2B50;</div>
+        <div class="benefit-text">
+          <div class="benefit-title">Celebrity Dinner Waitlist Access</div>
+          <div class="benefit-desc">Get first alerts on upcoming celebrity dinners across Hyderabad, AP &amp; Telangana.</div>
+        </div>
       </div>
     </div>
-    <button class="btn-g" onclick="window.location.href='/dashboard.html'">
-      <span>Go to My Dashboard</span><span>→</span>
-    </button>
-    <p style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:12px">Pick your interests & earn more points inside 🔒</p>
+
+    <div class="free-badge">&#x2713; Free forever &nbsp;&bull;&nbsp; &#x2713; No credit card &nbsp;&bull;&nbsp; &#x2713; Cancel anytime</div>
   </div>
 
 </div>
-</div>
 
 <script>
-const sbClient = supabase.createClient(
-  'https://blwqqqzhnovsveeryjlm.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
-);
-let userData={name:'',email:'',phone:''};
+(function(){
+  var se=document.getElementById('stars');
+  for(var i=0;i<65;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}
+})();
 
-function goStep(n){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s'+n).classList.add('active');
-  const labels={1:'Getting Started',2:'Your Details',3:'Welcome!'};
-  document.querySelectorAll('.pd').forEach((d,i)=>{
-    d.classList.remove('on','done');
-    if(i+1===n) d.classList.add('on');
-    else if(i+1<n) d.classList.add('done');
-  });
-  if(n<3) document.getElementById('progText').textContent='Step '+n+' of 3 — '+labels[n];
-  else{document.getElementById('progText').textContent='Welcome! 🎉';document.getElementById('progWrap').style.display='none';}
-  window.scrollTo(0,0);
-}
+var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 
-async function submitStep2(){
-  const name=document.getElementById('inp-name').value.trim();
-  const email=document.getElementById('inp-email').value.trim();
-  
-      const dobDay = document.getElementById('dob-day').value;
-      const dobMonth = document.getElementById('dob-month').value;
-      const dobYear = document.getElementById('dob-year').value;
-      const dateOfBirth = (dobDay && dobMonth && dobYear) ? dobYear+'-'+dobMonth+'-'+dobDay : null;
-      // Show age note if under 25
-      if(dateOfBirth){
-        const age = Math.floor((new Date()-new Date(dateOfBirth))/(365.25*24*60*60*1000));
-        const note = document.getElementById('dob-note');
-        if(note && age < 25) note.style.display='block';
-      }
-const dobDay=document.getElementById('dob-day').value,dobMonth=document.getElementById('dob-month').value,dobYear=document.getElementById('dob-year').value;const dateOfBirth=(dobDay&&dobMonth&&dobYear)?dobYear+'-'+dobMonth+'-'+dobDay:null;if(dateOfBirth){const age=Math.floor((new Date()-new Date(dateOfBirth))/(365.25*24*3600*1000));const dn=document.getElementById('dob-note');if(dn&&age<25)dn.style.display='block';}
-      const phone=document.getElementById('inp-phone').value.trim();
-  const err=document.getElementById('err2');
-  err.style.display='none';
-  if(!name){showErr(err,'Please enter your name');return;}
-  if(!email||!email.includes('@')){showErr(err,'Please enter a valid email address');return;}
-  userData={name,email,phone};
-  const referralCode=document.getElementById('inp-referral').value.trim().toUpperCase()||null;
-  const myRefCode='DWC-'+name.replace(/\s+/g,'').slice(0,5).toUpperCase()+Math.floor(1000+Math.random()*9000);
-  const btn=document.getElementById('btn2');
-  btn.disabled=true;
-  btn.innerHTML='<div class="spinner"></div><span>Creating your account...</span>';
-  try{
-    const {error}=await sbClient.auth.signUp({
-      email,
-      password:Math.random().toString(36).slice(-10)+Math.random().toString(36).slice(-4).toUpperCase()+'!7',
-      options:{data:{full_name:name},emailRedirectTo:'https://www.dinewithcelebrity.com/dashboard.html'}
-    });
-    if(error&&!error.message.includes('already registered')) throw error;
-    await sbClient.from('members').upsert({
-      email,full_name:name,phone:phone||'',date_of_birth:dateOfBirth,date_of_birth:dateOfBirth,
-      points:100,tier:'free',joined_at:new Date().toISOString(),referred_by:referralCode||null,referral_code:myRefCode
-    },{onConflict:'email'});
-    document.getElementById('welcomeName').textContent=(name.split(' ')[0]||'Star')+'!';
-    // Referral rewards
-    if(referralCode){
-      const {data:ref}=await sbClient.from('members').select('points').eq('referral_code',referralCode).maybeSingle();
-      if(ref){
-        await sbClient.from('members').update({points:(ref.points||0)+500}).eq('referral_code',referralCode);
-        await sbClient.from('members').update({points:300}).eq('email',email);
-      }
-    }
-    goStep(3);
-  }catch(e){
-    showErr(err,e.message||'Something went wrong. Please try again.');
-    btn.disabled=false;
-    btn.innerHTML='<span>Unlock Access</span><span>→</span>';
+// Redirect if already signed in
+(async function(){var s=await sbClient.auth.getSession();if(s.data.session)window.location.href='/dashboard.html';})();
+
+document.getElementById('btnJoin').onclick=async function(){
+  var name=document.getElementById('fullName').value.trim();
+  var email=document.getElementById('email').value.trim();
+  var pass=document.getElementById('password').value;
+  var errEl=document.getElementById('errorMsg');
+  var sucEl=document.getElementById('successMsg');
+  errEl.style.display='none';sucEl.style.display='none';
+
+  if(!name){errEl.textContent='Please enter your full name.';errEl.style.display='block';return;}
+  if(!email){errEl.textContent='Please enter your email address.';errEl.style.display='block';return;}
+  if(pass.length<8){errEl.textContent='Password must be at least 8 characters.';errEl.style.display='block';return;}
+
+  this.disabled=true;this.textContent='Creating account...';
+
+  var refCode='DWC-'+name.split(' ')[0].toUpperCase()+Math.floor(Math.random()*900+100);
+
+  var res=await sbClient.auth.signUp({email:email,password:pass,options:{data:{full_name:name}}});
+  if(res.error){
+    errEl.textContent=res.error.message;errEl.style.display='block';
+    this.disabled=false;this.textContent='Join Free \u2014 Get 100 Points';return;
   }
-}
 
-function waOptIn(){
-  const msg=encodeURIComponent('Hi! I just joined Dine With Celebrity. Please send me alerts for celebrity dining events!');
-  window.open('https://wa.me/919999999999?text='+msg,'_blank');
-}
-function showErr(el,msg){el.textContent=msg;el.style.display='block';}
+  // Save to members table
+  await sbClient.from('members').upsert({email:email,full_name:name,tier:'free',points:100,referral_code:refCode},{onConflict:'email'});
 
-// Animate demo progress bar on hook screen
-setTimeout(()=>{const b=document.getElementById('demoBar');if(b){b.style.width='10%';setTimeout(()=>{b.style.width='30%';},800);}},500);
+  // Redirect to dashboard
+  sucEl.textContent='\u2713 Account created! Taking you to your dashboard...';
+  sucEl.style.display='block';
+  setTimeout(function(){window.location.href='/dashboard.html';},1200);
+};
 
-</script>
-
-<!-- LIVE ACTIVITY TICKER -->
-<div class="live-ticker">
-  <div class="lt-item"><div class="lt-dot"></div><span><span class="lt-num" id="liveCount">47</span> people viewing this page</span></div>
-  <div class="lt-item"><div class="lt-dot" style="background:#F2B705"></div><span><span class="lt-num" id="joinedToday">12</span> joined today</span></div>
-  <div class="lt-item"><div class="lt-dot" style="background:#ff8fa3"></div><span>Next celebrity dinner in <span class="lt-num" id="seatsLeft">12</span> seats</span></div>
-</div>
-
-<!-- FLOATING NOTIFICATION -->
-<div class="notif" id="notif">
-  <div class="notif-av" id="notifAv">AK</div>
-  <div class="notif-text">
-    <strong id="notifName">Arjun K. from Mumbai</strong>
-    <span id="notifMsg">just joined DWC and got 100 welcome points</span>
-    <div class="notif-time" id="notifTime">2 minutes ago</div>
-  </div>
-</div>
-
-<script>
-// Fake live activity for social proof (keeps users engaged 20+ seconds)
-const names=[
-  {av:'AK',name:'Arjun K. from Mumbai',msg:'just joined and got 100 welcome points',time:'just now'},
-  {av:'PS',name:'Priya S. from Delhi',msg:'unlocked her first celebrity dinner!',time:'1 min ago'},
-  {av:'RV',name:'Rohit V. from Bangalore',msg:'referred 3 friends — earned 600 points',time:'2 mins ago'},
-  {av:'NM',name:'Neha M. from Hyderabad',msg:'just upgraded to Gold membership',time:'3 mins ago'},
-  {av:'SK',name:'Suresh K. from Chennai',msg:'earned 100 pts dining at a partner restaurant',time:'4 mins ago'},
-  {av:'AM',name:'Ananya M. from Pune',msg:'just joined and got 100 welcome points',time:'just now'},
-  {av:'VR',name:'Vikram R. from Kolkata',msg:'picked Bollywood star as favourite celebrity',time:'1 min ago'},
-];
-let ni=0;
-function showNotif(){
-  const n=names[ni%names.length];ni++;
-  const el=document.getElementById('notif');
-  document.getElementById('notifAv').textContent=n.av;
-  document.getElementById('notifName').textContent=n.name;
-  document.getElementById('notifMsg').textContent=n.msg;
-  document.getElementById('notifTime').textContent=n.time;
-  el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),4000);
-}
-setTimeout(showNotif,5000);
-setInterval(showNotif,9000);
-
-// Animate live counters
-function randBetween(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-setInterval(()=>{
-  document.getElementById('liveCount').textContent=randBetween(42,68);
-  document.getElementById('joinedToday').textContent=randBetween(10,18);
-},12000);
+// Enter key
+['fullName','email'].forEach(function(id){
+  document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById(id==='fullName'?'email':id==='email'?'password':'password').focus();});
+});
+document.getElementById('password').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnJoin').click();});
 </script>
 </body>
-</html>
+  </html>
