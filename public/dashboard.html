@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>My Dashboard — Dine With Celebrity</title>
 <meta name="robots" content="noindex">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -15,6 +14,15 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 #stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
 @keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
 .brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
+/* DEV SWITCHER */
+.dev-bar{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(0,0,0,.92);border-top:2px solid rgba(242,183,5,.4);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dev-label{font-size:.7rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}
+.dev-btn{font-size:.78rem;font-weight:700;padding:6px 16px;border-radius:100px;cursor:pointer;font-family:'Poppins',sans-serif;border:1px solid;transition:all .2s}
+.dev-btn.free{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.6)}
+.dev-btn.gold{background:rgba(242,183,5,.12);border-color:rgba(242,183,5,.4);color:#F2B705}
+.dev-btn.platinum{background:rgba(200,200,220,.08);border-color:rgba(200,200,220,.3);color:#E8E8E8}
+.dev-btn.purple{background:rgba(155,89,182,.12);border-color:rgba(155,89,182,.4);color:#c39bd3}
+.dev-btn.active{box-shadow:0 0 0 2px currentColor}
 /* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
 .nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;text-decoration:none}
@@ -23,17 +31,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .nav-tier{font-size:.78rem;font-weight:700;padding:5px 14px;border-radius:100px;border:1px solid}
 .nav-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:#06040A;cursor:pointer}
 /* LAYOUT */
-.page{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0}
-/* Two panel for free */
+.page{position:relative;z-index:1;padding-bottom:60px}
 .two-panel{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 60px)}
 .panel-left{padding:32px 36px;overflow-y:auto}
 .panel-right{background:linear-gradient(180deg,#0d0005,#06040A);border-left:1px solid var(--border2);padding:32px 24px;display:flex;flex-direction:column;gap:20px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
-/* Single panel for paid */
-.single-panel{padding:32px 36px}
-/* Common */
+.single-panel{padding:32px 36px;max-width:1100px;margin:0 auto}
+/* COMMON */
 .welcome-greeting{font-size:.8rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
 .welcome-name{font-family:'Bebas Neue',cursive;font-size:3rem;line-height:1;margin-bottom:4px}
-.welcome-name em{font-style:normal}
 .welcome-sub{font-size:.9rem;color:var(--sub);margin-bottom:28px}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
 .stat-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px;text-align:center}
@@ -41,17 +46,23 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .stat-lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
 .sec-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border2)}
-/* FREE: price block */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.feature-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px;transition:border-color .3s}
+.feature-card:hover{border-color:var(--border)}
+.fc-icon{font-size:1.8rem;margin-bottom:10px}
+.fc-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text);margin-bottom:4px}
+.fc-desc{font-size:.85rem;color:var(--sub);line-height:1.5}
+.fc-val{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--green);margin-top:8px}
+/* FREE price block */
 .price-block{background:linear-gradient(135deg,#1a0008,#0f0015);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:24px;position:relative;overflow:hidden}
 .price-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),var(--gold),transparent)}
 .pb-label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
 .pb-base{font-family:'Bebas Neue',cursive;font-size:2rem;color:rgba(255,255,255,.2);text-decoration:line-through;text-decoration-color:var(--red);line-height:1;margin-bottom:4px}
 .pb-price{font-family:'Bebas Neue',cursive;font-size:4.5rem;color:var(--gold);line-height:1;margin-bottom:8px}
-.pb-sub{font-size:.88rem;color:var(--sub);margin-bottom:16px;line-height:1.5}
-.prog-track{background:rgba(255,255,255,.07);border-radius:100px;height:8px;overflow:hidden;margin-top:8px}
-.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;transition:width 1.5s ease}
+.pb-sub{font-size:.88rem;color:var(--sub);line-height:1.5;margin-bottom:16px}
 .prog-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:6px}
-/* Ways */
+.prog-track{background:rgba(255,255,255,.07);border-radius:100px;height:8px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 1.5s ease}
 .ways{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
 .way{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:14px 16px}
 .way-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
@@ -59,7 +70,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .way-info{flex:1}.way-title{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:2px}
 .way-desc{font-size:.8rem;color:var(--muted);line-height:1.4}
 .way-reward{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--green);white-space:nowrap}
-/* Referral */
+/* Ref card */
 .ref-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:24px}
 .ref-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px;flex-wrap:wrap}
 .ref-title{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--text)}
@@ -88,20 +99,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .cta-sub{font-size:.82rem;color:var(--sub);margin-bottom:16px;line-height:1.5}
 .btn-upgrade{display:block;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;text-align:center;padding:15px;border-radius:10px;text-decoration:none;text-transform:uppercase;letter-spacing:.06em;border:none;cursor:pointer;width:100%;transition:opacity .2s;margin-bottom:10px}
 .cta-note{font-size:.75rem;color:var(--muted);text-align:center;line-height:1.5}
-/* PAID features grid */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
-.feature-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px;transition:border-color .3s}
-.feature-card:hover{border-color:var(--border)}
-.fc-icon{font-size:1.8rem;margin-bottom:10px}
-.fc-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text);margin-bottom:4px}
-.fc-desc{font-size:.85rem;color:var(--sub);line-height:1.5}
-.fc-val{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--green);margin-top:8px}
 /* Nudge */
 .nudge{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:16px;margin-bottom:20px}
 .nudge-text{flex:1}.nudge-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:3px}
 .nudge-desc{font-size:.82rem;color:var(--muted)}
 .btn-nudge{font-size:.8rem;font-weight:700;padding:10px 16px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;text-decoration:none;border:1px solid}
-/* Purple VIP */
+/* VIP */
 .vip-card{background:linear-gradient(135deg,rgba(155,89,182,.12),rgba(155,89,182,.03));border:1px solid rgba(155,89,182,.3);border-radius:20px;padding:24px;margin-bottom:28px;position:relative;overflow:hidden}
 .vip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--purple),var(--purp2),transparent)}
 .vip-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
@@ -118,249 +121,162 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 <body>
 <div id="stars"></div>
 <div class="brand-bg">DWC</div>
-<div id="loadingState"><div class="loader"></div><div style="font-size:.8rem;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:8px">Loading your dashboard</div></div>
+<div id="loadingState"><div class="loader"></div><div style="font-size:.8rem;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:8px">Loading dashboard</div></div>
 <nav style="display:none">
   <a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
   <div class="nav-right">
-    <div class="nav-tier" id="navTier">Free Member</div>
+    <div class="nav-tier" id="navTier"></div>
     <div class="nav-av" id="navAv">R</div>
   </div>
 </nav>
 <div class="page" id="dashPage" style="display:none"></div>
+<!-- DEV TIER SWITCHER — visible only to rupeshking@gmail.com -->
+<div class="dev-bar" id="devBar" style="display:none">
+  <span class="dev-label">&#x1F527; Preview Tier:</span>
+  <button class="dev-btn free active" onclick="switchTier('free')">Free</button>
+  <button class="dev-btn gold" onclick="switchTier('gold')">Gold</button>
+  <button class="dev-btn platinum" onclick="switchTier('platinum')">Platinum</button>
+  <button class="dev-btn purple" onclick="switchTier('purple')">Purple</button>
+</div>
 
 <script>
-(function(){
-  var se=document.getElementById('stars');
-  for(var i=0;i<70;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}
-})();
+// Stars
+(function(){var se=document.getElementById('stars');for(var i=0;i<70;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+var _member={}, _user={}, _refs=0, _rs=0;
 
-function refCode(name){return 'DWC-'+(name||'MEMBER').toUpperCase().replace(/\s/g,'').substring(0,8)+'26';}
 function money(n){return '\u20B9'+Math.max(0,n).toLocaleString('en-IN');}
+function rc(fn){return 'DWC-'+fn.toUpperCase().replace(/\s/g,'').substring(0,8)+'26';}
+function fn(m){return m.first_name||'Member';}
+function ln(m){return m.last_name||'';}
+function pts(m){return m.cause_points||100;}
 
-function renderFree(m,user,refs,rs){
-  var fn=(m.full_name||user.email).split(' ')[0];
-  var rc=m.referral_code||refCode(fn);
-  var dv=m.dining_visits||0,dd=dv*500,tot=dd+rs,yp=70000-tot;
-  var pct=Math.round(tot/700);
-  return `<div class="two-panel">
-<div class="panel-left">
-  <div class="welcome-greeting">Welcome back</div>
-  <div class="welcome-name" style="color:var(--text)">${fn.toUpperCase()} <em style="color:var(--gold)">${(m.full_name||'').split(' ').slice(1).join(' ').toUpperCase()}</em></div>
-  <div class="welcome-sub">Free Member &middot; ${m.points||100} points earned</div>
-  <div class="price-block">
-    <div class="pb-label">Your celebrity dinner ticket price</div>
-    <div class="pb-base">&#x20B9;70,000</div>
-    <div class="pb-price">${money(yp)}</div>
-    <div class="pb-sub">${tot>0?'You\'ve saved '+money(tot)+' so far. Keep going!':'Start reducing this price. Dine, refer, and upgrade.'}</div>
-    <div class="prog-label"><span>Savings progress</span><span>${pct}% reduced</span></div>
-    <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
-  </div>
-  <div class="sec-label">3 Ways to Reduce Your Price</div>
-  <div class="ways">
-    <div class="way"><div class="way-icon wi-g">&#x1F37D;&#xFE0F;</div><div class="way-info"><div class="way-title">Dine at Partner Restaurants</div><div class="way-desc">Each verified visit earns credits that cut your seat price.</div></div><div class="way-reward">&#x2212;&#x20B9;500</div></div>
-    <div class="way"><div class="way-icon wi-gr">&#x1F465;</div><div class="way-info"><div class="way-title">Refer a Friend</div><div class="way-desc">Every friend who joins reduces your price.</div></div><div class="way-reward">&#x2212;&#x20B9;2,000</div></div>
-    <div class="way"><div class="way-icon wi-b">&#x2B50;</div><div class="way-info"><div class="way-title">Upgrade Membership</div><div class="way-desc">Gold, Platinum &amp; Purple get instant seat reductions.</div></div><div class="way-reward">&#x2212;&#x20B9;15,000</div></div>
-  </div>
-  <div class="sec-label">Your Referral Code</div>
-  <div class="ref-card">
-    <div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price.</div><div class="ref-earned">${rs>0?money(rs)+' saved via referrals':'&#x20B9;0 saved so far'}</div></div>
-    <div class="ref-code-row"><div class="ref-code" id="refCode">${rc}</div><button class="btn-copy" id="btnCopy">Copy</button></div>
-    <div class="ref-stats"><div class="ref-stat"><span class="rs-num">${refs}</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num">${money(rs)}</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div>
-  </div>
-</div>
-<div class="panel-right">
-  <div class="up-label">You're missing out</div>
-  <div class="up-heading">UPGRADE &amp;<br><em>UNLOCK YOUR WORLD</em></div>
-  <div class="up-sub">Free members see a fraction of DWC. Here's what's waiting right now.</div>
-  <div class="missing">
-    <div class="miss-item"><div class="miss-icon">&#x1F37D;&#xFE0F;</div><div><div class="miss-title">Restaurant &amp; Brand Discounts</div><div class="miss-desc">Gold+ save 10-20% at partner restaurants and get exclusive sponsor brand offers.</div></div></div>
-    <div class="miss-item"><div class="miss-icon">&#x1F3AB;</div><div><div class="miss-title">Film Event Tickets</div><div class="miss-desc">Audio launches, pre-release events, success meets across AP &amp; Telangana.</div></div></div>
-    <div class="miss-item"><div class="miss-icon">&#x1F455;</div><div><div class="miss-title">DWC T-Shirt</div><div class="miss-desc">Every paid member wears it to events. It's how celebrities know who you are.</div></div></div>
-    <div class="miss-item"><div class="miss-icon">&#x1F4BA;</div><div><div class="miss-title">Priority Booking</div><div class="miss-desc">Gold+ get priority before seats sell out. Free = waitlist only.</div></div></div>
-  </div>
-  <div class="cta-block">
-    <div class="cta-title">Start with Gold &mdash; &#x20B9;2,499/yr</div>
-    <div class="cta-sub">Less than &#x20B9;7/day. Discounts, film events, DWC T-shirt &amp; &#x20B9;5,000 off your dinner seat — immediately.</div>
-    <button class="btn-upgrade" onclick="window.location.href='/upgrade.html'">Upgrade My Membership &#x2192;</button>
-    <div class="cta-note">&#x2713; Instant activation &nbsp;&bull;&nbsp; &#x2713; Razorpay secure &nbsp;&bull;&nbsp; &#x2713; Cancel anytime</div>
-  </div>
-</div>
-</div>`;
+function renderDash(tier){
+  var m=_member, refs=_refs, rs=_rs;
+  var fn_=fn(m), ln_=ln(m), pts_=pts(m);
+  var refCode_=m.referral_code||rc(fn_);
+
+  // Nav styling
+  var tierCfg={
+    free:{label:'Free Member',bg:'rgba(255,255,255,.06)',bc:'rgba(255,255,255,.08)',tc:'rgba(255,255,255,.55)',avBg:'linear-gradient(135deg,#F2B705,#8a6000)',avC:'#06040A',avB:'#F2B705'},
+    gold:{label:'\u2605 DWC Gold',bg:'rgba(242,183,5,.12)',bc:'rgba(242,183,5,.3)',tc:'#F2B705',avBg:'linear-gradient(135deg,#F2B705,#8a6000)',avC:'#06040A',avB:'#F2B705'},
+    platinum:{label:'\u2B51 DWC Platinum',bg:'rgba(200,200,220,.1)',bc:'rgba(200,200,220,.2)',tc:'#E8E8E8',avBg:'linear-gradient(135deg,#c0c0c0,#606070)',avC:'#06040A',avB:'#E8E8E8'},
+    purple:{label:'\u1F7E3 DWC Purple VIP',bg:'rgba(155,89,182,.15)',bc:'rgba(155,89,182,.3)',tc:'#c39bd3',avBg:'linear-gradient(135deg,#9b59b6,#6c3483)',avC:'#fff',avB:'#9b59b6'}
+  };
+  var cfg=tierCfg[tier]||tierCfg.free;
+  var nt=document.getElementById('navTier');
+  nt.textContent=cfg.label; nt.style.background=cfg.bg; nt.style.borderColor=cfg.bc; nt.style.color=cfg.tc;
+  var av=document.getElementById('navAv');
+  av.textContent=fn_.charAt(0).toUpperCase();
+  av.style.background=cfg.avBg; av.style.color=cfg.avC; av.style.border='2px solid '+cfg.avB;
+
+  // Dev switcher active state
+  document.querySelectorAll('.dev-btn').forEach(function(b){b.classList.toggle('active',b.classList.contains(tier));});
+
+  var html='';
+  if(tier==='free'){
+    var dv=m.dining_visits||0,dd=dv*500,tot=dd+rs,yp=70000-tot,pct=Math.round(tot/700);
+    html='<div class="two-panel"><div class="panel-left">'
+      +'<div class="welcome-greeting">Welcome back</div>'
+      +'<div class="welcome-name">'+fn_.toUpperCase()+' <em style="color:var(--gold)">'+ln_.toUpperCase()+'</em></div>'
+      +'<div class="welcome-sub">Free Member &middot; '+pts_+' points earned</div>'
+      +'<div class="price-block"><div class="pb-label">Your celebrity dinner ticket price</div><div class="pb-base">&#x20B9;70,000</div><div class="pb-price">'+money(yp)+'</div><div class="pb-sub">'+(tot>0?'You\'ve saved '+money(tot)+' so far. Keep going!':'Start reducing this price — dine, refer, and upgrade.')+'</div><div class="prog-label"><span>Savings progress</span><span>'+pct+'% reduced</span></div><div class="prog-track"><div class="prog-fill" style="width:'+pct+'%"></div></div></div>'
+      +'<div class="sec-label">3 Ways to Reduce Your Price</div>'
+      +'<div class="ways"><div class="way"><div class="way-icon wi-g">&#x1F37D;&#xFE0F;</div><div class="way-info"><div class="way-title">Dine at Partner Restaurants</div><div class="way-desc">Each verified visit cuts your seat price.</div></div><div class="way-reward">&#x2212;&#x20B9;500</div></div>'
+      +'<div class="way"><div class="way-icon wi-gr">&#x1F465;</div><div class="way-info"><div class="way-title">Refer a Friend</div><div class="way-desc">Every friend who joins reduces your price.</div></div><div class="way-reward">&#x2212;&#x20B9;2,000</div></div>'
+      +'<div class="way"><div class="way-icon wi-b">&#x2B50;</div><div class="way-info"><div class="way-title">Upgrade Membership</div><div class="way-desc">Gold, Platinum &amp; Purple get instant seat reductions.</div></div><div class="way-reward">&#x2212;&#x20B9;15,000</div></div></div>'
+      +'<div class="sec-label">Your Referral Code</div>'
+      +'<div class="ref-card"><div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price.</div><div class="ref-earned">'+(rs>0?money(rs)+' saved':'&#x20B9;0 saved so far')+'</div></div><div class="ref-code-row"><div class="ref-code" id="refCode">'+refCode_+'</div><button class="btn-copy" id="btnCopy">Copy</button></div><div class="ref-stats"><div class="ref-stat"><span class="rs-num">'+refs+'</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num">'+money(rs)+'</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div></div>'
+      +'</div><div class="panel-right">'
+      +'<div class="up-label">You\'re missing out</div>'
+      +'<div class="up-heading">UPGRADE &amp;<br><em>UNLOCK YOUR WORLD</em></div>'
+      +'<div class="up-sub">Free members see a fraction of DWC. Here\'s what\'s waiting right now.</div>'
+      +'<div class="missing"><div class="miss-item"><div class="miss-icon">&#x1F37D;&#xFE0F;</div><div><div class="miss-title">Restaurant &amp; Brand Discounts</div><div class="miss-desc">Gold+ save 10-20% at partner restaurants and get exclusive sponsor brand offers.</div></div></div>'
+      +'<div class="miss-item"><div class="miss-icon">&#x1F3AB;</div><div><div class="miss-title">Film Event Tickets</div><div class="miss-desc">Audio launches, pre-release events, success meets across AP &amp; Telangana.</div></div></div>'
+      +'<div class="miss-item"><div class="miss-icon">&#x1F455;</div><div><div class="miss-title">DWC T-Shirt</div><div class="miss-desc">Every paid member wears it to events. It\'s how celebrities know who you are.</div></div></div>'
+      +'<div class="miss-item"><div class="miss-icon">&#x1F4BA;</div><div><div class="miss-title">Priority Booking</div><div class="miss-desc">Gold+ get priority before seats sell out. Free = waitlist only.</div></div></div></div>'
+      +'<div class="cta-block"><div class="cta-title">Start with Gold &mdash; &#x20B9;2,499/yr</div><div class="cta-sub">Less than &#x20B9;7/day. Discounts, film events, DWC T-shirt &amp; &#x20B9;5,000 off your dinner seat.</div><button class="btn-upgrade" onclick="window.location.href=\'/upgrade.html\'">Upgrade My Membership &#x2192;</button><div class="cta-note">&#x2713; Instant activation &nbsp;&bull;&nbsp; &#x2713; Razorpay secure &nbsp;&bull;&nbsp; &#x2713; Cancel anytime</div></div>'
+      +'</div></div>';
+  } else if(tier==='gold'){
+    var yp=70000-((m.dining_visits||0)*500)-rs-5000;
+    html='<div class="single-panel">'
+      +'<div class="welcome-greeting">Welcome back, Gold Member</div>'
+      +'<div class="welcome-name">'+fn_.toUpperCase()+' <em style="color:var(--gold)">'+ln_.toUpperCase()+'</em></div>'
+      +'<div class="welcome-sub">DWC Gold Member &middot; Benefits Active</div>'
+      +'<div class="stats-row"><div class="stat-card"><div class="stat-num" style="color:var(--gold)">'+pts_+'</div><div class="stat-lbl">Points</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">'+money(yp)+'</div><div class="stat-lbl">Dinner Price</div></div><div class="stat-card"><div class="stat-num" style="color:var(--gold2)">'+refs+'</div><div class="stat-lbl">Referrals</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">&#x2212;&#x20B9;5,000</div><div class="stat-lbl">Seat Reduction</div></div></div>'
+      +'<div class="sec-label">Your Gold Benefits</div>'
+      +'<div class="grid2"><div class="feature-card"><div class="fc-icon">&#x1F37D;&#xFE0F;</div><div class="fc-title">Restaurant Discounts</div><div class="fc-desc">10% off at all DWC partner restaurants across AP &amp; Telangana.</div><div class="fc-val">10% OFF</div></div><div class="feature-card"><div class="fc-icon">&#x1F6CD;&#xFE0F;</div><div class="fc-title">Sponsor Brand Offers</div><div class="fc-desc">Exclusive Gold member offers from DWC sponsor brands. Updated monthly.</div><div class="fc-val">ACTIVE</div></div><div class="feature-card"><div class="fc-icon">&#x1F3AB;</div><div class="fc-title">Film Event Tickets</div><div class="fc-desc">Audio launches, pre-release events &amp; success meets — General block.</div><div class="fc-val">GENERAL BLOCK</div></div><div class="feature-card"><div class="fc-icon">&#x1F455;</div><div class="fc-title">DWC T-Shirt</div><div class="fc-desc">Your DWC T-shirt — wear it to events so celebrities know who you are.</div><div class="fc-val">ONE-TIME GIFT</div></div></div>'
+      +'<div class="sec-label">Your Referral Code</div>'
+      +'<div class="ref-card"><div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price Further.</div><div class="ref-earned">'+(rs>0?money(rs)+' saved':'&#x20B9;0 saved so far')+'</div></div><div class="ref-code-row"><div class="ref-code" id="refCode">'+refCode_+'</div><button class="btn-copy" id="btnCopy">Copy</button></div><div class="ref-stats"><div class="ref-stat"><span class="rs-num">'+refs+'</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num">'+money(rs)+'</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div></div>'
+      +'<div class="nudge"><div style="font-size:1.4rem">&#x26A1;</div><div class="nudge-text"><div class="nudge-title">Upgrade to Platinum — Premium block tickets &amp; 15% restaurant discounts</div><div class="nudge-desc">&#x20B9;6,999/yr &middot; Priority booking + &#x20B9;10,000 off your dinner seat.</div></div><a class="btn-nudge" href="/upgrade.html" style="color:var(--text);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05)">Upgrade &#x2192;</a></div>'
+      +'</div>';
+  } else if(tier==='platinum'){
+    var yp=70000-((m.dining_visits||0)*500)-rs-10000;
+    html='<div class="single-panel">'
+      +'<div class="welcome-greeting">Welcome back, Platinum Member</div>'
+      +'<div class="welcome-name">'+fn_.toUpperCase()+' <em style="color:#E8E8E8">'+ln_.toUpperCase()+'</em></div>'
+      +'<div class="welcome-sub">DWC Platinum Member &middot; Priority Access Active</div>'
+      +'<div class="stats-row"><div class="stat-card"><div class="stat-num" style="color:var(--gold)">'+pts_+'</div><div class="stat-lbl">Points</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">'+money(yp)+'</div><div class="stat-lbl">Dinner Price</div></div><div class="stat-card"><div class="stat-num" style="color:rgba(232,232,232,.8)">'+refs+'</div><div class="stat-lbl">Referrals</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">&#x2212;&#x20B9;10,000</div><div class="stat-lbl">Seat Reduction</div></div></div>'
+      +'<div style="background:linear-gradient(135deg,rgba(200,200,220,.06),rgba(200,200,220,.01));border:1px solid rgba(200,200,220,.15);border-radius:16px;padding:20px;margin-bottom:28px;display:flex;align-items:center;gap:16px"><div style="font-size:2rem">&#x26A1;</div><div><div style="font-family:Bebas Neue,cursive;font-size:1.3rem;color:var(--text);margin-bottom:4px">Priority Booking Active</div><div style="font-size:.85rem;color:var(--sub)">You get first access to all DWC celebrity dinner bookings before Gold and Free members.</div></div></div>'
+      +'<div class="sec-label">Your Platinum Benefits</div>'
+      +'<div class="grid2"><div class="feature-card"><div class="fc-icon">&#x1F37D;&#xFE0F;</div><div class="fc-title">Restaurant Discounts</div><div class="fc-desc">15% off at all DWC partner restaurants across AP &amp; Telangana.</div><div class="fc-val" style="color:#E8E8E8">15% OFF</div></div><div class="feature-card"><div class="fc-icon">&#x1F3AB;</div><div class="fc-title">Film Event Tickets</div><div class="fc-desc">Premium block seating at all audio launches, pre-release events &amp; success meets.</div><div class="fc-val" style="color:#E8E8E8">PREMIUM BLOCK</div></div><div class="feature-card"><div class="fc-icon">&#x1F6CD;&#xFE0F;</div><div class="fc-title">Sponsor Brand Offers</div><div class="fc-desc">Premium tier offers from DWC sponsor brands — better deals than Gold members.</div><div class="fc-val" style="color:#E8E8E8">PREMIUM OFFERS</div></div><div class="feature-card"><div class="fc-icon">&#x1F4BA;</div><div class="fc-title">Celebrity Dinner Priority</div><div class="fc-desc">Priority booking + &#x20B9;10,000 off your celebrity dinner seat price.</div><div class="fc-val" style="color:#E8E8E8">&#x2212;&#x20B9;10,000</div></div></div>'
+      +'<div class="sec-label">Your Referral Code</div>'
+      +'<div class="ref-card"><div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price Further.</div><div class="ref-earned">'+(rs>0?money(rs)+' saved':'&#x20B9;0 saved so far')+'</div></div><div class="ref-code-row"><div class="ref-code" id="refCode" style="color:#E8E8E8;border-color:rgba(200,200,220,.2)">'+refCode_+'</div><button class="btn-copy" id="btnCopy" style="color:#E8E8E8;border-color:rgba(200,200,220,.2);background:rgba(200,200,220,.06)">Copy</button></div><div class="ref-stats"><div class="ref-stat"><span class="rs-num" style="color:rgba(232,232,232,.8)">'+refs+'</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num" style="color:rgba(232,232,232,.8)">'+money(rs)+'</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num" style="color:rgba(232,232,232,.8)">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div></div>'
+      +'<div class="nudge" style="border-color:rgba(155,89,182,.2);background:rgba(155,89,182,.05)"><div style="font-size:1.4rem">&#x1F7E3;</div><div class="nudge-text"><div class="nudge-title">Upgrade to Purple — 3rd row celebrity seating &amp; 1st day 1st show tickets</div><div class="nudge-desc">&#x20B9;14,999/yr &middot; VIP block events, dedicated RM &amp; &#x20B9;15,000 off your dinner seat.</div></div><a class="btn-nudge" href="/upgrade.html" style="color:var(--purp2);border-color:rgba(155,89,182,.3);background:rgba(155,89,182,.1)">Go Purple &#x2192;</a></div>'
+      +'</div>';
+  } else {
+    var yp=70000-((m.dining_visits||0)*500)-rs-15000;
+    html='<div class="single-panel">'
+      +'<div class="welcome-greeting" style="color:var(--purp2)">Welcome back, Purple VIP</div>'
+      +'<div class="welcome-name">'+fn_.toUpperCase()+' <em style="color:var(--purp2)">'+ln_.toUpperCase()+'</em></div>'
+      +'<div class="welcome-sub">DWC Purple VIP &middot; Highest Tier</div>'
+      +'<div class="vip-card"><div style="font-family:Bebas Neue,cursive;font-size:1.5rem;color:var(--text);margin-bottom:6px">Your VIP Status</div><div style="font-size:.9rem;color:var(--sub);line-height:1.6">You\'re at the top of DWC membership. Celebrity seating, first-day film tickets, and a dedicated relationship manager are all yours.</div><div class="vip-stats"><div class="vip-stat"><span class="vs-num">#&#x2014;</span><span class="vs-lbl">Leaderboard Rank</span></div><div class="vip-stat"><span class="vs-num">3RD ROW</span><span class="vs-lbl">Celebrity Seating</span></div><div class="vip-stat"><span class="vs-num">TOP 50</span><span class="vs-lbl">1st Day 1st Show</span></div></div></div>'
+      +'<div class="stats-row"><div class="stat-card"><div class="stat-num" style="color:var(--gold)">'+pts_+'</div><div class="stat-lbl">Points</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">'+money(yp)+'</div><div class="stat-lbl">Dinner Price</div></div><div class="stat-card"><div class="stat-num" style="color:var(--purp2)">'+refs+'</div><div class="stat-lbl">Referrals</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">&#x2212;&#x20B9;15,000</div><div class="stat-lbl">Seat Reduction</div></div></div>'
+      +'<div class="sec-label" style="color:var(--purp2)">Your Purple VIP Benefits</div>'
+      +'<div class="grid2"><div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F3AB;</div><div class="fc-title">Film Event Tickets</div><div class="fc-desc">VIP block seating at all audio launches, pre-release events &amp; success meets.</div><div class="fc-val" style="color:var(--purp2)">VIP BLOCK</div></div><div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F37D;&#xFE0F;</div><div class="fc-title">Restaurant Discounts</div><div class="fc-desc">20% off at all DWC partner restaurants. Highest tier discount available.</div><div class="fc-val" style="color:var(--purp2)">20% OFF</div></div><div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F3A6;</div><div class="fc-title">1st Day 1st Show</div><div class="fc-desc">You\'re in the Top 50 spenders pool — earn your 1st day 1st show ticket for every major Telugu release.</div><div class="fc-val" style="color:var(--purp2)">TOP 50 ELIGIBLE</div></div><div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F91D;</div><div class="fc-title">Relationship Manager</div><div class="fc-desc">Your personal DWC RM handles bookings, event access &amp; any requests directly.</div><div class="fc-val" style="color:var(--purp2)">DEDICATED</div></div></div>'
+      +'<div style="background:linear-gradient(135deg,rgba(155,89,182,.1),rgba(155,89,182,.02));border:1px solid rgba(155,89,182,.3);border-radius:16px;padding:20px;margin-bottom:28px;display:flex;align-items:center;gap:16px"><div style="font-size:2.5rem">&#x1F91D;</div><div><div style="font-family:Bebas Neue,cursive;font-size:1.3rem;color:var(--text);margin-bottom:4px">Contact Your Relationship Manager</div><div style="font-size:.85rem;color:var(--sub);margin-bottom:6px">Your dedicated DWC RM is available for bookings, event access &amp; special requests.</div><div style="font-size:.82rem;color:var(--purp2);font-weight:600">partners@dinewithcelebrity.com</div></div></div>'
+      +'<div class="sec-label" style="color:var(--purp2)">Your Referral Code</div>'
+      +'<div class="ref-card" style="border-color:rgba(155,89,182,.2)"><div class="ref-top"><div class="ref-title">Refer &amp; Climb the Leaderboard</div><div class="ref-earned">'+(rs>0?money(rs)+' saved':'&#x20B9;0 saved so far')+'</div></div><div class="ref-code-row"><div class="ref-code" id="refCode" style="color:var(--purp2);border-color:rgba(155,89,182,.25)">'+refCode_+'</div><button class="btn-copy" id="btnCopy" style="color:var(--purp2);border-color:rgba(155,89,182,.3);background:rgba(155,89,182,.1)">Copy</button></div><div class="ref-stats"><div class="ref-stat"><span class="rs-num" style="color:var(--purp2)">'+refs+'</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num" style="color:var(--purp2)">'+money(rs)+'</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num" style="color:var(--purp2)">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div></div>'
+      +'</div>';
+  }
+  document.getElementById('dashPage').innerHTML=html;
+  // Wire copy
+  var bc=document.getElementById('btnCopy');
+  if(bc) bc.onclick=function(){navigator.clipboard.writeText(refCode_);this.textContent='Copied!';var s=this;setTimeout(function(){s.textContent='Copy';},2000);};
 }
 
-function renderGold(m,user,refs,rs){
-  var fn=(m.full_name||user.email).split(' ')[0];
-  var rc=m.referral_code||refCode(fn);
-  var yp=70000-((m.dining_visits||0)*500)-rs-5000;
-  return `<div class="single-panel">
-  <div class="welcome-greeting">Welcome back, Gold Member</div>
-  <div class="welcome-name" style="color:var(--text)">${fn.toUpperCase()} <em style="color:var(--gold)">${(m.full_name||'').split(' ').slice(1).join(' ').toUpperCase()}</em></div>
-  <div class="welcome-sub">DWC Gold Member &middot; Active</div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" style="color:var(--gold)">${m.points||100}</div><div class="stat-lbl">Points</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">${money(yp)}</div><div class="stat-lbl">Dinner Price</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--gold2)">${refs}</div><div class="stat-lbl">Referrals</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">&#x2212;&#x20B9;5,000</div><div class="stat-lbl">Seat Reduction</div></div>
-  </div>
-  <div class="sec-label">Your Gold Benefits</div>
-  <div class="grid2">
-    <div class="feature-card"><div class="fc-icon">&#x1F37D;&#xFE0F;</div><div class="fc-title">Restaurant Discounts</div><div class="fc-desc">10% off at all DWC partner restaurants across AP &amp; Telangana.</div><div class="fc-val">10% OFF</div></div>
-    <div class="feature-card"><div class="fc-icon">&#x1F6CD;&#xFE0F;</div><div class="fc-title">Sponsor Brand Offers</div><div class="fc-desc">Exclusive Gold member offers from DWC sponsor brands. Updated monthly.</div><div class="fc-val">ACTIVE</div></div>
-    <div class="feature-card"><div class="fc-icon">&#x1F3AB;</div><div class="fc-title">Film Event Tickets</div><div class="fc-desc">Audio launches, pre-release events &amp; success meets — General block.</div><div class="fc-val">GENERAL BLOCK</div></div>
-    <div class="feature-card"><div class="fc-icon">&#x1F455;</div><div class="fc-title">DWC T-Shirt</div><div class="fc-desc">Your DWC T-shirt — wear it to events so celebrities know who you are.</div><div class="fc-val">ONE-TIME GIFT</div></div>
-  </div>
-  <div class="sec-label">Your Referral Code</div>
-  <div class="ref-card">
-    <div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price Further.</div><div class="ref-earned">${rs>0?money(rs)+' saved':'&#x20B9;0 saved so far'}</div></div>
-    <div class="ref-code-row"><div class="ref-code" id="refCode">${rc}</div><button class="btn-copy" id="btnCopy">Copy</button></div>
-    <div class="ref-stats"><div class="ref-stat"><span class="rs-num">${refs}</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num">${money(rs)}</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div>
-  </div>
-  <div class="nudge">
-    <div style="font-size:1.4rem">&#x26A1;</div>
-    <div class="nudge-text"><div class="nudge-title">Upgrade to Platinum — Premium block tickets &amp; 15% restaurant discounts</div><div class="nudge-desc">&#x20B9;6,999/yr &middot; Priority booking + &#x20B9;10,000 off your dinner seat.</div></div>
-    <a class="btn-nudge" href="/upgrade.html" style="color:var(--text);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05)">Upgrade &#x2192;</a>
-  </div>
-</div>`;
-}
-
-function renderPlatinum(m,user,refs,rs){
-  var fn=(m.full_name||user.email).split(' ')[0];
-  var rc=m.referral_code||refCode(fn);
-  var yp=70000-((m.dining_visits||0)*500)-rs-10000;
-  return `<div class="single-panel">
-  <div class="welcome-greeting">Welcome back, Platinum Member</div>
-  <div class="welcome-name" style="color:var(--text)">${fn.toUpperCase()} <em style="color:#E8E8E8">${(m.full_name||'').split(' ').slice(1).join(' ').toUpperCase()}</em></div>
-  <div class="welcome-sub">DWC Platinum Member &middot; Priority Access Active</div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" style="color:var(--gold)">${m.points||100}</div><div class="stat-lbl">Points</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">${money(yp)}</div><div class="stat-lbl">Dinner Price</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:rgba(232,232,232,.8)">${refs}</div><div class="stat-lbl">Referrals</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">&#x2212;&#x20B9;10,000</div><div class="stat-lbl">Seat Reduction</div></div>
-  </div>
-  <div style="background:linear-gradient(135deg,rgba(200,200,220,.06),rgba(200,200,220,.01));border:1px solid rgba(200,200,220,.15);border-radius:16px;padding:20px;margin-bottom:28px;display:flex;align-items:center;gap:16px">
-    <div style="font-size:2rem">&#x26A1;</div>
-    <div><div style="font-family:Bebas Neue,cursive;font-size:1.3rem;color:var(--text);margin-bottom:4px">Priority Booking Active</div><div style="font-size:.85rem;color:var(--sub)">You get first access to all DWC celebrity dinner bookings before Gold and Free members.</div></div>
-  </div>
-  <div class="sec-label">Your Platinum Benefits</div>
-  <div class="grid2">
-    <div class="feature-card"><div class="fc-icon">&#x1F37D;&#xFE0F;</div><div class="fc-title">Restaurant Discounts</div><div class="fc-desc">15% off at all DWC partner restaurants across AP &amp; Telangana.</div><div class="fc-val" style="color:#E8E8E8">15% OFF</div></div>
-    <div class="feature-card"><div class="fc-icon">&#x1F3AB;</div><div class="fc-title">Film Event Tickets</div><div class="fc-desc">Audio launches, pre-release events &amp; success meets — Premium block seating.</div><div class="fc-val" style="color:#E8E8E8">PREMIUM BLOCK</div></div>
-    <div class="feature-card"><div class="fc-icon">&#x1F6CD;&#xFE0F;</div><div class="fc-title">Sponsor Brand Offers</div><div class="fc-desc">Premium tier offers from DWC sponsor brands — better than Gold.</div><div class="fc-val" style="color:#E8E8E8">PREMIUM OFFERS</div></div>
-    <div class="feature-card"><div class="fc-icon">&#x1F4BA;</div><div class="fc-title">Celebrity Dinner Priority</div><div class="fc-desc">Priority booking + &#x20B9;10,000 off your celebrity dinner seat price.</div><div class="fc-val" style="color:#E8E8E8">&#x2212;&#x20B9;10,000</div></div>
-  </div>
-  <div class="sec-label">Your Referral Code</div>
-  <div class="ref-card">
-    <div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price Further.</div><div class="ref-earned">${rs>0?money(rs)+' saved':'&#x20B9;0 saved so far'}</div></div>
-    <div class="ref-code-row"><div class="ref-code" id="refCode" style="color:#E8E8E8">${rc}</div><button class="btn-copy" id="btnCopy" style="color:#E8E8E8;border-color:rgba(200,200,220,.2);background:rgba(200,200,220,.08)">Copy</button></div>
-    <div class="ref-stats"><div class="ref-stat"><span class="rs-num" style="color:rgba(232,232,232,.8)">${refs}</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num" style="color:rgba(232,232,232,.8)">${money(rs)}</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num" style="color:rgba(232,232,232,.8)">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div>
-  </div>
-  <div class="nudge" style="border-color:rgba(155,89,182,.2);background:rgba(155,89,182,.05)">
-    <div style="font-size:1.4rem">&#x1F7E3;</div>
-    <div class="nudge-text"><div class="nudge-title">Upgrade to Purple — 3rd row celebrity seating &amp; 1st day 1st show tickets</div><div class="nudge-desc">&#x20B9;14,999/yr &middot; VIP block events, dedicated RM &amp; &#x20B9;15,000 off your dinner seat.</div></div>
-    <a class="btn-nudge" href="/upgrade.html" style="color:var(--purp2);border-color:rgba(155,89,182,.3);background:rgba(155,89,182,.1)">Go Purple &#x2192;</a>
-  </div>
-</div>`;
-}
-
-function renderPurple(m,user,refs,rs){
-  var fn=(m.full_name||user.email).split(' ')[0];
-  var rc=m.referral_code||refCode(fn);
-  var yp=70000-((m.dining_visits||0)*500)-rs-15000;
-  return `<div class="single-panel">
-  <div class="welcome-greeting" style="color:var(--purp2)">Welcome back, Purple VIP</div>
-  <div class="welcome-name" style="color:var(--text)">${fn.toUpperCase()} <em style="color:var(--purp2)">${(m.full_name||'').split(' ').slice(1).join(' ').toUpperCase()}</em></div>
-  <div class="welcome-sub">DWC Purple VIP &middot; Highest Tier</div>
-  <div class="vip-card">
-    <div style="font-family:Bebas Neue,cursive;font-size:1.5rem;color:var(--text);margin-bottom:6px">Your VIP Status</div>
-    <div style="font-size:.9rem;color:var(--sub);line-height:1.6">You're at the top of DWC membership. Celebrity seating, first-day film tickets, and a dedicated relationship manager are all yours.</div>
-    <div class="vip-stats">
-      <div class="vip-stat"><span class="vs-num">#${m.leaderboard_rank||'&#x2014;'}</span><span class="vs-lbl">Leaderboard Rank</span></div>
-      <div class="vip-stat"><span class="vs-num">3RD ROW</span><span class="vs-lbl">Celebrity Seating</span></div>
-      <div class="vip-stat"><span class="vs-num">TOP 50</span><span class="vs-lbl">1st Day 1st Show</span></div>
-    </div>
-  </div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" style="color:var(--gold)">${m.points||100}</div><div class="stat-lbl">Points</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">${money(yp)}</div><div class="stat-lbl">Dinner Price</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--purp2)">${refs}</div><div class="stat-lbl">Referrals</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">&#x2212;&#x20B9;15,000</div><div class="stat-lbl">Seat Reduction</div></div>
-  </div>
-  <div class="sec-label" style="color:var(--purp2)">Your Purple VIP Benefits</div>
-  <div class="grid2">
-    <div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F3AB;</div><div class="fc-title">Film Event Tickets</div><div class="fc-desc">VIP block — audio launches, pre-release events &amp; success meets. First allocation.</div><div class="fc-val" style="color:var(--purp2)">VIP BLOCK</div></div>
-    <div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F37D;&#xFE0F;</div><div class="fc-title">Restaurant Discounts</div><div class="fc-desc">20% off at all DWC partner restaurants. Highest tier discount.</div><div class="fc-val" style="color:var(--purp2)">20% OFF</div></div>
-    <div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F3A6;</div><div class="fc-title">1st Day 1st Show</div><div class="fc-desc">You're in the Top 50 spenders pool. Earn your 1st day 1st show ticket for every major Telugu release.</div><div class="fc-val" style="color:var(--purp2)">TOP 50 ELIGIBLE</div></div>
-    <div class="feature-card" style="border-color:rgba(155,89,182,.2)"><div class="fc-icon">&#x1F91D;</div><div class="fc-title">Relationship Manager</div><div class="fc-desc">Your personal DWC RM handles bookings, event access &amp; any requests directly.</div><div class="fc-val" style="color:var(--purp2)">DEDICATED</div></div>
-  </div>
-  <div style="background:linear-gradient(135deg,rgba(155,89,182,.1),rgba(155,89,182,.02));border:1px solid rgba(155,89,182,.3);border-radius:16px;padding:20px;margin-bottom:28px;display:flex;align-items:center;gap:16px">
-    <div style="font-size:2.5rem">&#x1F91D;</div>
-    <div><div style="font-family:Bebas Neue,cursive;font-size:1.3rem;color:var(--text);margin-bottom:4px">Contact Your Relationship Manager</div><div style="font-size:.85rem;color:var(--sub);margin-bottom:6px">Your dedicated DWC RM is available for bookings, event access, and any special requests.</div><div style="font-size:.82rem;color:var(--purp2);font-weight:600">partners@dinewithcelebrity.com</div></div>
-  </div>
-  <div class="sec-label" style="color:var(--purp2)">Your Referral Code</div>
-  <div class="ref-card" style="border-color:rgba(155,89,182,.2)">
-    <div class="ref-top"><div class="ref-title">Refer &amp; Climb the Leaderboard</div><div class="ref-earned">${rs>0?money(rs)+' saved':'&#x20B9;0 saved so far'}</div></div>
-    <div class="ref-code-row"><div class="ref-code" id="refCode" style="color:var(--purp2);border-color:rgba(155,89,182,.25)">${rc}</div><button class="btn-copy" id="btnCopy" style="color:var(--purp2);border-color:rgba(155,89,182,.3);background:rgba(155,89,182,.1)">Copy</button></div>
-    <div class="ref-stats"><div class="ref-stat"><span class="rs-num" style="color:var(--purp2)">${refs}</span><span class="rs-lbl">Referred</span></div><div class="ref-stat"><span class="rs-num" style="color:var(--purp2)">${money(rs)}</span><span class="rs-lbl">Price Cut</span></div><div class="ref-stat"><span class="rs-num" style="color:var(--purp2)">&#x20B9;2,000</span><span class="rs-lbl">Per Referral</span></div></div>
-  </div>
-</div>`;
+function switchTier(t){
+  renderDash(t);
+  // Scroll to top
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 (async function(){
   var sess=await sbClient.auth.getSession();
   if(!sess.data.session){window.location.href='/signin';return;}
-  var user=sess.data.session.user;
-  var res=await sbClient.from('members').select('*').eq('email',user.email).single();
-  var m=res.data||{};
-  var tier=(m.tier||'free').toLowerCase();
+  _user=sess.data.session.user;
 
-  // Referrals
-  var rc=m.referral_code||refCode((m.full_name||user.email).split(' ')[0]);
-  var rr=await sbClient.from('members').select('*',{count:'exact',head:true}).eq('referred_by',rc);
-  var refs=rr.count||0,rs=refs*2000;
+  var res=await sbClient.from('members').select('*').eq('email',_user.email).single();
+  _member=res.data||{};
 
-  // Nav
-  var tierLabels={free:'Free Member',gold:'&#9733; DWC Gold',platinum:'&#x2B51; DWC Platinum',purple:'&#x1F7E3; DWC Purple VIP'};
-  var tierColors={free:'rgba(255,255,255,.06)',gold:'rgba(242,183,5,.12)',platinum:'rgba(200,200,220,.1)',purple:'rgba(155,89,182,.15)'};
-  var tierBorders={free:'rgba(255,255,255,.08)',gold:'rgba(242,183,5,.3)',platinum:'rgba(200,200,220,.2)',purple:'rgba(155,89,182,.3)'};
-  var tierTextColors={free:'rgba(255,255,255,.55)',gold:'#F2B705',platinum:'#E8E8E8',purple:'#c39bd3'};
-  var tierAvBg={free:'linear-gradient(135deg,#F2B705,#8a6000)',gold:'linear-gradient(135deg,#F2B705,#8a6000)',platinum:'linear-gradient(135deg,#c0c0c0,#606070)',purple:'linear-gradient(135deg,#9b59b6,#6c3483)'};
-  var tierAvColor={free:'#06040A',gold:'#06040A',platinum:'#06040A',purple:'#fff'};
-  var tierAvBorder={free:'#F2B705',gold:'#F2B705',platinum:'#E8E8E8',purple:'#9b59b6'};
+  var refCode_=_member.referral_code||('DWC-'+(_member.first_name||'M').toUpperCase().substring(0,8)+'26');
+  var rr=await sbClient.from('members').select('*',{count:'exact',head:true}).eq('referred_by',refCode_);
+  _refs=rr.count||0; _rs=_refs*2000;
 
-  var nt=document.getElementById('navTier');
-  nt.innerHTML=tierLabels[tier]||'Free Member';
-  nt.style.background=tierColors[tier];
-  nt.style.borderColor=tierBorders[tier];
-  nt.style.color=tierTextColors[tier];
+  // Show dev switcher only for rupeshking
+  var isDev=_user.email==='rupeshking@gmail.com';
+  if(isDev) document.getElementById('devBar').style.display='flex';
 
-  var fn=(m.full_name||user.email).split(' ')[0];
-  var av=document.getElementById('navAv');
-  av.textContent=fn.charAt(0).toUpperCase();
-  av.style.background=tierAvBg[tier];
-  av.style.color=tierAvColor[tier];
-  av.style.border='2px solid '+tierAvBorder[tier];
+  // Render actual tier from DB
+  var tier=(_member.tier||'free').toLowerCase();
+  renderDash(tier);
 
-  // Render content
-  var renders={free:renderFree,gold:renderGold,platinum:renderPlatinum,purple:renderPurple};
-  var renderFn=renders[tier]||renderFree;
-  document.getElementById('dashPage').innerHTML=renderFn(m,user,refs,rs);
-
-  // Wire copy button
-  document.getElementById('btnCopy').onclick=function(){
-    navigator.clipboard.writeText(rc);
-    this.textContent='Copied!';
-    var s=this;setTimeout(function(){s.textContent='Copy';},2000);
-  };
-
-  // Show
   document.getElementById('loadingState').style.display='none';
   document.getElementById('dashPage').style.display='block';
   document.querySelector('nav').style.display='flex';
 
-  // Sign out
-  av.addEventListener('click',async function(){
+  document.getElementById('navAv').addEventListener('click',async function(){
     if(confirm('Sign out?')){await sbClient.auth.signOut();window.location.href='/';}
   });
 })();
