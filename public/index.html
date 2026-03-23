@@ -141,6 +141,33 @@ footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted
 .live-dot{width:8px;height:8px;background:#00C853;border-radius:50%;animation:ldot 1.5s ease-in-out infinite}
 @keyframes ldot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
 @media(max-width:600px){.celeb-card{padding:26px 18px}.price-card{padding:26px 18px}.fomo-stats{gap:10px}.fomo-stat{min-width:105px;padding:12px 14px}}
+
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.plan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px 20px;position:relative;display:flex;flex-direction:column}
+.plan.featured{border-color:var(--gold);background:rgba(242,183,5,.06)}
+.plan.purple{border-color:#9b59b6;background:rgba(155,89,182,.07)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#06040A;font-size:.7rem;font-weight:800;padding:4px 14px;border-radius:100px;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
+.purple-badge{background:linear-gradient(135deg,#9b59b6,#6c3483)!important;color:#fff!important}
+.plan-name{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--text);margin-bottom:8px;letter-spacing:.04em}
+.plan-price{margin-bottom:4px}
+.plan-amt{font-family:'Bebas Neue',cursive;font-size:2.4rem;color:var(--gold);line-height:1}
+.plan-per{font-size:.78rem;color:var(--sub);margin-left:6px}
+.plan-tag{font-size:.75rem;color:var(--muted);margin-bottom:18px}
+.plan-perks{list-style:none;flex:1;margin-bottom:20px}
+.plan-perks li{font-size:.82rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);color:var(--sub);display:flex;align-items:flex-start;gap:8px}
+.plan-perks li.yes::before{content:'\2713';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.plan-perks li.no::before{content:'\2715';color:rgba(255,255,255,.2);flex-shrink:0;margin-top:1px}
+.plan-perks li.no{color:rgba(255,255,255,.3)}
+.plan-btn{display:block;text-align:center;padding:13px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:800;text-decoration:none;text-transform:uppercase;letter-spacing:.06em;margin-top:auto;transition:opacity .2s}
+.plan-btn.outline{border:1px solid rgba(255,255,255,.2);color:var(--sub)}
+.plan-btn.outline:hover{border-color:var(--gold);color:var(--gold)}
+.plan-btn.gold-btn{background:var(--gold);color:#06040A}
+.plan-btn.gold-btn:hover{opacity:.88}
+.plan-btn.purple-btn{background:linear-gradient(135deg,#9b59b6,#6c3483);color:#fff}
+.plan-btn.purple-btn:hover{opacity:.88}
+.plan.purple .plan-amt{color:#c39bd3}
+@media(max-width:900px){.plans-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.plans-grid{grid-template-columns:1fr}}
 </style></head><body>
 <div id="stars" aria-hidden="true"></div>
 <script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC','sD','sE'],sh=['★','✦','✦','·','★','✧'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48],[63,15],[18,62],[71,30],[47,75],[86,22],[12,40],[58,85],[33,58],[67,42],[24,70],[90,35],[6,25],[44,90],[80,68],[50,10],[16,80],[72,55],[38,20],[60,38],[26,92],[84,48],[10,95],[52,28],[30,15],[76,82],[20,52],[46,35],[88,70],[14,66],[62,8],[36,78],[70,22],[54,60],[8,44],[96,15]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%5],s=sh[i%6],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
@@ -229,7 +256,83 @@ footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted
     <a href="/signup" class="mech-cta">Claim Your Free Seat &mdash; Join Now</a>
   </div>
 </section>
-<section class="pricing"><div class="wrap"><p class="sec-lbl">Membership Plans</p><h2>Start Free. Upgrade When Ready.</h2><p class="sec-sub">Join free. Upgrade to Gold or Platinum for VIP celebrity access and premium dining discounts.</p><div class="price-grid"><div class="tier"><div class="t-name">Free Starter Access</div><div class="t-price"><sub>₹</sub>0</div><div class="t-period">Forever free</div><div class="t-value">No credit card needed</div><ul class="perks"><li>Member dashboard access</li><li>Browse celebrity events</li><li>View partner restaurants</li><li>Community newsletter</li></ul><a href="/signup.html" class="btn-t">Get Started Free</a></div><div class="tier hot"><div class="hot-tag">Most Popular</div><div class="t-name">DWC Gold</div><div class="t-price"><sub>₹</sub>2,499</div><div class="t-period">per year</div><div class="t-value">Less than ₹7/day</div><ul class="perks"><li>Everything in Free</li><li>Priority event access</li><li>Up to 20% dining discounts</li><li>Exclusive Gold-only events</li><li>Dedicated support</li></ul><a href="/signup.html" class="btn-t">Join Gold</a></div><div class="tier"><div class="t-name">DWC Platinum</div><div class="t-price"><sub>₹</sub>6,999</div><div class="t-period">per year</div><div class="t-value">VIP everything</div><ul class="perks"><li>Everything in Gold</li><li>VIP celebrity meet &amp; greet</li><li>Up to 40% dining discounts</li><li>Platinum-only private dinners</li><li>Celebrity photo opportunities</li><li>Priority booking guarantee</li></ul><a href="/signup.html" class="btn-t">Join Platinum</a></div></div></div></section>
+<section class="pricing"><div class="wrap">
+<p class="sec-lbl">Membership Plans</p>
+<h2>Choose Your Access Level.</h2>
+<p class="sec-sub">From free explorer to VIP Purple — each tier unlocks more of the DWC world across AP &amp; Telangana.</p>
+<div class="plans-grid">
+
+<div class="plan free">
+<p class="plan-name">Free</p>
+<div class="plan-price"><span class="plan-amt">&#x20B9;0</span><span class="plan-per">forever free</span></div>
+<p class="plan-tag">Start your journey</p>
+<ul class="plan-perks">
+<li class="yes">Member dashboard access</li>
+<li class="yes">Referral price reduction</li>
+<li class="yes">Celebrity dinner waitlist</li>
+<li class="no">Restaurant &amp; brand discounts</li>
+<li class="no">Film event tickets</li>
+<li class="no">DWC T-Shirt</li>
+<li class="no">Seat price reduction</li>
+</ul>
+<a href="/signup" class="plan-btn outline">Join Free</a>
+</div>
+
+<div class="plan gold">
+<p class="plan-name">DWC Gold</p>
+<div class="plan-price"><span class="plan-amt">&#x20B9;2,499</span><span class="plan-per">per year</span></div>
+<p class="plan-tag">Less than &#x20B9;7/day</p>
+<ul class="plan-perks">
+<li class="yes">Everything in Free</li>
+<li class="yes">DWC T-Shirt (one-time)</li>
+<li class="yes">Partner restaurant discounts (10%)</li>
+<li class="yes">Sponsor brand exclusive offers</li>
+<li class="yes">Audio launch &amp; pre-release tickets (General block)</li>
+<li class="yes">Movie success meet tickets</li>
+<li class="yes">&#x2212;&#x20B9;5,000 off celebrity dinner seat</li>
+<li class="no">Priority booking</li>
+<li class="no">3rd row celebrity seating</li>
+</ul>
+<a href="/signup" class="plan-btn gold-btn">Get Gold</a>
+</div>
+
+<div class="plan platinum featured">
+<div class="plan-badge">Most Popular</div>
+<p class="plan-name">DWC Platinum</p>
+<div class="plan-price"><span class="plan-amt">&#x20B9;6,999</span><span class="plan-per">per year</span></div>
+<p class="plan-tag">Less than &#x20B9;20/day</p>
+<ul class="plan-perks">
+<li class="yes">Everything in Gold</li>
+<li class="yes">Partner restaurant discounts (15%)</li>
+<li class="yes">Sponsor brand premium offers</li>
+<li class="yes">Audio launch &amp; pre-release tickets (Premium block)</li>
+<li class="yes">Priority event booking</li>
+<li class="yes">&#x2212;&#x20B9;10,000 off celebrity dinner seat</li>
+<li class="no">3rd row celebrity seating</li>
+<li class="no">1st day 1st show tickets</li>
+</ul>
+<a href="/signup" class="plan-btn gold-btn">Get Platinum</a>
+</div>
+
+<div class="plan purple">
+<div class="plan-badge purple-badge">VIP</div>
+<p class="plan-name">DWC Purple</p>
+<div class="plan-price"><span class="plan-amt">&#x20B9;14,999</span><span class="plan-per">per year</span></div>
+<p class="plan-tag">Ultimate access</p>
+<ul class="plan-perks">
+<li class="yes">Everything in Platinum</li>
+<li class="yes">Partner restaurant discounts (20%)</li>
+<li class="yes">Sponsor brand VIP offers</li>
+<li class="yes">Audio launch &amp; pre-release tickets (VIP block)</li>
+<li class="yes">3rd row celebrity seating (Top 10&#x2013;20 members)</li>
+<li class="yes">1st day 1st show tickets (Top 50 spenders)</li>
+<li class="yes">&#x2212;&#x20B9;15,000 off celebrity dinner seat</li>
+<li class="yes">Dedicated relationship manager</li>
+</ul>
+<a href="/signup" class="plan-btn purple-btn">Get Purple</a>
+</div>
+
+</div></div></section>
 <section class="partners"><div class="wrap"><p class="sec-lbl">Our Partners</p><h2>50+ Premium Restaurants</h2><p class="sec-sub" style="margin-bottom:32px">Exclusive dining partners across India where your membership unlocks access and discounts.</p><div class="partners-row"><div class="partner-logo">Restaurant<br>Partner 1</div><div class="partner-logo">Restaurant<br>Partner 2</div><div class="partner-logo">Restaurant<br>Partner 3</div><div class="partner-logo">Restaurant<br>Partner 4</div><div class="partner-logo">Restaurant<br>Partner 5</div><div class="partner-logo">Restaurant<br>Partner 6</div></div><p class="partners-note">⏳ Partner logos coming soon</p></div></section>
 <section class="proof"><div class="wrap"><p class="sec-lbl">Social Proof</p><h2>Members Love DWC</h2><p class="sec-sub">Real members. Real dinners. Real experiences.</p><div class="proof-stats"><div class="ps-item"><div class="ps-num">2,000+</div><div class="ps-lbl">Active Members</div></div><div class="ps-item"><div class="ps-num">4.9★</div><div class="ps-lbl">Member Rating</div></div></div><div class="testimonials"><div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">I sat next to my favourite actor at dinner. We actually talked for an hour. I thought this was too good to be true — it's absolutely real.</p><div class="tcard-author"><div class="tcard-avatar">RK</div><div><div class="tcard-name">Rahul K.</div><div class="tcard-loc">Mumbai · Gold Member</div></div></div></div><div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">The restaurant discounts alone paid for my Gold membership in the first month. The celebrity dinner was a bonus I'll never forget.</p><div class="tcard-author"><div class="tcard-avatar">PS</div><div><div class="tcard-name">Priya S.</div><div class="tcard-loc">Delhi · Platinum Member</div></div></div></div></div></div></section>
 <section class="final"><h2>Your Celebrity Dinner<br><span>Starts Here.</span></h2><p class="final-sub">Thousands of members. Real dinners. Real stars. Real change. Join free — no credit card needed.</p><div class="final-ctas"><a href="/signup.html" class="btn-g">⭐ Join Now — It's Free</a><a href="/stars.html" class="btn-o">See Celebrities</a></div><div class="trust-row"><span>Free forever</span><span>No credit card</span><span>Cancel anytime</span><span>15% to causes</span></div></section>
