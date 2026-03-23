@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Dashboard — Dine With Celebrity</title>
-<meta name="robots" content="noindex">
+<html lang="en"><head><meta charset="UTF-8"><title>Dashboard — Dine With Celebrity</title><meta name="robots" content="noindex">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>body{background:#06040A;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;font-family:'Poppins',sans-serif}.loader{width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:#F2B705;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
-</head>
-<body>
-<div class="loader"></div>
+<style>body{background:#06040A;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;font-family:'Poppins',sans-serif;flex-direction:column;gap:16px}.loader{width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:#F2B705;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.txt{color:rgba(255,255,255,.4);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase}</style>
+</head><body>
+<div class="loader"></div><div class="txt">Loading your dashboard...</div>
 <script>
 (async function(){
   var sb=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
   var s=await sb.auth.getSession();
   if(!s.data.session){window.location.href='/signin';return;}
-  var r=await sb.from('members').select('tier').eq('email',s.data.session.user.email).single();
-  var tier=(r.data&&r.data.tier)||'free';
+  var r2=await sb.from('members').select('tier').eq('email',s.data.session.user.email).single();
+  var tier=(r2.data&&r2.data.tier)||'free';
   var map={free:'/dashboard-free.html',gold:'/dashboard-gold.html',platinum:'/dashboard-platinum.html',purple:'/dashboard-purple.html'};
-  window.location.replace(map[tier]||'/dashboard-free.html');
+  var target=map[tier]||'/dashboard-free.html';
+  // Check if file exists before redirecting
+  try{
+    var chk=await fetch(target,{method:'HEAD'});
+    if(chk.ok){window.location.replace(target);}
+    else{window.location.replace('/dashboard-free.html');}
+  }catch(e){window.location.replace('/dashboard-free.html');}
 })();
 </script>
 </body></html>
