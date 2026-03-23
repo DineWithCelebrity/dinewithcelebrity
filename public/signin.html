@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sign In — Dine With Celebrity Pvt Ltd</title>
 <meta name="description" content="Sign in to your DWC member dashboard.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -11,32 +10,25 @@
 :root{--bg:#06040A;--card:#110916;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow-x:hidden}
-/* STARS */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 #stars i{position:absolute;color:#F2B705;font-style:normal;animation:twinkle 3.2s ease-in-out infinite alternate}
 @keyframes twinkle{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
-/* BRAND WATERMARK */
 .brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
-/* LAYOUT */
 .page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;width:100%;position:relative;z-index:1}
-/* LEFT PANEL */
 .left{background:linear-gradient(135deg,#0d0612 0%,#1a0520 100%);display:flex;flex-direction:column;justify-content:center;padding:60px 52px;border-right:1px solid var(--border2)}
 .left-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;margin-bottom:48px;text-decoration:none;display:inline-block}
 .left-logo span{color:var(--text)}
 .left-heading{font-family:'Bebas Neue',cursive;font-size:clamp(2.8rem,5vw,4.2rem);line-height:1;color:var(--text);margin-bottom:12px}
 .left-heading em{color:var(--gold);font-style:normal;display:block}
 .left-sub{font-size:1rem;color:var(--sub);line-height:1.6;margin-bottom:40px;max-width:360px}
-/* Social proof */
 .proof-list{display:flex;flex-direction:column;gap:10px}
 .proof-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:12px;padding:12px 16px}
 .proof-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#06040A;flex-shrink:0}
-.proof-text{flex:1}
 .proof-name{font-size:.88rem;font-weight:600;color:var(--text)}
 .proof-detail{font-size:.75rem;color:var(--muted)}
 .proof-badge{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap}
 .badge-gold{background:rgba(242,183,5,.15);border:1px solid var(--border);color:var(--gold)}
 .badge-pts{background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:#00C853}
-/* RIGHT PANEL */
 .right{display:flex;align-items:center;justify-content:center;padding:40px 52px;background:var(--bg)}
 .form-box{width:100%;max-width:400px}
 .form-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
@@ -48,132 +40,152 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .field input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:rgba(255,255,255,.28)}
-.forgot{text-align:right;margin-top:6px}
-.forgot a{font-size:.78rem;color:var(--muted);text-decoration:none;transition:color .2s}
-.forgot a:hover{color:var(--gold)}
-.btn-signin{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;padding:15px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;margin-top:8px;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-signin:hover{opacity:.88}
-.btn-signin:disabled{opacity:.5;cursor:not-allowed}
+.forgot-row{text-align:right;margin-top:6px}
+.forgot-link{font-size:.78rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;padding:0;transition:color .2s}
+.forgot-link:hover{color:var(--gold)}
+.btn-primary{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;padding:15px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;margin-top:8px;transition:opacity .2s}
+.btn-primary:hover{opacity:.88}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .error-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:14px;display:none;text-align:center}
+.success-msg{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:#00C853;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:14px;display:none;text-align:center}
 .divider{display:flex;align-items:center;gap:12px;margin:24px 0}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
 .divider span{font-size:.78rem;color:var(--muted)}
-.signup-row{text-align:center;font-size:.9rem;color:var(--sub)}
-.signup-row a{color:var(--gold);font-weight:700;text-decoration:none}
-.signup-row a:hover{text-decoration:underline}
-@media(max-width:768px){
-  .page{grid-template-columns:1fr}
-  .left{display:none}
-  .right{padding:40px 24px;min-height:100vh}
-}
+.bottom-row{text-align:center;font-size:.9rem;color:var(--sub)}
+.bottom-row a,.back-link{color:var(--gold);font-weight:700;text-decoration:none;background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.9rem}
+@media(max-width:768px){.page{grid-template-columns:1fr}.left{display:none}.right{padding:40px 24px;min-height:100vh}}
 </style>
 </head>
 <body>
 <div id="stars"></div>
 <div class="brand-bg">DWC</div>
 <div class="page">
-  <!-- LEFT -->
   <div class="left">
     <a class="left-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
     <div class="left-heading">YOUR CELEBRITY<br><em>DINNER AWAITS.</em></div>
-    <p class="left-sub">Sign in and check how close you are to dining with your favourite star. Your points, events, and referrals are waiting.</p>
+    <p class="left-sub">Sign in and check how close you are to dining with your favourite star.</p>
     <div class="proof-list">
-      <div class="proof-item">
-        <div class="proof-av" style="background:linear-gradient(135deg,#F2B705,#a06000)">R</div>
-        <div class="proof-text"><div class="proof-name">Rahul K. &mdash; Mumbai</div><div class="proof-detail">Dined with a Bollywood star last week</div></div>
-        <span class="proof-badge badge-gold">&#9733; Gold</span>
-      </div>
-      <div class="proof-item">
-        <div class="proof-av" style="background:linear-gradient(135deg,#9b59b6,#6c3483)">P</div>
-        <div class="proof-text"><div class="proof-name">Priya S. &mdash; Delhi</div><div class="proof-detail">900 pts &middot; Celebrity dinner unlocked!</div></div>
-        <span class="proof-badge badge-pts">900 pts</span>
-      </div>
-      <div class="proof-item">
-        <div class="proof-av" style="background:linear-gradient(135deg,#00C853,#007a32)">A</div>
-        <div class="proof-text"><div class="proof-name">Arjun M. &mdash; Bangalore</div><div class="proof-detail">Just referred 3 friends &middot; +600 pts</div></div>
-        <span class="proof-badge badge-pts">+600 pts</span>
-      </div>
+      <div class="proof-item"><div class="proof-av" style="background:linear-gradient(135deg,#F2B705,#a06000)">R</div><div style="flex:1"><div class="proof-name">Rahul K. &mdash; Mumbai</div><div class="proof-detail">Dined with a Bollywood star last week</div></div><span class="proof-badge badge-gold">&#9733; Gold</span></div>
+      <div class="proof-item"><div class="proof-av" style="background:linear-gradient(135deg,#9b59b6,#6c3483)">P</div><div style="flex:1"><div class="proof-name">Priya S. &mdash; Delhi</div><div class="proof-detail">900 pts &middot; Celebrity dinner unlocked!</div></div><span class="proof-badge badge-pts">900 pts</span></div>
+      <div class="proof-item"><div class="proof-av" style="background:linear-gradient(135deg,#00C853,#007a32)">A</div><div style="flex:1"><div class="proof-name">Arjun M. &mdash; Bangalore</div><div class="proof-detail">Just referred 3 friends &middot; +600 pts</div></div><span class="proof-badge badge-pts">+600 pts</span></div>
     </div>
   </div>
-  <!-- RIGHT -->
   <div class="right">
     <div class="form-box">
-      <div class="form-eyebrow">&#x1F44B; Welcome Back</div>
-      <div class="form-title">SIGN IN TO<br><em>YOUR DASHBOARD</em></div>
-      <p class="form-sub">Enter your email and password to access your member account.</p>
-      <div class="field">
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="hello@example.com" autocomplete="email">
+      <!-- SIGN IN FORM -->
+      <div id="signinForm">
+        <div class="form-eyebrow">&#x1F44B; Welcome Back</div>
+        <div class="form-title">SIGN IN TO<br><em>YOUR DASHBOARD</em></div>
+        <p class="form-sub">Enter your email and password.</p>
+        <div class="field"><label>Email Address</label><input type="email" id="siEmail" placeholder="hello@example.com" autocomplete="email"></div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="siPass" placeholder="Your password" autocomplete="current-password">
+          <div class="forgot-row"><button class="forgot-link" onclick="showForgot()">Forgot password?</button></div>
+        </div>
+        <button class="btn-primary" id="btnSignin">Sign In</button>
+        <div class="error-msg" id="siError"></div>
+        <div class="divider"><span>New to DWC?</span></div>
+        <div class="bottom-row">Don't have an account? <a href="/signup">Join Free &rarr;</a></div>
       </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="Your password" autocomplete="current-password">
-        <div class="forgot"><a href="/forgot-password.html">Forgot password?</a></div>
+      <!-- FORGOT PASSWORD FORM -->
+      <div id="forgotForm" style="display:none">
+        <div class="form-eyebrow">&#x1F512; Reset Password</div>
+        <div class="form-title">FORGOT YOUR<br><em>PASSWORD?</em></div>
+        <p class="form-sub">Enter your email and we'll send you a reset link.</p>
+        <div class="field"><label>Email Address</label><input type="email" id="fpEmail" placeholder="hello@example.com" autocomplete="email"></div>
+        <button class="btn-primary" id="btnForgot">Send Reset Link</button>
+        <div class="error-msg" id="fpError"></div>
+        <div class="success-msg" id="fpSuccess"></div>
+        <div class="divider"><span>&nbsp;</span></div>
+        <div class="bottom-row"><button class="back-link" onclick="showSignin()">&#x2190; Back to Sign In</button></div>
       </div>
-      <button class="btn-signin" id="btnSignin">
-        <span id="btnText">Sign In</span>
-      </button>
-      <div class="error-msg" id="errorMsg"></div>
-      <div class="divider"><span>New to DWC?</span></div>
-      <div class="signup-row">Don't have an account? <a href="/signup">Join Free &rarr;</a></div>
     </div>
   </div>
 </div>
 <script>
-  // Stars
-  (function(){
-    var se=document.getElementById('stars');
-    for(var i=0;i<65;i++){
-      var s=document.createElement('i');
-      s.textContent='\u2605';
-      s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';
-      se.appendChild(s);
-    }
-  })();
+(function(){var se=document.getElementById('stars');for(var i=0;i<65;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
-  // Supabase auth
-  const SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
-  const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
-  const sbClient = supabase.createClient(SURL, SKEY);
+var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 
-  // If already signed in, go to dashboard
-  (async()=>{
-    const {data:{session}}=await sbClient.auth.getSession();
-    if(session) window.location.href='/dashboard.html';
-  })();
+// Redirect if already signed in
+(async function(){var s=await sbClient.auth.getSession();if(s.data.session)window.location.href='/dashboard.html';})();
 
-  // Sign in handler
-  document.getElementById('btnSignin').onclick = async function(){
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const errEl = document.getElementById('errorMsg');
-    const btnText = document.getElementById('btnText');
+function showForgot(){
+  document.getElementById('signinForm').style.display='none';
+  document.getElementById('forgotForm').style.display='block';
+  document.getElementById('fpEmail').value=document.getElementById('siEmail').value;
+  document.getElementById('fpEmail').focus();
+}
+function showSignin(){
+  document.getElementById('forgotForm').style.display='none';
+  document.getElementById('signinForm').style.display='block';
+}
 
-    errEl.style.display='none';
-    if(!email||!password){errEl.textContent='Please enter your email and password.';errEl.style.display='block';return;}
+// Sign In
+document.getElementById('btnSignin').onclick=async function(){
+  var email=document.getElementById('siEmail').value.trim();
+  var pass=document.getElementById('siPass').value;
+  var err=document.getElementById('siError');
+  err.style.display='none';
+  if(!email||!pass){err.textContent='Please enter your email and password.';err.style.display='block';return;}
+  this.disabled=true;this.textContent='Signing in...';
+  var res=await sbClient.auth.signInWithPassword({email:email,password:pass});
+  if(res.error){
+    err.textContent=res.error.message==='Invalid login credentials'?'Incorrect email or password. Please try again.':res.error.message;
+    err.style.display='block';this.disabled=false;this.textContent='Sign In';
+  } else {
+    this.textContent='\u2713 Signed in! Redirecting...';
+    setTimeout(function(){window.location.href='/dashboard.html';},800);
+  }
+};
 
-    this.disabled=true;
-    btnText.textContent='Signing in...';
+// Forgot Password
+document.getElementById('btnForgot').onclick=async function(){
+  var email=document.getElementById('fpEmail').value.trim();
+  var err=document.getElementById('fpError');
+  var suc=document.getElementById('fpSuccess');
+  err.style.display='none';suc.style.display='none';
+  if(!email){err.textContent='Please enter your email address.';err.style.display='block';return;}
+  this.disabled=true;this.textContent='Sending...';
+  var res=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://www.dinewithcelebrity.com/signin?mode=reset'});
+  if(res.error){err.textContent=res.error.message;err.style.display='block';}
+  else{suc.textContent='\u2713 Reset link sent! Check your inbox (and spam folder).';suc.style.display='block';}
+  this.disabled=false;this.textContent='Send Reset Link';
+};
 
-    const {error}=await sbClient.auth.signInWithPassword({email,password});
-    if(error){
-      errEl.textContent=error.message==='Invalid login credentials'?'Incorrect email or password. Please try again.':error.message;
-      errEl.style.display='block';
-      this.disabled=false;
-      btnText.textContent='Sign In';
-    } else {
-      btnText.textContent='\u2713 Signed in! Redirecting...';
-      setTimeout(()=>window.location.href='/dashboard.html',800);
-    }
+// Handle password reset redirect (mode=reset in URL)
+if(window.location.search.includes('mode=reset')||window.location.hash.includes('type=recovery')){
+  showForgot();
+  // Actually show password update UI
+  document.getElementById('forgotForm').innerHTML=`
+    <div class="form-eyebrow">&#x1F511; Set New Password</div>
+    <div class="form-title">CREATE YOUR<br><em>NEW PASSWORD</em></div>
+    <p class="form-sub">Choose a strong password for your account.</p>
+    <div class="field"><label>New Password</label><input type="password" id="np1" placeholder="Min. 8 characters" autocomplete="new-password"></div>
+    <div class="field"><label>Confirm Password</label><input type="password" id="np2" placeholder="Repeat password" autocomplete="new-password"></div>
+    <button class="btn-primary" id="btnUpdate">Update Password</button>
+    <div class="error-msg" id="upErr"></div>
+    <div class="success-msg" id="upSuc"></div>
+  `;
+  document.getElementById('btnUpdate').onclick=async function(){
+    var p=document.getElementById('np1').value;
+    var p2=document.getElementById('np2').value;
+    var err=document.getElementById('upErr');
+    var suc=document.getElementById('upSuc');
+    err.style.display='none';suc.style.display='none';
+    if(p.length<8){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}
+    if(p!==p2){err.textContent='Passwords do not match.';err.style.display='block';return;}
+    this.disabled=true;this.textContent='Updating...';
+    var res=await sbClient.auth.updateUser({password:p});
+    if(res.error){err.textContent=res.error.message;err.style.display='block';this.disabled=false;this.textContent='Update Password';}
+    else{suc.textContent='\u2713 Password updated! Taking you to your dashboard...';suc.style.display='block';setTimeout(function(){window.location.href='/dashboard.html';},1500);}
   };
+}
 
-  // Enter key support
-  document.getElementById('password').addEventListener('keydown',function(e){
-    if(e.key==='Enter') document.getElementById('btnSignin').click();
-  });
-  document.getElementById('email').addEventListener('keydown',function(e){
-    if(e.key==='Enter') document.getElementById('password').focus();
-  });
+// Enter key
+document.getElementById('siPass').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnSignin').click();});
+document.getElementById('siEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('siPass').focus();});
 </script>
 </body>
-</html>
+      </html>
