@@ -1,403 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>My Dashboard — Dine With Celebrity</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Member Dashboard — Dine With Celebrity Pvt Ltd</title>
 <meta name="robots" content="noindex">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#1A0003;--mid:#3D0008;--hi:#7A0015;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--text:rgba(255,255,255,.96);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.50);--border:rgba(242,183,5,.2);--green:#00C853}
+:root{--bg:#06040A;--card:#110916;--card2:#180e1c;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.42);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;overflow:hidden}#stars i{position:absolute;color:#F2B705;font-style:normal}
-.sA{animation:twA 3.2s ease-in-out infinite alternate}.sB{animation:twB 4.1s ease-in-out infinite alternate}.sC{animation:twC 2.8s ease-in-out infinite alternate}
-@keyframes twA{0%{opacity:.1;transform:scale(.9)}100%{opacity:.35;transform:scale(1.2)}}
-@keyframes twB{0%{opacity:.12;transform:scale(1)}100%{opacity:.32;transform:scale(1.15)}}
-@keyframes twC{0%{opacity:.08;transform:scale(.95)}100%{opacity:.30;transform:scale(1.25)}}
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden}
+/* STARS */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.stars i{position:absolute;color:#F2B705;font-style:normal;animation:twinkle 3s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.06}100%{opacity:.38}}
+/* GOLD BRAND WATERMARK */
+.brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:18rem;color:rgba(242,183,5,.025);pointer-events:none;z-index:0;line-height:1;user-select:none;letter-spacing:-.02em}
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(10,0,2,.96);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.15rem;color:var(--gold);text-decoration:none;letter-spacing:.08em}
-.nav-right{display:flex;align-items:center;gap:14px}
-.nav-pts{background:rgba(242,183,5,.1);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;font-weight:600;color:var(--gold);display:flex;align-items:center;gap:6px}
-.nav-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--red));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1rem;color:#1A0003;cursor:pointer}
-/* MAIN */
-.main{position:relative;z-index:1;padding:82px 20px 60px;max-width:980px;margin:0 auto}
-/* WELCOME BANNER */
-.welcome-banner{background:linear-gradient(135deg,rgba(122,0,21,.6),rgba(61,0,8,.8));border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;animation:up .5s ease both}
-.wb-left h1{font-family:'Bebas Neue',cursive;font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:.05em;margin-bottom:4px}
-.wb-left h1 span{color:var(--gold)}
-.wb-left p{font-size:.84rem;color:var(--sub)}
-.wb-right{text-align:right}
-.tier-badge{display:inline-block;background:rgba(242,183,5,.12);border:1px solid var(--gold);border-radius:20px;padding:5px 16px;font-family:'Bebas Neue',cursive;font-size:.85rem;letter-spacing:.1em;color:var(--gold)}
-/* POINTS CARD */
-.points-card{background:linear-gradient(135deg,rgba(242,183,5,.1),rgba(61,0,8,.9));border:1px solid var(--gold);border-radius:16px;padding:24px 28px;margin-bottom:24px;animation:up .5s ease .1s both}
-.pc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.pc-label{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
-.pc-num{font-family:'Bebas Neue',cursive;font-size:3.2rem;color:var(--gold);line-height:1}
-.pc-goal{font-size:.78rem;color:var(--sub)}
-.bar-wrap{margin-bottom:8px}
-.bar-bg{background:rgba(255,255,255,.08);border-radius:100px;height:10px;overflow:hidden}
-.bar-fg{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2));background-size:200%;animation:shimmer 2.5s linear infinite;transition:width .8s ease}
-.bar-meta{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-top:5px}
-.bar-meta strong{color:var(--gold)}
-.earn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.earn-btn{background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.2);border-radius:8px;padding:8px 14px;font-size:.76rem;color:var(--sub);cursor:pointer;transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:6px}
-.earn-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(242,183,5,.12)}
-.earn-pts{color:var(--gold);font-weight:700}
-/* GRID */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
-/* SECTION CARD */
-.sec-card{background:rgba(15,0,3,.7);border:1px solid var(--border);border-radius:14px;padding:22px;animation:up .5s ease .15s both}
-.sec-card h3{font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.08em;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-/* LOCKED EVENTS */
-.event-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.event-item:last-child{border-bottom:none}
-.ev-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--mid),var(--hi));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;position:relative}
-.ev-lock{position:absolute;bottom:-4px;right:-4px;background:var(--bg);border-radius:50%;font-size:.7rem;padding:1px}
-.ev-info{flex:1}
-.ev-name{font-size:.84rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.ev-meta{font-size:.72rem;color:var(--muted)}
-.ev-pts{font-size:.72rem;color:#ff8fa3;font-weight:600;white-space:nowrap}
-.unlock-tag{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.25);border-radius:4px;padding:2px 8px;font-size:.65rem;color:#ff8fa3;font-weight:600}
-/* EARN WAYS */
-.earn-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.earn-item:last-child{border-bottom:none}
-.earn-icon{width:38px;height:38px;border-radius:8px;background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.earn-info{flex:1}
-.earn-title{font-size:.83rem;font-weight:600;color:var(--text);margin-bottom:1px}
-.earn-desc{font-size:.7rem;color:var(--muted)}
-.earn-badge{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:4px;padding:3px 10px;font-size:.7rem;color:var(--gold);font-weight:700;white-space:nowrap}
-/* REFERRAL */
-.referral-card{background:linear-gradient(135deg,rgba(0,200,83,.06),rgba(15,0,3,.8));border:1px solid rgba(0,200,83,.2);border-radius:14px;padding:22px;margin-bottom:24px;animation:up .5s ease .2s both}
-.referral-card h3{font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.08em;color:var(--green);margin-bottom:8px}
-.ref-sub{font-size:.82rem;color:var(--sub);margin-bottom:16px}
-.ref-box{display:flex;gap:10px;align-items:center}
-.ref-code{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(0,200,83,.2);border-radius:8px;padding:11px 14px;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.12em;color:var(--green)}
-.ref-copy{background:var(--green);color:#fff;font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:.08em;border:none;border-radius:8px;padding:11px 20px;cursor:pointer;transition:opacity .2s;white-space:nowrap}
-.ref-copy:hover{opacity:.85}
-.ref-stats{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap}
-.ref-stat{text-align:center}
-.rs-num{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--green);line-height:1}
-.rs-lbl{font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-/* UPGRADE NUDGE */
-.upgrade-card{background:linear-gradient(135deg,rgba(122,0,21,.7),rgba(50,0,10,.9));border:1px solid rgba(242,183,5,.3);border-radius:14px;padding:22px;margin-bottom:24px;text-align:center;animation:up .5s ease .25s both}
-.upgrade-card h3{font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:.06em;margin-bottom:6px}
-.upgrade-card h3 span{color:var(--gold)}
-.upgrade-card p{font-size:.82rem;color:var(--sub);margin-bottom:18px;max-width:400px;margin-left:auto;margin-right:auto}
-.upgrade-perks{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}
-.up-perk{font-size:.76rem;color:var(--sub);display:flex;align-items:center;gap:5px}.up-perk::before{content:"✦";color:var(--gold);font-size:.6rem}
-.btn-upgrade{background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.05rem;letter-spacing:.1em;padding:13px 36px;border:none;border-radius:8px;cursor:pointer;transition:all .2s;box-shadow:0 0 20px rgba(242,183,5,.2);text-decoration:none;display:inline-block}
-.btn-upgrade:hover{background:var(--gold2);transform:translateY(-1px)}
-/* WHATSAPP */
-.wa-strip{background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.2);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:24px;cursor:pointer;transition:background .2s;animation:up .5s ease .3s both}
-.wa-strip:hover{background:rgba(37,211,102,.12)}
-.wa-strip p{font-size:.82rem;color:var(--sub)}.wa-strip p strong{color:var(--text);display:block}
-/* LOADING */
-.loading{display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:16px}
-.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
-@media(max-width:768px){.grid-2{grid-template-columns:1fr}.welcome-banner{flex-direction:column}.wb-right{text-align:left}}
-@media(max-width:480px){.main{padding:78px 14px 50px}.earn-row{flex-direction:column}.ref-box{flex-direction:column}.ref-code,.ref-copy{width:100%}}
-
-/* INTEREST PICKER */
-.interest-card{background:rgba(15,0,3,.7);border:1px solid rgba(242,183,5,.25);border-radius:14px;padding:22px;margin-bottom:24px;animation:up .5s ease .2s both}
-.interest-card h3{font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.08em;color:var(--gold);margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.interest-card .ic-sub{font-size:.78rem;color:var(--sub);margin-bottom:16px}
-.ic-pts{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.2);border-radius:4px;padding:2px 10px;font-size:.68rem;color:var(--gold);font-weight:700;margin-left:auto}
-.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;margin-bottom:16px}
-.ind-btn{background:rgba(255,255,255,.05);border:1.5px solid rgba(242,183,5,.12);border-radius:10px;padding:12px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.78rem;color:var(--sub);transition:all .2s;text-align:center}
-.ind-btn:hover{border-color:rgba(242,183,5,.4);background:rgba(242,183,5,.06)}
-.ind-btn.sel{border-color:var(--gold);background:rgba(242,183,5,.1);color:var(--text)}
-.ind-icon{font-size:1.6rem}
-.ind-name{font-weight:600;font-size:.76rem}
-.ind-type{font-size:.65rem;color:var(--muted)}
-.ind-tick{display:none;color:var(--gold);font-size:.7rem;font-weight:700}
-.ind-btn.sel .ind-tick{display:block}
-.btn-save-int{background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1rem;letter-spacing:.1em;padding:12px 28px;border:none;border-radius:8px;cursor:pointer;transition:all .2s}
-.btn-save-int:hover{background:var(--gold2)}
-.btn-save-int:disabled{opacity:.5;cursor:not-allowed}
-.saved-badge{display:none;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:6px;padding:8px 14px;font-size:.76rem;color:#00C853;text-align:center;margin-top:10px}
+nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.08em;text-decoration:none}
+.nav-logo span{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-badge{background:rgba(242,183,5,.1);border:1px solid var(--border);color:var(--gold);font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.06em}
+.nav-pts{font-size:.72rem;color:var(--sub);padding:4px 10px;border-radius:100px;background:rgba(255,255,255,.05)}
+.nav-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8a6000);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#06040A;border:2px solid var(--gold);cursor:pointer}
+/* TWO-PANEL */
+.layout{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 58px);position:relative;z-index:1}
+/* LEFT PANEL */
+.left-panel{background:linear-gradient(180deg,#0d0612 0%,#080410 100%);border-right:1px solid var(--border2);padding:28px 24px;overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px)}
+.panel-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.panel-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.price-hero{background:linear-gradient(135deg,#1a0a22 0%,#0f0618 100%);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px;position:relative;overflow:hidden}
+.price-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.ph-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px}
+.ph-base{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:rgba(255,255,255,.2);text-decoration:line-through;text-decoration-color:var(--red);line-height:1}
+.ph-yours{display:flex;align-items:center;gap:10px;margin-top:4px}
+.ph-price{font-family:'Bebas Neue',cursive;font-size:3.2rem;color:var(--gold);line-height:1}
+.ph-saved{background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:var(--green);font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:100px}
+.ph-sub{font-size:.72rem;color:var(--sub);margin-top:8px;line-height:1.5}
+.prog-wrap{margin:12px 0 0}
+.prog-meta{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:6px}
+.prog-track{background:rgba(255,255,255,.07);border-radius:100px;height:7px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;transition:width 1.5s ease}
+.flow-title{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--text);margin-bottom:14px;letter-spacing:.04em}
+.flow-step{display:flex;gap:14px;margin-bottom:14px;padding:14px;background:var(--card);border:1px solid var(--border2);border-radius:12px;transition:border-color .3s}
+.flow-step:hover{border-color:rgba(242,183,5,.25)}
+.step-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.step-icon.gold{background:rgba(242,183,5,.12)}
+.step-icon.green{background:rgba(0,200,83,.1)}
+.step-icon.blue{background:rgba(100,150,255,.1)}
+.step-body{flex:1}
+.step-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.step-desc{font-size:.7rem;color:var(--sub);line-height:1.5}
+.step-reward{font-family:'Bebas Neue',cursive;font-size:1rem;color:var(--green);margin-top:4px}
+.step-connector{width:1px;height:10px;background:var(--border2);margin:0 0 0 31px}
+.upgrade-card{background:linear-gradient(135deg,rgba(212,0,42,.08),rgba(242,183,5,.06));border:1px solid rgba(212,0,42,.25);border-radius:14px;padding:16px;margin-top:16px}
+.uc-title{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--text);margin-bottom:4px}
+.uc-sub{font-size:.7rem;color:var(--sub);margin-bottom:12px;line-height:1.5}
+.uc-perks{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.uc-perk{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--sub)}
+.uc-perk span{color:var(--gold)}
+.btn-upgrade{display:block;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:800;text-align:center;padding:12px;border-radius:8px;text-decoration:none;letter-spacing:.04em;text-transform:uppercase;border:none;cursor:pointer;width:100%;transition:opacity .2s}
+.btn-upgrade:hover{opacity:.88}
+/* RIGHT PANEL */
+.right-panel{padding:28px;overflow-y:auto;background:var(--bg)}
+.welcome-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.welcome-greeting{font-size:.75rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.welcome-name{font-family:'Bebas Neue',cursive;font-size:2.6rem;line-height:1;color:var(--text);margin-bottom:6px}
+.welcome-name em{color:var(--gold);font-style:normal}
+.welcome-sub{font-size:.78rem;color:var(--sub)}
+.tier-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(242,183,5,.08);border:1px solid var(--border);color:var(--gold2);font-size:.7rem;font-weight:700;padding:6px 14px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px;text-align:center;transition:border-color .3s}
+.stat-card:hover{border-color:var(--border)}
+.stat-num{font-family:'Bebas Neue',cursive;font-size:2rem;line-height:1;margin-bottom:2px}
+.stat-num.gold{color:var(--gold)}.stat-num.green{color:var(--green)}.stat-num.red{color:var(--red)}
+.stat-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.sec-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border2)}
+.event-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:24px;position:relative;overflow:hidden}
+.event-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.event-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.event-badge{background:var(--red);color:#fff;font-size:.62rem;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;animation:pulse-red 2s ease-in-out infinite}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(212,0,42,.4)}50%{box-shadow:0 0 0 6px rgba(212,0,42,0)}}
+.event-title{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--text);line-height:1.05;margin-bottom:4px}
+.event-title em{color:var(--gold);font-style:normal}
+.event-meta{font-size:.72rem;color:var(--sub);margin-bottom:14px}
+.event-meta span{color:var(--gold2);font-weight:600}
+.countdown{display:flex;gap:10px;margin-bottom:16px}
+.cd-box{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;text-align:center;min-width:58px}
+.cd-num{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--gold);line-height:1;display:block}
+.cd-lbl{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.locked-row{display:flex;align-items:center;gap:12px;background:rgba(212,0,42,.07);border:1px solid rgba(212,0,42,.2);border-radius:10px;padding:12px 16px}
+.lock-icon{font-size:1.2rem}
+.lock-text{font-size:.75rem;color:var(--sub);flex:1}
+.lock-text strong{color:var(--text);display:block;margin-bottom:2px}
+.btn-unlock{background:var(--gold);color:#06040A;font-size:.68rem;font-weight:800;padding:8px 14px;border-radius:8px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.restaurants-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.rest-item{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:13px 16px;transition:border-color .3s}
+.rest-item:hover{border-color:var(--border)}
+.rest-logo{width:40px;height:40px;border-radius:8px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.rest-info{flex:1}
+.rest-name{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.rest-loc{font-size:.68rem;color:var(--muted)}
+.rest-discount-val{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--green)}
+.rest-discount-val.locked{filter:blur(5px);color:var(--sub);user-select:none}
+.lock-badge{font-size:.6rem;color:var(--muted);text-align:center;display:block}
+.referral-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:24px}
+.ref-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.ref-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text)}
+.ref-earned{font-size:.72rem;color:var(--green);font-weight:600}
+.ref-code-row{display:flex;gap:8px;margin-bottom:14px}
+.ref-code{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--gold);letter-spacing:.1em}
+.btn-copy{background:rgba(242,183,5,.1);border:1px solid var(--border);color:var(--gold);font-size:.7rem;font-weight:700;padding:10px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:all .2s}
+.btn-copy:hover{background:rgba(242,183,5,.2)}
+.ref-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.ref-stat{background:var(--card2);border-radius:10px;padding:10px;text-align:center}
+.ref-stat-num{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--gold2);display:block}
+.ref-stat-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.birthday-card{background:linear-gradient(135deg,rgba(242,183,5,.06),rgba(212,0,42,.04));border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.bday-icon{font-size:2rem}
+.bday-info{flex:1}
+.bday-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.bday-sub{font-size:.7rem;color:var(--sub)}
+.btn-add-bday{background:none;border:1px solid var(--border);color:var(--gold);font-size:.7rem;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.left-panel{position:relative;height:auto;top:0}.stats-row{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<div id="stars" aria-hidden="true"></div>
-<script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC'],sh=['★','✦','·'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%8+5),c=cls[i%3],s=sh[i%3],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
-
-<nav class="nav">
-  <a href="/" class="nav-logo">★ DINE WITH CELEBRITY</a>
-  <div class="nav-right">
-    <div class="nav-pts" id="navPts">⭐ 100 pts</div>
-    <div class="nav-avatar" id="navAvatar">?</div>
-  </div>
-</nav>
-
-<div class="main" id="mainContent">
-  <div class="loading" id="loadingState">
-    <div class="spinner"></div>
-    <p style="font-size:.82rem;color:var(--muted)">Loading your dashboard...</p>
-  </div>
-  <div id="dashContent" style="display:none">
-
-    <!-- WELCOME BANNER -->
-    <div class="welcome-banner">
-      <div class="wb-left">
-        <h1>Welcome Back, <span id="memberName">Star</span>! 👋</h1>
-        <p id="memberSub">Keep earning points to unlock your first celebrity dinner</p>
-      </div>
-      <div class="wb-right">
-        <div class="tier-badge">⭐ FREE MEMBER</div>
-      </div>
-    </div>
-
-    <!-- POINTS PROGRESS -->
-    <div class="points-card">
-      <div class="pc-top">
-        <div>
-          <div class="pc-label">Your Access Points</div>
-          <div class="pc-num" id="ptsNum">100</div>
-        </div>
-        <div style="text-align:right">
-          <div class="pc-goal">🎯 Goal: 1,000 pts</div>
-          <div style="font-size:.72rem;color:var(--muted);margin-top:4px" id="ptsLeft">900 points to your first celebrity dinner</div>
-        </div>
-      </div>
-      <div class="bar-wrap">
-        <div class="bar-bg"><div class="bar-fg" id="barFg" style="width:10%"></div></div>
-        <div class="bar-meta"><span><strong id="barPts">100</strong> pts earned</span><span>1,000 pts = 🎉 Celebrity Dinner Access</span></div>
-      </div>
-      <div class="earn-row">
-        <a href="#earn" class="earn-btn">🍽️ Dine at partner restaurant <span class="earn-pts">+100 pts</span></a>
-        <a href="#refer" class="earn-btn">👥 Refer a friend <span class="earn-pts">+500 pts</span></a>
-        <a href="#" class="earn-btn">✅ Complete profile <span class="earn-pts">+50 pts</span></a>
-      </div>
-    </div>
-
-    <!-- LOCKED EVENTS + EARN WAYS -->
-    <div class="grid-2">
-      <div class="sec-card">
-        <h3>🔒 Celebrity Experiences</h3>
-        <div class="event-item">
-          <div class="ev-icon">🎬<span class="ev-lock">🔒</span></div>
-          <div class="ev-info">
-            <div class="ev-name">Bollywood Star Dinner</div>
-            <div class="ev-meta">Mumbai · 30 seats · Members only</div>
-          </div>
-          <div><div class="unlock-tag">900 pts needed</div></div>
-        </div>
-        <div class="event-item">
-          <div class="ev-icon">🏏<span class="ev-lock">🔒</span></div>
-          <div class="ev-info">
-            <div class="ev-name">Cricket Legend Evening</div>
-            <div class="ev-meta">Delhi · 25 seats · Gold+ members</div>
-          </div>
-          <div><div class="unlock-tag">Gold required</div></div>
-        </div>
-        <div class="event-item">
-          <div class="ev-icon">🎵<span class="ev-lock">🔒</span></div>
-          <div class="ev-info">
-            <div class="ev-name">Music Artist Dinner</div>
-            <div class="ev-meta">Bangalore · 20 seats · Platinum only</div>
-          </div>
-          <div><div class="unlock-tag">Platinum only</div></div>
-        </div>
-        <div style="margin-top:14px;text-align:center">
-          <a href="/signup.html" style="font-size:.76rem;color:var(--gold);text-decoration:none">Earn points to unlock → </a>
-        </div>
-      </div>
-
-      <div class="sec-card" id="earn">
-        <h3>⭐ Earn Points</h3>
-        <div class="earn-item">
-          <div class="earn-icon">🍽️</div>
-          <div class="earn-info">
-            <div class="earn-title">Dine at Partner Restaurant</div>
-            <div class="earn-desc">Visit any partner restaurant and show your member card</div>
-          </div>
-          <div class="earn-badge">+100 pts</div>
-        </div>
-        <div class="earn-item">
-          <div class="earn-icon">👥</div>
-          <div class="earn-info">
-            <div class="earn-title">Refer a Friend</div>
-            <div class="earn-desc">Friend joins DWC using your code</div>
-          </div>
-          <div class="earn-badge">+200 pts</div>
-        </div>
-        <div class="earn-item">
-          <div class="earn-icon">✅</div>
-          <div class="earn-info">
-            <div class="earn-title">Complete Your Profile</div>
-            <div class="earn-desc">Add city, interests & photo</div>
-          </div>
-          <div class="earn-badge">+50 pts</div>
-        </div>
-        <div class="earn-item">
-          <div class="earn-icon">📲</div>
-          <div class="earn-info">
-            <div class="earn-title">WhatsApp Opt-in</div>
-            <div class="earn-desc">Enable celebrity alerts on WhatsApp</div>
-          </div>
-          <div class="earn-badge">+25 pts</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- REFERRAL -->
-    <div class="referral-card" id="refer">
-      <h3>🎁 Refer Friends — Earn 200 Points Each</h3>
-      <p class="ref-sub">Share your unique code. Every friend who joins gives you 200 points — that's closer to your celebrity dinner!</p>
-      <div class="ref-box">
-        <div class="ref-code" id="refCode">DWC-LOADING</div>
-        <button class="ref-copy" onclick="copyRef()">Copy Code</button>
-      </div>
-      <div class="ref-stats">
-        <div class="ref-stat"><div class="rs-num" id="refCount">0</div><div class="rs-lbl">Friends Referred</div></div>
-        <div class="ref-stat"><div class="rs-num" id="refPts">0</div><div class="rs-lbl">Points Earned</div></div>
-      </div>
-    </div>
-
-    <!-- WHATSAPP -->
-    <div class="wa-strip" onclick="waOptIn()">
-      <span style="font-size:1.6rem">📲</span>
-      <div class="wa-strip p">
-        <p><strong>Get Celebrity Alerts on WhatsApp</strong>Be first to know when your favourite star is available. Tap to enable.</p>
-      </div>
-      <span style="color:var(--gold);font-size:1.2rem;margin-left:auto">→</span>
-    </div>
-
-    
-    <!-- INDUSTRY INTEREST PICKER -->
-    <div class="interest-card" id="interestSection">
-      <h3>🎬 Pick Your Interests <span class="ic-pts">+50 pts</span></h3>
-      <div class="ic-sub">Tell us which film industries & categories excite you — we'll match you with the right celebrities and events.</div>
-      <div class="ind-grid">
-        <div class="ind-btn" onclick="toggleInd(this,'bollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🎬</div><div class="ind-name">Bollywood</div><div class="ind-type">Hindi Cinema</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'tollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🎭</div><div class="ind-name">Tollywood</div><div class="ind-type">Telugu Cinema</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'kollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🎪</div><div class="ind-name">Kollywood</div><div class="ind-type">Tamil Cinema</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'mollywood')"><div class="ind-tick">✓</div><div class="ind-icon">🌴</div><div class="ind-name">Mollywood</div><div class="ind-type">Malayalam Cinema</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'sandalwood')"><div class="ind-tick">✓</div><div class="ind-icon">🌟</div><div class="ind-name">Sandalwood</div><div class="ind-type">Kannada Cinema</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'cricket')"><div class="ind-tick">✓</div><div class="ind-icon">🏏</div><div class="ind-name">Cricket</div><div class="ind-type">Sports</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'music')"><div class="ind-tick">✓</div><div class="ind-icon">🎵</div><div class="ind-name">Music</div><div class="ind-type">Artists & Bands</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'tv')"><div class="ind-tick">✓</div><div class="ind-icon">📺</div><div class="ind-name">TV & OTT</div><div class="ind-type">Web Series</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'influencers')"><div class="ind-tick">✓</div><div class="ind-icon">🎤</div><div class="ind-name">Influencers</div><div class="ind-type">Digital Creators</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'sports')"><div class="ind-tick">✓</div><div class="ind-icon">🏆</div><div class="ind-name">Other Sports</div><div class="ind-type">Football & More</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'food')"><div class="ind-tick">✓</div><div class="ind-icon">🍽️</div><div class="ind-name">Food & Travel</div><div class="ind-type">Celebrity Chefs</div></div>
-        <div class="ind-btn" onclick="toggleInd(this,'business')"><div class="ind-tick">✓</div><div class="ind-icon">💼</div><div class="ind-name">Business</div><div class="ind-type">Entrepreneurs</div></div>
-      </div>
-      <button class="btn-save-int" id="btnSaveInt" onclick="saveInterests()">Save Interests → Earn 50 pts</button>
-      <div class="saved-badge" id="savedBadge">✓ Interests saved! +50 points added to your account</div>
-    </div>
-
-    <!-- UPGRADE NUDGE -->
-    <div class="upgrade-card">
-      <h3>Unlock <span>VIP Celebrity Access</span></h3>
-      <p>Upgrade to Gold or Platinum and skip the points queue — get direct access to celebrity dinners, priority seating, and up to 40% dining discounts.</p>
-      <div class="upgrade-perks">
-        <span class="up-perk">Priority event access</span>
-        <span class="up-perk">Up to 40% dining discounts</span>
-        <span class="up-perk">VIP meet & greet</span>
-        <span class="up-perk">Celebrity photo ops</span>
-      </div>
-      <a href="/upgrade.html" class="btn-upgrade">🔥 Upgrade Now — From ₹2,499/yr</a>
-    </div>
-
-  </div>
+<!-- LOADING -->
+<div id="loadingState" style="position:fixed;inset:0;background:#06040A;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px"><div style="width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:#F2B705;border-radius:50%;animation:spin 0.8s linear infinite"></div><div style="font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase">Loading your dashboard</div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+<div class="stars" id="stars"></div>
+<div class="brand-bg">DWC</div>
+<nav style="display:none"><a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a><div class="nav-right"><div class="nav-badge" id="navBadge">Free Member</div><div class="nav-pts" id="navPts">100 pts</div><div class="nav-av" id="navAv">R</div></div></nav>
+<div class="layout" style="display:none">
+<div class="left-panel"><div class="panel-label">Your Celebrity Dinner Journey</div><div class="price-hero"><div class="ph-label">Base ticket price</div><div class="ph-base">&#x20B9;70,000</div><div class="ph-yours"><div class="ph-price" id="phPrice">&#x20B9;70,000</div><div class="ph-saved" id="phSaved">&#x20B9;0 saved so far</div></div><div class="ph-sub">Every action below reduces this price. How low can <em>you</em> get it?</div><div class="prog-wrap"><div class="prog-meta"><span>Your progress</span><span id="progPct">0% reduced</span></div><div class="prog-track"><div class="prog-fill" id="progFill"></div></div></div></div><div class="flow-title">3 Ways to Reduce Your Price</div><div class="flow-step"><div class="step-icon gold">&#x1F37D;&#xFE0F;</div><div class="step-body"><div class="step-title">Dine at Partner Restaurants</div><div class="step-desc">Each visit earns credits that reduce your ticket price.</div><div class="step-reward">&#x2212;&#x20B9;500 per visit</div></div></div><div class="step-connector"></div><div class="flow-step"><div class="step-icon green">&#x1F465;</div><div class="step-body"><div class="step-title">Refer a Friend</div><div class="step-desc">Every friend who joins reduces your seat price.</div><div class="step-reward">&#x2212;&#x20B9;2,000 per referral</div></div></div><div class="step-connector"></div><div class="flow-step"><div class="step-icon blue">&#x2B50;</div><div class="step-body"><div class="step-title">Upgrade Your Membership</div><div class="step-desc">Gold, Platinum &amp; Black members get guaranteed seat reductions.</div><div class="step-reward">&#x2212;&#x20B9;5,000 to &#x2212;&#x20B9;15,000</div></div></div><div class="upgrade-card"><div class="uc-title">Unlock More with DWC Gold</div><div class="uc-sub">Free members miss restaurant discounts &amp; priority seating. Upgrade for &#x20B9;2,499/yr.</div><div class="uc-perks"><div class="uc-perk"><span>&#x2713;</span> Restaurant discounts (10&#x2013;20%)</div><div class="uc-perk"><span>&#x2713;</span> Priority event registration</div><div class="uc-perk"><span>&#x2713;</span> &#x20B9;5,000 off your celebrity dinner seat</div><div class="uc-perk"><span>&#x2713;</span> Exclusive member events</div></div><button class="btn-upgrade">Upgrade to Gold &#x2014; &#x20B9;2,499/yr</button></div></div>
+<div class="right-panel"><div class="welcome-row"><div><div class="welcome-greeting">Welcome back</div><div class="welcome-name" id="memberName">MEMBER <em>NAME</em></div><div class="welcome-sub" id="memberSub">Loading...</div></div><div class="tier-pill" id="tierPill">&#x2B50; Free Member</div></div><div class="stats-row"><div class="stat-card"><div class="stat-num gold" id="statPts">100</div><div class="stat-lbl">Points Earned</div></div><div class="stat-card"><div class="stat-num green" id="statPrice">&#x20B9;70,000</div><div class="stat-lbl">Dinner Price</div></div><div class="stat-card"><div class="stat-num red" id="statRefs">0</div><div class="stat-lbl">Referrals</div></div></div><div class="sec-label">Upcoming Celebrity Dinner</div><div class="event-card"><div class="event-top"><div class="event-badge">&#x1F534; Live &#x2014; Filling Fast</div><div style="font-size:.7rem;color:var(--muted)">30 seats only</div></div><div class="event-title">AN EXCLUSIVE EVENING WITH<br><em>THAGUBOTHU RAMESH</em></div><div class="event-meta">Premium restaurant &nbsp;&#xB7;&nbsp; <span>Hyderabad</span> &nbsp;&#xB7;&nbsp; Intimate dinner for 30 members</div><div class="countdown"><div class="cd-box"><span class="cd-num" id="cdD">07</span><span class="cd-lbl">Days</span></div><div class="cd-box"><span class="cd-num" id="cdH">14</span><span class="cd-lbl">Hours</span></div><div class="cd-box"><span class="cd-num" id="cdM">32</span><span class="cd-lbl">Mins</span></div><div class="cd-box"><span class="cd-num" id="cdS">00</span><span class="cd-lbl">Secs</span></div></div><div class="locked-row"><div class="lock-icon">&#x1F512;</div><div class="lock-text"><strong>Booking requires DWC Gold or above</strong>Free members get waitlist access only.</div><button class="btn-unlock">Upgrade to Book</button></div></div><div class="sec-label">Partner Restaurants</div><div class="restaurants-grid"><div class="rest-item"><div class="rest-logo">&#x1F371;</div><div class="rest-info"><div class="rest-name">Noori Restaurant</div><div class="rest-loc">Banjara Hills, Hyderabad</div></div><div><div class="rest-discount-val locked">20%</div><span class="lock-badge">&#x1F512; Gold+</span></div></div><div class="rest-item"><div class="rest-logo">&#x1F362;</div><div class="rest-info"><div class="rest-name">The Spice Route</div><div class="rest-loc">Jubilee Hills, Hyderabad</div></div><div><div class="rest-discount-val locked">15%</div><span class="lock-badge">&#x1F512; Gold+</span></div></div><div class="rest-item"><div class="rest-logo">&#x1F35B;</div><div class="rest-info"><div class="rest-name">Paradise Biryani</div><div class="rest-loc">Secunderabad, Hyderabad</div></div><div><div class="rest-discount-val locked">10%</div><span class="lock-badge">&#x1F512; Gold+</span></div></div></div><div class="sec-label">Your Referral Code</div><div class="referral-card"><div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price.</div><div class="ref-earned" id="refEarned">&#x20B9;0 earned so far</div></div><div class="ref-code-row"><div class="ref-code" id="refCode">DWC-MEMBER</div><button class="btn-copy" id="btnCopy">Copy</button></div><div class="ref-stats"><div class="ref-stat"><span class="ref-stat-num" id="refCount">0</span><span class="ref-stat-lbl">Referred</span></div><div class="ref-stat"><span class="ref-stat-num" id="refSavings">&#x20B9;0</span><span class="ref-stat-lbl">Price Cut</span></div><div class="ref-stat"><span class="ref-stat-num">&#x20B9;2,000</span><span class="ref-stat-lbl">Per Referral</span></div></div></div><div class="sec-label">Your Profile</div><div class="birthday-card"><div class="bday-icon">&#x1F382;</div><div class="bday-info"><div class="bday-title" id="bdayTitle">Add your birthday</div><div class="bday-sub" id="bdaySub">We'll make it special &#x2014; and unlock age-appropriate event invites.</div></div><button class="btn-add-bday" id="btnBday">Add Birthday</button></div></div>
 </div>
-
 <script>
-const sbClient = supabase.createClient(
-  'https://blwqqqzhnovsveeryjlm.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
-);
-
-(async function(){
-  const {data:{session}} = await sbClient.auth.getSession();
-  if(!session){window.location.href='/signin.html';return;}
-
-  const {data:member} = await sbClient.from('members').select('*').eq('email',session.user.email).single();
-
-  document.getElementById('loadingState').style.display='none';
-  document.getElementById('dashContent').style.display='block';
-
-  const name = member?.full_name || session.user.user_metadata?.full_name || 'Star';
-  const pts = member?.points || 100;
-  const firstName = name.split(' ')[0];
-  const refCode = member?.referral_code || 'DWC-'+firstName.toUpperCase().substring(0,4)+(Math.random()*9000+1000|0);
-
-  // Update UI
-  document.getElementById('memberName').textContent = firstName;
-  document.getElementById('navAvatar').textContent = firstName.charAt(0).toUpperCase();
-  document.getElementById('navPts').innerHTML = '⭐ '+pts+' pts';
-  document.getElementById('ptsNum').textContent = pts;
-  document.getElementById('barPts').textContent = pts;
-  document.getElementById('barFg').style.width = Math.min((pts/1000)*100,100)+'%';
-  document.getElementById('ptsLeft').textContent = Math.max(1000-pts,0)+' points to your first celebrity dinner';
-  document.getElementById('refCode').textContent = refCode;
-  sbClient.from('members').select('*',{count:'exact',head:true}).eq('referred_by',refCode).then(({count})=>{ document.getElementById('refCount').textContent = count||0; });
-
-  if(pts >= 1000){
-    document.getElementById('memberSub').textContent = '🎉 You have enough points! Book your celebrity dinner now.';
-  }
+(function(){
+  // Stars
+  var se=document.getElementById('stars');
+  for(var i=0;i<60;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}
+  // Countdown
+  var ed=new Date();ed.setDate(ed.getDate()+7);ed.setHours(ed.getHours()+14);
+  function uc(){var n=new Date(),df=ed-n;if(df<=0)return;var d=Math.floor(df/86400000),h=Math.floor((df%86400000)/3600000),m=Math.floor((df%3600000)/60000),s=Math.floor((df%60000)/1000);document.getElementById('cdD').textContent=String(d).padStart(2,'0');document.getElementById('cdH').textContent=String(h).padStart(2,'0');document.getElementById('cdM').textContent=String(m).padStart(2,'0');document.getElementById('cdS').textContent=String(s).padStart(2,'0');}
+  uc();setInterval(uc,1000);
 })();
-
-function copyRef(){
-  const code = document.getElementById('refCode').textContent;
-  navigator.clipboard.writeText('Join Dine With Celebrity using my code '+code+' → https://www.dinewithcelebrity.com/signup.html').then(()=>{
-    const btn = document.querySelector('.ref-copy');
-    btn.textContent='Copied! ✓';
-    btn.style.background='#00C853';
-    setTimeout(()=>{btn.textContent='Copy Code';btn.style.background='';},2000);
-  });
-}
-
-function waOptIn(){
-  const msg=encodeURIComponent('Hi! I am a DWC member. Please send me alerts for celebrity dining events!');
-  window.open('https://wa.me/919999999999?text='+msg,'_blank');
-}
-
-function toggleInd(el,val){
-  el.classList.toggle('sel');
-}
-
-async function saveInterests(){
-  const sel=[...document.querySelectorAll('.ind-btn.sel')].map(b=>b.getAttribute('onclick').match(/'([^']+)'/)[1]);
-  if(sel.length===0){alert('Please select at least one interest!');return;}
-  const btn=document.getElementById('btnSaveInt');
-  btn.disabled=true;btn.textContent='Saving...';
-  try{
-    const {data:{session}}=await sbClient.auth.getSession();
-    if(!session) return;
-    await sbClient.from('members').update({interests:sel,points:sbClient.rpc?undefined:undefined}).eq('email',session.user.email);
-    // Update points
-    const {data:m}=await sbClient.from('members').select('points').eq('email',session.user.email).single();
-    const newPts=(m?.points||100)+50;
-    await sbClient.from('members').update({interests:sel,points:newPts}).eq('email',session.user.email);
-    // Update UI
-    document.getElementById('ptsNum').textContent=newPts;
-    document.getElementById('barPts').textContent=newPts;
-    document.getElementById('navPts').innerHTML='⭐ '+newPts+' pts';
-    document.getElementById('barFg').style.width=Math.min((newPts/1000)*100,100)+'%';
-    document.getElementById('savedBadge').style.display='block';
-    btn.style.display='none';
-    document.getElementById('ptsLeft').textContent=Math.max(1000-newPts,0)+' points to your first celebrity dinner';
-  }catch(e){
-    btn.disabled=false;btn.textContent='Save Interests → Earn 50 pts';
-    console.log(e.message);
+</script>
+<script src="https://blwqqqzhnovsveeryjlm.supabase.co/auth/v1/settings"></script>
+<script>
+(async function(){
+  const SURL='https://blwqqqzhnovsveeryjlm.supabase.co',SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+  const sb=supabase.createClient(SURL,SKEY);
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){window.location.href='/signin';return;}
+  const u=session.user;
+  const {data:m}=await sb.from('members').select('*').eq('email',u.email).single();
+  if(m){
+    const fn=(m.full_name||u.email).split(' ')[0],ln=(m.full_name||'').split(' ').slice(1).join(' ');
+    document.getElementById('memberName').innerHTML=fn.toUpperCase()+(ln?' <em>'+ln.toUpperCase()+'<\/em>':'');
+    document.getElementById('navAv').textContent=fn.charAt(0).toUpperCase();
+    const pts=m.points||0;
+    document.getElementById('statPts').textContent=pts;
+    document.getElementById('navPts').textContent=pts+' pts';
+    const tier=(m.tier||'free').toLowerCase(),tl=tier==='free'?'Free Member':'DWC '+tier.charAt(0).toUpperCase()+tier.slice(1);
+    document.getElementById('navBadge').textContent=tl;
+    document.getElementById('tierPill').textContent='\u2B50 '+tl;
+    const rc=m.referral_code||('DWC-'+fn.toUpperCase()+'26');
+    document.getElementById('refCode').textContent=rc;
+    document.getElementById('btnCopy').onclick=function(){navigator.clipboard.writeText(rc);this.textContent='Copied!';var self=this;setTimeout(function(){self.textContent='Copy';},2000);};
+    const {count:cnt}=await sb.from('members').select('*',{count:'exact',head:true}).eq('referred_by',rc);
+    const refs=cnt||0,rs=refs*2000;
+    document.getElementById('refCount').textContent=refs;
+    document.getElementById('refSavings').textContent='\u20B9'+rs.toLocaleString('en-IN');
+    document.getElementById('statRefs').textContent=refs;
+    if(rs>0)document.getElementById('refEarned').textContent='\u20B9'+rs.toLocaleString('en-IN')+' earned';
+    const dv=m.dining_visits||0,dd=dv*500,td2=tier==='gold'?5000:tier==='platinum'?10000:tier==='black'?15000:0;
+    const tot=dd+rs+td2,yp=Math.max(0,70000-tot);
+    document.getElementById('phPrice').textContent='\u20B9'+yp.toLocaleString('en-IN');
+    document.getElementById('statPrice').textContent='\u20B9'+yp.toLocaleString('en-IN');
+    if(tot>0){document.getElementById('phSaved').textContent='\u20B9'+tot.toLocaleString('en-IN')+' saved';var pct=Math.round(tot/700);document.getElementById('progFill').style.width=pct+'%';document.getElementById('progPct').textContent=pct+'% reduced';}
+    var ms='Member since '+new Date(u.created_at).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+    document.getElementById('memberSub').textContent=ms;
+    if(m.date_of_birth){document.getElementById('bdayTitle').textContent='\uD83C\uDF82 Birthday on file';var dob=new Date(m.date_of_birth);document.getElementById('bdaySub').textContent=dob.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+' \u2014 we\'ll make it special!';document.getElementById('btnBday').style.display='none';}
+    setTimeout(function(){document.getElementById('progFill').style.width=(tot>0?Math.round(tot/700):0)+'%';},400);
   }
-}
-
-function copyRefCode(){
-  const code=document.getElementById('refCode').textContent;
-  navigator.clipboard.writeText(code).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    btn.textContent='✅ Copied! Share with friends';
-    setTimeout(()=>{btn.innerHTML='📋 Copy Referral Code';},2500);
-  }).catch(()=>alert('Your code: '+code));
-}
+  document.getElementById('loadingState').style.display='none';
+  document.querySelector('.layout').style.display='grid';
+  document.querySelector('nav').style.display='flex';
+  document.getElementById('navAv').addEventListener('click',async function(){if(confirm('Sign out?')){await sb.auth.signOut();window.location.href='/';}});
+})();
 </script>
 </body>
-</html>
+                                                                                                         </html>
