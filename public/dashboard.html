@@ -165,87 +165,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filte
 <div class="right-panel"><div class="welcome-row"><div><div class="welcome-greeting">Welcome back</div><div class="welcome-name" id="memberName">MEMBER <em>NAME</em></div><div class="welcome-sub" id="memberSub">Loading...</div></div><div class="tier-pill" id="tierPill">&#x2B50; Free Member</div></div><div class="stats-row"><div class="stat-card"><div class="stat-num gold" id="statPts">100</div><div class="stat-lbl">Points Earned</div></div><div class="stat-card"><div class="stat-num green" id="statPrice">&#x20B9;70,000</div><div class="stat-lbl">Dinner Price</div></div><div class="stat-card"><div class="stat-num red" id="statRefs">0</div><div class="stat-lbl">Referrals</div></div></div><div class="sec-label">Upcoming Celebrity Dinner</div><div class="event-card"><div class="event-top"><div class="event-badge">&#x1F534; Live &#x2014; Filling Fast</div><div style="font-size:.85rem;color:var(--muted)">30 seats only</div></div><div class="event-title">AN EXCLUSIVE EVENING WITH<br><em>THAGUBOTHU RAMESH</em></div><div class="event-meta">Premium restaurant &nbsp;&#xB7;&nbsp; <span>Hyderabad</span> &nbsp;&#xB7;&nbsp; Intimate dinner for 30 members</div><div class="countdown"><div class="cd-box"><span class="cd-num" id="cdD">07</span><span class="cd-lbl">Days</span></div><div class="cd-box"><span class="cd-num" id="cdH">14</span><span class="cd-lbl">Hours</span></div><div class="cd-box"><span class="cd-num" id="cdM">32</span><span class="cd-lbl">Mins</span></div><div class="cd-box"><span class="cd-num" id="cdS">00</span><span class="cd-lbl">Secs</span></div></div><div class="locked-row"><div class="lock-icon">&#x1F512;</div><div class="lock-text"><strong>Booking requires DWC Gold or above</strong>Free members get waitlist access only.</div><button class="btn-unlock">Upgrade to Book</button></div></div><div class="sec-label">Partner Restaurants</div><div class="restaurants-grid"><div class="rest-item"><div class="rest-logo">&#x1F371;</div><div class="rest-info"><div class="rest-name">Noori Restaurant</div><div class="rest-loc">Banjara Hills, Hyderabad</div></div><div><div class="rest-discount-val locked">20%</div><span class="lock-badge">&#x1F512; Gold+</span></div></div><div class="rest-item"><div class="rest-logo">&#x1F362;</div><div class="rest-info"><div class="rest-name">The Spice Route</div><div class="rest-loc">Jubilee Hills, Hyderabad</div></div><div><div class="rest-discount-val locked">15%</div><span class="lock-badge">&#x1F512; Gold+</span></div></div><div class="rest-item"><div class="rest-logo">&#x1F35B;</div><div class="rest-info"><div class="rest-name">Paradise Biryani</div><div class="rest-loc">Secunderabad, Hyderabad</div></div><div><div class="rest-discount-val locked">10%</div><span class="lock-badge">&#x1F512; Gold+</span></div></div></div><div class="sec-label">Your Referral Code</div><div class="referral-card"><div class="ref-top"><div class="ref-title">Refer Friends. Cut Your Price.</div><div class="ref-earned" id="refEarned">&#x20B9;0 earned so far</div></div><div class="ref-code-row"><div class="ref-code" id="refCode">DWC-MEMBER</div><button class="btn-copy" id="btnCopy">Copy</button></div><div class="ref-stats"><div class="ref-stat"><span class="ref-stat-num" id="refCount">0</span><span class="ref-stat-lbl">Referred</span></div><div class="ref-stat"><span class="ref-stat-num" id="refSavings">&#x20B9;0</span><span class="ref-stat-lbl">Price Cut</span></div><div class="ref-stat"><span class="ref-stat-num">&#x20B9;2,000</span><span class="ref-stat-lbl">Per Referral</span></div></div></div><div class="sec-label">Your Profile</div><div class="birthday-card"><div class="bday-icon">&#x1F382;</div><div class="bday-info"><div class="bday-title" id="bdayTitle">Add your birthday</div><div class="bday-sub" id="bdaySub">We'll make it special &#x2014; and unlock age-appropriate event invites.</div></div><button class="btn-add-bday" id="btnBday">Add Birthday</button>
       <button class="btn-edit-profile" id="btnEditProfile">&#x270E; Edit Profile</button></div></div>
 </div>
-<script>
-(function(){
-  // Stars
-  var se=document.getElementById('stars');
-  for(var i=0;i<70;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}
-  // Countdown
-  var ed=new Date();ed.setDate(ed.getDate()+7);ed.setHours(ed.getHours()+14);
-  function uc(){var n=new Date(),df=ed-n;if(df<=0)return;var d=Math.floor(df/86400000),h=Math.floor((df%86400000)/3600000),m=Math.floor((df%3600000)/60000),s=Math.floor((df%60000)/1000);document.getElementById('cdD').textContent=String(d).padStart(2,'0');document.getElementById('cdH').textContent=String(h).padStart(2,'0');document.getElementById('cdM').textContent=String(m).padStart(2,'0');document.getElementById('cdS').textContent=String(s).padStart(2,'0');}
-  uc();setInterval(uc,1000);
-})();
-</script>
-<script src="https://blwqqqzhnovsveeryjlm.supabase.co/auth/v1/settings"></script>
-<script>
-(async function(){
-  const SURL='https://blwqqqzhnovsveeryjlm.supabase.co',SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
-  const sb=supabase.createClient(SURL,SKEY);
-  const {data:{session}}=await sb.auth.getSession();
-  if(!session){window.location.href='/signin';return;}
-  const u=session.user;
-  const {data:m}=await sb.from('members').select('*').eq('email',u.email).single();
-  if(m){
-    const fn=(m.full_name||u.email).split(' ')[0],ln=(m.full_name||'').split(' ').slice(1).join(' ');
-    document.getElementById('memberName').innerHTML=fn.toUpperCase()+(ln?' <em>'+ln.toUpperCase()+'<\/em>':'');
-    document.getElementById('navAv').textContent=fn.charAt(0).toUpperCase();
-    const pts=m.points||0;
-    document.getElementById('statPts').textContent=pts;
-    document.getElementById('navPts').textContent=pts+' pts';
-    const tier=(m.tier||'free').toLowerCase(),tl=tier==='free'?'Free Member':'DWC '+tier.charAt(0).toUpperCase()+tier.slice(1);
-    document.getElementById('navBadge').textContent=tl;
-    document.getElementById('tierPill').textContent='\u2B50 '+tl;
-    const rc=m.referral_code||('DWC-'+fn.toUpperCase()+'26');
-    document.getElementById('refCode').textContent=rc;
-    document.getElementById('btnCopy').onclick=function(){navigator.clipboard.writeText(rc);this.textContent='Copied!';var self=this;setTimeout(function(){self.textContent='Copy';},2000);};
-    const {count:cnt}=await sb.from('members').select('*',{count:'exact',head:true}).eq('referred_by',rc);
-    const refs=cnt||0,rs=refs*2000;
-    document.getElementById('refCount').textContent=refs;
-    document.getElementById('refSavings').textContent='\u20B9'+rs.toLocaleString('en-IN');
-    document.getElementById('statRefs').textContent=refs;
-    if(rs>0)document.getElementById('refEarned').textContent='\u20B9'+rs.toLocaleString('en-IN')+' earned';
-    const dv=m.dining_visits||0,dd=dv*500,td2=tier==='gold'?5000:tier==='platinum'?10000:tier==='black'?15000:0;
-    const tot=dd+rs+td2,yp=Math.max(0,70000-tot);
-    document.getElementById('phPrice').textContent='\u20B9'+yp.toLocaleString('en-IN');
-    document.getElementById('statPrice').textContent='\u20B9'+yp.toLocaleString('en-IN');
-    if(tot>0){document.getElementById('phSaved').textContent='\u20B9'+tot.toLocaleString('en-IN')+' saved';var pct=Math.round(tot/700);document.getElementById('progFill').style.width=pct+'%';document.getElementById('progPct').textContent=pct+'% reduced';}
-    var ms='Member since '+new Date(u.created_at).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
-    document.getElementById('memberSub').textContent=ms;
-    if(m.date_of_birth){document.getElementById('bdayTitle').textContent='\uD83C\uDF82 Birthday on file';var dob=new Date(m.date_of_birth);document.getElementById('bdaySub').textContent=dob.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+' \u2014 we\'ll make it special!';document.getElementById('btnBday').style.display='none';}
-    setTimeout(function(){document.getElementById('progFill').style.width=(tot>0?Math.round(tot/700):0)+'%';},400);
-  }
-  document.getElementById('loadingState').style.display='none';
-  document.querySelector('.layout').style.display='grid';
-  document.querySelector('nav').style.display='flex';
-  
-  // PROFILE MODAL
-  ;(function(){
-    function openModal(mb,email){document.getElementById('editName').value=mb.full_name||'';document.getElementById('editEmail').value=email||'';document.getElementById('editPhone').value=mb.phone||'';document.getElementById('editDob').value=mb.date_of_birth||'';document.getElementById('editCity').value=mb.city||'';document.getElementById('saveMsg').textContent='';document.getElementById('saveMsg').className='save-msg';document.getElementById('profileModal').classList.add('open');}
-    function closeModal(){document.getElementById('profileModal').classList.remove('open');}
-    document.getElementById('modalClose').onclick=closeModal;
-    document.getElementById('modalCancel').onclick=closeModal;
-    document.getElementById('profileModal').onclick=function(e){if(e.target===this)closeModal();};
-    window._openModal=openModal;
-    document.getElementById('btnSaveProfile').onclick=async function(){
-      const btn=this;btn.textContent='Saving...';btn.disabled=true;
-      const upd={full_name:document.getElementById('editName').value.trim(),phone:document.getElementById('editPhone').value.trim(),date_of_birth:document.getElementById('editDob').value||null,city:document.getElementById('editCity').value};
-      const msg=document.getElementById('saveMsg');
-      try{
-        const {data:{session}}=await sbClient.auth.getSession();
-        const {error}=await sbClient.from('members').update(upd).eq('email',session.user.email);
-        if(error)throw error;
-        if(upd.full_name){const fn=upd.full_name.split(' ')[0],ln=upd.full_name.split(' ').slice(1).join(' ');document.getElementById('memberName').innerHTML=fn.toUpperCase()+(ln?' <em>'+ln.toUpperCase()+'<\/em>':'');document.getElementById('navAv').textContent=fn.charAt(0).toUpperCase();}
-        if(upd.date_of_birth){document.getElementById('bdayTitle').textContent='\uD83C\uDF82 Birthday on file';const dob=new Date(upd.date_of_birth);document.getElementById('bdaySub').textContent=dob.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+' \u2014 we\'ll make it special!';document.getElementById('btnBday').style.display='none';}
-        msg.textContent='\u2713 Profile updated!';msg.className='save-msg ok';
-        setTimeout(closeModal,1800);
-      }catch(e){msg.textContent='\u2717 '+e.message;msg.className='save-msg err';}
-      btn.textContent='Save Changes';btn.disabled=false;
-    };
-  })();
-  if(document.getElementById('btnEditProfile'))document.getElementById('btnEditProfile').onclick=function(){window._openModal(m,u.email);};
-  document.getElementById('navAv').addEventListener('click',async function(){if(confirm('Sign out?')){await sb.auth.signOut();window.location.href='/';}});
-})();
-</script>
 
 <div class="modal-overlay" id="profileModal">
   <div class="modal-box">
@@ -261,5 +180,84 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filte
     <div class="save-msg" id="saveMsg"></div>
   </div>
 </div>
+<script>
+// STARS
+(function(){var se=document.getElementById('stars');for(var i=0;i<70;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
+// COUNTDOWN
+(function(){var ed=new Date();ed.setDate(ed.getDate()+7);ed.setHours(ed.getHours()+14);function uc(){var n=new Date(),df=ed-n;if(df<=0)return;document.getElementById('cdD').textContent=String(Math.floor(df/86400000)).padStart(2,'0');document.getElementById('cdH').textContent=String(Math.floor((df%86400000)/3600000)).padStart(2,'0');document.getElementById('cdM').textContent=String(Math.floor((df%3600000)/60000)).padStart(2,'0');document.getElementById('cdS').textContent=String(Math.floor((df%60000)/1000)).padStart(2,'0');}uc();setInterval(uc,1000);})();
+// GLOBAL SUPABASE CLIENT
+var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+// PROFILE MODAL
+(function(){
+  window._openProfileModal=function(m,email){
+    document.getElementById('editName').value=m.full_name||'';
+    document.getElementById('editEmail').value=email||'';
+    document.getElementById('editPhone').value=m.phone||'';
+    document.getElementById('editDob').value=m.date_of_birth||'';
+    document.getElementById('editCity').value=m.city||'';
+    document.getElementById('saveMsg').textContent='';
+    document.getElementById('saveMsg').className='save-msg';
+    document.getElementById('profileModal').classList.add('open');
+    window._currentEmail=email;
+  };
+  function closeModal(){document.getElementById('profileModal').classList.remove('open');}
+  document.getElementById('modalClose').onclick=closeModal;
+  document.getElementById('modalCancel').onclick=closeModal;
+  document.getElementById('profileModal').onclick=function(e){if(e.target===this)closeModal();};
+  document.getElementById('btnSaveProfile').onclick=async function(){
+    var btn=this,msg=document.getElementById('saveMsg');
+    btn.textContent='Saving...';btn.disabled=true;
+    var upd={full_name:document.getElementById('editName').value.trim(),phone:document.getElementById('editPhone').value.trim(),date_of_birth:document.getElementById('editDob').value||null,city:document.getElementById('editCity').value};
+    try{
+      var res=await sbClient.from('members').update(upd).eq('email',window._currentEmail);
+      if(res.error)throw res.error;
+      if(upd.full_name){var fn=upd.full_name.split(' ')[0],ln=upd.full_name.split(' ').slice(1).join(' ');document.getElementById('memberName').innerHTML=fn.toUpperCase()+(ln?' <em>'+ln.toUpperCase()+'<\/em>':'');document.getElementById('navAv').textContent=fn.charAt(0).toUpperCase();}
+      if(upd.date_of_birth){document.getElementById('bdayTitle').textContent='\uD83C\uDF82 Birthday on file';var dob=new Date(upd.date_of_birth);document.getElementById('bdaySub').textContent=dob.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+' \u2014 we\'ll make it special!';document.getElementById('btnBday').style.display='none';}
+      msg.textContent='\u2713 Profile updated!';msg.className='save-msg ok';
+      setTimeout(closeModal,1800);
+    }catch(e){msg.textContent='\u2717 '+e.message;msg.className='save-msg err';}
+    btn.textContent='Save Changes';btn.disabled=false;
+  };
+})();
+// AUTH + DATA
+(async function(){
+  var sess=await sbClient.auth.getSession();
+  if(!sess.data.session){window.location.href='/signin';return;}
+  var user=sess.data.session.user;
+  var res=await sbClient.from('members').select('*').eq('email',user.email).single();
+  var m=res.data;
+  if(m){
+    var fn=(m.full_name||user.email).split(' ')[0],ln=(m.full_name||'').split(' ').slice(1).join(' ');
+    document.getElementById('memberName').innerHTML=fn.toUpperCase()+(ln?' <em>'+ln.toUpperCase()+'<\/em>':'');
+    document.getElementById('navAv').textContent=fn.charAt(0).toUpperCase();
+    var pts=m.points||0;
+    document.getElementById('statPts').textContent=pts;
+    document.getElementById('navPts').textContent=pts+' pts';
+    var tier=(m.tier||'free').toLowerCase(),tl=tier==='free'?'Free Member':'DWC '+tier.charAt(0).toUpperCase()+tier.slice(1);
+    document.getElementById('navBadge').textContent=tl;
+    document.getElementById('tierPill').textContent='\u2B50 '+tl;
+    var rc=m.referral_code||('DWC-'+fn.toUpperCase()+'26');
+    document.getElementById('refCode').textContent=rc;
+    document.getElementById('btnCopy').onclick=function(){navigator.clipboard.writeText(rc);this.textContent='Copied!';var self=this;setTimeout(function(){self.textContent='Copy';},2000);};
+    var rr=await sbClient.from('members').select('*',{count:'exact',head:true}).eq('referred_by',rc);
+    var refs=rr.count||0,rs=refs*2000;
+    document.getElementById('refCount').textContent=refs;
+    document.getElementById('refSavings').textContent='\u20B9'+rs.toLocaleString('en-IN');
+    document.getElementById('statRefs').textContent=refs;
+    if(rs>0)document.getElementById('refEarned').textContent='\u20B9'+rs.toLocaleString('en-IN')+' earned';
+    var dv=m.dining_visits||0,dd=dv*500,td=tier==='gold'?5000:tier==='platinum'?10000:tier==='purple'?15000:0,tot=dd+rs+td,yp=Math.max(0,70000-tot);
+    document.getElementById('phPrice').textContent='\u20B9'+yp.toLocaleString('en-IN');
+    document.getElementById('statPrice').textContent='\u20B9'+yp.toLocaleString('en-IN');
+    if(tot>0){document.getElementById('phSaved').textContent='\u20B9'+tot.toLocaleString('en-IN')+' saved';var pct=Math.round(tot/700);document.getElementById('progPct').textContent=pct+'% reduced';setTimeout(function(){document.getElementById('progFill').style.width=pct+'%';},400);}
+    document.getElementById('memberSub').textContent='Member since '+new Date(user.created_at).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+    if(m.date_of_birth){document.getElementById('bdayTitle').textContent='\uD83C\uDF82 Birthday on file';var dob=new Date(m.date_of_birth);document.getElementById('bdaySub').textContent=dob.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+' \u2014 we\'ll make it special!';document.getElementById('btnBday').style.display='none';}
+    document.getElementById('btnEditProfile').onclick=function(){window._openProfileModal(m,user.email);};
+  }
+  document.getElementById('loadingState').style.display='none';
+  document.querySelector('.layout').style.display='grid';
+  document.querySelector('nav').style.display='flex';
+  document.getElementById('navAv').addEventListener('click',async function(){if(confirm('Sign out?')){await sbClient.auth.signOut();window.location.href='/';}});
+})();
+</script>
 </body>
-                                                                                                         </html>
+</html>
