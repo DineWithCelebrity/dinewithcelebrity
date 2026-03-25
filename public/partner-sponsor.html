@@ -161,7 +161,7 @@ tr:last-child td{border-bottom:none}
     <p class="cds">Every redemption tracked in real time.</p>
     <div class="tw"><table><thead><tr><th>Code</th><th>Value</th><th>When</th><th>Seat Reduction</th></tr></thead><tbody id="rTb"><tr><td colspan="4" class="emp">No redemptions yet.</td></tr></tbody></table></div>
   </div>
-</div><script>
+  </div><script>
 (function(){var se=document.getElementById('stars');for(var i=0;i<50;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 var _pid=null,_codes=[],_done=false;
@@ -173,7 +173,7 @@ dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('
 dz.addEventListener('dragleave',function(){dz.classList.remove('ov');});
 dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('ov');if(e.dataTransfer.files[0])rf(e.dataTransfer.files[0]);});
 document.getElementById('csvF').onchange=function(){if(this.files[0])rf(this.files[0]);};
-function rf(f){var r=new FileReader();r.onload=function(e){e.target.result.split('\n').map(function(l){return l.trim().replace(/[",]/g,'');}).filter(Boolean).forEach(function(c){if(!_codes.includes(c))_codes.push(c);});rp();};r.readAsText(f);}
+function rf(f){var r=new FileReader();r.onload=function(e){e.target.result.split('\n').map(function(l){return l.trim().replace(/["\,]/g,'');}).filter(Boolean).forEach(function(c){if(!_codes.includes(c))_codes.push(c);});rp();};r.readAsText(f);}
 document.getElementById('btnA').onclick=function(){var c=document.getElementById('mC').value.trim().toUpperCase();if(!c)return;if(_codes.includes(c)){alert('Already added.');return;}_codes.push(c);document.getElementById('mC').value='';rp();};
 document.getElementById('mC').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnA').click();};
 function rp(){var pc=document.getElementById('pC'),pl=document.getElementById('pL'),ub=document.getElementById('btnU');if(!_codes.length){pc.style.display='none';pl.style.display='none';ub.disabled=true;return;}pc.style.display='block';pl.style.display='block';document.getElementById('pN').textContent=_codes.length;pl.textContent=_codes.slice(0,30).join('\n')+(_codes.length>30?'\n...and '+(_codes.length-30)+' more':'');ub.disabled=false;}
@@ -188,4 +188,6 @@ document.getElementById('lE').onkeydown=function(e){if(e.key==='Enter')document.
 document.getElementById('lP').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnL').click();};
 document.getElementById('btnSO').onclick=async function(){await sbClient.auth.signOut();window.location.reload();};
 (async function(){try{var sess=await sbClient.auth.getSession();if(sess.data.session){await initP(sess.data.session.user.email);}else{_done=true;showLogin();}}catch(e){_done=true;showLogin();}})();
-</script></body></html>
+</script>
+</body>
+</html>
