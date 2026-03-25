@@ -56,9 +56,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .tier-ref th{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:6px 8px;text-align:left;border-bottom:1px solid var(--border2)}
 .tier-ref td{font-size:.78rem;color:var(--sub);padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.03)}
 .tier-ref tr:last-child td{border-bottom:none}
-.tier-ref .tg{color:var(--gold);font-weight:700}
-.tier-ref .tp{color:#E8E8E8;font-weight:700}
-.tier-ref .tu{color:#c39bd3;font-weight:700}
+.tg{color:var(--gold);font-weight:700}
+.tp{color:#E8E8E8;font-weight:700}
+.tu{color:#c39bd3;font-weight:700}
 .dr{border:2px dashed var(--border2);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .3s;margin-bottom:12px}
 .dr:hover,.dr.ov{border-color:var(--gold)}
 .mr{display:grid;grid-template-columns:1fr 90px auto;gap:8px;margin-bottom:12px}
@@ -115,21 +115,24 @@ tr:last-child td{border-bottom:none}
   <div class="cd">
     <div class="cdt">&#x1F4E4; Upload Voucher Codes</div>
     <p class="cds">Once uploaded, codes are permanent and cannot be deleted. CSV or manual entry.</p>
-    <!-- TIER REFERENCE TABLE -->
     <div class="tier-ref">
-      <div class="tier-ref-title">&#x2139;&#xFE0F; Membership Tier Guide — Choose the right tier for your voucher</div>
+      <div class="tier-ref-title">&#x2139;&#xFE0F; Tier Guide — Choose the right audience for your voucher</div>
       <table>
-        <thead><tr><th>Tier</th><th>Member Type</th><th>Best Voucher Value</th><th>Audience</th></tr></thead>
+        <thead><tr><th>Tier</th><th>Best Voucher Value</th><th>Audience</th></tr></thead>
         <tbody>
-          <tr><td><span class="tg">Gold</span></td><td style="color:var(--sub)">&#x20B9;2,499/yr</td><td style="color:var(--sub)">&#x20B9;300 — &#x20B9;1,000</td><td style="color:var(--muted);font-size:.75rem">Widest reach — most members</td></tr>
-          <tr><td><span class="tp">Platinum</span></td><td style="color:var(--sub)">&#x20B9;6,999/yr</td><td style="color:var(--sub)">&#x20B9;1,000 — &#x20B9;5,000</td><td style="color:var(--muted);font-size:.75rem">Mid-tier — higher spenders</td></tr>
-          <tr><td><span class="tu">Purple</span></td><td style="color:var(--sub)">&#x20B9;14,999/yr</td><td style="color:var(--sub)">&#x20B9;5,000 — &#x20B9;10,000</td><td style="color:var(--muted);font-size:.75rem">VIP only — premium audience</td></tr>
+          <tr><td><span class="tg">&#x2605; Gold</span></td><td style="color:var(--sub)">&#x20B9;300 — &#x20B9;1,000</td><td style="color:var(--muted);font-size:.75rem">Widest reach — most members</td></tr>
+          <tr><td><span class="tp">&#x2B51; Platinum</span></td><td style="color:var(--sub)">&#x20B9;1,000 — &#x20B9;5,000</td><td style="color:var(--muted);font-size:.75rem">Mid-tier — higher spenders</td></tr>
+          <tr><td><span class="tu">&#x1F7E3; Purple</span></td><td style="color:var(--sub)">&#x20B9;5,000 — &#x20B9;10,000</td><td style="color:var(--muted);font-size:.75rem">VIP only — premium audience</td></tr>
         </tbody>
       </table>
     </div>
     <div class="g2">
       <div><label style="display:block;font-size:.75rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Min Tier</label>
-      <select class="sel" id="uT"><option value="gold">Gold (&#x20B9;2,499/yr)</option><option value="platinum">Platinum (&#x20B9;6,999/yr)</option><option value="purple">Purple (&#x20B9;14,999/yr)</option></select></div>
+      <select class="sel" id="uT">
+        <option value="gold">&#x2605; Gold — Best reach, most members</option>
+        <option value="platinum">&#x2B51; Platinum — Mid-tier, higher spenders</option>
+        <option value="purple">&#x1F7E3; Purple — VIP only, premium audience</option>
+      </select></div>
       <div><label style="display:block;font-size:.75rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Face Value</label>
       <select class="sel" id="uV"><option value="300">&#x20B9;300</option><option value="500">&#x20B9;500</option><option value="1000" selected>&#x20B9;1,000</option><option value="2000">&#x20B9;2,000</option><option value="5000">&#x20B9;5,000</option><option value="10000">&#x20B9;10,000</option></select></div>
     </div>
@@ -185,6 +188,4 @@ document.getElementById('lE').onkeydown=function(e){if(e.key==='Enter')document.
 document.getElementById('lP').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnL').click();};
 document.getElementById('btnSO').onclick=async function(){await sbClient.auth.signOut();window.location.reload();};
 (async function(){try{var sess=await sbClient.auth.getSession();if(sess.data.session){await initP(sess.data.session.user.email);}else{_done=true;showLogin();}}catch(e){_done=true;showLogin();}})();
-</script>
-</body>
-</html>
+</script></body></html>
