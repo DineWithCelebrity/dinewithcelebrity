@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sign In — Dine With Celebrity Pvt Ltd</title>
-<meta name="description" content="Sign in to your DWC member dashboard.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#06040A;--card:#110916;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
+:root{--bg:#06040A;--gold:#F2B705;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow-x:hidden}
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-#stars i{position:absolute;color:#F2B705;font-style:normal;animation:twinkle 3.2s ease-in-out infinite alternate}
-@keyframes twinkle{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
+@keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
 .brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
 .page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;width:100%;position:relative;z-index:1}
-.left{background:linear-gradient(135deg,#0d0612 0%,#1a0520 100%);display:flex;flex-direction:column;justify-content:center;padding:60px 52px;border-right:1px solid var(--border2)}
+.left{background:linear-gradient(135deg,#0d0612,#1a0520);display:flex;flex-direction:column;justify-content:center;padding:60px 52px;border-right:1px solid var(--border2)}
 .left-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;margin-bottom:48px;text-decoration:none;display:inline-block}
 .left-logo span{color:var(--text)}
 .left-heading{font-family:'Bebas Neue',cursive;font-size:clamp(2.8rem,5vw,4.2rem);line-height:1;color:var(--text);margin-bottom:12px}
@@ -31,7 +30,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .badge-pts{background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:#00C853}
 .right{display:flex;align-items:center;justify-content:center;padding:40px 52px;background:var(--bg)}
 .form-box{width:100%;max-width:400px}
-.form-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .form-title{font-family:'Bebas Neue',cursive;font-size:2.8rem;line-height:1;color:var(--text);margin-bottom:6px}
 .form-title em{color:var(--gold);font-style:normal}
 .form-sub{font-size:.9rem;color:var(--sub);margin-bottom:32px}
@@ -46,13 +45,14 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .btn-primary{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;padding:15px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;margin-top:8px;transition:opacity .2s}
 .btn-primary:hover{opacity:.88}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.error-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:14px;display:none;text-align:center}
-.success-msg{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:#00C853;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:14px;display:none;text-align:center}
+.err-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:14px;display:none;text-align:center}
+.suc-msg{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:#00C853;font-size:.85rem;padding:12px 16px;border-radius:10px;margin-top:14px;display:none;text-align:center}
 .divider{display:flex;align-items:center;gap:12px;margin:24px 0}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
 .divider span{font-size:.78rem;color:var(--muted)}
 .bottom-row{text-align:center;font-size:.9rem;color:var(--sub)}
-.bottom-row a,.back-link{color:var(--gold);font-weight:700;text-decoration:none;background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.9rem}
+.bottom-row a{color:var(--gold);font-weight:700;text-decoration:none}
+.back-btn{background:none;border:none;color:var(--gold);font-weight:700;font-family:'Poppins',sans-serif;font-size:.9rem;cursor:pointer;padding:0}
 @media(max-width:768px){.page{grid-template-columns:1fr}.left{display:none}.right{padding:40px 24px;min-height:100vh}}
 </style>
 </head>
@@ -72,61 +72,84 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
   </div>
   <div class="right">
     <div class="form-box">
-      <!-- SIGN IN FORM -->
-      <div id="signinForm">
-        <div class="form-eyebrow">&#x1F44B; Welcome Back</div>
+
+      <!-- SIGN IN -->
+      <div id="signinView">
+        <div class="eyebrow">&#x1F44B; Welcome Back</div>
         <div class="form-title">SIGN IN TO<br><em>YOUR DASHBOARD</em></div>
         <p class="form-sub">Enter your email and password.</p>
         <div class="field"><label>Email Address</label><input type="email" id="siEmail" placeholder="hello@example.com" autocomplete="email"></div>
         <div class="field">
           <label>Password</label>
           <input type="password" id="siPass" placeholder="Your password" autocomplete="current-password">
-          <div class="forgot-row"><button class="forgot-link" onclick="showForgot()">Forgot password?</button></div>
+          <div class="forgot-row"><button class="forgot-link" onclick="show('forgotView')">Forgot password?</button></div>
         </div>
         <button class="btn-primary" id="btnSignin">Sign In</button>
-        <div class="error-msg" id="siError"></div>
+        <div class="err-msg" id="siErr"></div>
         <div class="divider"><span>New to DWC?</span></div>
         <div class="bottom-row">Don't have an account? <a href="/signup">Join Free &rarr;</a></div>
       </div>
-      <!-- FORGOT PASSWORD FORM -->
-      <div id="forgotForm" style="display:none">
-        <div class="form-eyebrow">&#x1F512; Reset Password</div>
+
+      <!-- FORGOT PASSWORD -->
+      <div id="forgotView" style="display:none">
+        <div class="eyebrow">&#x1F512; Reset Password</div>
         <div class="form-title">FORGOT YOUR<br><em>PASSWORD?</em></div>
-        <p class="form-sub">Enter your email and we'll send you a reset link.</p>
+        <p class="form-sub">Enter your email — we'll send a reset link instantly.</p>
         <div class="field"><label>Email Address</label><input type="email" id="fpEmail" placeholder="hello@example.com" autocomplete="email"></div>
         <button class="btn-primary" id="btnForgot">Send Reset Link</button>
-        <div class="error-msg" id="fpError"></div>
-        <div class="success-msg" id="fpSuccess"></div>
+        <div class="err-msg" id="fpErr"></div>
+        <div class="suc-msg" id="fpSuc"></div>
         <div class="divider"><span>&nbsp;</span></div>
-        <div class="bottom-row"><button class="back-link" onclick="showSignin()">&#x2190; Back to Sign In</button></div>
+        <div class="bottom-row"><button class="back-btn" onclick="show('signinView')">&#x2190; Back to Sign In</button></div>
       </div>
+
+      <!-- UPDATE PASSWORD (shown when reset link clicked) -->
+      <div id="updateView" style="display:none">
+        <div class="eyebrow">&#x1F511; New Password</div>
+        <div class="form-title">SET YOUR<br><em>NEW PASSWORD</em></div>
+        <p class="form-sub">Choose a strong password for your account.</p>
+        <div class="field"><label>New Password</label><input type="password" id="np1" placeholder="Min. 8 characters" autocomplete="new-password"></div>
+        <div class="field"><label>Confirm Password</label><input type="password" id="np2" placeholder="Repeat password" autocomplete="new-password"></div>
+        <button class="btn-primary" id="btnUpdate">Update Password</button>
+        <div class="err-msg" id="upErr"></div>
+        <div class="suc-msg" id="upSuc"></div>
+      </div>
+
     </div>
   </div>
 </div>
 <script>
+// Stars
 (function(){var se=document.getElementById('stars');for(var i=0;i<65;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 
-// Redirect if already signed in
-(async function(){var s=await sbClient.auth.getSession();if(s.data.session)window.location.href='/dashboard.html';})();
-
-function showForgot(){
-  document.getElementById('signinForm').style.display='none';
-  document.getElementById('forgotForm').style.display='block';
-  document.getElementById('fpEmail').value=document.getElementById('siEmail').value;
-  document.getElementById('fpEmail').focus();
-}
-function showSignin(){
-  document.getElementById('forgotForm').style.display='none';
-  document.getElementById('signinForm').style.display='block';
+function show(id){
+  ['signinView','forgotView','updateView'].forEach(function(v){
+    document.getElementById(v).style.display=v===id?'block':'none';
+  });
 }
 
-// Sign In
+// CRITICAL — check for recovery token in URL hash FIRST before anything else
+var hash=window.location.hash;
+var isRecovery=hash.includes('type=recovery');
+
+if(isRecovery){
+  // Show update password form immediately — don't redirect
+  show('updateView');
+} else {
+  // Only check session if NOT a recovery link
+  (async function(){
+    var s=await sbClient.auth.getSession();
+    if(s.data.session) window.location.href='/dashboard.html';
+  })();
+}
+
+// SIGN IN
 document.getElementById('btnSignin').onclick=async function(){
   var email=document.getElementById('siEmail').value.trim();
   var pass=document.getElementById('siPass').value;
-  var err=document.getElementById('siError');
+  var err=document.getElementById('siErr');
   err.style.display='none';
   if(!email||!pass){err.textContent='Please enter your email and password.';err.style.display='block';return;}
   this.disabled=true;this.textContent='Signing in...';
@@ -140,52 +163,47 @@ document.getElementById('btnSignin').onclick=async function(){
   }
 };
 
-// Forgot Password
+// FORGOT PASSWORD
 document.getElementById('btnForgot').onclick=async function(){
   var email=document.getElementById('fpEmail').value.trim();
-  var err=document.getElementById('fpError');
-  var suc=document.getElementById('fpSuccess');
+  var err=document.getElementById('fpErr');
+  var suc=document.getElementById('fpSuc');
   err.style.display='none';suc.style.display='none';
   if(!email){err.textContent='Please enter your email address.';err.style.display='block';return;}
   this.disabled=true;this.textContent='Sending...';
-  var res=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://www.dinewithcelebrity.com/signin?mode=reset'});
+  var res=await sbClient.auth.resetPasswordForEmail(email,{
+    redirectTo:'https://www.dinewithcelebrity.com/signin'
+  });
   if(res.error){err.textContent=res.error.message;err.style.display='block';}
-  else{suc.textContent='\u2713 Reset link sent! Check your inbox (and spam folder).';suc.style.display='block';}
+  else{suc.textContent='\u2713 Reset link sent! Check your inbox and spam folder.';suc.style.display='block';}
   this.disabled=false;this.textContent='Send Reset Link';
 };
 
-// Handle password reset redirect (mode=reset in URL)
-if(window.location.search.includes('mode=reset')||window.location.hash.includes('type=recovery')){
-  showForgot();
-  // Actually show password update UI
-  document.getElementById('forgotForm').innerHTML=`
-    <div class="form-eyebrow">&#x1F511; Set New Password</div>
-    <div class="form-title">CREATE YOUR<br><em>NEW PASSWORD</em></div>
-    <p class="form-sub">Choose a strong password for your account.</p>
-    <div class="field"><label>New Password</label><input type="password" id="np1" placeholder="Min. 8 characters" autocomplete="new-password"></div>
-    <div class="field"><label>Confirm Password</label><input type="password" id="np2" placeholder="Repeat password" autocomplete="new-password"></div>
-    <button class="btn-primary" id="btnUpdate">Update Password</button>
-    <div class="error-msg" id="upErr"></div>
-    <div class="success-msg" id="upSuc"></div>
-  `;
-  document.getElementById('btnUpdate').onclick=async function(){
-    var p=document.getElementById('np1').value;
-    var p2=document.getElementById('np2').value;
-    var err=document.getElementById('upErr');
-    var suc=document.getElementById('upSuc');
-    err.style.display='none';suc.style.display='none';
-    if(p.length<8){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}
-    if(p!==p2){err.textContent='Passwords do not match.';err.style.display='block';return;}
-    this.disabled=true;this.textContent='Updating...';
-    var res=await sbClient.auth.updateUser({password:p});
-    if(res.error){err.textContent=res.error.message;err.style.display='block';this.disabled=false;this.textContent='Update Password';}
-    else{suc.textContent='\u2713 Password updated! Taking you to your dashboard...';suc.style.display='block';setTimeout(function(){window.location.href='/dashboard.html';},1500);}
-  };
-}
+// UPDATE PASSWORD
+document.getElementById('btnUpdate').onclick=async function(){
+  var p=document.getElementById('np1').value;
+  var p2=document.getElementById('np2').value;
+  var err=document.getElementById('upErr');
+  var suc=document.getElementById('upSuc');
+  err.style.display='none';suc.style.display='none';
+  if(p.length<8){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}
+  if(p!==p2){err.textContent='Passwords do not match.';err.style.display='block';return;}
+  this.disabled=true;this.textContent='Updating...';
+  var res=await sbClient.auth.updateUser({password:p});
+  if(res.error){
+    err.textContent=res.error.message;err.style.display='block';
+    this.disabled=false;this.textContent='Update Password';
+  } else {
+    suc.textContent='\u2713 Password updated! Taking you to your dashboard...';
+    suc.style.display='block';
+    setTimeout(function(){window.location.href='/dashboard.html';},1500);
+  }
+};
 
-// Enter key
+// Enter key support
 document.getElementById('siPass').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnSignin').click();});
 document.getElementById('siEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('siPass').focus();});
+document.getElementById('fpEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnForgot').click();});
 </script>
 </body>
-      </html>
+</html>
