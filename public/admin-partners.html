@@ -4,38 +4,38 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Partner Approvals — DWC Admin</title>
 <meta name="robots" content="noindex,nofollow">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#06040A;--card:#0f0d14;--gold:#F2B705;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh}
-/* LOGIN */
-#loginWrap{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;padding:24px}
-.login-box{width:100%;max-width:380px}
-.login-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);text-decoration:none;display:block;margin-bottom:32px}
-.login-logo span{color:var(--text)}
-.login-title{font-family:'Bebas Neue',cursive;font-size:2.5rem;line-height:1;margin-bottom:6px}
-.login-title em{color:var(--gold);font-style:normal;display:block}
-.login-sub{font-size:.9rem;color:var(--sub);margin-bottom:28px}
+#lw{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.spin{width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#lgw{position:fixed;inset:0;background:var(--bg);z-index:998;display:none;align-items:center;justify-content:center;padding:24px}
+.lb{width:100%;max-width:380px}
+.ll{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);text-decoration:none;display:block;margin-bottom:32px}
+.ll span{color:var(--text)}
+.lt{font-family:'Bebas Neue',cursive;font-size:2.5rem;line-height:1;margin-bottom:6px}
+.lt em{color:var(--gold);font-style:normal;display:block}
+.ls{font-size:.9rem;color:var(--sub);margin-bottom:28px}
 .fl{margin-bottom:16px}
 .fl label{display:block;font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
 .fl input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:13px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
 .fl input:focus{border-color:var(--gold)}
 .fl input::placeholder{color:rgba(255,255,255,.25)}
-.btn-login{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase}
-.btn-login:disabled{opacity:.5;cursor:not-allowed}
+.btn{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase}
+.btn:disabled{opacity:.5;cursor:not-allowed}
 .lerr{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px;border-radius:8px;margin-top:12px;display:none;text-align:center}
-/* MAIN */
 nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:1px solid var(--border2);height:60px;display:none;align-items:center;justify-content:space-between;padding:0 24px}
 .logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);text-decoration:none}
 .logo span{color:var(--text)}
 .badge{font-size:.72rem;font-weight:700;color:var(--gold);background:rgba(242,183,5,.1);border:1px solid var(--border);padding:4px 12px;border-radius:100px}
 .bso{font-size:.8rem;color:var(--muted);background:none;border:1px solid var(--border2);padding:7px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif}
 .pg{max-width:1000px;margin:0 auto;padding:32px 20px 80px;display:none}
-.pg-title{font-family:'Bebas Neue',cursive;font-size:2.4rem;margin-bottom:4px}
-.pg-title em{color:var(--gold);font-style:normal}
-.pg-sub{font-size:.88rem;color:var(--muted);margin-bottom:28px}
+.pgt{font-family:'Bebas Neue',cursive;font-size:2.4rem;margin-bottom:4px}
+.pgt em{color:var(--gold);font-style:normal}
+.pgs{font-size:.88rem;color:var(--muted);margin-bottom:28px}
 .sts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
 .stc{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px}
 .stn{font-family:'Bebas Neue',cursive;font-size:2.2rem;line-height:1;margin-bottom:2px}
@@ -43,9 +43,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
 .sec{font-family:'Bebas Neue',cursive;font-size:1.3rem;margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:10px}
 .dot{width:8px;height:8px;border-radius:50%}
 .card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px;margin-bottom:14px}
-.cname{font-family:'Bebas Neue',cursive;font-size:1.5rem;margin-bottom:2px}
-.cemail{font-size:.82rem;color:var(--muted);margin-bottom:4px}
-.ctime{font-size:.75rem;color:var(--muted);margin-bottom:12px}
+.cn{font-family:'Bebas Neue',cursive;font-size:1.5rem;margin-bottom:2px}
+.ce{font-size:.82rem;color:var(--muted);margin-bottom:4px}
+.ct{font-size:.75rem;color:var(--muted);margin-bottom:12px}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .tag{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase;background:rgba(242,183,5,.1);border:1px solid var(--border);color:var(--gold)}
 .tag.c{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--sub)}
@@ -62,36 +62,25 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
 .emsg{font-size:.78rem;color:var(--red);display:none;margin-left:6px}
 .emp{text-align:center;padding:40px;color:var(--muted);background:var(--card);border:1px solid var(--border2);border-radius:16px}
 .done{opacity:.55;border-color:rgba(0,200,83,.2)!important}
-.done .cname{color:var(--green)}
+.done .cn{color:var(--green)}
 @media(max-width:540px){.sts{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-
-<!-- LOGIN SCREEN -->
-<div id="loginWrap">
-  <div class="login-box">
-    <a class="login-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
-    <div class="login-title">ADMIN<em>PANEL</em></div>
-    <p class="login-sub">DWC admins only. Sign in to review partner applications.</p>
-    <div class="fl"><label>Email</label><input type="email" id="lEmail" placeholder="rupeshking@gmail.com" autocomplete="email"></div>
-    <div class="fl"><label>Password</label><input type="password" id="lPass" placeholder="Your password"></div>
-    <button class="btn-login" id="btnLogin">Sign In to Admin</button>
-    <div class="lerr" id="lErr"></div>
-  </div>
-</div>
-
-<!-- NAV -->
-<nav id="nv">
-  <a class="logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
-  <div class="badge">&#x1F6E1; ADMIN</div>
-  <button class="bso" id="btnSO">Sign Out</button>
-</nav>
-
-<!-- MAIN PAGE -->
+<div id="lw"><div class="spin"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading</div></div>
+<div id="lgw"><div class="lb">
+  <a class="ll" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
+  <div class="lt">ADMIN<em>PANEL</em></div>
+  <p class="ls">DWC admins only. Sign in to manage partner applications.</p>
+  <div class="fl"><label>Email</label><input type="email" id="lE" placeholder="rupeshking@gmail.com" autocomplete="email"></div>
+  <div class="fl"><label>Password</label><input type="password" id="lP" placeholder="Your password" autocomplete="current-password"></div>
+  <button class="btn" id="btnL">Sign In to Admin</button>
+  <div class="lerr" id="lErr"></div>
+</div></div>
+<nav id="nv"><a class="logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a><div class="badge">&#x1F6E1; ADMIN</div><button class="bso" id="btnSO">Sign Out</button></nav>
 <div class="pg" id="pg">
-  <div class="pg-title">PARTNER <em>APPROVALS</em></div>
-  <p class="pg-sub">Approve applications. Partner gets instant dashboard access + welcome email.</p>
+  <div class="pgt">PARTNER <em>APPROVALS</em></div>
+  <p class="pgs">Approve applications. Partner gets instant dashboard access + welcome email.</p>
   <div class="sts">
     <div class="stc"><div class="stn" style="color:var(--gold)" id="sTot">0</div><div class="stl">Total</div></div>
     <div class="stc"><div class="stn" style="color:var(--red)" id="sPend">0</div><div class="stl">Pending</div></div>
@@ -102,55 +91,42 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
   <div class="sec"><div class="dot" style="background:var(--green)"></div>ACTIVE PARTNERS</div>
   <div id="activeList"><div class="emp">Loading...</div></div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-var SBURL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
-var SBANONKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+// sb declared at top level - initialized after supabase script loads (it's above this tag)
+var sb = supabase.createClient(
+  'https://blwqqqzhnovsveeryjlm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
+);
 var ADMINS = ['rupeshking@gmail.com','hello@dinewithcelebrity.com'];
-var sb;
 
-// Wait for supabase CDN then init
-var _t = setInterval(function(){
-  if(typeof supabase !== 'undefined'){
-    clearInterval(_t);
-    sb = supabase.createClient(SBURL, SBANONKEY);
-    // Check existing session first
-    sb.auth.getSession().then(function(s){
-      if(s.data.session && ADMINS.includes(s.data.session.user.email)){
-        showDashboard();
-      }
-      // else just show login form (already visible)
-    });
-  }
-}, 100);
+function showLogin(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='flex';}
+function showDashboard(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='none';document.getElementById('nv').style.display='flex';document.getElementById('pg').style.display='block';load();}
 
-function showDashboard(){
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('nv').style.display = 'flex';
-  document.getElementById('pg').style.display = 'block';
-  load();
-}
+// Check existing session on load
+sb.auth.getSession().then(function(s){
+  if(s.data.session && ADMINS.includes(s.data.session.user.email)){showDashboard();}
+  else{showLogin();}
+}).catch(function(){showLogin();});
 
 // LOGIN
-document.getElementById('btnLogin').onclick = function(){
-  var email = document.getElementById('lEmail').value.trim();
-  var pass = document.getElementById('lPass').value;
-  var err = document.getElementById('lErr');
-  err.style.display = 'none';
-  if(!email || !pass){err.textContent='Enter email and password.';err.style.display='block';return;}
-  if(!ADMINS.includes(email)){err.textContent='This email is not registered as a DWC admin.';err.style.display='block';return;}
-  this.disabled = true; this.textContent = 'Signing in...';
-  var btn = this;
+document.getElementById('btnL').onclick = function(){
+  var email=document.getElementById('lE').value.trim();
+  var pass=document.getElementById('lP').value;
+  var err=document.getElementById('lErr');
+  err.style.display='none';
+  if(!email||!pass){err.textContent='Enter email and password.';err.style.display='block';return;}
+  if(!ADMINS.includes(email)){err.textContent='This email is not a DWC admin.';err.style.display='block';return;}
+  this.disabled=true;this.textContent='Signing in...';
+  var btn=this;
   sb.auth.signInWithPassword({email:email,password:pass}).then(function(r){
     if(r.error){err.textContent='Invalid credentials.';err.style.display='block';btn.disabled=false;btn.textContent='Sign In to Admin';return;}
     showDashboard();
   });
 };
-document.getElementById('lEmail').onkeydown = function(e){if(e.key==='Enter')document.getElementById('lPass').focus();};
-document.getElementById('lPass').onkeydown = function(e){if(e.key==='Enter')document.getElementById('btnLogin').click();};
-
-// SIGN OUT
-document.getElementById('btnSO').onclick = function(){sb.auth.signOut().then(function(){window.location.reload();});};
+document.getElementById('lE').onkeydown=function(e){if(e.key==='Enter')document.getElementById('lP').focus();};
+document.getElementById('lP').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnL').click();};
+document.getElementById('btnSO').onclick=function(){sb.auth.signOut().then(function(){window.location.reload();});};
 
 function timeAgo(ts){var d=new Date(ts),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return 'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return Math.floor(diff/86400)+'d ago';}
 function parseMeta(desc){var o={};if(!desc)return o;desc.split('|').forEach(function(s){var p=s.split(':');if(p.length>=2)o[p[0].trim()]=p.slice(1).join(':').trim();});return o;}
@@ -162,8 +138,7 @@ function load(){
     document.getElementById('sTot').textContent=all.length;
     document.getElementById('sPend').textContent=pend.length;
     document.getElementById('sAppr').textContent=act.length;
-    render('pendingList',pend,false);
-    render('activeList',act,true);
+    render('pendingList',pend,false);render('activeList',act,true);
   });
 }
 
@@ -176,19 +151,19 @@ function render(cid,list,isActive){
     if(p.type)tags+='<span class="tag">'+p.type+'</span>';
     if(m.City)tags+='<span class="tag c">'+m.City+'</span>';
     if(m.AOV)tags+='<span class="tag g">AOV '+m.AOV+'</span>';
-    if(p.is_licensed_premises)tags+='<span class="tag r">Licensed Premises</span>';
+    if(p.is_licensed_premises)tags+='<span class="tag r">Licensed</span>';
     if(m.Outlets)tags+='<span class="tag c">'+m.Outlets+' outlets</span>';
     var camp='';
     if(m.Campaign||m.Tiers){camp='<div class="camp">';if(m.Campaign)camp+='<strong>Campaign:</strong> '+m.Campaign+'<br>';if(m.Qty)camp+='<strong>Qty:</strong> '+m.Qty+' vouchers<br>';if(m.Tiers)camp+='<strong>Tiers:</strong> '+m.Tiers;camp+='</div>';}
     var nm=p.name.replace(/['"]/g,'');var cn=(p.contact_name||'').replace(/['"]/g,'');
     var acts=isActive
       ?'<div style="font-size:.82rem;color:var(--green)">&#x2713; Active &mdash; <a href="mailto:'+p.contact_email+'" style="color:var(--gold)">'+p.contact_email+'</a></div>'
-      :'<div class="acts"><button class="bok" id="a-'+p.id+'" onclick="window.doApprove(''+p.id+'',''+nm+'',''+p.contact_email+'',''+cn+'')">&#x2713; Approve &amp; Activate</button><button class="bno" id="r-'+p.id+'" onclick="window.doReject(''+p.id+'')">&#x2715; Reject</button><span class="omsg" id="ok-'+p.id+'">&#x2713; Approved! Email sent.</span><span class="emsg" id="er-'+p.id+'"></span></div>';
-    return '<div class="card'+(isActive?' done':'')+'" id="c-'+p.id+'"><div class="cname">'+p.name+'</div><div class="cemail">'+p.contact_email+(p.contact_phone?' &bull; '+p.contact_phone:'')+'</div><div class="ctime">'+timeAgo(p.created_at)+(p.contact_name?' &bull; '+p.contact_name:'')+'</div><div class="tags">'+tags+'</div>'+camp+acts+'</div>';
+      :'<div class="acts"><button class="bok" id="a-'+p.id+'" onclick="doApprove(''+p.id+'',''+nm+'',''+p.contact_email+'',''+cn+'')">&#x2713; Approve &amp; Activate</button><button class="bno" id="r-'+p.id+'" onclick="doReject(''+p.id+'')">&#x2715; Reject</button><span class="omsg" id="ok-'+p.id+'">&#x2713; Approved! Email sent.</span><span class="emsg" id="er-'+p.id+'"></span></div>';
+    return '<div class="card'+(isActive?' done':'')+'" id="c-'+p.id+'"><div class="cn">'+p.name+'</div><div class="ce">'+p.contact_email+(p.contact_phone?' &bull; '+p.contact_phone:'')+'</div><div class="ct">'+timeAgo(p.created_at)+(p.contact_name?' &bull; '+p.contact_name:'')+'</div><div class="tags">'+tags+'</div>'+camp+acts+'</div>';
   }).join('');
 }
 
-window.doApprove=function(id,name,email,cname){
+function doApprove(id,name,email,cname){
   var ab=document.getElementById('a-'+id),rb=document.getElementById('r-'+id),ok=document.getElementById('ok-'+id),er=document.getElementById('er-'+id);
   ab.disabled=true;rb.disabled=true;ab.textContent='Activating...';
   sb.from('partners').update({is_active:true}).eq('id',id).then(function(r){
@@ -209,13 +184,13 @@ partners@dinewithcelebrity.com'})});
     document.getElementById('c-'+id).classList.add('done');
     setTimeout(load,1500);
   });
-};
+}
 
-window.doReject=function(id){
+function doReject(id){
   if(!confirm('Reject and delete this application?'))return;
   var rb=document.getElementById('r-'+id);rb.disabled=true;rb.textContent='Removing...';
   sb.from('partners').delete().eq('id',id).then(function(){document.getElementById('c-'+id).remove();load();});
-};
+}
 </script>
 </body>
 </html>
