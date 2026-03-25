@@ -47,9 +47,18 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .stl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
 .cd{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px;margin-bottom:20px}
 .cdt{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--text);margin-bottom:4px}
-.cds{font-size:.85rem;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.cds{font-size:.85rem;color:var(--muted);margin-bottom:16px;line-height:1.5}
 .sel{background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;width:100%}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.tier-ref{background:rgba(242,183,5,.04);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.tier-ref-title{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.tier-ref table{width:100%;border-collapse:collapse;min-width:0}
+.tier-ref th{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:6px 8px;text-align:left;border-bottom:1px solid var(--border2)}
+.tier-ref td{font-size:.78rem;color:var(--sub);padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.03)}
+.tier-ref tr:last-child td{border-bottom:none}
+.tier-ref .tg{color:var(--gold);font-weight:700}
+.tier-ref .tp{color:#E8E8E8;font-weight:700}
+.tier-ref .tu{color:#c39bd3;font-weight:700}
 .dr{border:2px dashed var(--border2);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .3s;margin-bottom:12px}
 .dr:hover,.dr.ov{border-color:var(--gold)}
 .mr{display:grid;grid-template-columns:1fr 90px auto;gap:8px;margin-bottom:12px}
@@ -81,9 +90,7 @@ tr:last-child td{border-bottom:none}
 .cr input[type=checkbox]{accent-color:var(--gold);width:16px;height:16px;flex-shrink:0}
 .cr label{font-size:.85rem;color:var(--sub);cursor:pointer}
 @media(min-width:600px){.sts{grid-template-columns:repeat(4,1fr)}}
-</style>
-</head>
-<body>
+</style></head><body>
 <div id="stars"></div><div class="brand-bg">DWC</div>
 <div id="lw"><div class="spin"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading partner portal</div></div>
 <div id="lgw"><div class="lgb">
@@ -108,6 +115,18 @@ tr:last-child td{border-bottom:none}
   <div class="cd">
     <div class="cdt">&#x1F4E4; Upload Voucher Codes</div>
     <p class="cds">Once uploaded, codes are permanent and cannot be deleted. CSV or manual entry.</p>
+    <!-- TIER REFERENCE TABLE -->
+    <div class="tier-ref">
+      <div class="tier-ref-title">&#x2139;&#xFE0F; Membership Tier Guide — Choose the right tier for your voucher</div>
+      <table>
+        <thead><tr><th>Tier</th><th>Member Type</th><th>Best Voucher Value</th><th>Audience</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tg">Gold</span></td><td style="color:var(--sub)">&#x20B9;2,499/yr</td><td style="color:var(--sub)">&#x20B9;300 — &#x20B9;1,000</td><td style="color:var(--muted);font-size:.75rem">Widest reach — most members</td></tr>
+          <tr><td><span class="tp">Platinum</span></td><td style="color:var(--sub)">&#x20B9;6,999/yr</td><td style="color:var(--sub)">&#x20B9;1,000 — &#x20B9;5,000</td><td style="color:var(--muted);font-size:.75rem">Mid-tier — higher spenders</td></tr>
+          <tr><td><span class="tu">Purple</span></td><td style="color:var(--sub)">&#x20B9;14,999/yr</td><td style="color:var(--sub)">&#x20B9;5,000 — &#x20B9;10,000</td><td style="color:var(--muted);font-size:.75rem">VIP only — premium audience</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="g2">
       <div><label style="display:block;font-size:.75rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Min Tier</label>
       <select class="sel" id="uT"><option value="gold">Gold (&#x20B9;2,499/yr)</option><option value="platinum">Platinum (&#x20B9;6,999/yr)</option><option value="purple">Purple (&#x20B9;14,999/yr)</option></select></div>
@@ -139,10 +158,8 @@ tr:last-child td{border-bottom:none}
     <p class="cds">Every redemption tracked in real time.</p>
     <div class="tw"><table><thead><tr><th>Code</th><th>Value</th><th>When</th><th>Seat Reduction</th></tr></thead><tbody id="rTb"><tr><td colspan="4" class="emp">No redemptions yet.</td></tr></tbody></table></div>
   </div>
-                                                                           </div>
-<script>
+</div><script>
 (function(){var se=document.getElementById('stars');for(var i=0;i<50;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
-
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 var _pid=null,_codes=[],_done=false;
 function mn(n){return '\u20B9'+(n||0).toLocaleString('en-IN');}
@@ -157,16 +174,7 @@ function rf(f){var r=new FileReader();r.onload=function(e){e.target.result.split
 document.getElementById('btnA').onclick=function(){var c=document.getElementById('mC').value.trim().toUpperCase();if(!c)return;if(_codes.includes(c)){alert('Already added.');return;}_codes.push(c);document.getElementById('mC').value='';rp();};
 document.getElementById('mC').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnA').click();};
 function rp(){var pc=document.getElementById('pC'),pl=document.getElementById('pL'),ub=document.getElementById('btnU');if(!_codes.length){pc.style.display='none';pl.style.display='none';ub.disabled=true;return;}pc.style.display='block';pl.style.display='block';document.getElementById('pN').textContent=_codes.length;pl.textContent=_codes.slice(0,30).join('\n')+(_codes.length>30?'\n...and '+(_codes.length-30)+' more':'');ub.disabled=false;}
-document.getElementById('btnU').onclick=async function(){
-  if(!_pid||!_codes.length)return;
-  var btn=this,suc=document.getElementById('uS'),err=document.getElementById('uE');
-  suc.style.display='none';err.style.display='none';btn.disabled=true;btn.textContent='Uploading...';
-  var rows=_codes.map(function(c){return{partner_id:_pid,code:c,face_value:parseInt(document.getElementById('uV').value),seat_reduction:500,min_tier:document.getElementById('uT').value,valid_days:parseInt(document.getElementById('mD').value)||30,is_licensed_premises:document.getElementById('uL').checked};});
-  var res=await sbClient.from('vouchers').insert(rows);
-  if(res.error){err.textContent='Upload failed: '+(res.error.message||'Some codes may already exist.');err.style.display='block';}
-  else{suc.textContent='\u2713 '+_codes.length+' vouchers uploaded and live.';suc.style.display='block';_codes=[];rp();ls();lv('all');}
-  btn.disabled=false;btn.textContent='Upload Vouchers to DWC Platform';
-};
+document.getElementById('btnU').onclick=async function(){if(!_pid||!_codes.length)return;var btn=this,suc=document.getElementById('uS'),err=document.getElementById('uE');suc.style.display='none';err.style.display='none';btn.disabled=true;btn.textContent='Uploading...';var rows=_codes.map(function(c){return{partner_id:_pid,code:c,face_value:parseInt(document.getElementById('uV').value),seat_reduction:500,min_tier:document.getElementById('uT').value,valid_days:parseInt(document.getElementById('mD').value)||30,is_licensed_premises:document.getElementById('uL').checked};});var res=await sbClient.from('vouchers').insert(rows);if(res.error){err.textContent='Upload failed: '+(res.error.message||'Some codes may already exist.');err.style.display='block';}else{suc.textContent='\u2713 '+_codes.length+' vouchers uploaded and live.';suc.style.display='block';_codes=[];rp();ls();lv('all');}btn.disabled=false;btn.textContent='Upload Vouchers to DWC Platform';};
 async function ls(){var res=await sbClient.from('vouchers').select('id,issued_to,is_redeemed').eq('partner_id',_pid);if(!res.data)return;var a=res.data,i=a.filter(function(v){return v.issued_to;}).length,r=a.filter(function(v){return v.is_redeemed;}).length;document.getElementById('sT').textContent=a.length;document.getElementById('sI').textContent=i;document.getElementById('sR').textContent=r;document.getElementById('sV').textContent=mn(i*50);}
 window.vt=function(f,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');lv(f);};
 async function lv(f){var tb=document.getElementById('vTb');tb.innerHTML='<tr><td colspan="5" class="emp">Loading...</td></tr>';var q=sbClient.from('vouchers').select('*').eq('partner_id',_pid).order('created_at',{ascending:false});if(f==='available')q=q.is('issued_to',null).eq('is_redeemed',false);else if(f==='issued')q=q.not('issued_to',null).eq('is_redeemed',false);else if(f==='redeemed')q=q.eq('is_redeemed',true);var res=await q.limit(100);if(!res.data||!res.data.length){tb.innerHTML='<tr><td colspan="5" class="emp">No vouchers found.</td></tr>';lr([]);return;}var bm={gold:'xg',platinum:'xp',purple:'xu'};tb.innerHTML=res.data.map(function(v){var st=v.is_redeemed?'<span class="bx xok">Redeemed</span>':v.issued_to?'<span class="bx xis">Issued</span>':'<span class="bx xav">Available</span>';return '<tr><td style="font-family:monospace;font-size:.8rem">'+v.code+'</td><td><span class="bx '+(bm[v.min_tier]||'')+'">'+v.min_tier+'</span></td><td>'+mn(v.face_value)+'</td><td>'+st+'</td><td style="font-size:.78rem;color:var(--muted)">'+(v.redeemed_at?new Date(v.redeemed_at).toLocaleDateString('en-IN'):'\u2014')+'</td></tr>';}).join('');lr(res.data.filter(function(v){return v.is_redeemed;}));}
