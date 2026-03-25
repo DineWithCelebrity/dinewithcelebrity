@@ -35,27 +35,27 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
 .ctime{font-size:.75rem;color:var(--muted);margin-bottom:12px}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .tag{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase;background:rgba(242,183,5,.1);border:1px solid var(--border);color:var(--gold)}
-.tag.city{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--sub)}
-.tag.red{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b}
-.tag.grn{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);color:var(--green)}
+.tag.c{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--sub)}
+.tag.r{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b}
+.tag.g{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);color:var(--green)}
 .camp{background:rgba(242,183,5,.04);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:.82rem;color:var(--sub);line-height:1.6}
 .camp strong{color:var(--gold)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn-ok{background:var(--green);color:#06040A;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:800;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;text-transform:uppercase}
-.btn-ok:disabled{opacity:.4;cursor:not-allowed}
-.btn-no{background:none;border:1px solid rgba(212,0,42,.4);color:#ff6b6b;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:10px 20px;border-radius:8px;cursor:pointer}
-.btn-no:disabled{opacity:.4;cursor:not-allowed}
-.ok-msg{font-size:.78rem;color:var(--green);display:none;margin-left:6px}
-.err-msg{font-size:.78rem;color:var(--red);display:none;margin-left:6px}
+.acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bok{background:var(--green);color:#06040A;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:800;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;text-transform:uppercase}
+.bok:disabled{opacity:.4;cursor:not-allowed}
+.bno{background:none;border:1px solid rgba(212,0,42,.4);color:#ff6b6b;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:10px 20px;border-radius:8px;cursor:pointer}
+.bno:disabled{opacity:.4;cursor:not-allowed}
+.omsg{font-size:.78rem;color:var(--green);display:none;margin-left:6px}
+.emsg{font-size:.78rem;color:var(--red);display:none;margin-left:6px}
 .emp{text-align:center;padding:40px;color:var(--muted);background:var(--card);border:1px solid var(--border2);border-radius:16px}
-.done-card{opacity:.55;border-color:rgba(0,200,83,.2)!important}
-.done-card .cname{color:var(--green)}
+.done{opacity:.55;border-color:rgba(0,200,83,.2)!important}
+.done .cname{color:var(--green)}
 @media(max-width:540px){.sts{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div id="lw"><div class="spin"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading admin panel</div></div>
-<div id="denied"><div><div style="font-size:3rem;margin-bottom:16px">&#x1F512;</div><div style="font-family:'Bebas Neue',cursive;font-size:2rem;margin-bottom:8px">ACCESS DENIED</div><p style="color:var(--muted)">Restricted to DWC admins only.</p><a href="/" style="display:inline-block;margin-top:20px;color:var(--gold)">&larr; Home</a></div></div>
+<div id="denied"><div><div style="font-size:3rem;margin-bottom:16px">&#x1F512;</div><div style="font-family:'Bebas Neue',cursive;font-size:2rem;margin-bottom:8px">ACCESS DENIED</div><p style="color:var(--muted);margin-bottom:16px">Restricted to DWC admins only.</p><a href="/" style="color:var(--gold)">&#x2190; Home</a><br><br><a href="/partner-sponsor.html" style="color:var(--muted);font-size:.85rem">Sign in first &#x2192;</a></div></div>
 <nav id="nv"><a class="logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a><div class="badge">&#x1F6E1; ADMIN</div><button class="bso" id="btnSO">Sign Out</button></nav>
 <div class="pg" id="pg">
   <div class="pg-title">PARTNER <em>APPROVALS</em></div>
@@ -71,22 +71,38 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
   <div id="activeList"><div class="emp">Loading...</div></div>
 </div>
 <script>
-// CRITICAL: wrap in onload so supabase CDN is guaranteed ready
-window.onload = function() {
+// Wait for supabase global using interval — bulletproof
+var _initAttempts = 0;
+var _initTimer = setInterval(function() {
+  _initAttempts++;
+  if(typeof supabase !== 'undefined') {
+    clearInterval(_initTimer);
+    initAdmin();
+  } else if(_initAttempts > 50) { // 5s timeout
+    clearInterval(_initTimer);
+    showDenied();
+  }
+}, 100);
+
+function showDenied(){
+  document.getElementById('lw').style.display='none';
+  document.getElementById('denied').style.display='flex';
+}
+
+function initAdmin() {
   var sb = supabase.createClient(
     'https://blwqqqzhnovsveeryjlm.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
   );
   var ADMINS = ['rupeshking@gmail.com','hello@dinewithcelebrity.com'];
 
-  function showDenied(){document.getElementById('lw').style.display='none';document.getElementById('denied').style.display='flex';}
   function timeAgo(ts){var d=new Date(ts),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return 'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return Math.floor(diff/86400)+'d ago';}
   function parseMeta(desc){var o={};if(!desc)return o;desc.split('|').forEach(function(s){var p=s.split(':');if(p.length>=2)o[p[0].trim()]=p.slice(1).join(':').trim();});return o;}
 
   function load(){
     sb.from('partners').select('*').order('created_at',{ascending:false}).then(function(res){
       if(!res.data)return;
-      var all=res.data,pend=all.filter(function(p){return !p.is_active;}),act=all.filter(function(p){return p.is_active;});
+      var all=res.data,pend=all.filter(function(p){return!p.is_active;}),act=all.filter(function(p){return p.is_active;});
       document.getElementById('sTot').textContent=all.length;
       document.getElementById('sPend').textContent=pend.length;
       document.getElementById('sAppr').textContent=act.length;
@@ -97,28 +113,28 @@ window.onload = function() {
 
   function render(cid,list,isActive){
     var el=document.getElementById(cid);
-    if(!list.length){el.innerHTML='<div class="emp">'+(isActive?'No active partners.':'No pending applications.')+'</div>';return;}
+    if(!list.length){el.innerHTML='<div class="emp">'+(isActive?'No active partners.':'No pending applications. ✓')+'</div>';return;}
     el.innerHTML=list.map(function(p){
       var m=parseMeta(p.description||'');
       var tags='';
       if(p.type)tags+='<span class="tag">'+p.type+'</span>';
-      if(m.City)tags+='<span class="tag city">'+m.City+'</span>';
-      if(m.AOV)tags+='<span class="tag grn">AOV '+m.AOV+'</span>';
-      if(p.is_licensed_premises)tags+='<span class="tag red">Licensed Premises</span>';
-      if(m.Outlets)tags+='<span class="tag city">'+m.Outlets+' outlets</span>';
+      if(m.City)tags+='<span class="tag c">'+m.City+'</span>';
+      if(m.AOV)tags+='<span class="tag g">AOV '+m.AOV+'</span>';
+      if(p.is_licensed_premises)tags+='<span class="tag r">Licensed Premises</span>';
+      if(m.Outlets)tags+='<span class="tag c">'+m.Outlets+' outlets</span>';
       var camp='';
-      if(m.Campaign||m.Tiers){camp='<div class="camp">';if(m.Campaign)camp+='<strong>Campaign:</strong> '+m.Campaign+'<br>';if(m.Qty)camp+='<strong>Quantity:</strong> '+m.Qty+' vouchers<br>';if(m.Tiers)camp+='<strong>Tiers:</strong> '+m.Tiers;camp+='</div>';}
-      var nm=p.name.replace(/'/g,'').replace(/"/g,'');
-      var cn=(p.contact_name||'').replace(/'/g,'').replace(/"/g,'');
-      var actions=isActive
+      if(m.Campaign||m.Tiers){camp='<div class="camp">';if(m.Campaign)camp+='<strong>Campaign:</strong> '+m.Campaign+'<br>';if(m.Qty)camp+='<strong>Qty:</strong> '+m.Qty+' vouchers<br>';if(m.Tiers)camp+='<strong>Tiers:</strong> '+m.Tiers;camp+='</div>';}
+      var nm=p.name.replace(/['"]/g,'');var cn=(p.contact_name||'').replace(/['"]/g,'');
+      var acts=isActive
         ?'<div style="font-size:.82rem;color:var(--green)">&#x2713; Active &mdash; <a href="mailto:'+p.contact_email+'" style="color:var(--gold)">'+p.contact_email+'</a></div>'
-        :'<div class="actions"><button class="btn-ok" id="a-'+p.id+'" onclick="window.approve(''+p.id+'',''+nm+'',''+p.contact_email+'',''+cn+'')">&#x2713; Approve &amp; Activate</button><button class="btn-no" id="r-'+p.id+'" onclick="window.reject(''+p.id+'')">&#x2715; Reject</button><span class="ok-msg" id="ok-'+p.id+'">&#x2713; Approved! Email sent.</span><span class="err-msg" id="er-'+p.id+'"></span></div>';
-      return '<div class="card'+(isActive?' done-card':'')+'" id="c-'+p.id+'"><div class="cname">'+p.name+'</div><div class="cemail">'+p.contact_email+(p.contact_phone?' &bull; '+p.contact_phone:'')+'</div><div class="ctime">'+timeAgo(p.created_at)+(p.contact_name?' &bull; '+p.contact_name:'')+'</div><div class="tags">'+tags+'</div>'+camp+actions+'</div>';
+        :'<div class="acts"><button class="bok" id="a-'+p.id+'" onclick="window.doApprove(''+p.id+'',''+nm+'',''+p.contact_email+'',''+cn+'')">&#x2713; Approve &amp; Activate</button><button class="bno" id="r-'+p.id+'" onclick="window.doReject(''+p.id+'')">&#x2715; Reject</button><span class="omsg" id="ok-'+p.id+'">&#x2713; Approved! Email sent.</span><span class="emsg" id="er-'+p.id+'"></span></div>';
+      return '<div class="card'+(isActive?' done':'')+'" id="c-'+p.id+'"><div class="cname">'+p.name+'</div><div class="cemail">'+p.contact_email+(p.contact_phone?' &bull; '+p.contact_phone:'')+'</div><div class="ctime">'+timeAgo(p.created_at)+(p.contact_name?' &bull; '+p.contact_name:'')+'</div><div class="tags">'+tags+'</div>'+camp+acts+'</div>';
     }).join('');
   }
 
-  window.approve = function(id,name,email,cname){
-    var ab=document.getElementById('a-'+id),rb=document.getElementById('r-'+id),ok=document.getElementById('ok-'+id),er=document.getElementById('er-'+id);
+  window.doApprove=function(id,name,email,cname){
+    var ab=document.getElementById('a-'+id),rb=document.getElementById('r-'+id);
+    var ok=document.getElementById('ok-'+id),er=document.getElementById('er-'+id);
     ab.disabled=true;rb.disabled=true;ab.textContent='Activating...';
     sb.from('partners').update({is_active:true}).eq('id',id).then(function(r){
       if(r.error){er.textContent='Error: '+r.error.message;er.style.display='inline';ab.disabled=false;rb.disabled=false;ab.textContent='✓ Approve & Activate';return;}
@@ -135,12 +151,12 @@ Welcome to the DWC family!
 Team DWC
 partners@dinewithcelebrity.com'})});
       ab.textContent='✓ Approved';ok.style.display='inline';
-      document.getElementById('c-'+id).classList.add('done-card');
+      document.getElementById('c-'+id).classList.add('done');
       setTimeout(load,1500);
     });
   };
 
-  window.reject = function(id){
+  window.doReject=function(id){
     if(!confirm('Reject and delete this application?'))return;
     var rb=document.getElementById('r-'+id);rb.disabled=true;rb.textContent='Removing...';
     sb.from('partners').delete().eq('id',id).then(function(){document.getElementById('c-'+id).remove();load();});
@@ -148,7 +164,6 @@ partners@dinewithcelebrity.com'})});
 
   document.getElementById('btnSO').onclick=function(){sb.auth.signOut().then(function(){window.location.href='/';});};
 
-  // CHECK SESSION
   sb.auth.getSession().then(function(s){
     if(!s.data.session){showDenied();return;}
     var email=s.data.session.user.email;
@@ -158,7 +173,7 @@ partners@dinewithcelebrity.com'})});
     document.getElementById('pg').style.display='block';
     load();
   }).catch(function(){showDenied();});
-};
+}
 </script>
 </body>
 </html>
