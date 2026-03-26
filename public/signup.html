@@ -169,7 +169,7 @@ document.getElementById('btnJoin').onclick=async function(){
   }
 
   // Save to members table
-  await sbClient.from('members').upsert({email:email,full_name:name,tier:'free',referred_by:(document.getElementById('referralCode')?.value?.trim()||null),points:100,referral_code:refCode},{onConflict:'email'});
+  await sbClient.from('members').upsert({email:email,full_name:name,tier:'free',referred_by:(document.getElementById('referralCode')?.value?.trim()||null),referral_code:genReferralCode(),points:100,referral_code:refCode},{onConflict:'email'});
 
   // Redirect to dashboard
   sucEl.textContent='\u2713 Account created! Taking you to your dashboard...';
@@ -182,6 +182,7 @@ document.getElementById('btnJoin').onclick=async function(){
   document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById(id==='fullName'?'email':id==='email'?'password':'password').focus();});
 });
 document.getElementById('password').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnJoin').click();});
+function genReferralCode(){var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';var r='DWC';for(var i=0;i<6;i++)r+=c[Math.floor(Math.random()*c.length)];return r;}
 </script>
 </body>
   </html>
