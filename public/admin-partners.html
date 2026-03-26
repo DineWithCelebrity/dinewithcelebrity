@@ -91,6 +91,50 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
   <div class="sec"><div class="dot" style="background:var(--green)"></div>ACTIVE PARTNERS</div>
   <div id="activeList"><div class="emp">Loading...</div></div>
 </div>
+<div id="pg" style="display:none">
+  <!-- TAB NAV -->
+  <div style="max-width:960px;margin:0 auto 0;padding:0 20px">
+    <div style="display:flex;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:28px">
+      <button onclick="showTab('partners')" id="tab-partners" style="background:none;border:none;color:#F2B705;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid #F2B705">Partners</button>
+      <button onclick="showTab('members')" id="tab-members" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Members</button>
+      <button onclick="showTab('redemptions')" id="tab-redemptions" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Redemptions</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEMBERS TAB -->
+<div id="membersTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
+  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">ALL MEMBERS</div>
+  <div id="membersList" style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
+        <th style="text-align:left;padding:10px 8px">Name</th>
+        <th style="text-align:left;padding:10px 8px">Email</th>
+        <th style="text-align:left;padding:10px 8px">Tier</th>
+        <th style="text-align:left;padding:10px 8px">City</th>
+        <th style="text-align:left;padding:10px 8px">Joined</th>
+        <th style="text-align:left;padding:10px 8px">Referred By</th>
+      </tr></thead>
+      <tbody id="membersBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REDEMPTIONS TAB -->
+<div id="redemptionsTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
+  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">VOUCHER REDEMPTIONS</div>
+  <div id="redemptionsList" style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
+        <th style="text-align:left;padding:10px 8px">Partner</th>
+        <th style="text-align:left;padding:10px 8px">Value</th>
+        <th style="text-align:left;padding:10px 8px">Member</th>
+        <th style="text-align:left;padding:10px 8px">Redeemed At</th>
+      </tr></thead>
+      <tbody id="redemptionsBody"></tbody>
+    </table>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // sb declared at top level - initialized after supabase script loads (it's above this tag)
@@ -239,49 +283,5 @@ async function loadRedemptions(){
   }).join('');
 }
 </script>
-
-<div id="pg" style="display:none">
-  <!-- TAB NAV -->
-  <div style="max-width:960px;margin:0 auto 0;padding:0 20px">
-    <div style="display:flex;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:28px">
-      <button onclick="showTab('partners')" id="tab-partners" style="background:none;border:none;color:#F2B705;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid #F2B705">Partners</button>
-      <button onclick="showTab('members')" id="tab-members" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Members</button>
-      <button onclick="showTab('redemptions')" id="tab-redemptions" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Redemptions</button>
-    </div>
-  </div>
-</div>
-
-<!-- MEMBERS TAB -->
-<div id="membersTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
-  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">ALL MEMBERS</div>
-  <div id="membersList" style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
-      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
-        <th style="text-align:left;padding:10px 8px">Name</th>
-        <th style="text-align:left;padding:10px 8px">Email</th>
-        <th style="text-align:left;padding:10px 8px">Tier</th>
-        <th style="text-align:left;padding:10px 8px">City</th>
-        <th style="text-align:left;padding:10px 8px">Joined</th>
-        <th style="text-align:left;padding:10px 8px">Referred By</th>
-      </tr></thead>
-      <tbody id="membersBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- REDEMPTIONS TAB -->
-<div id="redemptionsTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
-  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">VOUCHER REDEMPTIONS</div>
-  <div id="redemptionsList" style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
-      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
-        <th style="text-align:left;padding:10px 8px">Partner</th>
-        <th style="text-align:left;padding:10px 8px">Value</th>
-        <th style="text-align:left;padding:10px 8px">Member</th>
-        <th style="text-align:left;padding:10px 8px">Redeemed At</th>
-      </tr></thead>
-      <tbody id="redemptionsBody"></tbody>
-    </table>
-  </div>
-</div></body>
-</html>
+</body>
+  </html>
