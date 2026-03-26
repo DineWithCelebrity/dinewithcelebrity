@@ -2,283 +2,216 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Partner Approvals — DWC Admin</title>
+<title>DWC Admin</title>
 <meta name="robots" content="noindex,nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#06040A;--card:#0f0d14;--gold:#F2B705;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh}
-#lw{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-.spin{width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-#lgw{position:fixed;inset:0;background:var(--bg);z-index:998;display:none;align-items:center;justify-content:center;padding:24px}
-.lb{width:100%;max-width:380px}
-.ll{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);text-decoration:none;display:block;margin-bottom:32px}
-.ll span{color:var(--text)}
-.lt{font-family:'Bebas Neue',cursive;font-size:2.5rem;line-height:1;margin-bottom:6px}
-.lt em{color:var(--gold);font-style:normal;display:block}
-.ls{font-size:.9rem;color:var(--sub);margin-bottom:28px}
-.fl{margin-bottom:16px}
-.fl label{display:block;font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
-.fl input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:13px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
-.fl input:focus{border-color:var(--gold)}
-.fl input::placeholder{color:rgba(255,255,255,.25)}
-.btn{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.lerr{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px;border-radius:8px;margin-top:12px;display:none;text-align:center}
-nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:1px solid var(--border2);height:60px;display:none;align-items:center;justify-content:space-between;padding:0 24px}
-.logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);text-decoration:none}
-.logo span{color:var(--text)}
-.badge{font-size:.72rem;font-weight:700;color:var(--gold);background:rgba(242,183,5,.1);border:1px solid var(--border);padding:4px 12px;border-radius:100px}
-.bso{font-size:.8rem;color:var(--muted);background:none;border:1px solid var(--border2);padding:7px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif}
-.pg{max-width:1000px;margin:0 auto;padding:32px 20px 80px;display:none}
-.pgt{font-family:'Bebas Neue',cursive;font-size:2.4rem;margin-bottom:4px}
-.pgt em{color:var(--gold);font-style:normal}
-.pgs{font-size:.88rem;color:var(--muted);margin-bottom:28px}
-.sts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
-.stc{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px}
-.stn{font-family:'Bebas Neue',cursive;font-size:2.2rem;line-height:1;margin-bottom:2px}
-.stl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
-.sec{font-family:'Bebas Neue',cursive;font-size:1.3rem;margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:10px}
-.dot{width:8px;height:8px;border-radius:50%}
-.card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px;margin-bottom:14px}
-.cn{font-family:'Bebas Neue',cursive;font-size:1.5rem;margin-bottom:2px}
-.ce{font-size:.82rem;color:var(--muted);margin-bottom:4px}
-.ct{font-size:.75rem;color:var(--muted);margin-bottom:12px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.tag{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase;background:rgba(242,183,5,.1);border:1px solid var(--border);color:var(--gold)}
-.tag.c{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--sub)}
-.tag.r{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b}
-.tag.g{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);color:var(--green)}
-.camp{background:rgba(242,183,5,.04);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:.82rem;color:var(--sub);line-height:1.6}
-.camp strong{color:var(--gold)}
-.acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.bok{background:var(--green);color:#06040A;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:800;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;text-transform:uppercase}
-.bok:disabled{opacity:.4;cursor:not-allowed}
-.bno{background:none;border:1px solid rgba(212,0,42,.4);color:#ff6b6b;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:10px 20px;border-radius:8px;cursor:pointer}
-.bno:disabled{opacity:.4;cursor:not-allowed}
-.omsg{font-size:.78rem;color:var(--green);display:none;margin-left:6px}
-.emsg{font-size:.78rem;color:var(--red);display:none;margin-left:6px}
-.emp{text-align:center;padding:40px;color:var(--muted);background:var(--card);border:1px solid var(--border2);border-radius:16px}
-.done{opacity:.55;border-color:rgba(0,200,83,.2)!important}
-.done .cn{color:var(--green)}
-@media(max-width:540px){.sts{grid-template-columns:1fr 1fr}}
-</style>
-<style id="dwc-shared">body{font-family:'Poppins',sans-serif;font-size:1rem;color:rgba(255,255,255,.95);background:#06040A}h1,h2,h3{font-family:'Bebas Neue',cursive;letter-spacing:.05em;line-height:1.05}label{font-size:.78rem!important;font-weight:700!important;color:rgba(255,255,255,.75)!important;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:7px}p{font-size:.95rem;color:rgba(255,255,255,.75);line-height:1.65}input[type="text"],input[type="email"],input[type="password"],input[type="tel"],input[type="number"],select,textarea{font-family:'Poppins',sans-serif!important;font-size:.95rem!important;color:rgba(255,255,255,.95)!important;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 16px;outline:none;width:100%;box-sizing:border-box}input:focus,select:focus,textarea:focus{border-color:#F2B705}input::placeholder,textarea::placeholder{color:rgba(255,255,255,.3)}select option{background:#0f0d14}button{font-family:'Poppins',sans-serif}table{width:100%;border-collapse:collapse;font-size:.85rem}th{font-size:.72rem!important;font-weight:700;color:rgba(255,255,255,.5)!important;text-transform:uppercase;letter-spacing:.1em;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left}td{padding:12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.04);font-size:.85rem}</style></head>
-<body>
-<div id="lw"><div class="spin"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading</div></div>
-<div id="lgw"><div class="lb">
-  <a class="ll" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
-  <div class="lt">ADMIN<em>PANEL</em></div>
-  <p class="ls">DWC admins only. Sign in to manage partner applications.</p>
-  <div class="fl"><label>Email</label><input type="email" id="lE" placeholder="rupeshking@gmail.com" autocomplete="email"></div>
-  <div class="fl"><label>Password</label><input type="password" id="lP" placeholder="Your password" autocomplete="current-password"></div>
-  <button class="btn" id="btnL">Sign In to Admin</button>
-  <div class="lerr" id="lErr"></div>
-</div></div>
-<nav id="nv"><a class="logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a><div class="badge">&#x1F6E1; ADMIN</div><button class="bso" id="btnSO">Sign Out</button></nav>
-<div class="pg" id="pg">
-  <div class="pgt">PARTNER <em>APPROVALS</em></div>
-  <p class="pgs">Approve applications. Partner gets instant dashboard access + welcome email.</p>
-  <div class="sts">
-    <div class="stc"><div class="stn" style="color:var(--gold)" id="sTot">0</div><div class="stl">Total</div></div>
-    <div class="stc"><div class="stn" style="color:var(--red)" id="sPend">0</div><div class="stl">Pending</div></div>
-    <div class="stc"><div class="stn" style="color:var(--green)" id="sAppr">0</div><div class="stl">Active</div></div>
-  </div>
-  <div class="sec"><div class="dot" style="background:var(--red)"></div>PENDING APPROVAL</div>
-  <div id="pendingList"><div class="emp">Loading...</div></div>
-  <div class="sec"><div class="dot" style="background:var(--green)"></div>ACTIVE PARTNERS</div>
-  <div id="activeList"><div class="emp">Loading...</div></div>
-</div>
-<div id="pg" style="display:none">
-  <!-- TAB NAV -->
-  <div style="max-width:960px;margin:0 auto 0;padding:0 20px">
-    <div style="display:flex;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:28px">
-      <button onclick="showTab('partners')" id="tab-partners" style="background:none;border:none;color:#F2B705;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid #F2B705">Partners</button>
-      <button onclick="showTab('members')" id="tab-members" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Members</button>
-      <button onclick="showTab('redemptions')" id="tab-redemptions" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Redemptions</button>
-    </div>
-  </div>
-</div>
-
-<!-- MEMBERS TAB -->
-<div id="membersTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
-  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">ALL MEMBERS</div>
-  <div id="membersList" style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
-      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
-        <th style="text-align:left;padding:10px 8px">Name</th>
-        <th style="text-align:left;padding:10px 8px">Email</th>
-        <th style="text-align:left;padding:10px 8px">Tier</th>
-        <th style="text-align:left;padding:10px 8px">City</th>
-        <th style="text-align:left;padding:10px 8px">Joined</th>
-        <th style="text-align:left;padding:10px 8px">Referred By</th>
-      </tr></thead>
-      <tbody id="membersBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- REDEMPTIONS TAB -->
-<div id="redemptionsTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
-  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">VOUCHER REDEMPTIONS</div>
-  <div id="redemptionsList" style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
-      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
-        <th style="text-align:left;padding:10px 8px">Partner</th>
-        <th style="text-align:left;padding:10px 8px">Value</th>
-        <th style="text-align:left;padding:10px 8px">Member</th>
-        <th style="text-align:left;padding:10px 8px">Redeemed At</th>
-      </tr></thead>
-      <tbody id="redemptionsBody"></tbody>
-    </table>
-  </div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#06040A;color:rgba(255,255,255,.95);font-family:'Poppins',sans-serif;min-height:100vh}
+.nav{position:fixed;top:0;left:0;right:0;height:60px;background:rgba(6,4,10,.95);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 24px;z-index:100}
+.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:#F2B705;letter-spacing:.08em}
+.page{padding-top:80px;max-width:1000px;margin:0 auto;padding-left:20px;padding-right:20px}
+/* Login */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-box{background:#0f0d14;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:40px;width:100%;max-width:400px}
+.login-title{font-family:'Bebas Neue',cursive;font-size:2rem;color:#F2B705;margin-bottom:8px}
+.login-sub{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.75rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.field input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:rgba(255,255,255,.95);font-family:'Poppins',sans-serif;font-size:.92rem;padding:13px 16px;outline:none}
+.field input:focus{border-color:#F2B705}
+.btn-gold{width:100%;background:#F2B705;color:#06040A;font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:800;padding:14px;border:none;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;margin-top:8px}
+.err{color:#ff6b6b;font-size:.82rem;margin-top:8px;display:none}
+/* Dashboard */
+#dash{display:none}
+.dash-header{margin-bottom:28px}
+.dash-title{font-family:'Bebas Neue',cursive;font-size:2rem;color:rgba(255,255,255,.95)}
+.dash-title span{color:#F2B705}
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:24px}
+.tab-btn{background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:.2s}
+.tab-btn.active{color:#F2B705;border-bottom-color:#F2B705}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px}
+.stat-num{font-family:'Bebas Neue',cursive;font-size:2.5rem;color:rgba(255,255,255,.95);line-height:1}
+.stat-label{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+/* Cards */
+.partner-card{background:#0f0d14;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.partner-name{font-weight:700;font-size:.95rem;color:rgba(255,255,255,.95)}
+.partner-meta{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:3px}
+.badge-pending{background:rgba(242,183,5,.15);color:#F2B705;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.badge-active{background:rgba(0,200,83,.15);color:#00C853;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.card-actions{display:flex;gap:8px}
+.btn-approve{background:#00C853;color:#06040A;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;padding:8px 16px;border:none;border-radius:8px;cursor:pointer}
+.btn-reject{background:rgba(212,0,42,.2);color:#ff6b6b;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;padding:8px 16px;border:none;border-radius:8px;cursor:pointer}
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{text-align:left;padding:10px 12px;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid rgba(255,255,255,.08)}
+td{padding:11px 12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.04)}
+.tier-free{color:rgba(255,255,255,.5)}
+.tier-gold{color:#F2B705;font-weight:700}
+.tier-platinum{color:#E8E8E8;font-weight:700}
+.tier-purple{color:#c39bd3;font-weight:700}
+.empty{padding:30px;text-align:center;color:rgba(255,255,255,.3);font-size:.85rem}
+/* Sign out */
+.signout-btn{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-family:'Poppins',sans-serif;font-size:.78rem;padding:7px 16px;border-radius:8px;cursor:pointer;position:absolute;right:24px}
+.signout-btn:hover{border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.9)}
+@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.card-actions{width:100%}.btn-approve,.btn-reject{flex:1}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">&#x2605; DWC Admin</div>
+  <button class="signout-btn" id="btnSO" style="display:none" onclick="signOut()">Sign Out</button>
+</nav>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-title">Admin Access</div>
+    <div class="login-sub">Dine With Celebrity Pvt Ltd — Operations Panel</div>
+    <div class="field"><label>Email</label><input type="email" id="lEmail" placeholder="admin@dinewithcelebrity.com"></div>
+    <div class="field"><label>Password</label><input type="password" id="lPass" placeholder="Password"></div>
+    <div class="err" id="lErr">Invalid credentials or not an admin account.</div>
+    <button class="btn-gold" id="btnLogin">Sign In</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page" id="dash">
+  <div class="dash-header">
+    <div class="dash-title">Partner <span>Admin Panel</span></div>
+  </div>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-num" id="sTot">0</div><div class="stat-label">Total Partners</div></div>
+    <div class="stat-card"><div class="stat-num" id="sPend">0</div><div class="stat-label">Pending Approval</div></div>
+    <div class="stat-card"><div class="stat-num" id="sMemb">0</div><div class="stat-label">Total Members</div></div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('pending')">Pending</button>
+    <button class="tab-btn" onclick="showTab('active')">Active Partners</button>
+    <button class="tab-btn" onclick="showTab('members')">Members</button>
+    <button class="tab-btn" onclick="showTab('redemptions')">Redemptions</button>
+  </div>
+  <div class="tab-panel active" id="tab-pending"><div class="empty" id="pendingList">Loading...</div></div>
+  <div class="tab-panel" id="tab-active"><div class="empty" id="activeList">Loading...</div></div>
+  <div class="tab-panel" id="tab-members"><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Tier</th><th>City</th><th>Joined</th><th>Referred By</th></tr></thead><tbody id="membersBody"><tr><td colspan="6" class="empty">Click Members tab to load</td></tr></tbody></table></div></div>
+  <div class="tab-panel" id="tab-redemptions"><div class="tbl-wrap"><table><thead><tr><th>Partner</th><th>Value</th><th>Redeemed At</th></tr></thead><tbody id="redemptionsBody"><tr><td colspan="3" class="empty">Click Redemptions tab to load</td></tr></tbody></table></div></div>
+</div>
+
 <script>
-// sb declared at top level - initialized after supabase script loads (it's above this tag)
-var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+var URL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
 var ADMINS = ['rupeshking@gmail.com','hello@dinewithcelebrity.com'];
+var sb = supabase.createClient(URL, ANON);
 
-function showLogin(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='flex';}
-function showDashboard(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='none';document.getElementById('nv').style.display='flex';document.getElementById('pg').style.display='block';document.getElementById('tab-partners')&&(document.getElementById('tab-partners').style.display='block');load();}
-
-// Check existing session on load
-sbClient.auth.getSession().then(function(s){
-  if(s.data.session && ADMINS.includes(s.data.session.user.email)){showDashboard();}
-  else{showLogin();}
-}).catch(function(){showLogin();});
-
-// LOGIN
-document.getElementById('btnL').onclick = function(){
-  var email=document.getElementById('lE').value.trim();
-  var pass=document.getElementById('lP').value;
-  var err=document.getElementById('lErr');
-  err.style.display='none';
-  if(!email||!pass){err.textContent='Enter email and password.';err.style.display='block';return;}
-  if(!ADMINS.includes(email)){err.textContent='This email is not a DWC admin.';err.style.display='block';return;}
-  this.disabled=true;this.textContent='Signing in...';
-  var btn=this;
-  sbClient.auth.signInWithPassword({email:email,password:pass}).then(function(r){
-    if(r.error){err.textContent='Invalid credentials.';err.style.display='block';btn.disabled=false;btn.textContent='Sign In to Admin';return;}
-    showDashboard();
-  });
-};
-document.getElementById('lE').onkeydown=function(e){if(e.key==='Enter')document.getElementById('lP').focus();};
-document.getElementById('lP').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnL').click();};
-document.getElementById('btnSO').onclick=function(){sbClient.auth.signOut().then(function(){window.location.reload();});};
-
-function timeAgo(ts){var d=new Date(ts),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return 'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return Math.floor(diff/86400)+'d ago';}
-function parseMeta(desc){var o={};if(!desc)return o;desc.split('|').forEach(function(s){var p=s.split(':');if(p.length>=2)o[p[0].trim()]=p.slice(1).join(':').trim();});return o;}
-
-function load(){
-  sbClient.from('partners').select('*').order('created_at',{ascending:false}).then(function(res){
-    if(!res.data)return;
-    var all=res.data,pend=all.filter(function(p){return!p.is_active;}),act=all.filter(function(p){return p.is_active;});
-    document.getElementById('sTot').textContent=all.length;
-    document.getElementById('sPend').textContent=pend.length;
-    document.getElementById('sAppr').textContent=act.length;
-    render('pendingList',pend,false);render('activeList',act,true);
-  });
+function showTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',['pending','active','members','redemptions'][i]===name);});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='members') loadMembers();
+  if(name==='redemptions') loadRedemptions();
 }
 
-function render(cid,list,isActive){
-  var el=document.getElementById(cid);
-  if(!list.length){el.innerHTML='<div class="emp">'+(isActive?'No active partners.':'No pending applications. ✓')+'</div>';return;}
-  el.innerHTML=list.map(function(p){
-    var m=parseMeta(p.description||'');
-    var tags='';
-    if(p.type)tags+='<span class="tag">'+p.type+'</span>';
-    if(m.City)tags+='<span class="tag c">'+m.City+'</span>';
-    if(m.AOV)tags+='<span class="tag g">AOV '+m.AOV+'</span>';
-    if(p.is_licensed_premises)tags+='<span class="tag r">Licensed</span>';
-    if(m.Outlets)tags+='<span class="tag c">'+m.Outlets+' outlets</span>';
-    var camp='';
-    if(m.Campaign||m.Tiers){camp='<div class="camp">';if(m.Campaign)camp+='<strong>Campaign:</strong> '+m.Campaign+'<br>';if(m.Qty)camp+='<strong>Qty:</strong> '+m.Qty+' vouchers<br>';if(m.Tiers)camp+='<strong>Tiers:</strong> '+m.Tiers;camp+='</div>';}
-    var nm=p.name.replace(/['"]/g,'');var cn=(p.contact_name||'').replace(/['"]/g,'');
-    var acts=isActive
-      ?'<div style="font-size:.82rem;color:var(--green)">&#x2713; Active &mdash; <a href="mailto:'+p.contact_email+'" style="color:var(--gold)">'+p.contact_email+'</a></div>'
-      :'<div class="acts"><button class="bok" id="a-'+p.id+'" onclick="doApprove(''+p.id+'',''+nm+'',''+p.contact_email+'',''+cn+'')">&#x2713; Approve &amp; Activate</button><button class="bno" id="r-'+p.id+'" onclick="doReject(''+p.id+'')">&#x2715; Reject</button><span class="omsg" id="ok-'+p.id+'">&#x2713; Approved! Email sent.</span><span class="emsg" id="er-'+p.id+'"></span></div>';
-    return '<div class="card'+(isActive?' done':'')+'" id="c-'+p.id+'"><div class="cn">'+p.name+'</div><div class="ce">'+p.contact_email+(p.contact_phone?' &bull; '+p.contact_phone:'')+'</div><div class="ct">'+timeAgo(p.created_at)+(p.contact_name?' &bull; '+p.contact_name:'')+'</div><div class="tags">'+tags+'</div>'+camp+acts+'</div>';
+function signOut() {
+  sb.auth.signOut().then(function(){ window.location.reload(); });
+}
+
+async function loadDashboard() {
+  var pr = await sb.from('partners').select('id,name,contact_email,city,is_active,created_at').order('created_at',{ascending:false});
+  var partners = pr.data || [];
+  document.getElementById('sTot').textContent = partners.length;
+  var pending = partners.filter(function(p){return !p.is_active;});
+  var active = partners.filter(function(p){return p.is_active;});
+  document.getElementById('sPend').textContent = pending.length;
+  var mr = await sb.from('members').select('id',{count:'exact',head:true});
+  document.getElementById('sMemb').textContent = mr.count || 0;
+  renderPartners('pendingList', pending, true);
+  renderPartners('activeList', active, false);
+}
+
+function renderPartners(elId, list, isPending) {
+  var el = document.getElementById(elId);
+  if(!list.length){el.innerHTML='<div class="empty">No '+(isPending?'pending':'active')+' partners.</div>';return;}
+  el.innerHTML = list.map(function(p){
+    return '<div class="partner-card">'
+      +'<div><div class="partner-name">'+p.name+'</div><div class="partner-meta">'+p.contact_email+' &bull; '+( p.city||'')+'</div></div>'
+      +'<div class="card-actions">'
+      +(isPending
+        ?'<button class="btn-approve" onclick="approvePartner(''+p.id+'',''+p.contact_email+'',this)">Approve</button><button class="btn-reject" onclick="rejectPartner(''+p.id+'',this)">Reject</button>'
+        :'<span class="badge-active">Active</span>')
+      +'</div></div>';
   }).join('');
 }
 
-function doApprove(id,name,email,cname){
-  var ab=document.getElementById('a-'+id),rb=document.getElementById('r-'+id),ok=document.getElementById('ok-'+id),er=document.getElementById('er-'+id);
-  ab.disabled=true;rb.disabled=true;ab.textContent='Activating...';
-  sbClient.from('partners').update({is_active:true}).eq('id',id).then(function(r){
-    if(r.error){er.textContent='Error: '+r.error.message;er.style.display='inline';ab.disabled=false;rb.disabled=false;ab.textContent='✓ Approve & Activate';return;}
-    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'🎉 Welcome to DWC Partner Network — '+name,from_name:'Dine With Celebrity',email:email,message:'Dear '+(cname||name)+',
-
-Your DWC partner application has been approved!
-
-Log in to your partner dashboard:
-https://www.dinewithcelebrity.com/partner-sponsor.html
-
-Email: '+email+'
-
-Welcome to the DWC family!
-Team DWC
-partners@dinewithcelebrity.com'})});
-    ab.textContent='✓ Approved';ok.style.display='inline';
-    document.getElementById('c-'+id).classList.add('done');
-    setTimeout(load,1500);
-  });
+async function approvePartner(id, email, btn) {
+  btn.disabled=true; btn.textContent='Approving...';
+  await sb.from('partners').update({is_active:true}).eq('id',id);
+  await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'DWC Partner Approved',to:'hello@dinewithcelebrity.com',message:'Partner approved: '+email})});
+  btn.closest('.partner-card').outerHTML='<div class="partner-card"><div><div class="partner-name">'+email+'</div></div><span class="badge-active">Approved!</span></div>';
+  loadDashboard();
 }
 
-function doReject(id){
-  if(!confirm('Reject and delete this application?'))return;
-  var rb=document.getElementById('r-'+id);rb.disabled=true;rb.textContent='Removing...';
-  sbClient.from('partners').delete().eq('id',id).then(function(){document.getElementById('c-'+id).remove();load();});
+async function rejectPartner(id, btn) {
+  if(!confirm('Delete this application?')) return;
+  btn.disabled=true;
+  await sb.from('partners').delete().eq('id',id);
+  btn.closest('.partner-card').remove();
 }
 
-function showTab(tab){
-  ['partners','members','redemptions'].forEach(function(t){
-    var el=document.getElementById(t+'Tab'||t==='partners'?'pg':t+'Tab');
-    var btn=document.getElementById('tab-'+t);
-    if(btn){btn.style.color=t===tab?'#F2B705':'rgba(255,255,255,.5)';btn.style.borderBottomColor=t===tab?'#F2B705':'transparent';}
-  });
-  document.getElementById('pg').style.display=tab==='partners'?'block':'none';
-  document.getElementById('membersTab').style.display=tab==='members'?'block':'none';
-  document.getElementById('redemptionsTab').style.display=tab==='redemptions'?'block':'none';
-  if(tab==='members')loadMembers();
-  if(tab==='redemptions')loadRedemptions();
-}
-async function loadMembers(){
-  var body=document.getElementById('membersBody');
-  body.innerHTML='<tr><td colspan="6" style="padding:20px;color:rgba(255,255,255,.4)">Loading...</td></tr>';
-  var r=await sbClient.from('members').select('full_name,email,tier,city,created_at,referred_by').order('created_at',{ascending:false}).limit(100);
-  if(r.error||!r.data.length){body.innerHTML='<tr><td colspan="6" style="padding:20px;color:rgba(255,255,255,.4)">No members yet.</td></tr>';return;}
-  body.innerHTML=r.data.map(function(m){
-    var tier={free:'rgba(255,255,255,.4)',gold:'#F2B705',platinum:'#E8E8E8',purple:'#c39bd3'}[m.tier]||'#fff';
-    return '<tr style="border-bottom:1px solid rgba(255,255,255,.05)">'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.9)">'+(m.full_name||'-')+'</td>'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.6)">'+m.email+'</td>'
-      +'<td style="padding:10px 8px;font-weight:700;color:'+tier+'">'+m.tier.toUpperCase()+'</td>'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.6)">'+(m.city||'-')+'</td>'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.5)">'+new Date(m.created_at).toLocaleDateString('en-IN')+'</td>'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.4)">'+(m.referred_by||'-')+'</td>'
-      +'</tr>';
+async function loadMembers() {
+  var body = document.getElementById('membersBody');
+  body.innerHTML='<tr><td colspan="6" class="empty">Loading...</td></tr>';
+  var r = await sb.from('members').select('full_name,email,tier,city,created_at,referred_by').order('created_at',{ascending:false}).limit(200);
+  if(!r.data||!r.data.length){body.innerHTML='<tr><td colspan="6" class="empty">No members yet.</td></tr>';return;}
+  body.innerHTML = r.data.map(function(m){
+    return '<tr><td>'+(m.full_name||'-')+'</td><td style="color:rgba(255,255,255,.6)">'+m.email+'</td><td class="tier-'+m.tier+'">'+m.tier.toUpperCase()+'</td><td>'+(m.city||'-')+'</td><td style="color:rgba(255,255,255,.5)">'+new Date(m.created_at).toLocaleDateString('en-IN')+'</td><td style="color:rgba(255,255,255,.4)">'+(m.referred_by||'-')+'</td></tr>';
   }).join('');
 }
-async function loadRedemptions(){
-  var body=document.getElementById('redemptionsBody');
-  body.innerHTML='<tr><td colspan="4" style="padding:20px;color:rgba(255,255,255,.4)">Loading...</td></tr>';
-  var r=await sbClient.from('vouchers').select('face_value,redeemed_at,partner_id,issued_to').eq('is_redeemed',true).order('redeemed_at',{ascending:false}).limit(100);
-  if(r.error||!r.data.length){body.innerHTML='<tr><td colspan="4" style="padding:20px;color:rgba(255,255,255,.4)">No redemptions yet.</td></tr>';return;}
+
+async function loadRedemptions() {
+  var body = document.getElementById('redemptionsBody');
+  body.innerHTML='<tr><td colspan="3" class="empty">Loading...</td></tr>';
+  var r = await sb.from('vouchers').select('face_value,redeemed_at,partner_id').eq('is_redeemed',true).order('redeemed_at',{ascending:false}).limit(200);
+  if(!r.data||!r.data.length){body.innerHTML='<tr><td colspan="3" class="empty">No redemptions yet.</td></tr>';return;}
   var pids=[...new Set(r.data.map(function(v){return v.partner_id;}))];
-  var pr=await sbClient.from('partners').select('id,name').in('id',pids);
+  var pr=await sb.from('partners').select('id,name').in('id',pids);
   var pm={};if(pr.data)pr.data.forEach(function(p){pm[p.id]=p.name;});
   body.innerHTML=r.data.map(function(v){
-    return '<tr style="border-bottom:1px solid rgba(255,255,255,.05)">'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.9)">'+(pm[v.partner_id]||'-')+'</td>'
-      +'<td style="padding:10px 8px;color:#F2B705;font-weight:700">&#x20B9;'+v.face_value.toLocaleString('en-IN')+'</td>'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.6)">'+(v.issued_to||'-').substring(0,8)+'...</td>'
-      +'<td style="padding:10px 8px;color:rgba(255,255,255,.5)">'+new Date(v.redeemed_at).toLocaleString('en-IN')+'</td>'
-      +'</tr>';
+    return '<tr><td>'+(pm[v.partner_id]||'-')+'</td><td style="color:#F2B705;font-weight:700">&#x20B9;'+v.face_value.toLocaleString('en-IN')+'</td><td style="color:rgba(255,255,255,.5)">'+new Date(v.redeemed_at).toLocaleString('en-IN')+'</td></tr>';
   }).join('');
 }
+
+document.getElementById('btnLogin').onclick = async function() {
+  var email = document.getElementById('lEmail').value.trim();
+  var pass = document.getElementById('lPass').value;
+  var err = document.getElementById('lErr');
+  err.style.display='none';
+  this.disabled=true; this.textContent='Signing in...';
+  if(ADMINS.indexOf(email)===-1){err.style.display='block';this.disabled=false;this.textContent='Sign In';return;}
+  var res = await sb.auth.signInWithPassword({email:email,password:pass});
+  if(res.error){err.style.display='block';this.disabled=false;this.textContent='Sign In';return;}
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('dash').style.display='block';
+  document.getElementById('btnSO').style.display='block';
+  this.disabled=false; this.textContent='Sign In';
+  loadDashboard();
+};
+
+// Check existing session
+sb.auth.getSession().then(function(res){
+  if(res.data.session && ADMINS.indexOf(res.data.session.user.email)!==-1){
+    document.getElementById('loginWrap').style.display='none';
+    document.getElementById('dash').style.display='block';
+    document.getElementById('btnSO').style.display='block';
+    loadDashboard();
+  }
+});
 </script>
 </body>
-  </html>
+</html>
