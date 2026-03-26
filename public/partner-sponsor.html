@@ -188,6 +188,39 @@ document.getElementById('lE').onkeydown=function(e){if(e.key==='Enter')document.
 document.getElementById('lP').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnL').click();};
 document.getElementById('btnSO').onclick=async function(){await sbClient.auth.signOut();window.location.reload();};
 (async function(){try{var sess=await sbClient.auth.getSession();if(sess.data.session){await initP(sess.data.session.user.email);}else{_done=true;showLogin();}}catch(e){_done=true;showLogin();}})();
+
+window.validateOTP=async function(){
+  var otp=document.getElementById('otpInput').value.trim();
+  var res=document.getElementById('otpResult');
+  if(otp.length!==6){res.style.display='block';res.innerHTML='<div style="color:#ff6b6b;padding:12px;background:rgba(255,107,107,.1);border-radius:8px">Please enter a 6-digit OTP.</div>';return;}
+  var btn=event.target;btn.disabled=true;btn.textContent='Validating...';
+  var now=new Date().toISOString();
+  var r=await sbClient.from('vouchers').select('id,face_value,otp_expires_at,is_redeemed,issued_to').eq('otp',otp).single();
+  if(r.error||!r.data){res.style.display='block';res.innerHTML='<div style="color:#ff6b6b;padding:12px;background:rgba(255,107,107,.1);border-radius:8px">&#x274C; Invalid OTP. Please check and try again.</div>';btn.disabled=false;btn.textContent='Validate OTP';return;}
+  var v=r.data;
+  if(v.is_redeemed){res.style.display='block';res.innerHTML='<div style="color:#ff6b6b;padding:12px;background:rgba(255,107,107,.1);border-radius:8px">&#x274C; This voucher has already been redeemed.</div>';btn.disabled=false;btn.textContent='Validate OTP';return;}
+  if(new Date(v.otp_expires_at)<new Date()){res.style.display='block';res.innerHTML='<div style="color:#ff6b6b;padding:12px;background:rgba(255,107,107,.1);border-radius:8px">&#x274C; OTP has expired. Ask member to generate a new one.</div>';btn.disabled=false;btn.textContent='Validate OTP';return;}
+  var upd=await sbClient.from('vouchers').update({is_redeemed:true,redeemed_at:now,otp:null}).eq('id',v.id);
+  if(upd.error){res.style.display='block';res.innerHTML='<div style="color:#ff6b6b;padding:12px;background:rgba(255,107,107,.1);border-radius:8px">Error marking redeemed. Try again.</div>';btn.disabled=false;btn.textContent='Validate OTP';return;}
+  res.style.display='block';res.innerHTML='<div style="padding:16px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:8px;text-align:center"><div style="font-size:2rem">&#x2705;</div><div style="font-family:Bebas Neue,cursive;font-size:1.4rem;color:#00C853;margin:4px 0">VOUCHER REDEEMED!</div><div style="font-size:.85rem;color:rgba(255,255,255,.7)">&#x20B9;'+v.face_value.toLocaleString("en-IN")+' discount applied successfully.</div></div>';
+  document.getElementById('otpInput').value='';
+  btn.textContent='Validate OTP';btn.disabled=false;
+};
 </script>
+
+<div id="otpSection" style="display:none;max-width:700px;margin:0 auto 40px;padding:0 20px">
+  <div style="background:#0f0d14;border:1px solid rgba(242,183,5,.25);border-radius:16px;padding:28px">
+    <div style="font-family:'Bebas Neue',cursive;font-size:1.5rem;color:#F2B705;margin-bottom:4px">&#x1F511; VALIDATE MEMBER OTP</div>
+    <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:20px">Member shows you a 6-digit OTP on their phone. Enter it below to validate and mark the voucher as redeemed.</p>
+    <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <label style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:8px">Member OTP</label>
+        <input id="otpInput" type="text" maxlength="6" placeholder="Enter 6-digit OTP" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 16px;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:1.8rem;letter-spacing:.3em;text-align:center;outline:none;box-sizing:border-box" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+      </div>
+      <button onclick="validateOTP()" style="background:#F2B705;color:#06040A;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:800;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;white-space:nowrap">Validate OTP</button>
+    </div>
+    <div id="otpResult" style="margin-top:16px;display:none"></div>
+  </div>
+</div>
 </body>
 </html>
