@@ -84,7 +84,8 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
         <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password">
       </div>
 
-      <button class="btn-join" id="btnJoin">Join Free &mdash; Get 100 Points</button>
+      <button class="btn-join" <div class="form-field" style="margin-bottom:18px">   <label style="display:block;font-size:.78rem;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px">Referral Code <span style="color:rgba(255,255,255,.4);font-weight:400;text-transform:none">(optional)</span></label>   <input type="text" id="referralCode" placeholder="Enter your friend's referral code" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.95);padding:13px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.92rem;outline:none" onfocus="this.style.borderColor='#F2B705'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">   <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin-top:6px">Your friend gets ₹2,000 off their celebrity dinner seat. So do you!</div> </div>
+<button id="btnJoin">Join Free &mdash; Get 100 Points</button>
       <div class="error-msg" id="errorMsg"></div>
       <div class="success-msg" id="successMsg"></div>
 
@@ -168,7 +169,7 @@ document.getElementById('btnJoin').onclick=async function(){
   }
 
   // Save to members table
-  await sbClient.from('members').upsert({email:email,full_name:name,tier:'free',points:100,referral_code:refCode},{onConflict:'email'});
+  await sbClient.from('members').upsert({email:email,full_name:name,tier:'free',referred_by:(document.getElementById('referralCode')?.value?.trim()||null),points:100,referral_code:refCode},{onConflict:'email'});
 
   // Redirect to dashboard
   sucEl.textContent='\u2713 Account created! Taking you to your dashboard...';
