@@ -94,7 +94,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);border-bottom:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // sb declared at top level - initialized after supabase script loads (it's above this tag)
-var sb = supabase.createClient(
+var sbClient = supabase.createClient(
   'https://blwqqqzhnovsveeryjlm.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
 );
@@ -104,7 +104,7 @@ function showLogin(){document.getElementById('lw').style.display='none';document
 function showDashboard(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='none';document.getElementById('nv').style.display='flex';document.getElementById('pg').style.display='block';document.getElementById('tab-partners')&&(document.getElementById('tab-partners').style.display='block');load();}
 
 // Check existing session on load
-sb.auth.getSession().then(function(s){
+sbClient.auth.getSession().then(function(s){
   if(s.data.session && ADMINS.includes(s.data.session.user.email)){showDashboard();}
   else{showLogin();}
 }).catch(function(){showLogin();});
@@ -119,20 +119,20 @@ document.getElementById('btnL').onclick = function(){
   if(!ADMINS.includes(email)){err.textContent='This email is not a DWC admin.';err.style.display='block';return;}
   this.disabled=true;this.textContent='Signing in...';
   var btn=this;
-  sb.auth.signInWithPassword({email:email,password:pass}).then(function(r){
+  sbClient.auth.signInWithPassword({email:email,password:pass}).then(function(r){
     if(r.error){err.textContent='Invalid credentials.';err.style.display='block';btn.disabled=false;btn.textContent='Sign In to Admin';return;}
     showDashboard();
   });
 };
 document.getElementById('lE').onkeydown=function(e){if(e.key==='Enter')document.getElementById('lP').focus();};
 document.getElementById('lP').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnL').click();};
-document.getElementById('btnSO').onclick=function(){sb.auth.signOut().then(function(){window.location.reload();});};
+document.getElementById('btnSO').onclick=function(){sbClient.auth.signOut().then(function(){window.location.reload();});};
 
 function timeAgo(ts){var d=new Date(ts),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return 'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return Math.floor(diff/86400)+'d ago';}
 function parseMeta(desc){var o={};if(!desc)return o;desc.split('|').forEach(function(s){var p=s.split(':');if(p.length>=2)o[p[0].trim()]=p.slice(1).join(':').trim();});return o;}
 
 function load(){
-  sb.from('partners').select('*').order('created_at',{ascending:false}).then(function(res){
+  sbClient.from('partners').select('*').order('created_at',{ascending:false}).then(function(res){
     if(!res.data)return;
     var all=res.data,pend=all.filter(function(p){return!p.is_active;}),act=all.filter(function(p){return p.is_active;});
     document.getElementById('sTot').textContent=all.length;
@@ -166,7 +166,7 @@ function render(cid,list,isActive){
 function doApprove(id,name,email,cname){
   var ab=document.getElementById('a-'+id),rb=document.getElementById('r-'+id),ok=document.getElementById('ok-'+id),er=document.getElementById('er-'+id);
   ab.disabled=true;rb.disabled=true;ab.textContent='Activating...';
-  sb.from('partners').update({is_active:true}).eq('id',id).then(function(r){
+  sbClient.from('partners').update({is_active:true}).eq('id',id).then(function(r){
     if(r.error){er.textContent='Error: '+r.error.message;er.style.display='inline';ab.disabled=false;rb.disabled=false;ab.textContent='✓ Approve & Activate';return;}
     fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'🎉 Welcome to DWC Partner Network — '+name,from_name:'Dine With Celebrity',email:email,message:'Dear '+(cname||name)+',
 
@@ -189,7 +189,7 @@ partners@dinewithcelebrity.com'})});
 function doReject(id){
   if(!confirm('Reject and delete this application?'))return;
   var rb=document.getElementById('r-'+id);rb.disabled=true;rb.textContent='Removing...';
-  sb.from('partners').delete().eq('id',id).then(function(){document.getElementById('c-'+id).remove();load();});
+  sbClient.from('partners').delete().eq('id',id).then(function(){document.getElementById('c-'+id).remove();load();});
 }
 
 function showTab(tab){
