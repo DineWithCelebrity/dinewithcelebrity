@@ -101,7 +101,7 @@ var sb = supabase.createClient(
 var ADMINS = ['rupeshking@gmail.com','hello@dinewithcelebrity.com'];
 
 function showLogin(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='flex';}
-function showDashboard(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='none';document.getElementById('nv').style.display='flex';document.getElementById('pg').style.display='block';load();}
+function showDashboard(){document.getElementById('lw').style.display='none';document.getElementById('lgw').style.display='none';document.getElementById('nv').style.display='flex';document.getElementById('pg').style.display='block';document.getElementById('tab-partners')&&(document.getElementById('tab-partners').style.display='block');load();}
 
 // Check existing session on load
 sb.auth.getSession().then(function(s){
@@ -191,6 +191,97 @@ function doReject(id){
   var rb=document.getElementById('r-'+id);rb.disabled=true;rb.textContent='Removing...';
   sb.from('partners').delete().eq('id',id).then(function(){document.getElementById('c-'+id).remove();load();});
 }
+
+function showTab(tab){
+  ['partners','members','redemptions'].forEach(function(t){
+    var el=document.getElementById(t+'Tab'||t==='partners'?'pg':t+'Tab');
+    var btn=document.getElementById('tab-'+t);
+    if(btn){btn.style.color=t===tab?'#F2B705':'rgba(255,255,255,.5)';btn.style.borderBottomColor=t===tab?'#F2B705':'transparent';}
+  });
+  document.getElementById('pg').style.display=tab==='partners'?'block':'none';
+  document.getElementById('membersTab').style.display=tab==='members'?'block':'none';
+  document.getElementById('redemptionsTab').style.display=tab==='redemptions'?'block':'none';
+  if(tab==='members')loadMembers();
+  if(tab==='redemptions')loadRedemptions();
+}
+async function loadMembers(){
+  var body=document.getElementById('membersBody');
+  body.innerHTML='<tr><td colspan="6" style="padding:20px;color:rgba(255,255,255,.4)">Loading...</td></tr>';
+  var r=await sbClient.from('members').select('full_name,email,tier,city,created_at,referred_by').order('created_at',{ascending:false}).limit(100);
+  if(r.error||!r.data.length){body.innerHTML='<tr><td colspan="6" style="padding:20px;color:rgba(255,255,255,.4)">No members yet.</td></tr>';return;}
+  body.innerHTML=r.data.map(function(m){
+    var tier={free:'rgba(255,255,255,.4)',gold:'#F2B705',platinum:'#E8E8E8',purple:'#c39bd3'}[m.tier]||'#fff';
+    return '<tr style="border-bottom:1px solid rgba(255,255,255,.05)">'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.9)">'+(m.full_name||'-')+'</td>'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.6)">'+m.email+'</td>'
+      +'<td style="padding:10px 8px;font-weight:700;color:'+tier+'">'+m.tier.toUpperCase()+'</td>'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.6)">'+(m.city||'-')+'</td>'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.5)">'+new Date(m.created_at).toLocaleDateString('en-IN')+'</td>'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.4)">'+(m.referred_by||'-')+'</td>'
+      +'</tr>';
+  }).join('');
+}
+async function loadRedemptions(){
+  var body=document.getElementById('redemptionsBody');
+  body.innerHTML='<tr><td colspan="4" style="padding:20px;color:rgba(255,255,255,.4)">Loading...</td></tr>';
+  var r=await sbClient.from('vouchers').select('face_value,redeemed_at,partner_id,issued_to').eq('is_redeemed',true).order('redeemed_at',{ascending:false}).limit(100);
+  if(r.error||!r.data.length){body.innerHTML='<tr><td colspan="4" style="padding:20px;color:rgba(255,255,255,.4)">No redemptions yet.</td></tr>';return;}
+  var pids=[...new Set(r.data.map(function(v){return v.partner_id;}))];
+  var pr=await sbClient.from('partners').select('id,name').in('id',pids);
+  var pm={};if(pr.data)pr.data.forEach(function(p){pm[p.id]=p.name;});
+  body.innerHTML=r.data.map(function(v){
+    return '<tr style="border-bottom:1px solid rgba(255,255,255,.05)">'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.9)">'+(pm[v.partner_id]||'-')+'</td>'
+      +'<td style="padding:10px 8px;color:#F2B705;font-weight:700">&#x20B9;'+v.face_value.toLocaleString('en-IN')+'</td>'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.6)">'+(v.issued_to||'-').substring(0,8)+'...</td>'
+      +'<td style="padding:10px 8px;color:rgba(255,255,255,.5)">'+new Date(v.redeemed_at).toLocaleString('en-IN')+'</td>'
+      +'</tr>';
+  }).join('');
+}
 </script>
-</body>
+
+<div id="pg" style="display:none">
+  <!-- TAB NAV -->
+  <div style="max-width:960px;margin:0 auto 0;padding:0 20px">
+    <div style="display:flex;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:28px">
+      <button onclick="showTab('partners')" id="tab-partners" style="background:none;border:none;color:#F2B705;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid #F2B705">Partners</button>
+      <button onclick="showTab('members')" id="tab-members" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Members</button>
+      <button onclick="showTab('redemptions')" id="tab-redemptions" style="background:none;border:none;color:rgba(255,255,255,.5);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent">Redemptions</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEMBERS TAB -->
+<div id="membersTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
+  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">ALL MEMBERS</div>
+  <div id="membersList" style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
+        <th style="text-align:left;padding:10px 8px">Name</th>
+        <th style="text-align:left;padding:10px 8px">Email</th>
+        <th style="text-align:left;padding:10px 8px">Tier</th>
+        <th style="text-align:left;padding:10px 8px">City</th>
+        <th style="text-align:left;padding:10px 8px">Joined</th>
+        <th style="text-align:left;padding:10px 8px">Referred By</th>
+      </tr></thead>
+      <tbody id="membersBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REDEMPTIONS TAB -->
+<div id="redemptionsTab" style="display:none;max-width:960px;margin:0 auto 40px;padding:0 20px">
+  <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:#F2B705;margin-bottom:16px">VOUCHER REDEMPTIONS</div>
+  <div id="redemptionsList" style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em">
+        <th style="text-align:left;padding:10px 8px">Partner</th>
+        <th style="text-align:left;padding:10px 8px">Value</th>
+        <th style="text-align:left;padding:10px 8px">Member</th>
+        <th style="text-align:left;padding:10px 8px">Redeemed At</th>
+      </tr></thead>
+      <tbody id="redemptionsBody"></tbody>
+    </table>
+  </div>
+</div></body>
 </html>
