@@ -46,6 +46,9 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
 .btn-primary:disabled{opacity:.35;cursor:default;}
 .btn-skip{background:transparent;border:none;color:var(--muted);font-family:Poppins,sans-serif;font-size:.8rem;cursor:pointer;margin-top:.75rem;text-decoration:underline;}
 .btn-skip:hover{color:var(--sub);}
+.btn-back{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--sub);font-family:Poppins,sans-serif;font-size:.82rem;cursor:pointer;padding:.5rem 1.1rem;border-radius:8px;transition:all .2s;margin-right:auto;}
+.btn-back:hover{border-color:var(--gold);color:var(--gold);}
+.step-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
 .ready-icon{font-size:3.5rem;margin-bottom:1rem;animation:popIn .5s ease;}
 @keyframes popIn{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
 .ready-title{font-family:"Bebas Neue",sans-serif;font-size:clamp(2rem,6vw,3rem);color:var(--gold);letter-spacing:1px;margin-bottom:.5rem;}
@@ -70,7 +73,7 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
     <button class="btn-primary" id="btn-step1">Let's Go &#8594;</button>
   </div>
   <div class="card" id="step2" style="display:none">
-    <div class="step-label">Step 1 of 2</div>
+    <div class="step-nav"><button class="btn-back" id="back-step2">&#8592; Back</button><div class="step-label" style="margin:0">Step 1 of 2</div></div>
     <div class="step-title">Your City?</div>
     <p class="step-sub">We will show you partner restaurants, events and vouchers near you.</p>
     <div class="state-toggle">
@@ -82,7 +85,7 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
     <button class="btn-skip" id="skipCity">Skip for now</button>
   </div>
   <div class="card" id="step3" style="display:none">
-    <div class="step-label">Step 2 of 2</div>
+    <div class="step-nav"><button class="btn-back" id="back-step3">&#8592; Back</button><div class="step-label" style="margin:0">Step 2 of 2</div></div>
     <div class="step-title">What Are You Into?</div>
     <p class="step-sub">Pick your interests — we will match your vouchers and events to what you love.</p>
     <div class="interest-grid" id="interestGrid">
@@ -206,6 +209,8 @@ document.addEventListener('DOMContentLoaded',function(){
   initCelebs();
 
   document.getElementById('btn-step1').addEventListener('click',function(){ goStep(2); });
+  document.getElementById('back-step2').addEventListener('click',function(){ goStep(1); });
+  document.getElementById('back-step3').addEventListener('click',function(){ goStep(2); });
   document.getElementById('btn-ts').addEventListener('click',function(){ showState('TS'); });
   document.getElementById('btn-ap').addEventListener('click',function(){ showState('AP'); });
   document.getElementById('skipCity').addEventListener('click',function(){ selectedCity=''; goStep(3); });
