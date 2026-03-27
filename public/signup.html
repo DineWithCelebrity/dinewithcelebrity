@@ -221,14 +221,13 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('inp-pass').addEventListener('keydown',function(e){ if(e.key==='Enter') doSignup(); });
   sbClient.auth.getSession().then(async function(res){
     if(res.data&&res.data.session){
-      // Check if already onboarded — if yes go to dashboard, if no go to onboarding
       var uid=res.data.session.user.id;
       var r=await sbClient.from('members').select('onboarded,city').eq('id',uid).single();
+      // Only redirect if fully onboarded — otherwise let them stay/re-signup
       if(r.data&&r.data.onboarded&&r.data.city){
         window.location.href='/dashboard.html';
-      } else {
-        window.location.href='/onboarding.html';
       }
+      // Not onboarded = stay on signup page, no redirect
     }
   });
 });
