@@ -43,6 +43,8 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
 .success-title{font-family:"Bebas Neue",sans-serif;font-size:2rem;color:var(--gold);margin-bottom:.5rem;}
 .success-sub{color:var(--sub);font-size:.9rem;line-height:1.7;}
 .free-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);border-radius:20px;padding:.3rem .9rem;font-size:.78rem;color:var(--green);margin-bottom:1.5rem;}
+.ref-field{margin-bottom:.6rem;}
+.ref-optional{font-size:.72rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;}
 .global-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);border-radius:8px;padding:.75rem 1rem;color:#ff6b6b;font-size:.83rem;margin-bottom:1rem;display:none;}
 </style></head><body>
 <div class="stars-bg" id="starsBg"></div>
@@ -72,6 +74,10 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
     <div class="field">
       <label>Password</label>
       <input type="password" id="inp-pass" placeholder="Min 6 characters" autocomplete="new-password"/>
+    </div>
+    <div class="field ref-field">
+      <label>Referral Code <span class="ref-optional">(Optional)</span></label>
+      <input type="text" id="inp-ref" placeholder="e.g. DWC-RUPESH1234" autocomplete="off" style="text-transform:uppercase"/>
     </div>
     <p class="terms">By joining you agree to our <a href="/disclaimer.html">Terms</a> and <a href="/disclaimer.html">Privacy Policy</a>. DWC is free forever.</p>
     <button class="btn-join" id="btn-join">
@@ -157,11 +163,7 @@ async function doSignup(){
   btn.classList.add('loading');
 
   var referralCode=genReferralCode(name);
-  var referred_by='';
-  try{
-    var params=new URLSearchParams(window.location.search);
-    referred_by=params.get('ref')||'';
-  }catch(e){}
+  var referred_by=document.getElementById('inp-ref').value.trim().toUpperCase()||'';
 
   var res=await sbClient.auth.signUp({
     email:email,
@@ -210,6 +212,18 @@ document.addEventListener('DOMContentLoaded',function(){
   initStars();
   initCelebs();
   document.getElementById('btn-join').addEventListener('click',doSignup);
+  // Auto-fill referral code from URL
+  try{
+    var urlRef=new URLSearchParams(window.location.search).get('ref');
+    if(urlRef){
+      var refInput=document.getElementById('inp-ref');
+      refInput.value=urlRef.toUpperCase();
+      refInput.closest('.ref-field').style.background='rgba(242,183,5,0.05)';
+      refInput.closest('.ref-field').style.border='1px solid rgba(242,183,5,0.2)';
+      refInput.closest('.ref-field').style.borderRadius='10px';
+      refInput.closest('.ref-field').style.padding='.5rem .75rem';
+    }
+  }catch(e){}
   document.getElementById('inp-pass').addEventListener('keydown',function(e){ if(e.key==='Enter') doSignup(); });
   sbClient.auth.getSession().then(function(res){
     if(res.data&&res.data.session){ window.location.href='/onboarding.html'; }
