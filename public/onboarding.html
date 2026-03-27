@@ -200,7 +200,11 @@ async function saveAndFinish(){
     var u={onboarded:true};
     if(selectedCity) u.city=selectedCity;
     if(selectedInterests.length>0) u.interests=selectedInterests;
-    if(currentUser) await sbClient.from('members').update(u).eq('id',currentUser.id);
+    else u.interests=[];
+    if(currentUser){
+      var upErr=await sbClient.from('members').update(u).eq('id',currentUser.id);
+      if(upErr.error) console.error('save error:',upErr.error.message);
+    }
   }catch(e){console.error(e);}
   goStep(4);
   var rc=document.getElementById('readyCity');
@@ -245,16 +249,29 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('intNext').disabled=(selectedInterests.length===0);
   });
 
-  sbClient.auth.getSession().then(function(res){
+  sbClient.auth.getSession().then(async function(res){
     var session=res.data.session;
     if(!session){ window.location.href='/signup.html'; return; }
     currentUser=session.user;
-    sbClient.from('members').select('full_name,city,interests').eq('id',currentUser.id).single().then(function(r){
-      var member=r.data;
-      if(member&&member.city&&member.interests){ window.location.href='/dashboard.html'; return; }
-      var name=(member&&member.full_name)||currentUser.user_metadata.full_name||'Star';
-      document.getElementById('member-name').textContent=name.split(' ')[0]+'!';
-    });
+    
+    // ?reset=1 clears onboarding so you can retest without new email
+    var isReset=new URLSearchParams(window.location.search).get('reset')==='1';
+    if(isReset){
+      await sbClient.from('members').update({city:null,interests:null,onboarded:false}).eq('id',currentUser.id);
+      window.history.replaceState({},'','/onboarding.html');
+    }
+    
+    var r=await sbClient.from('members').select('full_name,city,interests,onboarded').eq('id',currentUser.id).single();
+    var member=r.data;
+    
+    // Already fully onboarded — go to dashboard
+    if(!isReset && member && member.onboarded && member.city){
+      window.location.href='/dashboard.html'; return;
+    }
+    
+    // Show their name
+    var name=(member&&member.full_name)||currentUser.user_metadata&&currentUser.user_metadata.full_name||'Star';
+    document.getElementById('member-name').textContent=name.split(' ')[0]+'!';
   });
 
   showState('TS');
