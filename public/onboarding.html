@@ -155,7 +155,7 @@ function initCelebs(){
   });
 }
 
-function goStep(n){
+function goStep(n, pushState){
   [1,2,3,4].forEach(function(i){
     document.getElementById('step'+i).style.display=(i===n)?'block':'none';
     var dot=document.getElementById('dot'+i);
@@ -164,7 +164,12 @@ function goStep(n){
     else dot.className='dot';
   });
   if(n===2) renderCities();
+  if(pushState!==false) history.pushState({step:n},'','#step'+n);
 }
+window.addEventListener('popstate',function(e){
+  if(e.state&&e.state.step){ goStep(e.state.step,false); }
+  else { goStep(1,false); }
+});
 
 function renderCities(){
   var list=selectedState==='TS'?CITIES_TS:CITIES_AP;
@@ -253,5 +258,6 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 
   showState('TS');
+  history.replaceState({step:1},'','#step1');
 });
 </script></body></html>
