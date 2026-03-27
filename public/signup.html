@@ -219,8 +219,17 @@ document.addEventListener('DOMContentLoaded',function(){
     }
   }catch(e){}
   document.getElementById('inp-pass').addEventListener('keydown',function(e){ if(e.key==='Enter') doSignup(); });
-  sbClient.auth.getSession().then(function(res){
-    if(res.data&&res.data.session){ window.location.href='/onboarding.html'; }
+  sbClient.auth.getSession().then(async function(res){
+    if(res.data&&res.data.session){
+      // Check if already onboarded — if yes go to dashboard, if no go to onboarding
+      var uid=res.data.session.user.id;
+      var r=await sbClient.from('members').select('onboarded,city').eq('id',uid).single();
+      if(r.data&&r.data.onboarded&&r.data.city){
+        window.location.href='/dashboard.html';
+      } else {
+        window.location.href='/onboarding.html';
+      }
+    }
   });
 });
 </script></body></html>
