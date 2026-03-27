@@ -196,7 +196,7 @@ async function saveAndFinish(){
   }catch(e){console.error(e);}
   goStep(4);
   var rc=document.getElementById('readyCity');
-  rc.textContent=selectedCity?'📍 '+selectedCity:'🌟 Welcome to DWC';
+  rc.textContent=selectedCity?'>> '+selectedCity:'Welcome to DWC';
   setTimeout(function(){ window.location.href='/dashboard.html'; },2500);
 }
 
