@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Welcome to DWC</title><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+:root{--black:#06040A;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--white:rgba(255,255,255,0.92);--sub:rgba(255,255,255,0.75);--muted:rgba(255,255,255,0.5);--border:rgba(242,183,5,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif;min-height:100vh;overflow:hidden;}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;color:var(--gold);opacity:0;animation:twinkle var(--dur,3s) var(--delay,0s) infinite;}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.35);transform:scale(1)}}
+.celeb-bg{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.celeb{position:absolute;bottom:0;opacity:0;animation:celebRise var(--cd,8s) var(--cdelay,0s) ease-in-out infinite alternate;}
+.celeb svg{width:100%;height:auto;filter:drop-shadow(0 0 30px rgba(242,183,5,0.25));}
+@keyframes celebRise{0%{opacity:0;transform:translateY(40px) scale(.95)}30%{opacity:var(--cop,.1)}70%{opacity:var(--cop,.1)}100%{opacity:0;transform:translateY(-10px) scale(1.02)}}
+.app{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
+.progress{display:flex;gap:.5rem;margin-bottom:2.5rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;}
+.dot.active{background:var(--gold);width:24px;border-radius:4px;}
+.dot.done{background:rgba(242,183,5,.5);}
+.card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:520px;text-align:center;backdrop-filter:blur(10px);animation:cardIn .4s ease;}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.welcome-logo{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);letter-spacing:4px;margin-bottom:1.5rem;opacity:.7;}
+.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,3.2rem);color:var(--white);line-height:1.1;margin-bottom:.75rem;letter-spacing:1px;}
+.welcome-name em{color:var(--gold);font-style:normal;}
+.welcome-sub{color:var(--sub);font-size:.95rem;line-height:1.7;margin-bottom:2rem;max-width:380px;margin-left:auto;margin-right:auto;}
+.welcome-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:30px;padding:.5rem 1.2rem;font-size:.82rem;color:var(--gold);margin-bottom:2rem;}
+.step-label{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:3px;margin-bottom:.5rem;}
+.step-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);color:var(--white);line-height:1.1;margin-bottom:.5rem;letter-spacing:1px;}
+.step-sub{color:var(--sub);font-size:.88rem;margin-bottom:1.75rem;line-height:1.6;}
+.state-toggle{display:flex;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:1.25rem;gap:4px;}
+.state-btn{flex:1;padding:.6rem;border:none;border-radius:7px;background:transparent;color:var(--sub);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;}
+.state-btn.active{background:var(--gold);color:#06040A;font-weight:700;}
+.city-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;max-height:260px;overflow-y:auto;margin-bottom:1.5rem;padding-right:2px;}
+.city-grid::-webkit-scrollbar{width:4px;}
+.city-grid::-webkit-scrollbar-thumb{background:rgba(242,183,5,.3);border-radius:4px;}
+.city-chip{padding:.55rem .4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:.78rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;line-height:1.3;}
+.city-chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
+.city-chip.selected{background:rgba(242,183,5,.12);border-color:var(--gold);color:var(--gold);font-weight:600;}
+.interest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.75rem;}
+.interest-card{padding:1.1rem 1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;cursor:pointer;transition:all .2s;text-align:left;}
+.interest-card:hover{border-color:rgba(242,183,5,.4);background:rgba(242,183,5,.05);}
+.interest-card.selected{background:rgba(242,183,5,.1);border-color:var(--gold);}
+.int-icon{font-size:1.6rem;margin-bottom:.4rem;}
+.int-name{font-size:.85rem;font-weight:600;color:var(--white);}
+.int-desc{font-size:.72rem;color:var(--muted);margin-top:.2rem;}
+.interest-card.selected .int-name{color:var(--gold);}
+.btn-primary{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.95rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:.5px;transition:opacity .2s;margin-top:.25rem;}
+.btn-primary:hover{opacity:.88;}
+.btn-primary:disabled{opacity:.35;cursor:default;}
+.btn-skip{background:transparent;border:none;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.8rem;cursor:pointer;margin-top:.75rem;text-decoration:underline;transition:color .2s;}
+.btn-skip:hover{color:var(--sub);}
+.ready-icon{font-size:3.5rem;margin-bottom:1rem;animation:popIn .5s ease;}
+@keyframes popIn{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.ready-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,3rem);color:var(--gold);letter-spacing:1px;margin-bottom:.5rem;}
+.ready-sub{color:var(--sub);font-size:.95rem;line-height:1.7;margin-bottom:2rem;}
+.ready-city{display:inline-block;background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);border-radius:20px;padding:.3rem 1rem;font-size:.85rem;color:var(--gold);margin-bottom:.75rem;}
+@media(max-width:480px){.card{padding:1.75rem 1.25rem}.city-grid{grid-template-columns:repeat(2,1fr)}}
+</style></head><body>
+<div class="stars-bg" id="starsBg"></div>
+<div class="celeb-bg" id="celebBg"></div>
+<div class="app">
+  <div class="progress" id="progressDots">
+    <div class="dot active" id="dot1"></div>
+    <div class="dot" id="dot2"></div>
+    <div class="dot" id="dot3"></div>
+    <div class="dot" id="dot4"></div>
+  </div>
+  <div class="card" id="step1">
+    <div class="welcome-logo">✦ DINE WITH CELEBRITY ✦</div>
+    <div class="welcome-name">Welcome,<br><em id="member-name">Star!</em></div>
+    <p class="welcome-sub">Your celebrity dinner journey starts right here. Let's personalise your experience so you see only what matters to you.</p>
+    <div class="welcome-badge">🎬 Your dashboard is getting ready</div>
+    <button class="btn-primary" onclick="goStep(2)">Let's Go →</button>
+  </div>
+  <div class="card" id="step2" style="display:none">
+    <div class="step-label">Step 1 of 2</div>
+    <div class="step-title">Your City?</div>
+    <p class="step-sub">We'll show you partner restaurants, events, and vouchers near you.</p>
+    <div class="state-toggle">
+      <button class="state-btn active" id="btn-ts" onclick="showState('TS')">Telangana</button>
+      <button class="state-btn" id="btn-ap" onclick="showState('AP')">Andhra Pradesh</button>
+    </div>
+    <div class="city-grid" id="cityGrid"></div>
+    <button class="btn-primary" id="cityNext" onclick="goStep(3)" disabled>Continue →</button>
+    <button class="btn-skip" onclick="skipCity()">Skip for now</button>
+  </div>
+  <div class="card" id="step3" style="display:none">
+    <div class="step-label">Step 2 of 2</div>
+    <div class="step-title">What Are<br>You Into?</div>
+    <p class="step-sub">Pick your interests — we'll match your vouchers and events to what you love.</p>
+    <div class="interest-grid">
+      <div class="interest-card" onclick="toggleInterest(this,'Telugu Cinema')"><div class="int-icon">🎬</div><div class="int-name">Telugu Cinema</div><div class="int-desc">Tollywood stars, events & premiers</div></div>
+      <div class="interest-card" onclick="toggleInterest(this,'Bollywood')"><div class="int-icon">🎭</div><div class="int-name">Bollywood</div><div class="int-desc">Hindi film celebrities & shows</div></div>
+      <div class="interest-card" onclick="toggleInterest(this,'Sports')"><div class="int-icon">🏏</div><div class="int-name">Sports</div><div class="int-desc">Cricket, kabaddi & sports stars</div></div>
+      <div class="interest-card" onclick="toggleInterest(this,'Music')"><div class="int-icon">🎵</div><div class="int-name">Music</div><div class="int-desc">Singers, composers & concerts</div></div>
+      <div class="interest-card" onclick="toggleInterest(this,'Food & Dining')"><div class="int-icon">🍽️</div><div class="int-name">Food & Dining</div><div class="int-desc">Premium restaurants & culinary events</div></div>
+      <div class="interest-card" onclick="toggleInterest(this,'Business')"><div class="int-icon">💼</div><div class="int-name">Business</div><div class="int-desc">Networking & entrepreneur circles</div></div>
+    </div>
+    <button class="btn-primary" id="intNext" onclick="saveAndFinish()" disabled>Show My Dashboard →</button>
+    <button class="btn-skip" onclick="saveAndFinish(true)">Skip, take me to dashboard</button>
+  </div>
+  <div class="card" id="step4" style="display:none">
+    <div class="ready-icon">🎉</div>
+    <div class="ready-title">You're In!</div>
+    <div class="ready-city" id="readyCity"></div>
+    <p class="ready-sub">Your personalised dashboard is ready. Your city's best vouchers and your next celebrity dinner seat are waiting.</p>
+    <button class="btn-primary" onclick="goToDashboard()">Open My Dashboard ✦</button>
+  </div>
+</div><script>
+const sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+const CITIES={TS:['Hyderabad','Warangal','Hanamkonda','Karimnagar','Nizamabad','Khammam','Siddipet','Nalgonda','Sangareddy','Medak','Kamareddy','Adilabad','Nirmal','Mancherial','Peddapalli','Jagtial','Sircilla','Jangaon','Mulugu','Kothagudem','Mahabubabad','Suryapet','Bhongir','Mahabubnagar','Nagarkurnool','Wanaparthy','Gadwal','Narayanpet','Medchal','Vikarabad','Asifabad','Rangareddy'],AP:['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Machilipatnam','Vizianagaram','Srikakulam','Ongole','Nandyal','Anakapalli','Paderu','Amalapuram','Narasaraopet','Bapatla','Rajampet','Puttaparthi','Other']};
+let selectedCity='',selectedState='TS',selectedInterests=[],currentUser=null;
+(function(){const bg=document.getElementById('starsBg');for(let i=0;i<55;i++){const s=document.createElement('span');s.className='star';s.innerHTML='&#9733;';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--dur:'+(2+Math.random()*4)+'s;--delay:'+Math.random()*5+'s;--op:'+(0.1+Math.random()*0.3)+';font-size:'+(7+Math.random()*9)+'px;';bg.appendChild(s);}})();
+(function(){const bg=document.getElementById('celebBg');const sil='<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="28" rx="22" ry="26" fill="#F2B705"/><path d="M10 200 Q10 120 28 100 Q38 90 50 88 Q62 90 72 100 Q90 120 90 200Z" fill="#F2B705"/><path d="M28 108 Q10 140 5 175" stroke="#F2B705" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M72 108 Q90 140 95 175" stroke="#F2B705" stroke-width="14" fill="none" stroke-linecap="round"/></svg>';
+[{l:'2%',d:'0s',dur:'9s',op:'0.1',w:'140px'},{l:'15%',d:'2s',dur:'11s',op:'0.08',w:'165px'},{l:'30%',d:'1s',dur:'8s',op:'0.07',w:'150px'},{l:'50%',d:'3s',dur:'10s',op:'0.09',w:'155px'},{l:'68%',d:'0.5s',dur:'12s',op:'0.08',w:'145px'},{l:'82%',d:'2.5s',dur:'9s',op:'0.1',w:'170px'},{l:'93%',d:'1.5s',dur:'11s',op:'0.07',w:'130px'}].forEach(p=>{const div=document.createElement('div');div.className='celeb';div.style.cssText='left:'+p.l+';--cd:'+p.dur+';--cdelay:'+p.d+';--cop:'+p.op+';width:'+p.w+';';div.innerHTML=sil;bg.appendChild(div);});})();
+sbClient.auth.getSession().then(async({data:{session}})=>{if(!session){window.location.href='/signup.html';return;}currentUser=session.user;const{data:member}=await sbClient.from('members').select('full_name,city,interests').eq('id',currentUser.id).single();if(member?.city&&member?.interests){window.location.href='/dashboard.html';return;}const name=member?.full_name||currentUser.user_metadata?.full_name||'Star';document.getElementById('member-name').textContent=name.split(' ')[0]+'!';});
+function showState(s){selectedState=s;selectedCity='';document.getElementById('btn-ts').classList.toggle('active',s==='TS');document.getElementById('btn-ap').classList.toggle('active',s==='AP');renderCities();document.getElementById('cityNext').disabled=true;}
+function renderCities(){const g=document.getElementById('cityGrid');g.innerHTML=CITIES[selectedState].map(c=>'<div class="city-chip'+(c===selectedCity?' selected':'')+'" onclick="selectCity(''+c+'')">'+c+'</div>').join('');}
+function selectCity(c){selectedCity=c;renderCities();document.getElementById('cityNext').disabled=false;}
+function skipCity(){selectedCity='';goStep(3);}
+function toggleInterest(el,name){el.classList.toggle('selected');if(el.classList.contains('selected')){selectedInterests.push(name);}else{selectedInterests=selectedInterests.filter(i=>i!==name);}document.getElementById('intNext').disabled=selectedInterests.length===0;}
+function goStep(n){[1,2,3,4].forEach(i=>{document.getElementById('step'+i).style.display=i===n?'block':'none';});[1,2,3,4].forEach(i=>{const d=document.getElementById('dot'+i);d.className='dot'+(i===n?' active':i<n?' done':'');});if(n===2)renderCities();}
+async function saveAndFinish(skip){const btn=document.getElementById('intNext');if(btn){btn.disabled=true;btn.textContent='Saving...';}try{const u={onboarded:true};if(selectedCity)u.city=selectedCity;if(selectedInterests.length>0)u.interests=selectedInterests;if(currentUser)await sbClient.from('members').update(u).eq('id',currentUser.id);}catch(e){console.error(e);}goStep(4);document.getElementById('readyCity').textContent=selectedCity?'📍 '+selectedCity:'🌟 Welcome to DWC';setTimeout(goToDashboard,2500);}
+function goToDashboard(){window.location.href='/dashboard.html';}
+showState('TS');
+</script></body></html>
