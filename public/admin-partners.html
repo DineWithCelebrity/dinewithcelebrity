@@ -110,7 +110,7 @@ var URL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
 var ADMINS = ['rupeshking@gmail.com','hello@dinewithcelebrity.com'];
 var sb = supabase.createClient(URL, ANON);
 
-function showTab(name) {
+async function showTab(name) {
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',['pending','active','members','redemptions'][i]===name);});
   document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
   document.getElementById('tab-'+name).classList.add('active');
@@ -147,7 +147,7 @@ function renderPartners(elId, list, isPending) {
 }
 function approvePartnerEl(btn){ approvePartner(btn.dataset.pid, btn.dataset.em, btn); }
 function rejectPartnerEl(btn){ rejectPartner(btn.dataset.pid, btn); }
-function approvePartner(id, email, btn) {
+async function approvePartner(id, email, btn) {
   btn.disabled=true; btn.textContent='Approving...';
   await sb.from('partners').update({is_active:true}).eq('id',id);
   await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'DWC Partner Approved',to:'hello@dinewithcelebrity.com',message:'Partner approved: '+email})});
