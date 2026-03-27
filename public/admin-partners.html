@@ -139,17 +139,15 @@ function renderPartners(elId, list, isPending) {
   var el = document.getElementById(elId);
   if(!list.length){el.innerHTML='<div class="empty">No '+(isPending?'pending':'active')+' partners.</div>';return;}
   el.innerHTML = list.map(function(p){
-    return '<div class="partner-card">'
-      +'<div><div class="partner-name">'+p.name+'</div><div class="partner-meta">'+p.contact_email+' &bull; '+( p.city||'')+'</div></div>'
-      +'<div class="card-actions">'
-      +(isPending
-        ?'<button class="btn-approve" onclick="approvePartner(''+p.id+'',''+p.contact_email+'',this)">Approve</button><button class="btn-reject" onclick="rejectPartner(''+p.id+'',this)">Reject</button>'
-        :'<span class="badge-active">Active</span>')
-      +'</div></div>';
+    var actions = isPending
+      ? '<button class="btn-approve" data-pid="'+p.id+'" data-em="'+p.contact_email+'" onclick="approvePartnerEl(this)">Approve</button> <button class="btn-reject" data-pid="'+p.id+'" onclick="rejectPartnerEl(this)">Reject</button>'
+      : '<span class="badge-active">Active</span>';
+    return '<div class="partner-card"><div><div class="partner-name">'+p.name+'</div><div class="partner-meta">'+p.contact_email+' &bull; '+(p.city||'')+'</div></div><div class="card-actions">'+actions+'</div></div>';
   }).join('');
 }
-
-async function approvePartner(id, email, btn) {
+function approvePartnerEl(btn){ approvePartner(btn.dataset.pid, btn.dataset.em, btn); }
+function rejectPartnerEl(btn){ rejectPartner(btn.dataset.pid, btn); }
+function approvePartner(id, email, btn) {
   btn.disabled=true; btn.textContent='Approving...';
   await sb.from('partners').update({is_active:true}).eq('id',id);
   await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'DWC Partner Approved',to:'hello@dinewithcelebrity.com',message:'Partner approved: '+email})});
@@ -215,3 +213,4 @@ sb.auth.getSession().then(function(res){
 </script>
 </body>
 </html>
+-  
