@@ -87,11 +87,7 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
     <div class="divider">or</div>
     <div class="signin-row">Already a member? <a href="/signin.html">Sign In</a></div>
   </div>
-  <div class="card success-card" id="successCard">
-    <div class="success-icon">&#9993;</div>
-    <div class="success-title">Check Your Email!</div>
-    <p class="success-sub">We sent a confirmation link to <strong id="confirm-email"></strong>.<br><br>Click the link to verify your account and unlock your dashboard.</p>
-  </div>
+  
 </div>
 <script>
 var SUPABASE_URL='https://blwqqqzhnovsveeryjlm.supabase.co';
@@ -203,9 +199,7 @@ async function doSignup(){
   }
 
   btn.classList.remove('loading');
-  document.getElementById('mainCard').style.display='none';
-  document.getElementById('successCard').style.display='block';
-  document.getElementById('confirm-email').textContent=email;
+  window.location.href='/onboarding.html';
 }
 
 document.addEventListener('DOMContentLoaded',function(){
