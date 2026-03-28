@@ -347,6 +347,18 @@ async function devUpgrade(tier){
   alert('Done! Tier set to '+tier.toUpperCase()+'. Redirecting to dashboard...');
   window.location.href='/dashboard?upgraded='+(tier!=='free'?'1':'0');
 }
+
+// Auto-select plan from URL ?plan=gold/platinum/dwcpurple
+(function() {
+  var plan = new URLSearchParams(location.search).get('plan');
+  if (!plan) return;
+  var map = { gold: '.gold-card', platinum: '.platinum-card', dwcpurple: '.purple-card' };
+  var card = document.querySelector(map[plan]);
+  if (card) {
+    card.click();
+    setTimeout(function() { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+  }
+})();
 </script>
 </body>
   </html>
