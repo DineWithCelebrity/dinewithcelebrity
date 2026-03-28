@@ -270,12 +270,40 @@ function startPayment(tier, amountPaise, tierLabel){
     theme:{color:'#F2B705'},
     modal:{backdropclose:false},
     handler:async function(response){
-      // Payment success — update tier in Supabase
-      await sbClient.from('members').update({tier:tier,upgraded_at:new Date().toISOString(),payment_id:response.razorpay_payment_id}).eq('email',currentUser.email);
-      // Show success
-      document.getElementById('successTier').textContent=tierLabel.toUpperCase();
-      document.getElementById('successMsg').textContent='Your '+tierLabel+' membership is now active. Restaurant discounts, film event access and your dinner seat reduction are live immediately.';
-      document.getElementById('successOverlay').style.display='flex';
+      try{
+        // Re-fetch session in case it expired
+        var sess=await sbClient.auth.getSession();
+        var user=sess.data&&sess.data.session&&sess.data.session.user;
+        if(!user){
+          alert('Payment received but session expired. Please sign in again - your Gold membership will show.');
+          window.location.href='/signin';
+          return;
+        }
+        // Determine tier from amount
+        var tierName='gold';
+        var expiry=new Date();
+        expiry.setFullYear(expiry.getFullYear()+1);
+        
+        var upd=await sbClient.from('members').update({
+          tier:tierName,
+          expires_at:expiry.toISOString(),
+          points:(memberData&&memberData.points?memberData.points:300)+100,
+          upgraded_at:new Date().toISOString(),
+          payment_id:response.razorpay_payment_id||'',
+          payment_order_id:response.razorpay_order_id||''
+        }).eq('id',user.id);
+        
+        if(upd.error){
+          console.error('Tier update failed:',upd.error);
+          alert('Payment received! But tier update failed. Contact support with payment ID: '+response.razorpay_payment_id);
+          return;
+        }
+        // Success
+        window.location.href='/dashboard?upgraded=1';
+      } catch(err){
+        console.error('Payment handler error:',err);
+        alert('Payment received. If your tier does not update, contact hello@dinewithcelebrity.com with payment ID: '+(response.razorpay_payment_id||'unknown'));
+      }
     }
   };
   var rzp=new Razorpay(options);
