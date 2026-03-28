@@ -197,7 +197,7 @@ body { background: var(--black); color: var(--white); font-family: 'Poppins', sa
     <div class="nav-wrap">
       <button class="nav-avatar" id="navAvatar" onclick="toggleDrop()">R</button>
       <div class="nav-drop" id="navDrop">
-        <a href="#" onclick="openProfile();closeDrop();return false;">Complete Profile</a>
+        <a href="#" id="navProfileLink" id="navProfileLink" onclick="openProfile();closeDrop();return false;">Complete Profile</a>
         <a href="/upgrade">Upgrade Plan</a>
         <button onclick="signOut()">Sign Out</button>
       </div>
@@ -504,6 +504,8 @@ function render() {
 
   // Profile banner
   var profileDone = m.city && m.interests && m.interests.length > 0;
+  var npl=document.getElementById('navProfileLink');if(npl)npl.textContent=profileDone?'Edit Profile':'Complete Profile';
+  var npl = document.getElementById('navProfileLink'); if(npl) npl.textContent = profileDone ? 'Edit Profile' : 'Complete Profile';
   if (!profileDone) {
     document.getElementById('profileBanner').style.display = 'flex';
     if (!sessionStorage.getItem('dwc_pop_shown')) {
