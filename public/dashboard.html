@@ -221,7 +221,8 @@ sbClient.auth.getSession().then(async function(res){
 
 function render(){
   var m=memberData;
-  var name=(m.full_name||currentUser.email||'Star').split(' ')[0];
+  var rawName=m.full_name||currentUser.user_metadata&&currentUser.user_metadata.full_name||currentUser.email.split('@')[0]||'Star';
+  var name=rawName.split(' ')[0];
   document.getElementById('member-first').textContent=name;
   document.getElementById('nav-avatar').textContent=name[0].toUpperCase();
   var pts=m.points||300;
