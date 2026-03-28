@@ -217,7 +217,14 @@ async function doSignup(){
     }
   });
 
-  if(res.error){
+  if(res.error){var em=res.error.message||'';if(em.includes('already')||res.error.status===422){var si=await sbClient.auth.signInWithPassword({email:email,password:pass});if(!si.error){window.location.href='/dashboard';return;}showErr('Email registered. Try sign in.');return;}showErr(em);
+    var em=res.error.message||'';
+    if(em.includes('already')||res.error.status===422||res.error.code==='email_address_already_taken'){
+      var si=await sbClient.auth.signInWithPassword({email:email,password:pass});
+      if(!si.error){window.location.href='/dashboard';return;}
+      showErr('Email exists. Sign in instead.');return;
+    }
+    showErr(em);
     showError(res.error.message);
     btn.disabled=false;
     btn.classList.remove('loading');
