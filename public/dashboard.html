@@ -309,7 +309,13 @@ async function saveProfile(){
 
 function copyRef(){var code=document.getElementById('ref-code').textContent.trim();var link='https://www.dinewithcelebrity.com/signup?ref='+code;navigator.clipboard.writeText(link).then(function(){showToast('Referral link copied!');}).catch(function(){showToast('Code: '+code);});}
 
-async function doSignOut(){await sbClient.auth.signOut();window.location.href='/signin';}
+async function doSignOut(){
+  try{
+    var _sb=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+    await _sb.auth.signOut();
+  }catch(e){}
+  window.location.href='/signin';
+}
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
 
