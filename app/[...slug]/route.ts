@@ -2,15 +2,16 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-interface Context {
-  params: Promise<{ slug: string[] }>;
-}
+export const runtime = 'nodejs';
 
-export async function GET(request: Request, context: Context) {
-  const { slug } = await context.params;
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ slug: string[] }> }
+) {
+  const { slug } = await params;
   const filename = slug.join('/') + '.html';
   const filePath = path.join(process.cwd(), 'public', filename);
-  
+
   try {
     const html = fs.readFileSync(filePath, 'utf-8');
     return new NextResponse(html, {
