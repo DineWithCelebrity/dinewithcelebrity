@@ -30,10 +30,8 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .banner-text{font-size:.85rem;color:var(--sub);}
 .banner-text strong{color:var(--green);}
 .banner-cta{background:var(--green);color:#06040A;border:none;border-radius:8px;padding:.55rem 1.1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;}
-.welcome-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
-.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);}
+.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);margin-bottom:2rem;}
 .welcome-name em{color:var(--gold);font-style:normal;}
-.welcome-sub{color:var(--sub);font-size:.85rem;margin-top:.2rem;}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem;}
 .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;position:relative;overflow:hidden;}
 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
@@ -63,7 +61,6 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .upgrade-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);margin-bottom:.4rem;}
 .upgrade-sub{color:var(--sub);font-size:.85rem;margin-bottom:1rem;line-height:1.6;}
 .upgrade-btn{background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.8rem 2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
-/* POPUP */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 .popup-overlay.hidden{display:none;}
 .popup{background:#0e0c14;border:1px solid var(--border);border-radius:24px 24px 0 0;padding:2rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:slideUp .3s ease;}
@@ -76,14 +73,10 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .popup-sub{color:var(--sub);font-size:.85rem;line-height:1.6;margin-bottom:1.75rem;}
 .field{margin-bottom:1.25rem;}
 .field-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:var(--sub);margin-bottom:.5rem;display:block;}
-.field-label span{color:var(--muted);text-transform:none;font-size:.72rem;}
 .chip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem;}
-.chip{padding:.65rem .5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.82rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif;}
-.chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
-.chip.on{background:rgba(242,183,5,.1);border-color:var(--gold);color:var(--gold);font-weight:600;}
-.int-chip{padding:.65rem .5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.8rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif;}
-.int-chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
-.int-chip.on{background:rgba(242,183,5,.1);border-color:var(--gold);color:var(--gold);font-weight:600;}
+.chip,.int-chip{padding:.65rem .5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.82rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif;}
+.chip:hover,.int-chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
+.chip.on,.int-chip.on{background:rgba(242,183,5,.1);border-color:var(--gold);color:var(--gold);font-weight:600;}
 .state-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;margin-bottom:.75rem;}
 .state-btn{flex:1;padding:.5rem;border:none;border-radius:7px;background:transparent;color:var(--sub);font-family:'Poppins',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;}
 .state-btn.active{background:var(--gold);color:#06040A;font-weight:700;}
@@ -91,10 +84,13 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .city-select:focus{border-color:var(--gold);}
 .city-select option{background:#0e0c14;}
 .popup-save{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:1.5rem;letter-spacing:.5px;}
-.popup-save:disabled{opacity:.4;cursor:default;}
+.popup-save:disabled{opacity:.4;}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1828;border:1px solid var(--gold);border-radius:12px;padding:.85rem 1.5rem;color:var(--white);font-size:.85rem;z-index:2000;opacity:0;transition:all .3s;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-@media(max-width:600px){.app{padding:1.2rem 1rem;}.stats{grid-template-columns:1fr 1fr;}.vouchers{grid-template-columns:1fr;}.ref-row{flex-direction:column;}.ref-code{width:100%;}.chip-grid{grid-template-columns:repeat(3,1fr);}}
+.dev-panel{display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid var(--gold);border-radius:12px;padding:1rem 1.2rem;font-family:'Poppins',sans-serif;}
+.dev-panel-title{color:var(--gold);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;}
+.dev-btn{width:100%;margin-bottom:.4rem;border:none;border-radius:8px;padding:.5rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;}
+@media(max-width:600px){.app{padding:1.2rem 1rem;}.stats{grid-template-columns:1fr 1fr;}.vouchers{grid-template-columns:1fr;}.ref-row{flex-direction:column;}.ref-code{width:100%;}}
 </style>
 </head>
 <body>
@@ -121,14 +117,9 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
     </div>
     <button class="banner-cta" onclick="openPopup()">Complete Now</button>
   </div>
-  <div class="welcome-row">
-    <div>
-      <div class="welcome-name">Welcome, <em id="member-first">Star</em>!</div>
-      <div class="welcome-sub" id="member-sub">Free Member &middot; Start your celebrity dining journey</div>
-    </div>
-  </div>
+  <div class="welcome-name">Welcome, <em id="member-first">Star</em>!</div>
   <div class="stats">
-    <div class="stat"><div class="stat-label">Your Points</div><div class="stat-value" id="stat-pts">300</div><div class="stat-sub">Keep earning</div></div>
+    <div class="stat"><div class="stat-label">Points</div><div class="stat-value" id="stat-pts">300</div><div class="stat-sub">Keep earning</div></div>
     <div class="stat"><div class="stat-label">Vouchers</div><div class="stat-value" id="stat-v">2</div><div class="stat-sub">Available</div></div>
     <div class="stat"><div class="stat-label">Your City</div><div class="stat-value" id="stat-city" style="font-size:1.1rem;padding-top:.5rem;">&#8212;</div><div class="stat-sub">Partner area</div></div>
     <div class="stat"><div class="stat-label">Tier</div><div class="stat-value" id="stat-tier" style="font-size:1.4rem;padding-top:.4rem;">FREE</div><div class="stat-sub" id="stat-tier-sub">Upgrade to unlock</div></div>
@@ -137,13 +128,13 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
   <div class="vouchers" id="vGrid"></div>
   <div class="upgrade-card" id="upgradeCard">
     <div class="upgrade-title">Unlock Premium Dining</div>
-    <p class="upgrade-sub">Upgrade to Gold and access exclusive restaurant vouchers, celebrity dining events, and priority bookings.</p>
+    <p class="upgrade-sub">Upgrade to Gold and get exclusive restaurant vouchers, celebrity events, and priority bookings.</p>
     <button class="upgrade-btn" onclick="location.href='/upgrade'">Upgrade to Gold &#8212; &#8377;9,999/yr</button>
   </div>
   <div class="section-title">Refer &amp; Earn</div>
   <div class="referral-card">
     <div class="ref-title">Your Referral Code</div>
-    <p class="ref-sub">Share your code &#8212; earn <strong style="color:var(--gold)">500 points</strong> for every friend who joins. They get 300 bonus points too.</p>
+    <p class="ref-sub">Share and earn <strong style="color:var(--gold)">500 points</strong> per friend. They get 300 bonus points.</p>
     <div class="ref-row">
       <div class="ref-code" id="ref-code">DWC-LOADING</div>
       <button class="ref-copy" onclick="copyRef()">Copy Link</button>
@@ -159,39 +150,48 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
       <button class="popup-close" onclick="closePopup()">&#10005;</button>
     </div>
     <div class="popup-reward">&#127873; Earn 25 points on completion</div>
-    <p class="popup-sub">Tell us about yourself so we can personalise your vouchers and celebrity experiences.</p>
+    <p class="popup-sub">Personalise your vouchers and celebrity experiences.</p>
     <div class="field">
-      <label class="field-label">Movie Industry <span>(pick any)</span></label>
+      <label class="field-label">Movie Industry <span style="text-transform:none;font-size:.72rem;">(pick any)</span></label>
       <div class="chip-grid">
-        <div class="chip" data-k="industry" data-v="Tollywood" onclick="toggle(this)">&#127916; Tollywood</div>
-        <div class="chip" data-k="industry" data-v="Bollywood" onclick="toggle(this)">&#127917; Bollywood</div>
-        <div class="chip" data-k="industry" data-v="Sandalwood" onclick="toggle(this)">&#127807; Sandalwood</div>
-        <div class="chip" data-k="industry" data-v="Kollywood" onclick="toggle(this)">&#127925; Kollywood</div>
-        <div class="chip" data-k="industry" data-v="Mollywood" onclick="toggle(this)">&#127796; Mollywood</div>
+        <div class="chip" data-v="Tollywood" onclick="toggleChip(this)">&#127916; Tollywood</div>
+        <div class="chip" data-v="Bollywood" onclick="toggleChip(this)">&#127917; Bollywood</div>
+        <div class="chip" data-v="Sandalwood" onclick="toggleChip(this)">&#127807; Sandalwood</div>
+        <div class="chip" data-v="Kollywood" onclick="toggleChip(this)">&#127925; Kollywood</div>
+        <div class="chip" data-v="Mollywood" onclick="toggleChip(this)">&#127796; Mollywood</div>
       </div>
     </div>
     <div class="field">
       <label class="field-label">Your City</label>
       <div class="state-toggle">
-        <button class="state-btn active" id="btn-ts" onclick="setCity('TS')">Telangana</button>
-        <button class="state-btn" id="btn-ap" onclick="setCity('AP')">Andhra Pradesh</button>
-        <button class="state-btn" id="btn-ot" onclick="setCity('OTHER')">Other</button>
+        <button class="state-btn active" id="btn-ts" onclick="popSetState('TS')">Telangana</button>
+        <button class="state-btn" id="btn-ap" onclick="popSetState('AP')">Andhra Pradesh</button>
+        <button class="state-btn" id="btn-ot" onclick="popSetState('OTHER')">Other</button>
       </div>
-      <select class="city-select" id="citySelect"><option value="">Select your city...</option></select>
+      <select class="city-select" id="popCity"><option value="">Select city...</option></select>
     </div>
     <div class="field">
-      <label class="field-label">Interests <span>(pick any)</span></label>
+      <label class="field-label">Interests <span style="text-transform:none;font-size:.72rem;">(pick any)</span></label>
       <div class="chip-grid">
-        <div class="int-chip" data-k="interests" data-v="Food &amp; Dining" onclick="toggle(this)">&#127869;&#65039; Food</div>
-        <div class="int-chip" data-k="interests" data-v="Sports" onclick="toggle(this)">&#127951; Sports</div>
-        <div class="int-chip" data-k="interests" data-v="Music" onclick="toggle(this)">&#127925; Music</div>
-        <div class="int-chip" data-k="interests" data-v="Business" onclick="toggle(this)">&#128188; Business</div>
-        <div class="int-chip" data-k="interests" data-v="Travel" onclick="toggle(this)">&#9992;&#65039; Travel</div>
-        <div class="int-chip" data-k="interests" data-v="Fashion" onclick="toggle(this)">&#128919; Fashion</div>
+        <div class="int-chip" data-v="Food &amp; Dining" onclick="toggleChip(this)">&#127869; Food</div>
+        <div class="int-chip" data-v="Sports" onclick="toggleChip(this)">&#127951; Sports</div>
+        <div class="int-chip" data-v="Music" onclick="toggleChip(this)">&#127925; Music</div>
+        <div class="int-chip" data-v="Business" onclick="toggleChip(this)">&#128188; Business</div>
+        <div class="int-chip" data-v="Travel" onclick="toggleChip(this)">&#9992; Travel</div>
+        <div class="int-chip" data-v="Fashion" onclick="toggleChip(this)">&#128919; Fashion</div>
       </div>
     </div>
     <button class="popup-save" id="saveBtn" onclick="saveProfile()">Save &amp; Earn 25 Points &#10022;</button>
   </div>
+</div>
+
+<!-- DEV PANEL (rupeshking@gmail.com only) -->
+<div class="dev-panel" id="devPanel">
+  <div class="dev-panel-title">&#9889; Dev Test Panel</div>
+  <button class="dev-btn" style="background:var(--gold);color:#06040A;" onclick="devSetTier('gold')">Set Gold</button>
+  <button class="dev-btn" style="background:rgba(242,183,5,.15);color:var(--gold);border:1px solid var(--gold);" onclick="devSetTier('silver')">Set Silver</button>
+  <button class="dev-btn" style="background:rgba(242,183,5,.15);color:var(--gold);border:1px solid var(--gold);" onclick="devSetTier('platinum')">Set Platinum</button>
+  <button class="dev-btn" style="background:rgba(255,255,255,.06);color:var(--sub);border:1px solid rgba(255,255,255,.15);" onclick="devSetTier('free')">Reset Free</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -200,20 +200,37 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 var SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
 var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
 var sbClient=supabase.createClient(SURL,SKEY);
-var CITIES={TS:['Hyderabad','Warangal','Hanamkonda','Karimnagar','Nizamabad','Khammam','Siddipet','Nalgonda','Sangareddy','Medak','Kamareddy','Adilabad','Nirmal','Mancherial','Peddapalli','Jagtial','Sircilla','Jangaon','Kothagudem','Mahabubabad','Suryapet','Bhongir','Mahabubnagar','Nagarkurnool','Wanaparthy','Gadwal','Narayanpet','Medchal','Vikarabad','Rangareddy'],AP:['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Machilipatnam','Vizianagaram','Srikakulam','Ongole','Nandyal','Anakapalli','Amalapuram','Narasaraopet','Bapatla','Rajampet','Puttaparthi'],OTHER:['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Other']};
-var currentUser=null,memberData=null,selectedIndustries=[],selectedInterests=[],popState='TS';
+var DEV_EMAIL='rupeshking@gmail.com';
+var CITIES={
+  TS:['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Siddipet','Nalgonda','Sangareddy','Medak','Adilabad','Mancherial','Mahabubnagar','Suryapet','Bhongir','Rangareddy'],
+  AP:['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Vizianagaram','Ongole'],
+  OTHER:['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Other']
+};
+var currentUser=null, memberData=null, selIndustries=[], selInterests=[], popState='TS';
 
-(function(){var bg=document.getElementById('starsBg');for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.innerHTML='&#9733;';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--dur',(2+Math.random()*4)+'s');s.style.setProperty('--delay',Math.random()*5+'s');s.style.setProperty('--op',(0.1+Math.random()*0.25)+'');s.style.fontSize=(7+Math.random()*8)+'px';bg.appendChild(s);}})();
+// Stars
+(function(){
+  var bg=document.getElementById('starsBg');
+  for(var i=0;i<60;i++){
+    var s=document.createElement('span');s.className='star';s.innerHTML='&#9733;';
+    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    s.style.setProperty('--dur',(2+Math.random()*4)+'s');
+    s.style.setProperty('--delay',Math.random()*5+'s');
+    s.style.setProperty('--op',(0.1+Math.random()*0.25)+'');
+    s.style.fontSize=(7+Math.random()*8)+'px';
+    bg.appendChild(s);
+  }
+})();
 
+// Auth
 sbClient.auth.getSession().then(async function(res){
-  var s=res.data&&res.data.session;
-  if(!s){window.location.href='/signin';return;}
-  currentUser=s.user;
+  var session=res.data&&res.data.session;
+  if(!session){window.location.href='/signin';return;}
+  currentUser=session.user;
   var r=await sbClient.from('members').select('*').eq('id',currentUser.id).single();
   if(!r.data){
-    var emailPrefix=currentUser.email.split('@')[0].replace(/[^a-zA-Z0-9]/g,' ').trim();
-    var n=currentUser.user_metadata&&currentUser.user_metadata.full_name||emailPrefix||currentUser.email;
-    await sbClient.from('members').upsert({id:currentUser.id,email:currentUser.email,full_name:n,tier:'free',points:300},{onConflict:'id'});
+    var nameFromMeta=(currentUser.user_metadata&&(currentUser.user_metadata.full_name||currentUser.user_metadata.name))||currentUser.email.split('@')[0];
+    await sbClient.from('members').upsert({id:currentUser.id,email:currentUser.email,full_name:nameFromMeta,tier:'free',points:300},{onConflict:'id'});
     r=await sbClient.from('members').select('*').eq('id',currentUser.id).single();
   }
   memberData=r.data||{};
@@ -222,128 +239,150 @@ sbClient.auth.getSession().then(async function(res){
 
 function render(){
   var m=memberData;
-  // Resolve name: DB full_name > auth metadata > email prefix > 'Star'
+  // Name: DB full_name > auth metadata > email prefix
   var n=m.full_name
     ||(currentUser.user_metadata&&(currentUser.user_metadata.full_name||currentUser.user_metadata.name))
-    ||(currentUser.email&&currentUser.email.split('@')[0].replace(/[._-]/g,' ').trim())
+    ||(currentUser.email.split('@')[0].replace(/[._-]/g,' ').trim())
     ||'Star';
   var name=n.split(' ')[0];
   name=name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
-  getElementById('member-first').textContent=name;
+  document.getElementById('member-first').textContent=name;
   document.getElementById('nav-avatar').textContent=name[0].toUpperCase();
   var pts=m.points||300;
   document.getElementById('stat-pts').textContent=pts.toLocaleString();
-  document.getElementById('nav-pts').textContent='★ '+pts.toLocaleString()+' pts';
-  document.getElementById('stat-v').textContent=m.tier==='free'?'2':'12';
-  document.getElementById('stat-city').textContent=m.city||'—';
-  document.getElementById('stat-tier').textContent=(m.tier||'free').toUpperCase();
-  if(m.tier&&m.tier!=='free'){document.getElementById('upgradeCard').style.display='none';}
-  document.getElementById('ref-code').textContent=m.referral_code||'DWC-'+name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6)+Math.floor(1000+Math.random()*9000);
-  var done=m.city&&m.interests&&m.interests.length>0;
-  if(!done){
-    document.getElementById('profileBanner').style.display='flex';
-    if(!sessionStorage.getItem('dwc_pop_shown')){sessionStorage.setItem('dwc_pop_shown','1');setTimeout(openPopup,1200);}
+  document.getElementById('nav-pts').textContent='&#9733; '+pts.toLocaleString()+' pts';
+  document.getElementById('stat-v').textContent=(m.tier&&m.tier!=='free')?'12':'2';
+  document.getElementById('stat-city').textContent=m.city||'&#8212;';
+  var tier=(m.tier||'free').toUpperCase();
+  document.getElementById('stat-tier').textContent=tier;
+  document.getElementById('ref-code').textContent=m.referral_code||('DWC-'+name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6)+Math.floor(1000+Math.random()*9000));
+  if(m.tier&&m.tier!=='free'){
+    document.getElementById('upgradeCard').style.display='none';
+    document.getElementById('stat-tier-sub').textContent='Active member';
   }
+  var done=m.city&&m.interests&&m.interests.length>0;
+  if(!done) document.getElementById('profileBanner').style.display='flex';
+  if(!done&&!sessionStorage.getItem('dwc_pop_shown')){sessionStorage.setItem('dwc_pop_shown','1');setTimeout(openPopup,1200);}
   renderVouchers(m.tier||'free');
-  // Show upgrade success if redirected from payment
+  prefill(m);
+  // Dev panel
+  if(currentUser.email===DEV_EMAIL) document.getElementById('devPanel').style.display='block';
+  // Upgrade success toast
   if(location.search.includes('upgraded=1')){
-    showToast('🎉 Welcome to Gold! Your membership is now active.');
+    showToast('🎉 Welcome to '+tier+'! Your membership is active.');
     history.replaceState({},'','/dashboard');
   }
-  prefill(m);
 }
 
 function renderVouchers(tier){
-  var g=document.getElementById('vGrid');
-  var vv=[{t:'Spice Garden',d:'Premium Hyderabadi cuisine',c:'Hyderabad',disc:'20%',free:true},{t:'The Grand Table',d:'Fine dining experience',c:'Hyderabad',disc:'25%',free:true},{t:'Kebabs & Curries',d:'Authentic Mughlai',c:'Hyderabad',disc:'30%',free:false},{t:'Ocean Blue',d:'Seafood & coastal cuisine',c:'Bangalore',disc:'35%',free:false},{t:'Skyline Lounge',d:'Rooftop dining',c:'Mumbai',disc:'40%',free:false}];
-  g.innerHTML=vv.map(function(v){var locked=!v.free&&tier==='free';return '<div class="voucher'+(locked?' voucher-locked':'')+'">'+'<span class="voucher-badge '+(locked?'badge-gold':'badge-free')+'">'+(locked?'Gold Only':'Free')+'</span>'+'<div class="voucher-title">'+v.t+'</div>'+'<div class="voucher-desc">'+v.d+' &middot; '+v.c+'</div>'+'<div class="voucher-discount">'+v.disc+' Off</div>'+(locked?'<div class="voucher-lock" onclick="location.href='/upgrade'"><div class="lock-icon">&#128274;</div><div class="lock-text">Upgrade to Gold</div></div>':'<button class="voucher-action">Redeem</button>')+'</div>';}).join('');
+  var vv=[
+    {t:'Spice Garden',d:'Premium Hyderabadi cuisine',c:'Hyderabad',disc:'20%',free:true},
+    {t:'The Grand Table',d:'Fine dining experience',c:'Hyderabad',disc:'25%',free:true},
+    {t:'Kebabs & Curries',d:'Authentic Mughlai',c:'Hyderabad',disc:'30%',free:false},
+    {t:'Ocean Blue',d:'Seafood & coastal cuisine',c:'Bangalore',disc:'35%',free:false},
+    {t:'Skyline Lounge',d:'Rooftop dining',c:'Mumbai',disc:'40%',free:false}
+  ];
+  document.getElementById('vGrid').innerHTML=vv.map(function(v){
+    var locked=!v.free&&tier==='free';
+    return '<div class="voucher">'
+      +'<span class="voucher-badge '+(locked?'badge-gold':'badge-free')+'">'+(locked?'Gold Only':'Free')+'</span>'
+      +'<div class="voucher-title">'+v.t+'</div>'
+      +'<div class="voucher-desc">'+v.d+' &middot; '+v.c+'</div>'
+      +'<div class="voucher-discount">'+v.disc+' Off</div>'
+      +(locked
+        ?'<div class="voucher-lock" onclick="location.href='/upgrade'"><div class="lock-icon">&#128274;</div><div class="lock-text">Upgrade to Gold</div></div>'
+        :'<button class="voucher-action">Redeem</button>')
+      +'</div>';
+  }).join('');
 }
 
 function prefill(m){
-  if(m.city){if(CITIES.TS.includes(m.city))setCity('TS');else if(CITIES.AP.includes(m.city))setCity('AP');else setCity('OTHER');document.getElementById('citySelect').value=m.city;}else{setCity('TS');}
-  if(m.interests&&m.interests.length){m.interests.forEach(function(i){var c=document.querySelector('.int-chip[data-v="'+i+'"]');if(c){c.classList.add('on');if(!selectedInterests.includes(i))selectedInterests.push(i);}});}
-  if(m.movie_industry&&m.movie_industry.length){m.movie_industry.forEach(function(i){var c=document.querySelector('.chip[data-v="'+i+'"]');if(c){c.classList.add('on');if(!selectedIndustries.includes(i))selectedIndustries.push(i);}});}
+  if(m.city){
+    if(CITIES.TS.includes(m.city))popSetState('TS');
+    else if(CITIES.AP.includes(m.city))popSetState('AP');
+    else popSetState('OTHER');
+    document.getElementById('popCity').value=m.city;
+  } else {popSetState('TS');}
+  if(m.interests&&m.interests.length){
+    m.interests.forEach(function(v){
+      var c=document.querySelector('.int-chip[data-v="'+v+'"]');
+      if(c){c.classList.add('on');if(!selInterests.includes(v))selInterests.push(v);}
+    });
+  }
+  if(m.movie_industry&&m.movie_industry.length){
+    m.movie_industry.forEach(function(v){
+      var c=document.querySelector('.chip[data-v="'+v+'"]');
+      if(c){c.classList.add('on');if(!selIndustries.includes(v))selIndustries.push(v);}
+    });
+  }
 }
 
-function setCity(state){
-  popState=state;
-  ['ts','ap','ot'].forEach(function(s){document.getElementById('btn-'+s).classList.remove('active');});
-  document.getElementById('btn-'+state.toLowerCase()).classList.add('active');
-  var sel=document.getElementById('citySelect');
-  var cities=CITIES[state]||[];
-  sel.innerHTML='<option value="">Select your city...</option>'+cities.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('');
+function popSetState(s){
+  popState=s;
+  ['ts','ap','ot'].forEach(function(x){document.getElementById('btn-'+x).classList.remove('active');});
+  document.getElementById('btn-'+s.toLowerCase()).classList.add('active');
+  var sel=document.getElementById('popCity');
+  sel.innerHTML='<option value="">Select city...</option>'+(CITIES[s]||[]).map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('');
 }
 
-function toggle(el){
+function toggleChip(el){
   el.classList.toggle('on');
-  var v=el.dataset.v,k=el.dataset.k;
-  var arr=k==='industry'?selectedIndustries:selectedInterests;
+  var v=el.dataset.v;
+  var arr=el.classList.contains('chip')?selIndustries:selInterests;
   if(el.classList.contains('on')){if(!arr.includes(v))arr.push(v);}
-  else{var idx=arr.indexOf(v);if(idx>-1)arr.splice(idx,1);}
+  else{var i=arr.indexOf(v);if(i>-1)arr.splice(i,1);}
 }
 
 function openPopup(){document.getElementById('popOverlay').classList.remove('hidden');}
 function closePopup(){document.getElementById('popOverlay').classList.add('hidden');}
 
 async function saveProfile(){
-  var city=document.getElementById('citySelect').value;
+  var city=document.getElementById('popCity').value;
   var btn=document.getElementById('saveBtn');
   btn.disabled=true;btn.textContent='Saving...';
   var wasComplete=memberData&&memberData.city&&memberData.interests&&memberData.interests.length>0;
   var u={onboarded:true};
   if(city)u.city=city;
-  if(selectedInterests.length>0)u.interests=selectedInterests;
-  if(selectedIndustries.length>0)u.movie_industry=selectedIndustries;
-  if(!wasComplete&&(city||selectedInterests.length>0||selectedIndustries.length>0))u.points=(memberData.points||300)+25;
+  if(selInterests.length)u.interests=selInterests;
+  if(selIndustries.length)u.movie_industry=selIndustries;
+  if(!wasComplete)u.points=(memberData.points||300)+25;
   await sbClient.from('members').update(u).eq('id',currentUser.id);
   Object.assign(memberData,u);
-  document.getElementById('stat-pts').textContent=(u.points||memberData.points||300).toLocaleString();
-  document.getElementById('nav-pts').textContent='★ '+(u.points||memberData.points||300).toLocaleString()+' pts';
+  if(u.points){document.getElementById('stat-pts').textContent=u.points.toLocaleString();document.getElementById('nav-pts').textContent='&#9733; '+u.points.toLocaleString()+' pts';}
   if(u.city)document.getElementById('stat-city').textContent=u.city;
   document.getElementById('profileBanner').style.display='none';
   closePopup();
-  if(!wasComplete)showToast('🎉 Profile complete! +25 points earned');
-  else showToast('✓ Profile updated');
+  showToast(wasComplete?'✓ Profile updated':'🎉 Profile complete! +25 points earned');
   btn.disabled=false;btn.textContent='Save & Earn 25 Points ✦';
 }
 
-function copyRef(){var code=document.getElementById('ref-code').textContent.trim();var link='https://www.dinewithcelebrity.com/signup?ref='+code;navigator.clipboard.writeText(link).then(function(){showToast('Referral link copied!');}).catch(function(){showToast('Code: '+code);});}
+function copyRef(){
+  var code=document.getElementById('ref-code').textContent.trim();
+  var link='https://www.dinewithcelebrity.com/signup?ref='+code;
+  navigator.clipboard.writeText(link).then(function(){showToast('Referral link copied!');}).catch(function(){showToast('Code: '+code);});
+}
 
 async function doSignOut(){
-  try{
-    var _sb=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
-    await _sb.auth.signOut();
-  }catch(e){}
+  try{await sbClient.auth.signOut();}catch(e){}
   window.location.href='/signin';
 }
 
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
-
-setCity('TS');
-</script>
-
-<!-- DEV TEST PANEL -->
-<div id="devPanel" style="display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid #F2B705;border-radius:12px;padding:1rem 1.2rem;font-family:Poppins,sans-serif;">
-  <div style="color:#F2B705;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;">⚡ Dev Test Panel</div>
-  <div style="display:flex;flex-direction:column;gap:.5rem;">
-    <button onclick="devSetTier('gold')" style="background:#F2B705;color:#06040A;border:none;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Set Gold</button>
-    <button onclick="devSetTier('silver')" style="background:rgba(242,183,5,.15);color:#F2B705;border:1px solid #F2B705;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Set Silver</button>
-    <button onclick="devSetTier('platinum')" style="background:rgba(242,183,5,.15);color:#F2B705;border:1px solid #F2B705;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Set Platinum</button>
-    <button onclick="devSetTier('free')" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:600;font-size:.75rem;cursor:pointer;">Reset Free</button>
-  </div>
-</div>
-<script>
-(async function(){
-  if(!currentUser||currentUser.email!=='rupeshking@gmail.com') return;
-  document.getElementById('devPanel').style.display='block';
-})();
-async function devSetTier(tier){
-  if(!currentUser) return;
-  var expiry=new Date();expiry.setFullYear(expiry.getFullYear()+1);
-  var u=tier==='free'?{tier:'free',expires_at:null}:{tier:tier,expires_at:expiry.toISOString()};
-  await sbClient.from('members').update(u).eq('id',currentUser.id);
-  location.reload();
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
 }
+
+// Dev panel functions (only for rupeshking@gmail.com)
+async function devSetTier(tier){
+  if(!currentUser||currentUser.email!==DEV_EMAIL)return;
+  var u=tier==='free'?{tier:'free',expires_at:null}:{tier:tier,expires_at:new Date(Date.now()+365*24*60*60*1000).toISOString()};
+  await sbClient.from('members').update(u).eq('id',currentUser.id);
+  showToast('Tier set to '+tier.toUpperCase()+' ✓');
+  setTimeout(function(){location.reload();},1000);
+}
+
+popSetState('TS');
 </script>
 </body>
 </html>
