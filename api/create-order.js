@@ -1,11 +1,11 @@
-// api/create-order.js â Creates a Razorpay order server-side
+// api/create-order.js — Creates a Razorpay order server-side
 const https = require('https');
 
-// Tier â amount in paise (server-side truth, never trust frontend)
+// Tier → amount in paise (server-side truth, never trust frontend)
 const TIER_PRICES = {
-  gold: 249900,       // â¹2,499
-  platinum: 699900,   // â¹6,999
-  dwcpurple: 1499900  // â¹14,999
+  gold: 249900,       // ₹2,499
+  platinum: 699900,   // ₹6,999
+  dwcpurple: 1499900  // ₹14,999
 };
 
 module.exports = async function handler(req, res) {
