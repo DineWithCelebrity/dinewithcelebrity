@@ -315,5 +315,29 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
 
 setCity('TS');
 </script>
+
+<!-- DEV TEST PANEL -->
+<div id="devPanel" style="display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid #F2B705;border-radius:12px;padding:1rem 1.2rem;font-family:Poppins,sans-serif;">
+  <div style="color:#F2B705;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;">⚡ Dev Test Panel</div>
+  <div style="display:flex;flex-direction:column;gap:.5rem;">
+    <button onclick="devSetTier('gold')" style="background:#F2B705;color:#06040A;border:none;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Set Gold</button>
+    <button onclick="devSetTier('silver')" style="background:rgba(242,183,5,.15);color:#F2B705;border:1px solid #F2B705;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Set Silver</button>
+    <button onclick="devSetTier('platinum')" style="background:rgba(242,183,5,.15);color:#F2B705;border:1px solid #F2B705;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Set Platinum</button>
+    <button onclick="devSetTier('free')" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:600;font-size:.75rem;cursor:pointer;">Reset Free</button>
+  </div>
+</div>
+<script>
+(async function(){
+  if(!currentUser||currentUser.email!=='rupeshking@gmail.com') return;
+  document.getElementById('devPanel').style.display='block';
+})();
+async function devSetTier(tier){
+  if(!currentUser) return;
+  var expiry=new Date();expiry.setFullYear(expiry.getFullYear()+1);
+  var u=tier==='free'?{tier:'free',expires_at:null}:{tier:tier,expires_at:expiry.toISOString()};
+  await sbClient.from('members').update(u).eq('id',currentUser.id);
+  location.reload();
+}
+</script>
 </body>
 </html>
