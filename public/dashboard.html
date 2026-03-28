@@ -20,7 +20,7 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .nav-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#06040A;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;cursor:pointer;border:none;}
 .nav-menu{position:relative;}
 .nav-dropdown{display:none;position:absolute;right:0;top:calc(100% + .5rem);background:#0e0c14;border:1px solid var(--border);border-radius:12px;padding:.5rem;min-width:160px;z-index:100;}
-.nav-menu:hover .nav-dropdown{display:block;}
+.nav-dropdown.open{display:block;}
 .nav-dropdown a,.nav-dropdown button{display:block;width:100%;padding:.6rem 1rem;color:var(--sub);font-size:.83rem;text-decoration:none;background:none;border:none;cursor:pointer;text-align:left;border-radius:6px;font-family:'Poppins',sans-serif;}
 .nav-dropdown a:hover,.nav-dropdown button:hover{background:rgba(255,255,255,.06);color:var(--white);}
 .app{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:2rem 1.5rem;}
@@ -100,7 +100,7 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
   <div class="nav-right">
     <div class="nav-pts" id="nav-pts">&#9733; 300 pts</div>
     <div class="nav-menu">
-      <button class="nav-avatar" id="nav-avatar">R</button>
+      <button class="nav-avatar" id="nav-avatar" onclick="toggleNav(event)">R</button>
       <div class="nav-dropdown">
         <a href="#" onclick="openPopup();return false;">Complete Profile</a>
         <a href="/upgrade">Upgrade Plan</a>
@@ -299,6 +299,16 @@ function renderVouchers(tier){
 function prefill(m){
   if(m.city){
     if(CITIES.TS.includes(m.city))popSetState('TS');
+
+function toggleNav(e){
+  e.stopPropagation();
+  var dd=document.querySelector('.nav-dropdown');
+  dd.classList.toggle('open');
+}
+document.addEventListener('click',function(){
+  document.querySelector('.nav-dropdown').classList.remove('open');
+});
+
     else if(CITIES.AP.includes(m.city))popSetState('AP');
     else popSetState('OTHER');
     document.getElementById('popCity').value=m.city;
