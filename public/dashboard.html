@@ -212,7 +212,7 @@ var currentUser=null, memberData=null, selIndustries=[], selInterests=[], popSta
 (function(){
   var bg=document.getElementById('starsBg');
   for(var i=0;i<60;i++){
-    var s=document.createElement('span');s.className='star';s.innerHTML='&#9733;';
+    var s=document.createElement('span');s.className='star';s.innerHTML='\u2605';
     s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
     s.style.setProperty('--dur',(2+Math.random()*4)+'s');
     s.style.setProperty('--delay',Math.random()*5+'s');
@@ -250,9 +250,9 @@ function render(){
   document.getElementById('nav-avatar').textContent=name[0].toUpperCase();
   var pts=m.points||300;
   document.getElementById('stat-pts').textContent=pts.toLocaleString();
-  document.getElementById('nav-pts').textContent='&#9733; '+pts.toLocaleString()+' pts';
+  document.getElementById('nav-pts').textContent='\u2605 '+pts.toLocaleString()+' pts';
   document.getElementById('stat-v').textContent=(m.tier&&m.tier!=='free')?'12':'2';
-  document.getElementById('stat-city').textContent=m.city||'&#8212;';
+  document.getElementById('stat-city').textContent=m.city||'\u2014';
   var tier=(m.tier||'free').toUpperCase();
   document.getElementById('stat-tier').textContent=tier;
   document.getElementById('ref-code').textContent=m.referral_code||('DWC-'+name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6)+Math.floor(1000+Math.random()*9000));
@@ -290,7 +290,7 @@ function renderVouchers(tier){
       +'<div class="voucher-desc">'+v.d+' &middot; '+v.c+'</div>'
       +'<div class="voucher-discount">'+v.disc+' Off</div>'
       +(locked
-        ?'<div class="voucher-lock" onclick="location.href='/upgrade'"><div class="lock-icon">&#128274;</div><div class="lock-text">Upgrade to Gold</div></div>'
+        ?'<div class="voucher-lock" onclick="location.href='/upgrade'"><div class="lock-icon">\uD83D\uDD12</div><div class="lock-text">Upgrade to Gold</div></div>'
         :'<button class="voucher-action">Redeem</button>')
       +'</div>';
   }).join('');
@@ -358,7 +358,7 @@ async function saveProfile(){
   if(!wasComplete)u.points=(memberData.points||300)+25;
   await sbClient.from('members').update(u).eq('id',currentUser.id);
   Object.assign(memberData,u);
-  if(u.points){document.getElementById('stat-pts').textContent=u.points.toLocaleString();document.getElementById('nav-pts').textContent='&#9733; '+u.points.toLocaleString()+' pts';}
+  if(u.points){document.getElementById('stat-pts').textContent=u.points.toLocaleString();document.getElementById('nav-pts').textContent='\u2605 '+u.points.toLocaleString()+' pts';}
   if(u.city)document.getElementById('stat-city').textContent=u.city;
   document.getElementById('profileBanner').style.display='none';
   closePopup();
