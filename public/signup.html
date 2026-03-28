@@ -166,7 +166,7 @@ async function doSignup(){
     password:pass,
     options:{
       data:{full_name:name,phone:'+91'+phone.replace(/s/g,'')},
-      emailRedirectTo:'https://www.dinewithcelebrity.com/onboarding.html'
+      emailRedirectTo:'https://www.dinewithcelebrity.com/dashboard'
     }
   });
 
@@ -199,7 +199,7 @@ async function doSignup(){
   }
 
   btn.classList.remove('loading');
-  window.location.href='/onboarding.html';
+  window.location.href='/dashboard';
 }
 
 document.addEventListener('DOMContentLoaded',function(){
@@ -219,16 +219,8 @@ document.addEventListener('DOMContentLoaded',function(){
     }
   }catch(e){}
   document.getElementById('inp-pass').addEventListener('keydown',function(e){ if(e.key==='Enter') doSignup(); });
-  sbClient.auth.getSession().then(async function(res){
-    if(res.data&&res.data.session){
-      var uid=res.data.session.user.id;
-      var r=await sbClient.from('members').select('onboarded,city').eq('id',uid).single();
-      // Only redirect if fully onboarded — otherwise let them stay/re-signup
-      if(r.data&&r.data.onboarded&&r.data.city){
-        window.location.href='/dashboard.html';
-      }
-      // Not onboarded = stay on signup page, no redirect
-    }
+  sbClient.auth.getSession().then(function(res){
+    if(res.data&&res.data.session){ window.location.href='/dashboard'; }
   });
 });
 </script></body></html>
