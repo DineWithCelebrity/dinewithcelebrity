@@ -311,5 +311,42 @@ function startPayment(tier, amountPaise, tierLabel){
   rzp.open();
 }
 </script>
+
+<!-- DEV TEST PANEL - only shown to rupeshking@gmail.com -->
+<div id="devPanel" style="display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid #F2B705;border-radius:12px;padding:1rem 1.2rem;font-family:Poppins,sans-serif;">
+  <div style="color:#F2B705;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;">⚡ Dev Test Panel</div>
+  <div style="display:flex;flex-direction:column;gap:.5rem;">
+    <button onclick="devUpgrade('gold')" style="background:#F2B705;color:#06040A;border:none;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Test → Gold ₹9,999</button>
+    <button onclick="devUpgrade('silver')" style="background:rgba(242,183,5,.15);color:#F2B705;border:1px solid #F2B705;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Test → Silver ₹4,999</button>
+    <button onclick="devUpgrade('platinum')" style="background:rgba(242,183,5,.15);color:#F2B705;border:1px solid #F2B705;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Test → Platinum ₹19,999</button>
+    <button onclick="devUpgrade('free')" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:600;font-size:.75rem;cursor:pointer;">Reset → Free</button>
+  </div>
+</div>
+<script>
+(async function initDevPanel(){
+  var DEV_EMAIL='rupeshking@gmail.com';
+  var sb=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+  var sess=await sb.auth.getSession();
+  var user=sess.data&&sess.data.session&&sess.data.session.user;
+  if(user&&user.email===DEV_EMAIL){
+    document.getElementById('devPanel').style.display='block';
+    window._devSb=sb;
+    window._devUser=user;
+  }
+})();
+
+async function devUpgrade(tier){
+  if(!window._devUser) return alert('Not signed in as dev account');
+  var expiry=new Date();
+  expiry.setFullYear(expiry.getFullYear()+1);
+  var updates=tier==='free'
+    ?{tier:'free',expires_at:null,payment_id:'DEV_TEST'}
+    :{tier:tier,expires_at:expiry.toISOString(),payment_id:'DEV_TEST_'+Date.now(),upgraded_at:new Date().toISOString()};
+  var r=await window._devSb.from('members').update(updates).eq('id',window._devUser.id);
+  if(r.error){alert('Error: '+r.error.message);return;}
+  alert('Done! Tier set to '+tier.toUpperCase()+'. Redirecting to dashboard...');
+  window.location.href='/dashboard?upgraded='+(tier!=='free'?'1':'0');
+}
+</script>
 </body>
   </html>
