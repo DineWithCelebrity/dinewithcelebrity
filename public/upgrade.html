@@ -208,7 +208,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filte
           <div class="tc-perk">Sponsor brand VIP offers</div>
           <div class="tc-perk">&#x2212;&#x20B9;15,000 dinner seat</div>
         </div>
-        <button class="btn-pay btn-purple" onclick="startPayment('purple',1499900,'DWC Purple')">Upgrade to Purple &mdash; &#x20B9;14,999/yr</button>
+        <button class="btn-pay btn-purple" onclick="startPayment('dwcpurple',1499900,'DWC Purple')">Upgrade to Purple &mdash; &#x20B9;14,999/yr</button>
       </div>
 
     </div>
@@ -280,14 +280,14 @@ function startPayment(tier, amountPaise, tierLabel){
           return;
         }
         // Determine tier from amount
-        var tierName='gold';
+        var tierName = tier === 'purple' ? 'dwcpurple' : tier;
         var expiry=new Date();
         expiry.setFullYear(expiry.getFullYear()+1);
         
         var upd=await sbClient.from('members').update({
           tier:tierName,
           expires_at:expiry.toISOString(),
-          points:(memberData&&memberData.points?memberData.points:300)+100,
+          points:(currentMember&&currentMember.points?currentMember.points:300)+100,
           upgraded_at:new Date().toISOString(),
           payment_id:response.razorpay_payment_id||'',
           payment_order_id:response.razorpay_order_id||''
@@ -299,7 +299,7 @@ function startPayment(tier, amountPaise, tierLabel){
           return;
         }
         // Success
-        window.location.href='/dashboard?upgraded=1';
+        window.location.href='/dashboard.html?upgraded=1';
       } catch(err){
         console.error('Payment handler error:',err);
         alert('Payment received. If your tier does not update, contact hello@dinewithcelebrity.com with payment ID: '+(response.razorpay_payment_id||'unknown'));
