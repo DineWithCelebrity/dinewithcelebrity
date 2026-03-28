@@ -126,7 +126,7 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
   <div class="up-card" id="upCard">
     <div class="up-title">Unlock Premium Dining</div>
     <p class="up-sub">Upgrade to Gold and get exclusive restaurant vouchers, celebrity events, and priority bookings.</p>
-    <button class="up-btn" onclick="location.href='/upgrade'">Upgrade to Gold - Rs.9,999/yr</button>
+    <button class="up-btn" onclick="goUpgrade()">Upgrade to Gold - Rs.9,999/yr</button>
   </div>
   <div class="section-title">Refer and Earn</div>
   <div class="ref-card">
@@ -297,7 +297,7 @@ function renderVouchers(tier){
       +'<div class="v-title">'+v.t+'</div>'
       +'<div class="v-desc">'+v.d+' - '+v.c+'</div>'
       +'<div class="v-disc">'+v.disc+'</div>'
-      +(locked?'<div class="v-lock" onclick="location.href='/upgrade'"><div class="v-lock-icon">Lock</div><div class="v-lock-text">Upgrade to Gold to unlock</div></div>':'<button class="v-btn">Redeem</button>')
+      +(locked?'<div class="v-lock" onclick="goUpgrade()"><div class="v-lock-icon">Lock</div><div class="v-lock-text">Upgrade to Gold to unlock</div></div>':'<button class="v-btn">Redeem</button>')
       +'</div>';
   }).join('');
 }
@@ -305,6 +305,7 @@ function renderVouchers(tier){
 function prefill(m){
   if(m.city){
     if(CITIES.TS.includes(m.city))popState('TS');
+function goUpgrade(){location.href='/upgrade';}
     else if(CITIES.AP.includes(m.city))popState('AP');
     else popState('OTHER');
     document.getElementById('popCity').value=m.city;
