@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>My Dashboard — Dine With Celebrity</title>
+<title>My Dashboard - Dine With Celebrity</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -17,16 +17,15 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:2px;}
 .nav-right{display:flex;align-items:center;gap:1rem;}
 .nav-pts{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:20px;padding:.3rem .9rem;font-size:.8rem;color:var(--gold);font-weight:600;}
-.nav-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#06040A;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;cursor:pointer;border:none;}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:#06040A;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;cursor:pointer;border:none;}
 .nav-menu{position:relative;}
 .nav-dropdown{display:none;position:absolute;right:0;top:calc(100% + .5rem);background:#0e0c14;border:1px solid var(--border);border-radius:12px;padding:.5rem;min-width:160px;z-index:100;}
 .nav-dropdown.open{display:block;}
-.nav-dropdown a,.nav-dropdown button{display:block;width:100%;padding:.6rem 1rem;color:var(--sub);font-size:.83rem;text-decoration:none;background:none;border:none;cursor:pointer;text-align:left;border-radius:6px;font-family:'Poppins',sans-serif;}
+.nav-dropdown a,.nav-dropdown button{display:block;width:100%;padding:.6rem 1rem;color:var(--sub);font-size:.85rem;text-decoration:none;background:none;border:none;cursor:pointer;text-align:left;border-radius:6px;font-family:'Poppins',sans-serif;}
 .nav-dropdown a:hover,.nav-dropdown button:hover{background:rgba(255,255,255,.06);color:var(--white);}
 .app{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:2rem 1.5rem;}
 .profile-banner{background:linear-gradient(135deg,rgba(0,200,83,.06),rgba(0,200,83,.02));border:1px solid rgba(0,200,83,.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
 .banner-left{display:flex;align-items:center;gap:.75rem;}
-.banner-icon{font-size:1.4rem;}
 .banner-text{font-size:.85rem;color:var(--sub);}
 .banner-text strong{color:var(--green);}
 .banner-cta{background:var(--green);color:#06040A;border:none;border-radius:8px;padding:.55rem 1.1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;}
@@ -41,55 +40,54 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--white);letter-spacing:1px;margin-bottom:1rem;}
 .vouchers{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:2.5rem;}
 .voucher{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;position:relative;overflow:hidden;}
-.voucher-badge{display:inline-block;padding:.2rem .7rem;border-radius:20px;font-size:.7rem;font-weight:600;margin-bottom:.75rem;}
-.badge-gold{background:rgba(242,183,5,.12);color:var(--gold);}
-.badge-free{background:rgba(255,255,255,.08);color:var(--sub);}
-.voucher-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;}
-.voucher-desc{color:var(--sub);font-size:.8rem;line-height:1.5;margin-bottom:1rem;}
-.voucher-discount{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);margin-bottom:.75rem;}
-.voucher-action{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;}
-.voucher-lock{position:absolute;inset:0;background:rgba(6,4,10,.65);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:14px;cursor:pointer;}
-.lock-icon{font-size:1.8rem;margin-bottom:.4rem;}
-.lock-text{color:var(--gold);font-size:.8rem;font-weight:600;text-align:center;padding:0 1rem;}
-.referral-card{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.03));border:1px solid rgba(242,183,5,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;}
+.v-badge{display:inline-block;padding:.2rem .7rem;border-radius:20px;font-size:.7rem;font-weight:600;margin-bottom:.75rem;}
+.b-gold{background:rgba(242,183,5,.12);color:var(--gold);}
+.b-free{background:rgba(255,255,255,.08);color:var(--sub);}
+.v-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;}
+.v-desc{color:var(--sub);font-size:.8rem;line-height:1.5;margin-bottom:1rem;}
+.v-disc{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);margin-bottom:.75rem;}
+.v-btn{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;}
+.v-lock{position:absolute;inset:0;background:rgba(6,4,10,.65);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:14px;cursor:pointer;}
+.v-lock-icon{font-size:1.8rem;margin-bottom:.4rem;}
+.v-lock-text{color:var(--gold);font-size:.8rem;font-weight:600;text-align:center;padding:0 1rem;}
+.ref-card{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.03));border:1px solid rgba(242,183,5,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;}
 .ref-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);margin-bottom:.3rem;}
 .ref-sub{color:var(--sub);font-size:.83rem;margin-bottom:1rem;line-height:1.6;}
 .ref-row{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
 .ref-code{background:rgba(255,255,255,.06);border:1px dashed rgba(242,183,5,.35);border-radius:8px;padding:.6rem 1.1rem;font-family:monospace;font-size:1rem;color:var(--gold);letter-spacing:2px;flex:1;min-width:160px;}
 .ref-copy{background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.65rem 1.2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.83rem;cursor:pointer;}
-.upgrade-card{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(255,209,102,.04));border:1px solid rgba(242,183,5,.25);border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:2rem;}
-.upgrade-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);margin-bottom:.4rem;}
-.upgrade-sub{color:var(--sub);font-size:.85rem;margin-bottom:1rem;line-height:1.6;}
-.upgrade-btn{background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.8rem 2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+.up-card{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(255,209,102,.04));border:1px solid rgba(242,183,5,.25);border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:2rem;}
+.up-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);margin-bottom:.4rem;}
+.up-sub{color:var(--sub);font-size:.85rem;margin-bottom:1rem;line-height:1.6;}
+.up-btn{background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.8rem 2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 .popup-overlay.hidden{display:none;}
-.popup{background:#0e0c14;border:1px solid var(--border);border-radius:24px 24px 0 0;padding:2rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:slideUp .3s ease;}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.popup{background:#0e0c14;border:1px solid var(--border);border-radius:24px 24px 0 0;padding:2rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;}
 @media(min-width:600px){.popup-overlay{align-items:center;}.popup{border-radius:24px;}}
-.popup-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.popup-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
 .popup-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--white);}
-.popup-close{background:rgba(255,255,255,.08);border:none;color:var(--sub);width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;}
+.popup-close{background:rgba(255,255,255,.08);border:none;color:var(--sub);width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;line-height:1;}
 .popup-reward{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);border-radius:20px;padding:.3rem .9rem;font-size:.78rem;color:var(--green);font-weight:600;margin-bottom:1.5rem;}
 .popup-sub{color:var(--sub);font-size:.85rem;line-height:1.6;margin-bottom:1.75rem;}
 .field{margin-bottom:1.25rem;}
 .field-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:var(--sub);margin-bottom:.5rem;display:block;}
-.chip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem;}
-.chip,.int-chip{padding:.65rem .5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.82rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif;}
-.chip:hover,.int-chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
-.chip.on,.int-chip.on{background:rgba(242,183,5,.1);border-color:var(--gold);color:var(--gold);font-weight:600;}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem;}
+.chip{padding:.65rem .5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.82rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif;}
+.chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
+.chip.on{background:rgba(242,183,5,.1);border-color:var(--gold);color:var(--gold);font-weight:600;}
 .state-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;margin-bottom:.75rem;}
 .state-btn{flex:1;padding:.5rem;border:none;border-radius:7px;background:transparent;color:var(--sub);font-family:'Poppins',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;}
 .state-btn.active{background:var(--gold);color:#06040A;font-weight:700;}
-.city-select{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.75rem 1rem;color:var(--white);font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;}
-.city-select:focus{border-color:var(--gold);}
-.city-select option{background:#0e0c14;}
-.popup-save{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:1.5rem;letter-spacing:.5px;}
+.city-sel{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.75rem 1rem;color:var(--white);font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;}
+.city-sel:focus{border-color:var(--gold);}
+.city-sel option{background:#0e0c14;}
+.popup-save{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:1.5rem;}
 .popup-save:disabled{opacity:.4;}
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1828;border:1px solid var(--gold);border-radius:12px;padding:.85rem 1.5rem;color:var(--white);font-size:.85rem;z-index:2000;opacity:0;transition:all .3s;white-space:nowrap;}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1828;border:1px solid var(--gold);border-radius:12px;padding:.85rem 1.5rem;color:var(--white);font-size:.85rem;z-index:2000;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.dev-panel{display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid var(--gold);border-radius:12px;padding:1rem 1.2rem;font-family:'Poppins',sans-serif;}
-.dev-panel-title{color:var(--gold);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;}
-.dev-btn{width:100%;margin-bottom:.4rem;border:none;border-radius:8px;padding:.5rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;}
+.dev-panel{display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid var(--gold);border-radius:12px;padding:1rem 1.2rem;}
+.dev-panel p{color:var(--gold);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;font-family:'Poppins',sans-serif;}
+.dev-btn{width:100%;margin-bottom:.4rem;border:none;border-radius:8px;padding:.5rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;display:block;}
 @media(max-width:600px){.app{padding:1.2rem 1rem;}.stats{grid-template-columns:1fr 1fr;}.vouchers{grid-template-columns:1fr;}.ref-row{flex-direction:column;}.ref-code{width:100%;}}
 </style>
 </head>
@@ -98,11 +96,11 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 <nav class="nav">
   <div class="nav-logo">DWC</div>
   <div class="nav-right">
-    <div class="nav-pts" id="nav-pts">&#9733; 300 pts</div>
+    <div class="nav-pts" id="navPts">0 pts</div>
     <div class="nav-menu">
-      <button class="nav-avatar" id="nav-avatar" onclick="toggleNav(event)">R</button>
-      <div class="nav-dropdown">
-        <a href="#" onclick="openPopup();return false;">Complete Profile</a>
+      <button class="nav-avatar" id="navAvatar" onclick="toggleNav(event)">R</button>
+      <div class="nav-dropdown" id="navDropdown">
+        <a href="#" onclick="openPopup();closeNav();return false;">Complete Profile</a>
         <a href="/upgrade">Upgrade Plan</a>
         <button onclick="doSignOut()">Sign Out</button>
       </div>
@@ -112,86 +110,83 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 <div class="app">
   <div class="profile-banner" id="profileBanner" style="display:none;">
     <div class="banner-left">
-      <div class="banner-icon">&#127873;</div>
-      <div class="banner-text"><strong>Earn 25 points</strong> &#8212; Complete your profile in 30 seconds</div>
+      <div class="banner-text"><strong>Earn 25 points</strong> - Complete your profile in 30 seconds</div>
     </div>
     <button class="banner-cta" onclick="openPopup()">Complete Now</button>
   </div>
-  <div class="welcome-name">Welcome, <em id="member-first">Star</em>!</div>
+  <div class="welcome-name">Welcome, <em id="memberName">Star</em>!</div>
   <div class="stats">
-    <div class="stat"><div class="stat-label">Points</div><div class="stat-value" id="stat-pts">300</div><div class="stat-sub">Keep earning</div></div>
-    <div class="stat"><div class="stat-label">Vouchers</div><div class="stat-value" id="stat-v">2</div><div class="stat-sub">Available</div></div>
-    <div class="stat"><div class="stat-label">Your City</div><div class="stat-value" id="stat-city" style="font-size:1.1rem;padding-top:.5rem;">&#8212;</div><div class="stat-sub">Partner area</div></div>
-    <div class="stat"><div class="stat-label">Tier</div><div class="stat-value" id="stat-tier" style="font-size:1.4rem;padding-top:.4rem;">FREE</div><div class="stat-sub" id="stat-tier-sub">Upgrade to unlock</div></div>
+    <div class="stat"><div class="stat-label">Points</div><div class="stat-value" id="statPts">300</div><div class="stat-sub">Keep earning</div></div>
+    <div class="stat"><div class="stat-label">Vouchers</div><div class="stat-value" id="statV">2</div><div class="stat-sub">Available</div></div>
+    <div class="stat"><div class="stat-label">Your City</div><div class="stat-value" id="statCity" style="font-size:1.1rem;padding-top:.5rem;">-</div><div class="stat-sub">Partner area</div></div>
+    <div class="stat"><div class="stat-label">Tier</div><div class="stat-value" id="statTier" style="font-size:1.4rem;padding-top:.4rem;">FREE</div><div class="stat-sub" id="statTierSub">Upgrade to unlock</div></div>
   </div>
   <div class="section-title">Your Vouchers</div>
   <div class="vouchers" id="vGrid"></div>
-  <div class="upgrade-card" id="upgradeCard">
-    <div class="upgrade-title">Unlock Premium Dining</div>
-    <p class="upgrade-sub">Upgrade to Gold and get exclusive restaurant vouchers, celebrity events, and priority bookings.</p>
-    <button class="upgrade-btn" onclick="location.href='/upgrade'">Upgrade to Gold &#8212; &#8377;9,999/yr</button>
+  <div class="up-card" id="upCard">
+    <div class="up-title">Unlock Premium Dining</div>
+    <p class="up-sub">Upgrade to Gold and get exclusive restaurant vouchers, celebrity events, and priority bookings.</p>
+    <button class="up-btn" onclick="location.href='/upgrade'">Upgrade to Gold - Rs.9,999/yr</button>
   </div>
-  <div class="section-title">Refer &amp; Earn</div>
-  <div class="referral-card">
+  <div class="section-title">Refer and Earn</div>
+  <div class="ref-card">
     <div class="ref-title">Your Referral Code</div>
     <p class="ref-sub">Share and earn <strong style="color:var(--gold)">500 points</strong> per friend. They get 300 bonus points.</p>
     <div class="ref-row">
-      <div class="ref-code" id="ref-code">DWC-LOADING</div>
+      <div class="ref-code" id="refCode">DWC-LOADING</div>
       <button class="ref-copy" onclick="copyRef()">Copy Link</button>
     </div>
   </div>
 </div>
 
-<!-- PROFILE POPUP -->
 <div class="popup-overlay hidden" id="popOverlay" onclick="if(event.target===this)closePopup()">
   <div class="popup">
-    <div class="popup-header">
+    <div class="popup-hdr">
       <div class="popup-title">Complete Profile</div>
-      <button class="popup-close" onclick="closePopup()">&#10005;</button>
+      <button class="popup-close" onclick="closePopup()">X</button>
     </div>
-    <div class="popup-reward">&#127873; Earn 25 points on completion</div>
+    <div class="popup-reward">Gift Earn 25 points on completion</div>
     <p class="popup-sub">Personalise your vouchers and celebrity experiences.</p>
     <div class="field">
-      <label class="field-label">Movie Industry <span style="text-transform:none;font-size:.72rem;">(pick any)</span></label>
-      <div class="chip-grid">
-        <div class="chip" data-v="Tollywood" onclick="toggleChip(this)">&#127916; Tollywood</div>
-        <div class="chip" data-v="Bollywood" onclick="toggleChip(this)">&#127917; Bollywood</div>
-        <div class="chip" data-v="Sandalwood" onclick="toggleChip(this)">&#127807; Sandalwood</div>
-        <div class="chip" data-v="Kollywood" onclick="toggleChip(this)">&#127925; Kollywood</div>
-        <div class="chip" data-v="Mollywood" onclick="toggleChip(this)">&#127796; Mollywood</div>
+      <label class="field-label">Movie Industry (pick any)</label>
+      <div class="chips">
+        <div class="chip" data-k="ind" data-v="Tollywood" onclick="toggleChip(this)">Tollywood</div>
+        <div class="chip" data-k="ind" data-v="Bollywood" onclick="toggleChip(this)">Bollywood</div>
+        <div class="chip" data-k="ind" data-v="Sandalwood" onclick="toggleChip(this)">Sandalwood</div>
+        <div class="chip" data-k="ind" data-v="Kollywood" onclick="toggleChip(this)">Kollywood</div>
+        <div class="chip" data-k="ind" data-v="Mollywood" onclick="toggleChip(this)">Mollywood</div>
       </div>
     </div>
     <div class="field">
       <label class="field-label">Your City</label>
       <div class="state-toggle">
-        <button class="state-btn active" id="btn-ts" onclick="popSetState('TS')">Telangana</button>
-        <button class="state-btn" id="btn-ap" onclick="popSetState('AP')">Andhra Pradesh</button>
-        <button class="state-btn" id="btn-ot" onclick="popSetState('OTHER')">Other</button>
+        <button class="state-btn active" id="btnTS" onclick="popState('TS')">Telangana</button>
+        <button class="state-btn" id="btnAP" onclick="popState('AP')">Andhra Pradesh</button>
+        <button class="state-btn" id="btnOT" onclick="popState('OTHER')">Other</button>
       </div>
-      <select class="city-select" id="popCity"><option value="">Select city...</option></select>
+      <select class="city-sel" id="popCity"><option value="">Select city...</option></select>
     </div>
     <div class="field">
-      <label class="field-label">Interests <span style="text-transform:none;font-size:.72rem;">(pick any)</span></label>
-      <div class="chip-grid">
-        <div class="int-chip" data-v="Food &amp; Dining" onclick="toggleChip(this)">&#127869; Food</div>
-        <div class="int-chip" data-v="Sports" onclick="toggleChip(this)">&#127951; Sports</div>
-        <div class="int-chip" data-v="Music" onclick="toggleChip(this)">&#127925; Music</div>
-        <div class="int-chip" data-v="Business" onclick="toggleChip(this)">&#128188; Business</div>
-        <div class="int-chip" data-v="Travel" onclick="toggleChip(this)">&#9992; Travel</div>
-        <div class="int-chip" data-v="Fashion" onclick="toggleChip(this)">&#128919; Fashion</div>
+      <label class="field-label">Interests (pick any)</label>
+      <div class="chips">
+        <div class="chip" data-k="int" data-v="Food and Dining" onclick="toggleChip(this)">Food</div>
+        <div class="chip" data-k="int" data-v="Sports" onclick="toggleChip(this)">Sports</div>
+        <div class="chip" data-k="int" data-v="Music" onclick="toggleChip(this)">Music</div>
+        <div class="chip" data-k="int" data-v="Business" onclick="toggleChip(this)">Business</div>
+        <div class="chip" data-k="int" data-v="Travel" onclick="toggleChip(this)">Travel</div>
+        <div class="chip" data-k="int" data-v="Fashion" onclick="toggleChip(this)">Fashion</div>
       </div>
     </div>
-    <button class="popup-save" id="saveBtn" onclick="saveProfile()">Save &amp; Earn 25 Points &#10022;</button>
+    <button class="popup-save" id="saveBtn" onclick="saveProfile()">Save and Earn 25 Points</button>
   </div>
 </div>
 
-<!-- DEV PANEL (rupeshking@gmail.com only) -->
 <div class="dev-panel" id="devPanel">
-  <div class="dev-panel-title">&#9889; Dev Test Panel</div>
-  <button class="dev-btn" style="background:var(--gold);color:#06040A;" onclick="devSetTier('gold')">Set Gold</button>
-  <button class="dev-btn" style="background:rgba(242,183,5,.15);color:var(--gold);border:1px solid var(--gold);" onclick="devSetTier('silver')">Set Silver</button>
-  <button class="dev-btn" style="background:rgba(242,183,5,.15);color:var(--gold);border:1px solid var(--gold);" onclick="devSetTier('platinum')">Set Platinum</button>
-  <button class="dev-btn" style="background:rgba(255,255,255,.06);color:var(--sub);border:1px solid rgba(255,255,255,.15);" onclick="devSetTier('free')">Reset Free</button>
+  <p>Dev Test Panel</p>
+  <button class="dev-btn" style="background:var(--gold);color:#06040A;" onclick="devTier('gold')">Set Gold</button>
+  <button class="dev-btn" style="background:rgba(242,183,5,.15);color:var(--gold);border:1px solid var(--gold);" onclick="devTier('silver')">Set Silver</button>
+  <button class="dev-btn" style="background:rgba(242,183,5,.15);color:var(--gold);border:1px solid var(--gold);" onclick="devTier('platinum')">Set Platinum</button>
+  <button class="dev-btn" style="background:rgba(255,255,255,.06);color:var(--sub);border:1px solid rgba(255,255,255,.15);" onclick="devTier('free')">Reset Free</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -200,20 +195,21 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 var SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
 var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
 var sbClient=supabase.createClient(SURL,SKEY);
-var DEV_EMAIL='rupeshking@gmail.com';
+var DEV='rupeshking@gmail.com';
 var CITIES={
-  TS:['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Siddipet','Nalgonda','Sangareddy','Medak','Adilabad','Mancherial','Mahabubnagar','Suryapet','Bhongir','Rangareddy'],
+  TS:['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Nalgonda','Sangareddy','Medak','Adilabad','Mahabubnagar','Suryapet','Bhongir','Rangareddy','Mancherial','Siddipet'],
   AP:['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Vizianagaram','Ongole'],
-  OTHER:['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Other']
+  OTHER:['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Chandigarh','Hyderabad','Other']
 };
-var currentUser=null, memberData=null, selIndustries=[], selInterests=[], popState='TS';
+var cu=null,md=null,selInd=[],selInt=[];
 
 // Stars
 (function(){
   var bg=document.getElementById('starsBg');
   for(var i=0;i<60;i++){
-    var s=document.createElement('span');s.className='star';s.innerHTML='\u2605';
-    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    var s=document.createElement('span');
+    s.className='star';s.textContent='*';
+    s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%';
     s.style.setProperty('--dur',(2+Math.random()*4)+'s');
     s.style.setProperty('--delay',Math.random()*5+'s');
     s.style.setProperty('--op',(0.1+Math.random()*0.25)+'');
@@ -222,123 +218,116 @@ var currentUser=null, memberData=null, selIndustries=[], selInterests=[], popSta
   }
 })();
 
-// Auth
+// Nav dropdown
+function toggleNav(e){
+  e.stopPropagation();
+  document.getElementById('navDropdown').classList.toggle('open');
+}
+function closeNav(){
+  document.getElementById('navDropdown').classList.remove('open');
+}
+document.addEventListener('click',function(){closeNav();});
+
+// Sign out
+async function doSignOut(){
+  try{await sbClient.auth.signOut();}catch(e){}
+  window.location.href='/signin';
+}
+
+// Auth init
 sbClient.auth.getSession().then(async function(res){
-  var session=res.data&&res.data.session;
-  if(!session){window.location.href='/signin';return;}
-  currentUser=session.user;
-  var r=await sbClient.from('members').select('*').eq('id',currentUser.id).single();
+  var sess=res.data&&res.data.session;
+  if(!sess){window.location.href='/signin';return;}
+  cu=sess.user;
+  var r=await sbClient.from('members').select('*').eq('id',cu.id).single();
   if(!r.data){
-    var nameFromMeta=(currentUser.user_metadata&&(currentUser.user_metadata.full_name||currentUser.user_metadata.name))||currentUser.email.split('@')[0];
-    await sbClient.from('members').upsert({id:currentUser.id,email:currentUser.email,full_name:nameFromMeta,tier:'free',points:300},{onConflict:'id'});
-    r=await sbClient.from('members').select('*').eq('id',currentUser.id).single();
+    var n=(cu.user_metadata&&(cu.user_metadata.full_name||cu.user_metadata.name))||cu.email.split('@')[0];
+    await sbClient.from('members').upsert({id:cu.id,email:cu.email,full_name:n,tier:'free',points:300},{onConflict:'id'});
+    r=await sbClient.from('members').select('*').eq('id',cu.id).single();
   }
-  memberData=r.data||{};
+  md=r.data||{};
   render();
 });
 
 function render(){
-  var m=memberData;
-  // Name: DB full_name > auth metadata > email prefix
-  var n=m.full_name
-    ||(currentUser.user_metadata&&(currentUser.user_metadata.full_name||currentUser.user_metadata.name))
-    ||(currentUser.email.split('@')[0].replace(/[._-]/g,' ').trim())
+  var m=md;
+  var raw=m.full_name
+    ||(cu.user_metadata&&(cu.user_metadata.full_name||cu.user_metadata.name))
+    ||(cu.email.split('@')[0].replace(/[._-]/g,' ').trim())
     ||'Star';
-  var name=n.split(' ')[0];
+  var name=raw.split(' ')[0];
   name=name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
-  document.getElementById('member-first').textContent=name;
-  document.getElementById('nav-avatar').textContent=name[0].toUpperCase();
+  document.getElementById('memberName').textContent=name;
+  document.getElementById('navAvatar').textContent=name[0].toUpperCase();
   var pts=m.points||300;
-  document.getElementById('stat-pts').textContent=pts.toLocaleString();
-  document.getElementById('nav-pts').textContent='\u2605 '+pts.toLocaleString()+' pts';
-  document.getElementById('stat-v').textContent=(m.tier&&m.tier!=='free')?'12':'2';
-  document.getElementById('stat-city').textContent=m.city||'\u2014';
-  var tier=(m.tier||'free').toUpperCase();
-  document.getElementById('stat-tier').textContent=tier;
-  document.getElementById('ref-code').textContent=m.referral_code||('DWC-'+name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6)+Math.floor(1000+Math.random()*9000));
+  document.getElementById('statPts').textContent=pts.toLocaleString();
+  document.getElementById('navPts').textContent=pts.toLocaleString()+' pts';
+  document.getElementById('statV').textContent=(m.tier&&m.tier!=='free')?'12':'2';
+  document.getElementById('statCity').textContent=m.city||'-';
+  document.getElementById('statTier').textContent=(m.tier||'free').toUpperCase();
+  document.getElementById('refCode').textContent=m.referral_code||('DWC-'+name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6)+Math.floor(1000+Math.random()*9000));
   if(m.tier&&m.tier!=='free'){
-    document.getElementById('upgradeCard').style.display='none';
-    document.getElementById('stat-tier-sub').textContent='Active member';
+    document.getElementById('upCard').style.display='none';
+    document.getElementById('statTierSub').textContent='Active member';
   }
   var done=m.city&&m.interests&&m.interests.length>0;
   if(!done) document.getElementById('profileBanner').style.display='flex';
-  if(!done&&!sessionStorage.getItem('dwc_pop_shown')){sessionStorage.setItem('dwc_pop_shown','1');setTimeout(openPopup,1200);}
+  if(!done&&!sessionStorage.getItem('dwc_pop')){sessionStorage.setItem('dwc_pop','1');setTimeout(openPopup,1200);}
   renderVouchers(m.tier||'free');
   prefill(m);
-  // Dev panel
-  if(currentUser.email===DEV_EMAIL) document.getElementById('devPanel').style.display='block';
-  // Upgrade success toast
+  if(cu.email===DEV) document.getElementById('devPanel').style.display='block';
   if(location.search.includes('upgraded=1')){
-    showToast('🎉 Welcome to '+tier+'! Your membership is active.');
+    toast('Welcome to '+(m.tier||'Gold').toUpperCase()+'! Membership active.');
     history.replaceState({},'','/dashboard');
   }
 }
 
 function renderVouchers(tier){
   var vv=[
-    {t:'Spice Garden',d:'Premium Hyderabadi cuisine',c:'Hyderabad',disc:'20%',free:true},
-    {t:'The Grand Table',d:'Fine dining experience',c:'Hyderabad',disc:'25%',free:true},
-    {t:'Kebabs & Curries',d:'Authentic Mughlai',c:'Hyderabad',disc:'30%',free:false},
-    {t:'Ocean Blue',d:'Seafood & coastal cuisine',c:'Bangalore',disc:'35%',free:false},
-    {t:'Skyline Lounge',d:'Rooftop dining',c:'Mumbai',disc:'40%',free:false}
+    {t:'Spice Garden',d:'Premium Hyderabadi cuisine',c:'Hyderabad',disc:'20% Off',free:true},
+    {t:'The Grand Table',d:'Fine dining experience',c:'Hyderabad',disc:'25% Off',free:true},
+    {t:'Kebabs and Curries',d:'Authentic Mughlai',c:'Hyderabad',disc:'30% Off',free:false},
+    {t:'Ocean Blue',d:'Seafood and coastal cuisine',c:'Bangalore',disc:'35% Off',free:false},
+    {t:'Skyline Lounge',d:'Rooftop dining',c:'Mumbai',disc:'40% Off',free:false}
   ];
   document.getElementById('vGrid').innerHTML=vv.map(function(v){
     var locked=!v.free&&tier==='free';
     return '<div class="voucher">'
-      +'<span class="voucher-badge '+(locked?'badge-gold':'badge-free')+'">'+(locked?'Gold Only':'Free')+'</span>'
-      +'<div class="voucher-title">'+v.t+'</div>'
-      +'<div class="voucher-desc">'+v.d+' &middot; '+v.c+'</div>'
-      +'<div class="voucher-discount">'+v.disc+' Off</div>'
-      +(locked
-        ?'<div class="voucher-lock" onclick="location.href='/upgrade'"><div class="lock-icon">\uD83D\uDD12</div><div class="lock-text">Upgrade to Gold</div></div>'
-        :'<button class="voucher-action">Redeem</button>')
+      +'<span class="v-badge '+(locked?'b-gold':'b-free')+'">'+(locked?'Gold Only':'Free')+'</span>'
+      +'<div class="v-title">'+v.t+'</div>'
+      +'<div class="v-desc">'+v.d+' - '+v.c+'</div>'
+      +'<div class="v-disc">'+v.disc+'</div>'
+      +(locked?'<div class="v-lock" onclick="location.href='/upgrade'"><div class="v-lock-icon">Lock</div><div class="v-lock-text">Upgrade to Gold to unlock</div></div>':'<button class="v-btn">Redeem</button>')
       +'</div>';
   }).join('');
 }
 
 function prefill(m){
   if(m.city){
-    if(CITIES.TS.includes(m.city))popSetState('TS');
-
-function toggleNav(e){
-  e.stopPropagation();
-  var dd=document.querySelector('.nav-dropdown');
-  dd.classList.toggle('open');
-}
-document.addEventListener('click',function(){
-  document.querySelector('.nav-dropdown').classList.remove('open');
-});
-
-    else if(CITIES.AP.includes(m.city))popSetState('AP');
-    else popSetState('OTHER');
+    if(CITIES.TS.includes(m.city))popState('TS');
+    else if(CITIES.AP.includes(m.city))popState('AP');
+    else popState('OTHER');
     document.getElementById('popCity').value=m.city;
-  } else {popSetState('TS');}
+  }else{popState('TS');}
   if(m.interests&&m.interests.length){
-    m.interests.forEach(function(v){
-      var c=document.querySelector('.int-chip[data-v="'+v+'"]');
-      if(c){c.classList.add('on');if(!selInterests.includes(v))selInterests.push(v);}
-    });
+    m.interests.forEach(function(v){var c=document.querySelector('.chip[data-k="int"][data-v="'+v+'"]');if(c){c.classList.add('on');if(!selInt.includes(v))selInt.push(v);}});
   }
   if(m.movie_industry&&m.movie_industry.length){
-    m.movie_industry.forEach(function(v){
-      var c=document.querySelector('.chip[data-v="'+v+'"]');
-      if(c){c.classList.add('on');if(!selIndustries.includes(v))selIndustries.push(v);}
-    });
+    m.movie_industry.forEach(function(v){var c=document.querySelector('.chip[data-k="ind"][data-v="'+v+'"]');if(c){c.classList.add('on');if(!selInd.includes(v))selInd.push(v);}});
   }
 }
 
-function popSetState(s){
-  popState=s;
-  ['ts','ap','ot'].forEach(function(x){document.getElementById('btn-'+x).classList.remove('active');});
-  document.getElementById('btn-'+s.toLowerCase()).classList.add('active');
+function popState(s){
+  ['TS','AP','OTHER'].forEach(function(x){document.getElementById('btn'+x).classList.remove('active');});
+  document.getElementById('btn'+s).classList.add('active');
   var sel=document.getElementById('popCity');
-  sel.innerHTML='<option value="">Select city...</option>'+(CITIES[s]||[]).map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('');
+  sel.innerHTML='<option value="">Select city...</option>'+(CITIES[s]||[]).map(function(c){return '<option>'+c+'</option>';}).join('');
 }
 
 function toggleChip(el){
   el.classList.toggle('on');
+  var arr=el.dataset.k==='ind'?selInd:selInt;
   var v=el.dataset.v;
-  var arr=el.classList.contains('chip')?selIndustries:selInterests;
   if(el.classList.contains('on')){if(!arr.includes(v))arr.push(v);}
   else{var i=arr.indexOf(v);if(i>-1)arr.splice(i,1);}
 }
@@ -350,49 +339,42 @@ async function saveProfile(){
   var city=document.getElementById('popCity').value;
   var btn=document.getElementById('saveBtn');
   btn.disabled=true;btn.textContent='Saving...';
-  var wasComplete=memberData&&memberData.city&&memberData.interests&&memberData.interests.length>0;
+  var wasDone=md&&md.city&&md.interests&&md.interests.length>0;
   var u={onboarded:true};
   if(city)u.city=city;
-  if(selInterests.length)u.interests=selInterests;
-  if(selIndustries.length)u.movie_industry=selIndustries;
-  if(!wasComplete)u.points=(memberData.points||300)+25;
-  await sbClient.from('members').update(u).eq('id',currentUser.id);
-  Object.assign(memberData,u);
-  if(u.points){document.getElementById('stat-pts').textContent=u.points.toLocaleString();document.getElementById('nav-pts').textContent='\u2605 '+u.points.toLocaleString()+' pts';}
-  if(u.city)document.getElementById('stat-city').textContent=u.city;
+  if(selInt.length)u.interests=selInt;
+  if(selInd.length)u.movie_industry=selInd;
+  if(!wasDone)u.points=(md.points||300)+25;
+  await sbClient.from('members').update(u).eq('id',cu.id);
+  Object.assign(md,u);
+  if(u.points){document.getElementById('statPts').textContent=u.points.toLocaleString();document.getElementById('navPts').textContent=u.points.toLocaleString()+' pts';}
+  if(u.city)document.getElementById('statCity').textContent=u.city;
   document.getElementById('profileBanner').style.display='none';
   closePopup();
-  showToast(wasComplete?'✓ Profile updated':'🎉 Profile complete! +25 points earned');
-  btn.disabled=false;btn.textContent='Save & Earn 25 Points ✦';
+  toast(wasDone?'Profile updated':'Profile complete! +25 points earned');
+  btn.disabled=false;btn.textContent='Save and Earn 25 Points';
 }
 
 function copyRef(){
-  var code=document.getElementById('ref-code').textContent.trim();
-  var link='https://www.dinewithcelebrity.com/signup?ref='+code;
-  navigator.clipboard.writeText(link).then(function(){showToast('Referral link copied!');}).catch(function(){showToast('Code: '+code);});
+  var code=document.getElementById('refCode').textContent.trim();
+  navigator.clipboard.writeText('https://www.dinewithcelebrity.com/signup?ref='+code).then(function(){toast('Referral link copied!');}).catch(function(){toast('Code: '+code);});
 }
 
-async function doSignOut(){
-  try{await sbClient.auth.signOut();}catch(e){}
-  window.location.href='/signin';
-}
-
-function showToast(msg){
+function toast(msg){
   var t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},3000);
 }
 
-// Dev panel functions (only for rupeshking@gmail.com)
-async function devSetTier(tier){
-  if(!currentUser||currentUser.email!==DEV_EMAIL)return;
+async function devTier(tier){
+  if(!cu||cu.email!==DEV)return;
   var u=tier==='free'?{tier:'free',expires_at:null}:{tier:tier,expires_at:new Date(Date.now()+365*24*60*60*1000).toISOString()};
-  await sbClient.from('members').update(u).eq('id',currentUser.id);
-  showToast('Tier set to '+tier.toUpperCase()+' ✓');
+  await sbClient.from('members').update(u).eq('id',cu.id);
+  toast('Set to '+tier.toUpperCase());
   setTimeout(function(){location.reload();},1000);
 }
 
-popSetState('TS');
+popState('TS');
 </script>
 </body>
 </html>
