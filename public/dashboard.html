@@ -678,7 +678,7 @@ function saveProfile() {
   btn.disabled = true;
   btn.textContent = 'Saving...';
   var wasDone = md && md.city && md.interests && md.interests.length > 0;
-  var u = { onboarded: true };
+  var u = {};
   if (city) u.city = city;
   if (selInt.length) u.interests = selInt;
   if (selInd.length) u.movie_industry = selInd;
