@@ -375,7 +375,17 @@ var sbClient = supabase.createClient(SURL, SKEY);
 var DEV_EMAIL = 'rupeshking@gmail.com';
 
 var CITIES = {
-  TS: ['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Nalgonda','Sangareddy','Medak','Adilabad','Mahabubnagar','Suryapet','Bhongir','Rangarub.textContent = 'Upgrade to ' + tc.next + ' - ' + tc.nextPrice;
+  TS: ['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Nalgonda','Sangareddy','Medak','Adilabad','Mahabubnagar','Suryapet','Bhongir','Rangareddy','Mancherial','Siddipet'],
+  AP: ['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Vizianagaram','Ongole'],
+  OT: ['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Chandigarh','Other']
+};
+
+var TIERS = {
+  free:      { label:'FREE',       maxV:1,   css:'free',      next:'Gold',       nextPrice:'Rs.2,499', desc:'Upgrade to Gold to unlock 5 vouchers and celebrity events' },
+  gold:      { label:'GOLD',       maxV:5,   css:'gold',      next:'Platinum',   nextPrice:'Rs.6,999', desc:'Upgrade to Platinum for 10 vouchers and event seat booking' },
+  platinum:  { label:'PLATINUM',   maxV:10,  css:'platinum',  next:'DWC Purple', nextPrice:'Rs.12,999',desc:'Upgrade to DWC Purple for unlimited vouchers and concierge service' },
+  dwcpurple: { label:'DWC PURPLE', maxV:999, css:'dwcpurple', next:null,         nextPrice:null,       desc:'You have the best membership. Enjoy unlimited access!' }
+};
   } else {
     tub.classList.add('hidden');
   }
