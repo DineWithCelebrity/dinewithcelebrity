@@ -222,12 +222,14 @@ sbClient.auth.getSession().then(async function(res){
 
 function render(){
   var m=memberData;
-  var metaName=(currentUser.user_metadata&&(currentUser.user_metadata.full_name||currentUser.user_metadata.name))||'';
-  var emailPrefix=currentUser.email?currentUser.email.split('@')[0].replace(/[._]/g,' ').trim():'';
-  var rawName=m.full_name||metaName||emailPrefix||'Star';
-  var name=rawName.split(' ')[0];
+  // Resolve name: DB full_name > auth metadata > email prefix > 'Star'
+  var n=m.full_name
+    ||(currentUser.user_metadata&&(currentUser.user_metadata.full_name||currentUser.user_metadata.name))
+    ||(currentUser.email&&currentUser.email.split('@')[0].replace(/[._-]/g,' ').trim())
+    ||'Star';
+  var name=n.split(' ')[0];
   name=name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
-  document.getElementById('member-first').textContent=name;
+  getElementById('member-first').textContent=name;
   document.getElementById('nav-avatar').textContent=name[0].toUpperCase();
   var pts=m.points||300;
   document.getElementById('stat-pts').textContent=pts.toLocaleString();
@@ -243,6 +245,11 @@ function render(){
     if(!sessionStorage.getItem('dwc_pop_shown')){sessionStorage.setItem('dwc_pop_shown','1');setTimeout(openPopup,1200);}
   }
   renderVouchers(m.tier||'free');
+  // Show upgrade success if redirected from payment
+  if(location.search.includes('upgraded=1')){
+    showToast('🎉 Welcome to Gold! Your membership is now active.');
+    history.replaceState({},'','/dashboard');
+  }
   prefill(m);
 }
 
