@@ -44,6 +44,12 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
 .success-sub{color:var(--sub);font-size:.9rem;line-height:1.7;}
 .free-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);border-radius:20px;padding:.3rem .9rem;font-size:.78rem;color:var(--green);margin-bottom:1.5rem;}
 .ref-field{margin-bottom:.6rem;}
+.city-wrap{position:relative;}
+.city-wrap select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F2B705' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+.state-select,.city-select-field{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.85rem 1rem;color:var(--white);font-family:Poppins,sans-serif;font-size:.95rem;outline:none;transition:border .2s;cursor:pointer;}
+.state-select:focus,.city-select-field:focus{border-color:var(--gold);}
+.state-select option,.city-select-field option{background:#0e0c14;color:var(--white);}
+.city-row{display:flex;gap:.6rem;}
 .ref-optional{font-size:.72rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;}
 .global-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);border-radius:8px;padding:.75rem 1rem;color:#ff6b6b;font-size:.83rem;margin-bottom:1rem;display:none;}
 </style></head><body>
@@ -69,6 +75,20 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
       <div class="phone-row">
         <div class="phone-prefix">+91</div>
         <input type="tel" id="inp-phone" placeholder="98765 43210" autocomplete="tel" style="flex:1"/>
+      </div>
+    </div>
+    <div class="field">
+      <label>State</label>
+      <select class="state-select" id="inp-state" onchange="loadCities()">
+        <option value="">Select state...</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>City <span style="color:var(--muted);font-size:.78rem;font-weight:400">(mandatory)</span></label>
+      <div class="city-wrap">
+        <select class="city-select-field" id="inp-city" disabled>
+          <option value="">Select state first...</option>
+        </select>
       </div>
     </div>
     <div class="field">
@@ -126,6 +146,30 @@ function initCelebs(){
   });
 }
 
+// Cities fetched from Supabase
+var allCities=[];
+
+async function loadStates(){
+  var r=await sbClient.from('cities').select('state').eq('is_active',true).order('state');
+  if(r.error||!r.data) return;
+  var states=[...new Set(r.data.map(function(c){return c.state;}))].sort();
+  // Move metros to top
+  var priority=['Delhi','Maharashtra','Karnataka','Telangana','Tamil Nadu','West Bengal','Gujarat'];
+  states.sort(function(a,b){var ai=priority.indexOf(a),bi=priority.indexOf(b);if(ai>=0&&bi>=0)return ai-bi;if(ai>=0)return -1;if(bi>=0)return 1;return a.localeCompare(b);});
+  var sel=document.getElementById('inp-state');
+  sel.innerHTML='<option value="">Select state...</option>'+states.map(function(s){return '<option value="'+s+'">'+s+'</option>';}).join('');
+  allCities=r.data;
+}
+
+function loadCities(){
+  var state=document.getElementById('inp-state').value;
+  var citySel=document.getElementById('inp-city');
+  if(!state){citySel.innerHTML='<option value="">Select state first...</option>';citySel.disabled=true;return;}
+  var cities=allCities.filter(function(c){return c.state===state;}).map(function(c){return c.city;}).sort();
+  citySel.innerHTML='<option value="">Select your city...</option>'+cities.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('');
+  citySel.disabled=false;
+}
+
 function genReferralCode(name){
   var clean=name.replace(/[^a-zA-Z]/g,'').toUpperCase().substring(0,6);
   var num=Math.floor(1000+Math.random()*9000);
@@ -153,6 +197,9 @@ async function doSignup(){
   if(!name){showError('Please enter your full name.');return;}
   if(!email||!email.includes('@')){showError('Please enter a valid email address.');return;}
   if(!phone||phone.length<10){showError('Please enter a valid 10-digit mobile number.');return;}
+  var city=document.getElementById('inp-city').value.trim();
+  var state=document.getElementById('inp-state').value.trim();
+  if(!city){showError('Please select your city.');return;}
   if(!pass||pass.length<6){showError('Password must be at least 6 characters.');return;}
 
   btn.disabled=true;
@@ -186,6 +233,7 @@ async function doSignup(){
         phone:'+91'+phone.replace(/s/g,''),
         tier:'free',
         points:300,
+        city:city,
         referral_code:referralCode,
         referred_by:referred_by
       },{onConflict:'id'});
@@ -206,6 +254,7 @@ document.addEventListener('DOMContentLoaded',function(){
   initStars();
   initCelebs();
   document.getElementById('btn-join').addEventListener('click',doSignup);
+  loadStates();
   // Auto-fill referral code from URL
   try{
     var urlRef=new URLSearchParams(window.location.search).get('ref');
