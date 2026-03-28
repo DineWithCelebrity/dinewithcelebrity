@@ -150,7 +150,7 @@ function initCelebs(){
 var allCities=[];
 
 async function loadStates(){
-  var r=await sbClient.from('cities').select('state').eq('is_active',true).order('state');
+  var r=await sbClient.from('cities').select('city,state').eq('is_active',true).order('state');
   if(r.error||!r.data) return;
   var states=[...new Set(r.data.map(function(c){return c.state;}))].sort();
   // Move metros to top
