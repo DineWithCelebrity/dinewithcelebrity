@@ -57,9 +57,18 @@ h2{font-family:'Bebas Neue',cursive;font-size:clamp(2rem,5.5vw,3.6rem);letter-sp
 .step-badge{display:inline-block;font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:#00C853}
 .step-badge-gold{background:rgba(242,183,5,.1);border-color:rgba(242,183,5,.3);color:var(--gold)}
 .step-badge-red{background:rgba(212,0,42,.1);border-color:rgba(212,0,42,.25);color:#ff4d6d}
-.how-cta-wrap{text-align:center;margin-top:8px}
-.how-cta-sub{margin-top:14px;color:var(--sub);font-size:.85rem}
+.how-cta-wrap{text-align:center;margin-top:16px}
+.how-cta-sub{margin-top:16px;color:var(--sub);font-size:.85rem}
 .how-cta-sub strong{color:var(--red)}
+.btn-how-cta{display:inline-flex;align-items:center;gap:14px;background:linear-gradient(135deg,#F2B705 0%,#FFD166 40%,#F2B705 100%);background-size:200% auto;color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.6rem;letter-spacing:.1em;padding:20px 48px;border-radius:100px;text-decoration:none;position:relative;overflow:hidden;transition:background-position .4s,transform .2s,box-shadow .2s;box-shadow:0 0 0 0 rgba(242,183,5,0);animation:ctaPulse 2.5s ease-in-out infinite}
+.btn-how-cta:hover{background-position:right center;transform:scale(1.04);box-shadow:0 0 40px rgba(242,183,5,.45)}
+.btn-how-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 50%,transparent 100%);transform:translateX(-100%);animation:btnShimmer 2.5s ease-in-out infinite}
+@keyframes btnShimmer{0%,100%{transform:translateX(-100%)}60%{transform:translateX(100%)}}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,.5)}50%{box-shadow:0 0 28px 8px rgba(242,183,5,.18)}}
+.btn-how-cta .cta-icon{font-size:1.4rem;animation:ctaIconBounce 1.8s ease-in-out infinite}
+@keyframes ctaIconBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.btn-how-cta .cta-arrow{font-size:1.2rem;transition:transform .2s}
+.btn-how-cta:hover .cta-arrow{transform:translateX(5px)}
 @media(max-width:768px){.how-grid{grid-template-columns:1fr;gap:16px}.step-num-bg{font-size:6rem}}
 .events{padding:80px 20px;background:radial-gradient(ellipse 80% 70% at 50% 50%,#4A000C 0%,#1A0003 100%);text-align:center}
 .event-card{max-width:700px;margin:0 auto;background:rgba(15,0,3,.7);border:1px solid var(--gold);border-radius:14px;padding:44px 36px;position:relative;overflow:hidden}
@@ -258,7 +267,11 @@ footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted
       </div>
     </div>
     <div class="how-cta-wrap">
-      <a href="/signup" class="btn-primary">Claim Your Seat &mdash; It&rsquo;s Free</a>
+      <a href="/signup" class="btn-how-cta">
+        <span class="cta-icon">&#x1F31F;</span>
+        <span>Claim Your Seat &mdash; It&rsquo;s Free</span>
+        <span class="cta-arrow">&#x2192;</span>
+      </a>
       <p class="how-cta-sub">&#x26A1; Next event filling fast &mdash; <strong>12 seats remaining</strong></p>
     </div>
   </div>
