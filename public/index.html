@@ -222,6 +222,13 @@ footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted
 .jf-perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.75rem;max-width:700px;margin:0 auto 2.5rem;text-align:left;}
 .jf-perk{color:rgba(255,255,255,0.85);font-size:0.95rem;padding:0.6rem 1rem;background:rgba(242,183,5,0.06);border:1px solid rgba(242,183,5,0.12);border-radius:8px;}
 .jf-note{color:rgba(255,255,255,0.45);font-size:0.85rem;margin-top:1.25rem;}
+
+.mech-cta{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.1em;padding:18px 48px;border-radius:100px;text-decoration:none;font-weight:900;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(242,183,5,.25)}
+.mech-cta:hover{background:#FFD166;transform:scale(1.04);box-shadow:0 6px 36px rgba(242,183,5,.4)}
+.btn-hero{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#D4002A,#a50020);color:#fff;font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.1em;padding:18px 48px;border-radius:100px;text-decoration:none;font-weight:900;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(212,0,42,.3);position:relative;overflow:hidden}
+.btn-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-100%);animation:heroShimmer 2.5s ease-in-out infinite}
+@keyframes heroShimmer{0%,100%{transform:translateX(-100%)}60%{transform:translateX(100%)}}
+.btn-hero:hover{background:linear-gradient(135deg,#b0001f,#800018);transform:scale(1.04);box-shadow:0 6px 36px rgba(212,0,42,.5)}
 </style></head><body>
 <div id="stars" aria-hidden="true"></div>
 <script>(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC','sD','sE'],sh=['★','✦','✦','·','★','✧'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48],[63,15],[18,62],[71,30],[47,75],[86,22],[12,40],[58,85],[33,58],[67,42],[24,70],[90,35],[6,25],[44,90],[80,68],[50,10],[16,80],[72,55],[38,20],[60,38],[26,92],[84,48],[10,95],[52,28],[30,15],[76,82],[20,52],[46,35],[88,70],[14,66],[62,8],[36,78],[70,22],[54,60],[8,44],[96,15]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%5],s=sh[i%6],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()</script>
