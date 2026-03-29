@@ -292,163 +292,31 @@ footer a{color:var(--gold);text-decoration:none}
 <!-- APPLICATION FORM -->
 <section class="form-sec" id="apply">
   <div class="form-inner">
-    <div class="legal-disclaimer">
-      <strong>&#x26A0;&#xFE0F; Important Notice:</strong> Dine With Celebrity is a <strong>private membership platform</strong>, not a registered charitable organisation or donation platform. The support fund is an internal allocation of company profits &mdash; not a public donation drive. Members do not donate; DWC allocates from its own earnings at its sole discretion. Submitting this form does not guarantee financial assistance.
-    </div>
     <div class="form-header">
-      <div class="sec-eyebrow">Apply For Support</div>
-      <h2 class="sec-title">We Are <em>Here For You</em></h2>
-      <p>Fill in the details below honestly and completely. Every application is reviewed personally by the DWC team.</p>
+      <div class="sec-eyebrow">How We Help</div>
+      <h2 class="sec-title">Verified Support Through <em>Trusted Partners</em></h2>
+      <p>DWC allocates 20% of profits to social causes. We are in the process of partnering with India's most trusted medical crowdfunding platforms to ensure every rupee reaches the right hands — verified, transparent, and impactful.</p>
     </div>
-    <div class="form-box">
-      <form id="givesBackForm">
-        <input type="hidden" name="access_key" value="d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9">
-        <input type="hidden" name="subject" value="New DWC Support Application">
-        <input type="hidden" name="redirect" value="https://www.dinewithcelebrity.com/gives-back">
 
-        <div class="form-section-title">&#x1F464; Patient / Guardian Details</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Patient / Child Full Name <span>*</span></label>
-            <input type="text" name="patient_name" required placeholder="Full name">
-          </div>
-          <div class="form-group">
-            <label>Guardian Name (if applicable)</label>
-            <input type="text" name="guardian_name" placeholder="Guardian name">
-          </div>
-          <div class="form-group">
-            <label>Phone Number <span>*</span></label>
-            <input type="tel" name="phone" required placeholder="+91 XXXXX XXXXX">
-          </div>
-          <div class="form-group">
-            <label>Email Address <span>*</span></label>
-            <input type="email" name="email" required placeholder="your@email.com">
-          </div>
-          <div class="form-group">
-            <label>City <span>*</span></label>
-            <select name="city" required>
-              <option value="">Select City</option>
-              <option>Hyderabad</option><option>Mumbai</option><option>Delhi</option>
-              <option>Bangalore</option><option>Chennai</option><option>Kolkata</option>
-              <option>Pune</option><option>Ahmedabad</option><option>Jaipur</option>
-              <option>Visakhapatnam</option><option>Vijayawada</option><option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Category <span>*</span></label>
-            <select name="category" required>
-              <option value="">Select Category</option>
-              <option>Cancer Treatment</option>
-              <option>Heart Surgery</option>
-              <option>Dialysis Treatment</option>
-              <option>Organ Transplantation</option>
-              <option>Girl Education &amp; Orphans</option>
-            </select>
-          </div>
-        </div>
+    <!-- Partnership teaser -->
+    <div style="background:linear-gradient(145deg,rgba(0,200,83,.07),rgba(0,200,83,.02));border:1px solid rgba(0,200,83,.2);border-radius:20px;padding:36px 32px;text-align:center;margin-bottom:32px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#00C853,transparent)"></div>
+      <div style="font-size:2.5rem;margin-bottom:14px">&#x1F91D;</div>
+      <h3 style="font-family:'Bebas Neue',cursive;font-size:2rem;color:#00C853;letter-spacing:.06em;margin-bottom:12px">Partnership Coming Soon</h3>
+      <p style="font-size:.95rem;color:rgba(255,255,255,.75);line-height:1.7;max-width:540px;margin:0 auto 24px">We are partnering with India's leading verified cause platforms so that every support request is handled by experts — with full verification, transparency and legal compliance.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:28px">
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 24px;font-size:.85rem;color:rgba(255,255,255,.7)">&#x2714; Hospital record verification</div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 24px;font-size:.85rem;color:rgba(255,255,255,.7)">&#x2714; Identity verification</div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 24px;font-size:.85rem;color:rgba(255,255,255,.7)">&#x2714; Direct disbursement</div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 24px;font-size:.85rem;color:rgba(255,255,255,.7)">&#x2714; Fully transparent</div>
+      </div>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:20px">Want to be notified when applications open?</p>
+      <a href="/signup" style="display:inline-flex;align-items:center;gap:10px;background:#00C853;color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.3rem;letter-spacing:.08em;padding:14px 36px;border-radius:100px;text-decoration:none;transition:background .2s">Join DWC &mdash; Be First to Know &#x2192;</a>
+    </div>
 
-        <!-- Hospital Details (shown for medical categories) -->
-        <div id="hospitalSection" style="display:none">
-          <div class="form-section-title">&#x1F3E5; Hospital Details</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Hospital Name <span>*</span></label>
-              <input type="text" name="hospital_name" placeholder="Name of treating hospital">
-            </div>
-            <div class="form-group">
-              <label>Patient ID / IP Number <span>*</span></label>
-              <input type="text" name="hospital_id" placeholder="Patient / IP number">
-            </div>
-            <div class="form-group">
-              <label>Treating Doctor Name</label>
-              <input type="text" name="doctor_name" placeholder="Dr. Name">
-            </div>
-            <div class="form-group">
-              <label>Treatment / Procedure</label>
-              <input type="text" name="treatment" placeholder="e.g. Chemotherapy Stage 2">
-            </div>
-          </div>
-        </div>
-
-        <!-- School / Orphanage Details (shown for education category) -->
-        <div id="schoolSection" style="display:none">
-          <div class="form-section-title">&#x1F4DA; School / Orphanage Details</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>School / Orphanage Name <span>*</span></label>
-              <input type="text" name="school_name" placeholder="Name of school or orphanage">
-            </div>
-            <div class="form-group">
-              <label>Student / Child ID</label>
-              <input type="text" name="school_id" placeholder="Admission / registration number">
-            </div>
-            <div class="form-group">
-              <label>Class / Grade</label>
-              <input type="text" name="grade" placeholder="e.g. Class 8 / Standard 10">
-            </div>
-            <div class="form-group">
-              <label>Course / Programme</label>
-              <input type="text" name="course" placeholder="e.g. B.Sc Computer Science">
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Medical / Treatment Description <span>*</span></label>
-          <textarea name="description" required placeholder="Describe the condition and need in detail..."></textarea>
-        </div>
-
-        <div class="form-section-title">&#x1F4B3; Financial Details</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Estimated Total Cost (₹) <span>*</span></label>
-            <input type="number" name="total_cost" required placeholder="e.g. 350000">
-          </div>
-          <div class="form-group">
-            <label>Amount Requested from DWC (₹) <span>*</span></label>
-            <input type="number" name="amount_requested" required placeholder="e.g. 150000">
-          </div>
-        </div>
-
-        <div class="form-section-title">&#x2705; Identity Verification</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Aadhaar Card Number <span>*</span></label>
-            <input type="text" name="aadhaar" required placeholder="12-digit number" maxlength="12">
-          </div>
-          <div class="form-group">
-            <label>PAN Card Number</label>
-            <input type="text" name="pan" placeholder="Optional">
-          </div>
-        </div>
-
-        <div class="form-section-title">&#x1F3E6; Bank Account Details</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Account Holder Name <span>*</span></label>
-            <input type="text" name="account_name" required placeholder="As per bank records">
-          </div>
-          <div class="form-group">
-            <label>Bank Name <span>*</span></label>
-            <input type="text" name="bank_name" required placeholder="e.g. State Bank of India">
-          </div>
-          <div class="form-group">
-            <label>Account Number <span>*</span></label>
-            <input type="text" name="account_number" required placeholder="Bank account number">
-          </div>
-          <div class="form-group">
-            <label>IFSC Code <span>*</span></label>
-            <input type="text" name="ifsc" required placeholder="e.g. SBIN0001234">
-          </div>
-        </div>
-
-        <div class="form-disclaimer">
-          <strong>⚠️ Important — Please Read Before Submitting</strong><br>
-          Dine With Celebrity does not guarantee support of any specific amount. Every application is reviewed individually by our team. The final amount of support, if approved, will be decided solely at DWC's discretion based on available funds and verification of details. Submitting this form is not an assurance of financial assistance.
-        </div>
-
-        <button type="button" class="btn-submit" id="submitBtn" onclick="handleSubmitClick()">&#x1F49A; Submit Application</button>
-        <div id="formMsg" class="form-msg"></div>
-      </form>
+    <!-- Legal disclaimer -->
+    <div class="legal-disclaimer">
+      <strong>&#x26A0;&#xFE0F; Important Notice:</strong> Dine With Celebrity Pvt Ltd is a <strong>private membership platform</strong>, not a registered charitable organisation. The cause support described here refers to an internal profit allocation made at the company&rsquo;s discretion through verified partner platforms. This is not a solicitation of public donations and is not tax-deductible under Section 80G or any other provision.
     </div>
   </div>
 </section>
