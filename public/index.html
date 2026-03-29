@@ -154,6 +154,7 @@ footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted
 .btn-mech-cta:hover .mech-arrow{transform:translateX(6px)}
 @keyframes mechPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,0,42,.45)}55%{box-shadow:0 0 24px 6px rgba(212,0,42,.15)}}
 .mech-trust{margin-top:20px;font-size:.75rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase}
+.mech-trust-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}.mech-trust-pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;letter-spacing:.05em;padding:8px 18px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.82)}.mech-trust-gold{background:rgba(242,183,5,.12);border-color:rgba(242,183,5,.35);color:var(--gold)}
 .fomo-sec{background:linear-gradient(135deg,#1a0005 0%,#0a000a 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:48px 20px;text-align:center}
 .fomo-h2{font-family:'Bebas Neue',cursive;font-size:clamp(1.8rem,5vw,2.7rem);color:var(--text);margin-bottom:22px}
 .fomo-h2 em{color:var(--gold);font-style:normal}
@@ -310,7 +311,11 @@ footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted
       Join Free Now
       <span class="mech-arrow">&#x2192;</span>
     </a>
-    <p class="mech-trust">No credit card &nbsp;&bull;&nbsp; No hidden fees &nbsp;&bull;&nbsp; Free forever</p>
+    <p class="mech-trust-row">
+      <span class="mech-trust-pill">✔ No Credit Card</span>
+      <span class="mech-trust-pill">✔ No Hidden Fees</span>
+      <span class="mech-trust-pill mech-trust-gold">⭐ Free Forever</span>
+    </div>
   </div>
 </section>
 <section class="fomo-sec">
