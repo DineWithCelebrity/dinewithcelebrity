@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>DWC Gives Back — Dine With Celebrity | Funding Cancer, Heart Surgery & Girl Education</title>
-<meta name="description" content="Every DWC membership funds a life. 15% of profits go directly to cancer treatment, heart surgery, dialysis, organ transplantation and girl education across India.">
+<meta name="description" content="Every DWC membership funds a life. 20% of profits go directly to cancer treatment, heart surgery, dialysis, organ transplantation and girl education across India.">
 <meta name="keywords" content="DWC Gives Back, celebrity dining charity, cancer treatment fund India, heart surgery donation, girl education India, dine for a cause">
 <meta property="og:title" content="DWC Gives Back — Every Dinner Changes A Life">
-<meta property="og:description" content="Join Dine With Celebrity and 15% of every rupee we earn goes to someone fighting for their life or a girl fighting for her future.">
+<meta property="og:description" content="Join Dine With Celebrity and 20% of every rupee we earn goes to someone fighting for their life or a girl fighting for her future.">
 <meta property="og:url" content="https://www.dinewithcelebrity.com/gives-back">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -154,7 +154,7 @@ footer a{color:var(--gold);text-decoration:none}
   <p class="hero-sub">Behind every glamorous dinner table, <strong>a life changes forever.</strong> When you join DWC, you don't just dine with celebrities — you become the reason someone lives to see another day.</p>
   <div class="hero-stat-row">
     <div class="hero-stat">
-      <div class="hero-stat-num">15%</div>
+      <div class="hero-stat-num">20%</div>
       <div class="hero-stat-label">Profits Donated Today</div>
     </div>
     <div class="hero-stat">
@@ -179,14 +179,14 @@ footer a{color:var(--gold);text-decoration:none}
     <h2 class="sec-title" style="text-align:center">Where Your <em>Membership Goes</em></h2>
     <div class="promise-grid">
       <div class="promise-card">
-        <div class="promise-pct">15%</div>
+        <div class="promise-pct">20%</div>
         <div class="promise-title">Of Profits — Starting Now</div>
-        <p class="promise-desc">Today, 15% of every rupee DWC earns goes directly to someone fighting for their life — or a girl fighting for her future. No middlemen. No delays. Just hope, delivered.</p>
+        <p class="promise-desc">Today, 20% of every rupee DWC earns goes directly to someone fighting for their life — or a girl fighting for her future. No middlemen. No delays. Just hope, delivered.</p>
       </div>
       <div class="promise-card gold-card">
         <div class="promise-pct">50%</div>
         <div class="promise-title">Our Goal. Our Commitment.</div>
-        <p class="promise-desc">We start at 15% — but we will not stop there. As DWC grows, as more members join, as more events happen — we are committed to raising our giving to 50% of all profits. Because no dinner with a celebrity should ever feel more important than a mother's chemotherapy.</p>
+        <p class="promise-desc">We start at 20% — but we will not stop there. As DWC grows, as more members join, as more events happen — we are committed to raising our giving to 50% of all profits. Because no dinner with a celebrity should ever feel more important than a mother's chemotherapy.</p>
       </div>
     </div>
   </div>
@@ -209,7 +209,7 @@ footer a{color:var(--gold);text-decoration:none}
         <div class="how-step-num">02</div>
         <div class="how-step-icon">&#x1F4B0;</div>
         <div class="how-step-title">DWC Earns &amp; Donates</div>
-        <p class="how-step-desc">15% of all DWC profits go directly to verified patients, students and families across India — no middlemen.</p>
+        <p class="how-step-desc">20% of all DWC profits go directly to verified patients, students and families across India — no middlemen.</p>
       </div>
       <div class="how-step-card">
         <div class="how-step-num">03</div>
@@ -341,23 +341,49 @@ footer a{color:var(--gold);text-decoration:none}
           </div>
         </div>
 
-        <div class="form-section-title">&#x1F3E5; Hospital / School Details</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Hospital / School Name <span>*</span></label>
-            <input type="text" name="hospital_name" required placeholder="Name of hospital or school">
+        <!-- Hospital Details (shown for medical categories) -->
+        <div id="hospitalSection" style="display:none">
+          <div class="form-section-title">&#x1F3E5; Hospital Details</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Hospital Name <span>*</span></label>
+              <input type="text" name="hospital_name" placeholder="Name of treating hospital">
+            </div>
+            <div class="form-group">
+              <label>Patient ID / IP Number <span>*</span></label>
+              <input type="text" name="hospital_id" placeholder="Patient / IP number">
+            </div>
+            <div class="form-group">
+              <label>Treating Doctor Name</label>
+              <input type="text" name="doctor_name" placeholder="Dr. Name">
+            </div>
+            <div class="form-group">
+              <label>Treatment / Procedure</label>
+              <input type="text" name="treatment" placeholder="e.g. Chemotherapy Stage 2">
+            </div>
           </div>
-          <div class="form-group">
-            <label>Hospital / School ID <span>*</span></label>
-            <input type="text" name="hospital_id" required placeholder="Patient/student ID">
-          </div>
-          <div class="form-group">
-            <label>Doctor Name (if applicable)</label>
-            <input type="text" name="doctor_name" placeholder="Treating doctor">
-          </div>
-          <div class="form-group">
-            <label>Treatment / Course</label>
-            <input type="text" name="treatment" placeholder="e.g. Chemotherapy - Stage 2">
+        </div>
+
+        <!-- School / Orphanage Details (shown for education category) -->
+        <div id="schoolSection" style="display:none">
+          <div class="form-section-title">&#x1F4DA; School / Orphanage Details</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>School / Orphanage Name <span>*</span></label>
+              <input type="text" name="school_name" placeholder="Name of school or orphanage">
+            </div>
+            <div class="form-group">
+              <label>Student / Child ID</label>
+              <input type="text" name="school_id" placeholder="Admission / registration number">
+            </div>
+            <div class="form-group">
+              <label>Class / Grade</label>
+              <input type="text" name="grade" placeholder="e.g. Class 8 / Standard 10">
+            </div>
+            <div class="form-group">
+              <label>Course / Programme</label>
+              <input type="text" name="course" placeholder="e.g. B.Sc Computer Science">
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -424,7 +450,7 @@ footer a{color:var(--gold);text-decoration:none}
 <!-- CTA -->
 <section class="cta-sec">
   <h2 class="cta-h2">Join DWC —<br><em>Fund A Life Today</em></h2>
-  <p class="cta-sub">Every membership you take out puts 15% of profits into the hands of someone who needs it most. That's not charity — that's humanity.</p>
+  <p class="cta-sub">Every membership you take out puts 20% of profits into the hands of someone who needs it most. That's not charity — that's humanity.</p>
   <a href="/signup" class="btn-cta-green">Join Free &mdash; Make A Difference &#x1F49A;</a>
 </section>
 
@@ -444,6 +470,22 @@ footer a{color:var(--gold);text-decoration:none}
     se.appendChild(s);
   }
 })();
+
+// Category toggle — show hospital or school section
+document.querySelector('select[name="category"]').addEventListener('change', function(){
+  var val = this.value;
+  var isEducation = val === 'Girl Education & Orphans';
+  var isMedical = val && !isEducation;
+  document.getElementById('hospitalSection').style.display = isMedical ? 'block' : 'none';
+  document.getElementById('schoolSection').style.display = isEducation ? 'block' : 'none';
+  // Toggle required fields
+  document.querySelectorAll('#hospitalSection input').forEach(function(el){
+    el.required = isMedical && (el.name === 'hospital_name' || el.name === 'hospital_id');
+  });
+  document.querySelectorAll('#schoolSection input').forEach(function(el){
+    el.required = isEducation && el.name === 'school_name';
+  });
+});
 
 // Form submit
 document.getElementById('givesBackForm').addEventListener('submit', async function(e){
