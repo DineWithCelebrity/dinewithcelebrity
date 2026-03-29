@@ -286,7 +286,7 @@ async function devUpgrade(tier){
   var expiry = new Date(); expiry.setFullYear(expiry.getFullYear()+1);
   var updates = tier==='free'
     ? {tier:'free', expires_at:null}
-    : {tier:tier, expires_at:expiry.toISOString(), upgraded_at:new Date().toISOString()};
+    : {tier:tier, expires_at:expiry.toISOString()};
   var r = await sbClient.from('members').update(updates).eq('id', window._devUser.id);
   if(r.error){ alert('Error: '+r.error.message); return; }
   alert('Tier set to '+tier.toUpperCase());
