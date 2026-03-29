@@ -440,7 +440,7 @@ footer a{color:var(--gold);text-decoration:none}
           Dine With Celebrity does not guarantee support of any specific amount. Every application is reviewed individually by our team. The final amount of support, if approved, will be decided solely at DWC's discretion based on available funds and verification of details. Submitting this form is not an assurance of financial assistance.
         </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn">&#x1F49A; Submit Application</button>
+        <button type="button" class="btn-submit" id="submitBtn" onclick="handleSubmitClick()">&#x1F49A; Submit Application</button>
         <div id="formMsg" class="form-msg"></div>
       </form>
     </div>
@@ -471,14 +471,13 @@ footer a{color:var(--gold);text-decoration:none}
   }
 })();
 
-// Category toggle — show hospital or school section
+// Category toggle
 document.querySelector('select[name="category"]').addEventListener('change', function(){
   var val = this.value;
   var isEducation = val === 'Girl Education & Orphans';
   var isMedical = val && !isEducation;
   document.getElementById('hospitalSection').style.display = isMedical ? 'block' : 'none';
   document.getElementById('schoolSection').style.display = isEducation ? 'block' : 'none';
-  // Toggle required fields
   document.querySelectorAll('#hospitalSection input').forEach(function(el){
     el.required = isMedical && (el.name === 'hospital_name' || el.name === 'hospital_id');
   });
@@ -487,30 +486,164 @@ document.querySelector('select[name="category"]').addEventListener('change', fun
   });
 });
 
-// Form submit
-document.getElementById('givesBackForm').addEventListener('submit', async function(e){
-  e.preventDefault();
+// ============================================================
+// 3-GATE FLOW
+// Gate 1: Interest  → form is open (no friction)
+// Gate 2: Identity  → login on submit click
+// Gate 3: Commitment → membership check after login
+// ============================================================
+
+var sbClient = supabase.createClient(
+  'https://blwqqqzhnovsveeryjlm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
+);
+
+// Save entire form to localStorage
+function saveFormToStorage(){
+  var form = document.getElementById('givesBackForm');
+  var data = {};
+  new FormData(form).forEach(function(v,k){ data[k]=v; });
+  localStorage.setItem('dwc_cause_form', JSON.stringify(data));
+}
+
+// Restore form from localStorage
+function restoreFormFromStorage(){
+  var saved = localStorage.getItem('dwc_cause_form');
+  if(!saved) return;
+  var data = JSON.parse(saved);
+  var form = document.getElementById('givesBackForm');
+  Object.keys(data).forEach(function(k){
+    var el = form.querySelector('[name="'+k+'"]');
+    if(el) el.value = data[k];
+  });
+  // Trigger category change to show right section
+  var catEl = form.querySelector('[name="category"]');
+  if(catEl) catEl.dispatchEvent(new Event('change'));
+}
+
+function showGate(step){
+  document.getElementById('gateStep1').style.display = step===1 ? 'block' : 'none';
+  document.getElementById('gateStep2').style.display = step===2 ? 'block' : 'none';
+  document.getElementById('gateStep3').style.display = step===3 ? 'block' : 'none';
+  document.getElementById('gateModal').style.display = 'flex';
+}
+
+function closeGate(){
+  document.getElementById('gateModal').style.display = 'none';
+}
+
+async function handleSubmitClick(){
+  // Validate form first
+  var form = document.getElementById('givesBackForm');
+  if(!form.checkValidity()){ form.reportValidity(); return; }
+
+  // Gate 2: Identity check
+  var sess = await sbClient.auth.getSession();
+  var user = sess.data && sess.data.session && sess.data.session.user;
+
+  if(!user){
+    // Not logged in — save form + show identity gate
+    saveFormToStorage();
+    showGate(1);
+    return;
+  }
+
+  // Gate 3: Membership check
+  var res = await sbClient.from('members').select('tier').eq('id', user.id).single();
+  var tier = res.data && res.data.tier ? res.data.tier.toLowerCase() : 'free';
+
+  if(tier === 'free'){
+    // Free member — save form + show commitment gate
+    saveFormToStorage();
+    showGate(2);
+    return;
+  }
+
+  // Paid member — submit the form
+  await doSubmit(user.email);
+}
+
+async function doSubmit(userEmail){
   var btn = document.getElementById('submitBtn');
-  var msg = document.getElementById('formMsg');
   btn.disabled = true;
   btn.textContent = 'Submitting...';
-  msg.className = 'form-msg';
   try {
-    var fd = new FormData(this);
+    var fd = new FormData(document.getElementById('givesBackForm'));
+    fd.set('member_email', userEmail || '');
     var res = await fetch('https://api.web3forms.com/submit', {method:'POST', body:fd});
     var data = await res.json();
     if(data.success){
-      msg.className = 'form-msg success';
-      msg.textContent = '✅ Application submitted! The DWC team will review and contact you within 3–5 working days.';
-      this.reset();
+      localStorage.removeItem('dwc_cause_form');
+      showGate(3);
+      document.getElementById('givesBackForm').reset();
     } else { throw new Error(data.message); }
-  } catch(err) {
+  } catch(err){
+    var msg = document.getElementById('formMsg');
     msg.className = 'form-msg error';
     msg.textContent = '❌ Something went wrong. Please try again or email hello@dinewithcelebrity.com';
+    closeGate();
   }
   btn.disabled = false;
   btn.textContent = '💚 Submit Application';
-});
+}
+
+// On page load — restore form if returning from login/signup
+(async function(){
+  restoreFormFromStorage();
+  // If user just returned after login (redirect param) + form data exists → auto-check gate 3
+  var isRedirect = new URLSearchParams(location.search).get('redirect') === 'gives-back'
+    || document.referrer.includes('signin')
+    || document.referrer.includes('signup');
+  if(isRedirect && localStorage.getItem('dwc_cause_form')){
+    var sess = await sbClient.auth.getSession();
+    var user = sess.data && sess.data.session && sess.data.session.user;
+    if(user){
+      var res = await sbClient.from('members').select('tier').eq('id', user.id).single();
+      var tier = res.data && res.data.tier ? res.data.tier.toLowerCase() : 'free';
+      if(tier === 'free'){
+        showGate(2); // Show commitment gate
+      }
+      // If paid — do nothing, let them review and click submit manually
+    }
+  }
+})();
 </script>
+
+<!-- GATE MODAL -->
+<div id="gateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0e0b15;border:1px solid rgba(242,183,5,.25);border-radius:20px;padding:40px 36px;max-width:460px;width:100%;position:relative;text-align:center">
+    <button onclick="closeGate()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:rgba(255,255,255,.5);font-size:1.4rem;cursor:pointer">&#x2715;</button>
+    
+    <!-- STEP: Identity gate (not logged in) -->
+    <div id="gateStep1">
+      <div style="font-size:2.5rem;margin-bottom:12px">&#x1F49A;</div>
+      <h3 style="font-family:'Bebas Neue',cursive;font-size:1.8rem;color:#fff;margin-bottom:10px">Almost Done.</h3>
+      <p style="font-size:.92rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:28px">Your request is almost ready.<br><strong style="color:#fff">Create your free account to continue.</strong></p>
+      <a href="/signup?redirect=gives-back" onclick="saveFormToStorage()" style="display:block;background:#F2B705;color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.3rem;letter-spacing:.08em;padding:14px;border-radius:10px;text-decoration:none;margin-bottom:12px">Continue with Email &#x2192;</a>
+      <a href="/signin?redirect=gives-back" onclick="saveFormToStorage()" style="display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.8);font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.08em;padding:12px;border-radius:10px;text-decoration:none">Already a member? Sign In</a>
+      <p style="font-size:.75rem;color:rgba(255,255,255,.35);margin-top:16px">Free forever. No credit card required.</p>
+    </div>
+
+    <!-- STEP: Commitment gate (logged in but free) -->
+    <div id="gateStep2" style="display:none">
+      <div style="font-size:2.5rem;margin-bottom:12px">&#x23F3;</div>
+      <div style="background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:10px;padding:12px 16px;margin-bottom:20px">
+        <p style="font-size:.8rem;color:#00C853;font-weight:600">&#x2714; Your request has been saved</p>
+      </div>
+      <h3 style="font-family:'Bebas Neue',cursive;font-size:1.8rem;color:#fff;margin-bottom:10px">One Last Step.</h3>
+      <p style="font-size:.92rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:8px">Activate your membership to submit this request.</p>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:24px">Only active members can process support requests.<br><em style="color:rgba(255,255,255,.4)">Your request will be reviewed once activated.</em></p>
+      <a href="/upgrade?plan=gold&redirect=gives-back" style="display:block;background:linear-gradient(135deg,#F2B705,#FFD166);color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.3rem;letter-spacing:.08em;padding:14px;border-radius:10px;text-decoration:none;margin-bottom:10px">Activate Membership &#x2192;</a>
+      <button onclick="closeGate()" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:.8rem;cursor:pointer;text-decoration:underline">Maybe later</button>
+    </div>
+
+    <!-- STEP: Success -->
+    <div id="gateStep3" style="display:none">
+      <div style="font-size:3rem;margin-bottom:12px">&#x2705;</div>
+      <h3 style="font-family:'Bebas Neue',cursive;font-size:1.8rem;color:#00C853;margin-bottom:10px">Application Submitted!</h3>
+      <p style="font-size:.92rem;color:rgba(255,255,255,.7);line-height:1.6">The DWC team will review your application and contact you within <strong style="color:#fff">3–5 working days.</strong></p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
