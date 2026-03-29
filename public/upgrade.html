@@ -200,7 +200,12 @@ async function startPayment(tier, tierLabel) {
         name: currentMember ? currentMember.full_name : ''
       },
       theme: {color: '#F2B705'},
-      modal: {backdropclose: false},
+      modal: {
+        backdropclose: false,
+        ondismiss: function() {
+          if(btn){ btn.disabled=false; btn.textContent='Upgrade to '+tierLabel+' — Pay Now'; }
+        }
+      },
       handler: async function(response) {
         // STEP 3: Verify payment server-side
         var sess = await sbClient.auth.getSession();
