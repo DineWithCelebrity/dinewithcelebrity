@@ -616,27 +616,26 @@ async function redeemVoucher(voucherId, voucherTitle, btn) {
     return;
   }
 
-  // Insert redemption record
-  var { error } = await sbClient.from('voucher_redemptions').insert({
-    voucher_id:          voucherId,
-    user_id:             cu.id,
-    member_id_text:      md.member_id || null,
-    member_tier_at_time: md.tier || 'free',
+  // ── Atomic redemption — check + insert + increment in ONE DB transaction ──
+  // Prevents race conditions where two requests pass the limit check simultaneously
+  var { data: result, error } = await sbClient.rpc('redeem_voucher_atomic', {
+    p_voucher_id:      voucherId,
+    p_user_id:         cu.id,
+    p_member_id_text:  md.member_id || null,
+    p_member_tier:     md.tier || 'free',
   });
 
-  if (error) {
-    showToast('Redemption failed. Please try again.');
-    btn.disabled   = false;
+  if (error || !result || !result.success) {
+    var reason = (result && result.reason) || 'Redemption failed. Please try again.';
+    showToast(reason);
+    btn.disabled    = false;
     btn.textContent = 'Redeem Voucher';
     return;
   }
 
-  // Increment total_redemptions on voucher
-  await sbClient.rpc('increment_voucher_redemptions', { voucher_id_input: voucherId });
-
-  // Log activity
+  // Log activity (non-critical — don't block on failure)
   if (md.member_id) {
-    await sbClient.from('member_activity').insert({
+    sbClient.from('member_activity').insert({
       member_id:     md.member_id,
       member_uuid:   cu.id,
       activity_type: 'voucher_redeem',
