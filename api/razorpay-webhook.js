@@ -1,7 +1,6 @@
 // ============================================================
-// /api/razorpay-webhook.js — DWC Razorpay Webhook Handler
-// Backup safety net: fires if user closes tab before callback
-// Security: Webhook signature verification, idempotency
+// /api/razorpay-webhook.js — DWC Webhook Handler
+// Backup safety net — expiry preserved on upgrade
 // ============================================================
 
 import crypto from 'crypto';
@@ -10,104 +9,89 @@ import { buffer } from 'micro';
 
 export const config = { api: { bodyParser: false } };
 
-const TIER_PRICES = {
-  gold:      249900,
-  platinum:  699900,
-  dwcpurple: 1499900,
-};
-
-const TIER_EXPIRY_DAYS = 365;
+const TIER_PRICES = { gold: 249900, platinum: 699900, dwcpurple: 1499900 };
+const TIER_RANK   = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   let rawBody;
-  try {
-    rawBody = (await buffer(req)).toString('utf8');
-  } catch (err) {
-    console.error('[webhook] Failed to read body:', err);
-    return res.status(400).json({ error: 'Failed to read body' });
-  }
+  try { rawBody = (await buffer(req)).toString('utf8'); }
+  catch { return res.status(400).json({ error: 'Failed to read body' }); }
 
-  const webhookSignature = req.headers['x-razorpay-signature'];
-  if (!webhookSignature) {
-    console.warn('[webhook] Missing signature header');
-    return res.status(400).json({ error: 'Missing signature' });
-  }
+  const sig = req.headers['x-razorpay-signature'];
+  if (!sig) return res.status(400).json({ error: 'Missing signature' });
 
-  const expectedSig = crypto
+  const expected = crypto
     .createHmac('sha256', process.env.RAZORPAY_WEBHOOK_SECRET)
-    .update(rawBody)
-    .digest('hex');
+    .update(rawBody).digest('hex');
 
-  if (expectedSig !== webhookSignature) {
-    console.warn('[webhook] Signature mismatch — possible fake webhook');
-    return res.status(400).json({ error: 'Invalid signature' });
-  }
+  if (expected !== sig) return res.status(400).json({ error: 'Invalid signature' });
 
   let event;
-  try {
-    event = JSON.parse(rawBody);
-  } catch {
-    return res.status(400).json({ error: 'Invalid JSON' });
-  }
+  try { event = JSON.parse(rawBody); }
+  catch { return res.status(400).json({ error: 'Invalid JSON' }); }
 
   if (event.event !== 'payment.captured') {
-    return res.status(200).json({ received: true, action: 'ignored', event: event.event });
+    return res.status(200).json({ received: true, action: 'ignored' });
   }
 
   const payment   = event.payload?.payment?.entity;
-  const orderId   = payment?.order_id;
-  const paymentId = payment?.id;
   const notes     = payment?.notes || {};
+  const paymentId = payment?.id;
+  const orderId   = payment?.order_id;
   const tier      = notes.tier;
   const userId    = notes.user_id;
+  const keepExpiry = notes.keep_expiry === 'true';
+  const originalExpiry = notes.original_expiry || null;
 
-  if (!orderId || !paymentId || !tier || !userId) {
-    console.error('[webhook] Missing required fields:', { orderId, paymentId, tier, userId });
-    return res.status(400).json({ error: 'Missing payment fields' });
+  if (!paymentId || !orderId || !tier || !userId || !TIER_PRICES[tier]) {
+    return res.status(400).json({ error: 'Missing fields' });
   }
 
-  if (!TIER_PRICES[tier]) {
-    console.error('[webhook] Invalid tier from webhook:', tier);
-    return res.status(400).json({ error: 'Invalid tier' });
+  const sbAdmin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+  // ── Idempotency ──
+  const { data: existing } = await sbAdmin
+    .from('payment_logs').select('id').eq('payment_id', paymentId).single();
+  if (existing) return res.status(200).json({ received: true, action: 'already_processed' });
+
+  // ── Get current member ──
+  const { data: member } = await sbAdmin
+    .from('members').select('tier, expires_at, member_id, city').eq('id', userId).single();
+
+  const currentTier   = (member?.tier || 'free').toLowerCase();
+  const currentRank   = TIER_RANK[currentTier] || 0;
+  const now           = new Date();
+  const currentExpiry = member?.expires_at ? new Date(member.expires_at) : null;
+
+  // ── Expiry logic (same as verify-payment) ──
+  let newExpiry;
+  if (keepExpiry && originalExpiry) {
+    newExpiry = originalExpiry;
+  } else if (currentRank > 0 && currentExpiry && currentExpiry > now) {
+    newExpiry = currentExpiry.toISOString();
+  } else {
+    const e = new Date();
+    e.setFullYear(e.getFullYear() + 1);
+    newExpiry = e.toISOString();
   }
 
-  const sbAdmin = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
-
-  const { data: existingLog } = await sbAdmin
-    .from('payment_logs')
-    .select('id, status')
-    .eq('payment_id', paymentId)
-    .single();
-
-  if (existingLog) {
-    console.log('[webhook] Already processed, skipping:', paymentId);
-    return res.status(200).json({ received: true, action: 'already_processed' });
-  }
-
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + TIER_EXPIRY_DAYS);
-
+  // ── Update tier ──
   const { error: updateError } = await sbAdmin
     .from('members')
     .update({
       tier,
-      upgraded_at:      new Date().toISOString(),
-      expires_at:       expiresAt.toISOString(),
+      upgraded_at:      now.toISOString(),
+      expires_at:       newExpiry,
       payment_id:       paymentId,
       payment_order_id: orderId,
     })
     .eq('id', userId);
 
-  if (updateError) {
-    console.error('[webhook] Tier update failed:', updateError);
-    return res.status(500).json({ error: 'Tier update failed' });
-  }
+  if (updateError) return res.status(500).json({ error: 'Tier update failed' });
 
+  // ── Audit log ──
   await sbAdmin.from('payment_logs').insert({
     member_id:  userId,
     payment_id: paymentId,
@@ -116,26 +100,25 @@ export default async function handler(req, res) {
     amount:     TIER_PRICES[tier],
     status:     'success',
     source:     'webhook',
-    created_at: new Date().toISOString(),
+    created_at: now.toISOString(),
   });
 
-  const { data: memberData } = await sbAdmin
-    .from('members')
-    .select('member_id, city')
-    .eq('id', userId)
-    .single();
-
-  if (memberData?.member_id) {
+  // ── Activity log ──
+  if (member?.member_id) {
     await sbAdmin.from('member_activity').insert({
-      member_id:     memberData.member_id,
+      member_id:     member.member_id,
       member_uuid:   userId,
       activity_type: 'upgrade',
-      activity_data: { tier, amount: TIER_PRICES[tier] / 100, payment_id: paymentId, order_id: orderId, source: 'webhook' },
-      city: memberData.city || null,
+      activity_data: {
+        from_tier:  currentTier,
+        to_tier:    tier,
+        payment_id: paymentId,
+        expiry:     newExpiry,
+        source:     'webhook',
+      },
+      city: member.city || null,
     });
   }
-
-  console.log('[webhook] Tier upgraded via webhook: user=' + userId + ' tier=' + tier + ' payment=' + paymentId);
 
   return res.status(200).json({ received: true, action: 'tier_updated', tier });
 }
