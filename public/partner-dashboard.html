@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Partner Dashboard — Dine With Celebrity</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06040A;--sidebar:#0a0710;--card:#110916;--card2:#160b1c;
+  --gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;
+  --purple:#9b59b6;--orange:#FF6B35;
+  --text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);
+  --muted:rgba(255,255,255,.5);--border:rgba(242,183,5,.18);
+  --border2:rgba(255,255,255,.07);--sidebar-w:240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden;font-size:.9rem}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
+@keyframes tw{0%{opacity:.03;transform:scale(.85)}100%{opacity:.2;transform:scale(1.1)}}
+
+/* ── AUTH / LOADING SCREENS ── */
+#authScreen,#pendingScreen,#loadingScreen{
+  position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;text-align:center;padding:24px;background:var(--bg);
+}
+.auth-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:420px;width:100%}
+.auth-logo{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--gold);letter-spacing:.08em;margin-bottom:8px}
+.auth-title{font-family:'Bebas Neue',cursive;font-size:2.4rem;color:var(--text);margin-bottom:4px}
+.auth-sub{font-size:.88rem;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.auth-field{margin-bottom:16px;text-align:left}
+.auth-field label{display:block;font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.auth-field input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:13px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
+.auth-field input:focus{border-color:var(--gold)}
+.auth-field input::placeholder{color:rgba(255,255,255,.25)}
+.btn-auth{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s;margin-top:4px}
+.btn-auth:hover{opacity:.88}
+.btn-auth:disabled{opacity:.5;cursor:not-allowed}
+.auth-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.82rem;padding:10px 14px;border-radius:8px;margin-top:12px;display:none;text-align:center}
+.auth-link{font-size:.82rem;color:var(--muted);margin-top:16px;text-align:center}
+.auth-link a{color:var(--gold);text-decoration:none}
+.loader{width:40px;height:40px;border:3px solid rgba(242,183,5,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── PENDING SCREEN ── */
+.pending-icon{font-size:4rem}
+.pending-title{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold)}
+.pending-sub{font-size:.92rem;color:var(--sub);max-width:440px;line-height:1.7}
+.pending-steps{display:flex;flex-direction:column;gap:10px;max-width:380px;margin:0 auto}
+.pstep{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;text-align:left}
+.ps-num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:#06040A;font-weight:800;font-size:.78rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps-text{font-size:.82rem;color:var(--sub);line-height:1.5}
+.ps-text strong{color:var(--text);display:block;margin-bottom:2px}
+.btn-logout-pending{background:none;border:1px solid var(--border2);color:var(--muted);font-family:'Poppins',sans-serif;font-size:.82rem;padding:8px 18px;border-radius:8px;cursor:pointer;margin-top:8px;transition:all .2s}
+.btn-logout-pending:hover{border-color:var(--red);color:var(--red)}
+
+/* ── LAYOUT ── */
+#appShell{display:none}
+.layout{display:flex;min-height:100vh;position:relative;z-index:1}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);background:var(--sidebar);border-right:1px solid var(--border2);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:50;transition:transform .3s}
+.sb-logo{padding:20px 20px 0;border-bottom:1px solid var(--border2);padding-bottom:16px}
+.sb-logo-text{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.08em;line-height:1}
+.sb-logo-sub{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-top:2px}
+.sb-partner-name{font-size:.78rem;font-weight:700;color:var(--text);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-tier-badge{display:inline-block;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.badge-basic{background:rgba(255,255,255,.08);color:var(--muted);border:1px solid var(--border2)}
+.badge-growth{background:rgba(242,183,5,.12);color:var(--gold);border:1px solid var(--border)}
+.badge-premium{background:rgba(155,89,182,.15);color:#c39bd3;border:1px solid rgba(155,89,182,.3)}
+.sb-nav{flex:1;padding:16px 0;overflow-y:auto}
+.sb-section{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);padding:8px 20px 4px}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 20px;font-size:.84rem;color:var(--muted);cursor:pointer;transition:all .2s;border-left:3px solid transparent;position:relative}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sb-item.active{color:var(--gold);background:rgba(242,183,5,.06);border-left-color:var(--gold)}
+.sb-item-icon{font-size:1rem;width:18px;text-align:center}
+.sb-badge{background:var(--red);color:#fff;font-size:.6rem;font-weight:800;padding:2px 6px;border-radius:100px;margin-left:auto}
+.sb-bottom{padding:16px 20px;border-top:1px solid var(--border2)}
+.sb-contract{background:rgba(242,183,5,.06);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px}
+.sb-contract-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
+.sb-contract-days{font-family:'Bebas Neue',cursive;font-size:1.8rem;line-height:1}
+.sb-contract-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+.btn-renew{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:800;padding:8px;border-radius:8px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;margin-top:6px;transition:opacity .2s}
+.btn-renew:hover{opacity:.88}
+.btn-signout{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;transition:color .2s;font-family:'Poppins',sans-serif}
+.btn-signout:hover{color:var(--red)}
+
+/* ── MAIN CONTENT ── */
+.main{margin-left:var(--sidebar-w);flex:1;padding:28px 32px;min-height:100vh}
+.page-header{margin-bottom:28px}
+.page-title{font-family:'Bebas Neue',cursive;font-size:2.2rem;color:var(--text);line-height:1}
+.page-title em{color:var(--gold);font-style:normal}
+.page-sub{font-size:.85rem;color:var(--muted);margin-top:4px}
+
+/* ── ONBOARDING CHECKLIST ── */
+.onboarding-bar{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.03));border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:24px;display:none}
+.ob-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px}
+.ob-steps{display:flex;gap:12px;flex-wrap:wrap}
+.ob-step{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
+.ob-step.done{color:var(--green)}
+.ob-step-icon{font-size:.9rem}
+
+/* ── ALERT BANNERS ── */
+.alert-banner{border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;font-size:.84rem}
+.alert-dying{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.25);color:#ff8080}
+.alert-low{background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);color:#ffb347}
+.alert-icon{font-size:1.2rem;flex-shrink:0}
+.alert-text strong{display:block;margin-bottom:2px;font-size:.86rem}
+.alert-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.btn-alert{font-size:.75rem;font-weight:700;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:opacity .2s}
+.btn-alert:hover{opacity:.85}
+.btn-extend{background:var(--gold);color:#06040A}
+.btn-dismiss{background:rgba(255,255,255,.08);color:var(--muted)}
+
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.stat-gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.stat-green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.stat-red::before{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.stat-purple::before{background:linear-gradient(90deg,transparent,var(--purple),transparent)}
+.stat-orange::before{background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.stat-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
+.stat-value{font-family:'Bebas Neue',cursive;font-size:2.4rem;line-height:1;color:var(--text)}
+.stat-sub{font-size:.72rem;color:var(--muted);margin-top:4px}
+.stat-icon{position:absolute;top:16px;right:16px;font-size:1.6rem;opacity:.2}
+
+/* ── REVENUE HERO ── */
+.revenue-hero{background:linear-gradient(135deg,#0d0a00,#1a1000);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.rh-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--gold);margin-bottom:6px}
+.rh-value{font-family:'Bebas Neue',cursive;font-size:3.5rem;color:var(--green);line-height:1}
+.rh-sub{font-size:.82rem;color:var(--muted);margin-top:4px}
+.rh-meta{text-align:right}
+.rh-meta-item{font-size:.8rem;color:var(--sub);margin-bottom:4px}
+.rh-meta-item strong{color:var(--gold)}
+
+/* ── SECTIONS ── */
+.section{display:none}
+.section.active{display:block}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.section-title{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--text)}
+.btn-primary{background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:800;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s;display:flex;align-items:center;gap:6px}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{background:rgba(255,255,255,.06);color:var(--sub);font-family:'Poppins',sans-serif;font-size:.8rem;font-weight:600;padding:9px 18px;border-radius:10px;border:1px solid var(--border2);cursor:pointer;transition:all .2s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── VOUCHER CARDS ── */
+.vouchers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.voucher-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.voucher-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.voucher-card.paused{opacity:.6}
+.vc-status{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.status-active{background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:var(--green)}
+.status-pending{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.2);color:#ffb347}
+.status-paused{background:rgba(255,255,255,.06);border:1px solid var(--border2);color:var(--muted)}
+.status-expired{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.2);color:#ff8080}
+.status-redeemed{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.2);color:#c39bd3}
+.vc-title{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--text);margin-bottom:4px}
+.vc-value{font-family:'Bebas Neue',cursive;font-size:2.2rem;color:var(--gold);line-height:1}
+.vc-minbill{font-size:.78rem;color:var(--muted);margin-bottom:12px}
+.vc-tiers{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.vc-tier{font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase}
+.tier-gold{background:rgba(242,183,5,.12);border:1px solid var(--border);color:var(--gold)}
+.tier-platinum{background:rgba(200,200,220,.08);border:1px solid rgba(200,200,220,.2);color:#E8E8E8}
+.tier-purple{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.2);color:#c39bd3}
+
+/* ── HEALTH SCORE ── */
+.health-bar-wrap{margin-bottom:14px}
+.health-bar-label{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:5px}
+.health-label{color:var(--muted)}
+.health-val{font-weight:700}
+.health-bar{height:6px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.health-fill{height:100%;border-radius:100px;transition:width .6s ease}
+.health-high .health-fill{background:var(--green)}
+.health-high .health-val{color:var(--green)}
+.health-mid .health-fill{background:var(--gold)}
+.health-mid .health-val{color:var(--gold)}
+.health-low .health-fill{background:var(--red)}
+.health-low .health-val{color:var(--red)}
+.health-action{font-size:.72rem;color:var(--muted);line-height:1.5;margin-bottom:14px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px;border-left:2px solid var(--gold)}
+
+.vc-progress{margin-bottom:14px}
+.vc-prog-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:5px}
+.vc-prog-bar{height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.vc-prog-fill{height:100%;background:var(--gold);border-radius:100px}
+.vc-meta{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:16px}
+.vc-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-vc{font-size:.72rem;font-weight:700;padding:6px 12px;border-radius:7px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+.btn-pause{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border2)}
+.btn-pause:hover{border-color:var(--gold);color:var(--gold)}
+.btn-delete{background:rgba(212,0,42,.08);color:#ff8080;border:1px solid rgba(212,0,42,.2)}
+.btn-delete:hover{background:rgba(212,0,42,.15)}
+.btn-activate{background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.25)}
+.btn-activate:hover{background:rgba(0,200,83,.18)}
+.vc-featured{position:absolute;top:16px;right:16px;font-size:.65rem;font-weight:800;padding:3px 8px;border-radius:6px;background:var(--gold);color:#06040A;text-transform:uppercase;letter-spacing:.08em}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4}
+.empty-title{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--text);margin-bottom:8px}
+.empty-sub{font-size:.85rem;margin-bottom:20px}
+
+/* ── CREATE VOUCHER MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-title{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:.82rem;color:var(--muted);margin-bottom:24px}
+.modal-field{margin-bottom:16px}
+.modal-field label{display:block;font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.modal-field input,.modal-field select,.modal-field textarea{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.modal-field input:focus,.modal-field select:focus{border-color:var(--gold)}
+.modal-field select option{background:#0d0814}
+.modal-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-field-hint{font-size:.72rem;color:var(--muted);margin-top:5px}
+.modal-field-hint.good{color:var(--green)}
+.modal-field-hint.warn{color:var(--gold)}
+.modal-field-hint.bad{color:var(--red)}
+.tier-checks{display:flex;gap:10px;flex-wrap:wrap}
+.tier-check{display:flex;align-items:center;gap:6px;padding:8px 14px;background:#0d0814;border:1px solid var(--border2);border-radius:8px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.tier-check.selected{border-color:var(--gold);background:rgba(242,183,5,.05)}
+.tier-check input{display:none}
+.voucher-preview-mini{background:linear-gradient(135deg,#1a0f00,#0d0814);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px}
+.vpm-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:4px}
+.vpm-value{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--gold);line-height:1}
+.vpm-min{font-size:.75rem;color:var(--sub)}
+.econ-preview{background:rgba(0,200,83,.04);border:1px solid rgba(0,200,83,.12);border-radius:10px;padding:14px;margin-bottom:16px}
+.econ-row{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:6px}
+.econ-row:last-child{margin-bottom:0;padding-top:6px;border-top:1px solid rgba(0,200,83,.1);font-weight:700}
+.econ-key{color:var(--muted)}
+.econ-val{color:var(--text)}
+.econ-val.green{color:var(--green)}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.btn-modal-submit{flex:1;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:800;padding:13px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s}
+.btn-modal-submit:hover{opacity:.88}
+.btn-modal-submit:disabled{opacity:.5;cursor:not-allowed}
+.btn-modal-cancel{background:rgba(255,255,255,.05);color:var(--muted);font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;padding:13px 20px;border-radius:10px;border:1px solid var(--border2);cursor:pointer;transition:all .2s}
+.btn-modal-cancel:hover{border-color:var(--red);color:var(--red)}
+.modal-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.82rem;padding:10px 14px;border-radius:8px;margin-top:12px;display:none;text-align:center}
+
+/* ── OTP REDEMPTION ── */
+.otp-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:540px}
+.otp-title{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--text);margin-bottom:4px}
+.otp-sub{font-size:.84rem;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.otp-input-row{display:flex;gap:10px;margin-bottom:14px}
+.otp-digit{width:52px;height:60px;background:#0d0814;border:1px solid var(--border2);color:var(--text);font-family:'Bebas Neue',cursive;font-size:1.8rem;text-align:center;border-radius:10px;outline:none;transition:border-color .2s}
+.otp-digit:focus{border-color:var(--gold)}
+.otp-sep{display:flex;align-items:center;color:var(--muted);font-size:1.2rem}
+.pin-input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:13px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:1.2rem;letter-spacing:.3em;outline:none;text-align:center;transition:border-color .2s;margin-bottom:16px}
+.pin-input:focus{border-color:var(--gold)}
+.otp-label{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:block}
+.btn-validate{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s}
+.btn-validate:hover{opacity:.88}
+.btn-validate:disabled{opacity:.5;cursor:not-allowed}
+.otp-result{border-radius:12px;padding:16px 20px;margin-top:16px;display:none}
+.otp-result.success{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:var(--green)}
+.otp-result.error{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.25);color:#ff8080}
+.otp-result-title{font-family:'Bebas Neue',cursive;font-size:1.4rem;margin-bottom:4px}
+.otp-result-detail{font-size:.82rem;opacity:.85;line-height:1.5}
+.otp-result-member{font-size:.78rem;background:rgba(255,255,255,.05);padding:10px 14px;border-radius:8px;margin-top:10px;line-height:1.7}
+.pin-setup{background:rgba(242,183,5,.05);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;display:none}
+.pin-setup-label{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.pin-setup-input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:12px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:1.2rem;letter-spacing:.3em;text-align:center;outline:none;margin-bottom:8px}
+.pin-setup-input:focus{border-color:var(--gold)}
+.btn-set-pin{background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.8rem;font-weight:800;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s}
+.btn-set-pin:hover{opacity:.88}
+
+/* ── REDEMPTION TABLE ── */
+.table-wrap{background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden}
+.table-header{padding:18px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.table-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text)}
+.table-filter{display:flex;gap:8px}
+.filter-btn{font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
+.filter-btn.active{background:rgba(242,183,5,.1);border-color:var(--border);color:var(--gold)}
+table{width:100%;border-collapse:collapse}
+th{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:12px 20px;border-bottom:1px solid var(--border2);text-align:left}
+td{padding:14px 20px;border-bottom:1px solid var(--border2);font-size:.82rem;color:var(--sub)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.td-status{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:100px;text-transform:uppercase}
+.td-member{font-weight:700;color:var(--text);font-size:.82rem}
+.td-voucher{color:var(--gold)}
+.td-fraud{font-size:.7rem;padding:2px 7px;border-radius:5px}
+.fraud-low{background:rgba(0,200,83,.1);color:var(--green)}
+.fraud-med{background:rgba(255,165,0,.1);color:#ffb347}
+.fraud-high{background:rgba(212,0,42,.1);color:#ff8080}
+
+/* ── ANALYTICS ── */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.analytics-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.ac-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text);margin-bottom:16px}
+.peak-times{display:flex;flex-direction:column;gap:10px}
+.peak-row{display:flex;align-items:center;gap:12px}
+.peak-label{font-size:.78rem;color:var(--sub);width:130px;flex-shrink:0}
+.peak-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.peak-bar{height:100%;background:var(--gold);border-radius:100px}
+.peak-pct{font-size:.72rem;color:var(--muted);width:34px;text-align:right}
+.city-rows{display:flex;flex-direction:column;gap:10px}
+.city-row{display:flex;align-items:center;gap:12px}
+.city-name{font-size:.78rem;color:var(--sub);width:90px}
+.city-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.city-bar{height:100%;background:var(--purple);border-radius:100px}
+.city-pct{font-size:.72rem;color:var(--muted);width:34px;text-align:right}
+.insight-box{background:rgba(155,89,182,.05);border:1px solid rgba(155,89,182,.15);border-radius:8px;padding:10px 14px;font-size:.78rem;color:var(--sub);margin-top:12px;line-height:1.5}
+.insight-box strong{color:#c39bd3}
+
+/* ── PROFILE ── */
+.profile-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:28px;margin-bottom:20px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.profile-field label{display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.profile-field input,.profile-field textarea{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.profile-field input:focus,.profile-field textarea:focus{border-color:var(--gold)}
+.badge-download{background:linear-gradient(135deg,rgba(242,183,5,.1),rgba(242,183,5,.05));border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;margin-top:16px}
+.bd-title{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--text);margin-bottom:4px}
+.bd-sub{font-size:.78rem;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.btn-badge{background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.8rem;font-weight:800;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-badge:hover{opacity:.88}
+
+/* ── SETTINGS ── */
+.settings-section{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:24px;margin-bottom:16px}
+.ss-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text);margin-bottom:16px}
+.contract-info{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ci-item label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px;display:block}
+.ci-item .ci-val{font-size:.9rem;color:var(--text);font-weight:600}
+
+/* ── MOBILE ── */
+.mobile-menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;position:fixed;top:16px;left:16px;z-index:60;padding:8px}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:20px 16px}
+  .mobile-menu-btn{display:block}
+  .analytics-grid{grid-template-columns:1fr}
+  .modal-grid2{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+  .contract-info{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .otp-digit{width:42px;height:52px;font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+
+<!-- ── LOADING ── -->
+<div id="loadingScreen">
+  <div class="loader"></div>
+  <div style="font-size:.78rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-top:8px">Loading partner dashboard</div>
+</div>
+
+<!-- ── AUTH ── -->
+<div id="authScreen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">★ DINE WITH CELEBRITY</div>
+    <div class="auth-title">PARTNER<br>LOGIN</div>
+    <div class="auth-sub">Sign in to your partner dashboard to manage vouchers and track redemptions.</div>
+    <div class="auth-field">
+      <label>Business Email</label>
+      <input type="email" id="loginEmail" placeholder="hello@yourbusiness.com">
+    </div>
+    <div class="auth-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Your password" id="loginPass">
+    </div>
+    <button class="btn-auth" id="btnLogin">Sign In to Dashboard</button>
+    <div class="auth-err" id="loginErr"></div>
+    <div class="auth-link">New partner? <a href="/partner-signup.html">Apply here →</a></div>
+  </div>
+</div>
+
+<!-- ── PENDING APPROVAL ── -->
+<div id="pendingScreen" style="display:none">
+  <div class="pending-icon">⏳</div>
+  <div class="pending-title">UNDER REVIEW</div>
+  <p class="pending-sub">Your application is being reviewed by our team. You'll get access within 24 hours once approved.</p>
+  <div class="pending-steps">
+    <div class="pstep"><div class="ps-num">1</div><div class="ps-text"><strong>Application received</strong>Our ops team is reviewing your campaign economics.</div></div>
+    <div class="pstep"><div class="ps-num">2</div><div class="ps-text"><strong>Approval within 24 hrs</strong>You'll receive an email with confirmation.</div></div>
+    <div class="pstep"><div class="ps-num">3</div><div class="ps-text"><strong>Dashboard unlocked</strong>Start creating vouchers and tracking redemptions.</div></div>
+  </div>
+  <p style="font-size:.78rem;color:var(--muted)">Questions? <a href="mailto:partners@dinewithcelebrity.com" style="color:var(--gold)">partners@dinewithcelebrity.com</a></p>
+  <button class="btn-logout-pending" onclick="signOut()">Sign out</button>
+</div>
+
+<!-- ── MOBILE MENU BUTTON ── -->
+<button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+
+<!-- ── APP SHELL ── -->
+<div id="appShell">
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-logo">
+        <div class="sb-logo-text">★ DWC</div>
+        <div class="sb-logo-sub">Partner Dashboard</div>
+        <div class="sb-partner-name" id="sbPartnerName">Loading...</div>
+        <span class="sb-tier-badge badge-basic" id="sbTierBadge">Basic</span>
+      </div>
+      <nav class="sb-nav">
+        <div class="sb-section">Main</div>
+        <div class="sb-item active" data-section="overview" onclick="showSection('overview')">
+          <span class="sb-item-icon">📊</span> Overview
+        </div>
+        <div class="sb-item" data-section="redeem" onclick="showSection('redeem')">
+          <span class="sb-item-icon">🔐</span> Redeem OTP
+          <span class="sb-badge" id="pendingRedeemBadge" style="display:none">!</span>
+        </div>
+        <div class="sb-section">Vouchers</div>
+        <div class="sb-item" data-section="vouchers" onclick="showSection('vouchers')">
+          <span class="sb-item-icon">🎟️</span> My Vouchers
+        </div>
+        <div class="sb-item" data-section="redemptions" onclick="showSection('redemptions')">
+          <span class="sb-item-icon">📋</span> Redemption Log
+        </div>
+        <div class="sb-section">Insights</div>
+        <div class="sb-item" data-section="analytics" onclick="showSection('analytics')">
+          <span class="sb-item-icon">📈</span> Analytics
+        </div>
+        <div class="sb-section">Account</div>
+        <div class="sb-item" data-section="profile" onclick="showSection('profile')">
+          <span class="sb-item-icon">🏢</span> Profile
+        </div>
+        <div class="sb-item" data-section="settings" onclick="showSection('settings')">
+          <span class="sb-item-icon">⚙️</span> Settings
+        </div>
+      </nav>
+      <div class="sb-bottom">
+        <div class="sb-contract" id="contractCountdown">
+          <div class="sb-contract-label">Contract Expires</div>
+          <div class="sb-contract-days" id="contractDays">—</div>
+          <div class="sb-contract-sub" id="contractSub">days remaining</div>
+          <button class="btn-renew" onclick="handleRenew()">Renew Now →</button>
+        </div>
+        <button class="btn-signout" onclick="signOut()">⬅ Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="section active" id="sec-overview">
+        <div class="page-header">
+          <div class="page-title">GOOD <em id="greeting">MORNING</em></div>
+          <div class="page-sub" id="partnerGreeting">Welcome to your partner dashboard</div>
+        </div>
+
+        <!-- Onboarding checklist -->
+        <div class="onboarding-bar" id="onboardingBar">
+          <div class="ob-title">⚡ Complete your setup — partners who finish onboarding get 3x more redemptions</div>
+          <div class="ob-steps">
+            <div class="ob-step" id="ob-profile"><span class="ob-step-icon">○</span> Complete profile</div>
+            <div class="ob-step" id="ob-pin"><span class="ob-step-icon">○</span> Set redemption PIN</div>
+            <div class="ob-step" id="ob-voucher"><span class="ob-step-icon">○</span> Create first voucher</div>
+            <div class="ob-step" id="ob-redeem"><span class="ob-step-icon">○</span> First redemption</div>
+          </div>
+        </div>
+
+        <!-- Alerts container -->
+        <div id="alertsContainer"></div>
+
+        <!-- Revenue hero -->
+        <div class="revenue-hero">
+          <div>
+            <div class="rh-label">💰 DWC drove to your business this month</div>
+            <div class="rh-value" id="heroRevenue">₹0</div>
+            <div class="rh-sub" id="heroRevSub">Based on redemptions × avg order value</div>
+          </div>
+          <div class="rh-meta">
+            <div class="rh-meta-item">Redemption fee owed: <strong id="heroFee">₹0</strong></div>
+            <div class="rh-meta-item">This month's redemptions: <strong id="heroRedeemCount">0</strong></div>
+            <div class="rh-meta-item">Security deposit balance: <strong id="heroDeposit">₹0</strong></div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card stat-gold">
+            <div class="stat-icon">🎟️</div>
+            <div class="stat-label">Active Vouchers</div>
+            <div class="stat-value" id="statActive">0</div>
+            <div class="stat-sub" id="statActiveSub">of <span id="statMax">1</span> allowed</div>
+          </div>
+          <div class="stat-card stat-green">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">Total Redemptions</div>
+            <div class="stat-value" id="statRedemptions">0</div>
+            <div class="stat-sub">all time</div>
+          </div>
+          <div class="stat-card stat-purple">
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">This Month</div>
+            <div class="stat-value" id="statThisMonth">0</div>
+            <div class="stat-sub">redemptions</div>
+          </div>
+          <div class="stat-card stat-red">
+            <div class="stat-icon">⏰</div>
+            <div class="stat-label">Expiring Soon</div>
+            <div class="stat-value" id="statExpiring">0</div>
+            <div class="stat-sub">vouchers in 7 days</div>
+          </div>
+          <div class="stat-card stat-orange">
+            <div class="stat-icon">📦</div>
+            <div class="stat-label">Remaining Quota</div>
+            <div class="stat-value" id="statQuota">0</div>
+            <div class="stat-sub" id="statQuotaSub">redemptions this month</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REDEEM OTP ── -->
+      <div class="section" id="sec-redeem">
+        <div class="page-header">
+          <div class="page-title">REDEEM <em>OTP</em></div>
+          <div class="page-sub">Member shows their OTP. You enter it + your PIN to confirm the redemption.</div>
+        </div>
+
+        <!-- PIN setup if not set -->
+        <div class="pin-setup" id="pinSetup">
+          <div class="pin-setup-label">⚠️ Set your 4-digit Redemption PIN first</div>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px;line-height:1.5">Your PIN prevents fraud. You'll need it every time you validate a member's OTP. Keep it safe — only you should know it.</p>
+          <input type="password" class="pin-setup-input" id="newPinInput" maxlength="4" placeholder="0000">
+          <button class="btn-set-pin" onclick="savePin()">Set PIN →</button>
+        </div>
+
+        <div class="otp-panel" id="otpPanel">
+          <div class="otp-title">VALIDATE REDEMPTION</div>
+          <div class="otp-sub">Ask the member for their 6-digit OTP from their DWC dashboard. Then enter your 4-digit partner PIN to confirm.</div>
+
+          <span class="otp-label">Member OTP (6 digits)</span>
+          <div class="otp-input-row" id="otpInputs">
+            <input class="otp-digit" maxlength="1" id="otp0" oninput="otpNext(this,1)" onkeydown="otpBack(event,this,null)">
+            <input class="otp-digit" maxlength="1" id="otp1" oninput="otpNext(this,2)" onkeydown="otpBack(event,this,0)">
+            <input class="otp-digit" maxlength="1" id="otp2" oninput="otpNext(this,3)" onkeydown="otpBack(event,this,1)">
+            <div class="otp-sep">—</div>
+            <input class="otp-digit" maxlength="1" id="otp3" oninput="otpNext(this,4)" onkeydown="otpBack(event,this,2)">
+            <input class="otp-digit" maxlength="1" id="otp4" oninput="otpNext(this,5)" onkeydown="otpBack(event,this,3)">
+            <input class="otp-digit" maxlength="1" id="otp5" oninput="otpFinish(this)" onkeydown="otpBack(event,this,4)">
+          </div>
+
+          <span class="otp-label">Your 4-digit Partner PIN</span>
+          <input type="password" class="pin-input" id="partnerPinInput" maxlength="4" placeholder="••••">
+
+          <button class="btn-validate" id="btnValidate" onclick="validateOTP()">Validate &amp; Confirm Redemption</button>
+
+          <div class="otp-result" id="otpResult">
+            <div class="otp-result-title" id="otpResultTitle"></div>
+            <div class="otp-result-detail" id="otpResultDetail"></div>
+            <div class="otp-result-member" id="otpResultMember" style="display:none"></div>
+          </div>
+
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border2)">
+            <div style="font-size:.72rem;color:var(--muted);line-height:1.6">
+              ⚠️ <strong style="color:var(--sub)">Fraud Prevention:</strong> Only validate if the member is physically present at your outlet. Do not validate OTPs shared via screenshot, phone, or WhatsApp.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VOUCHERS ── -->
+      <div class="section" id="sec-vouchers">
+        <div class="section-header">
+          <div class="section-title">MY VOUCHERS</div>
+          <button class="btn-primary" onclick="openCreateModal()">+ Create Voucher</button>
+        </div>
+        <div id="vouchersContainer">
+          <div class="empty-state">
+            <div class="loader"></div>
+            <p style="margin-top:12px;color:var(--muted);font-size:.82rem">Loading vouchers...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REDEMPTIONS LOG ── -->
+      <div class="section" id="sec-redemptions">
+        <div class="section-header">
+          <div class="section-title">REDEMPTION LOG</div>
+          <div style="font-size:.8rem;color:var(--muted)" id="redemptionCount">0 total</div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <div class="table-title">All Redemptions</div>
+            <div class="table-filter">
+              <button class="filter-btn active" onclick="filterRedemptions('all',this)">All</button>
+              <button class="filter-btn" onclick="filterRedemptions('used',this)">Used</button>
+              <button class="filter-btn" onclick="filterRedemptions('pending',this)">Pending</button>
+            </div>
+          </div>
+          <div id="redemptionsTable">
+            <div style="text-align:center;padding:40px;color:var(--muted);font-size:.84rem">Loading redemptions...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ANALYTICS ── -->
+      <div class="section" id="sec-analytics">
+        <div class="page-header">
+          <div class="page-title">PARTNER <em>ANALYTICS</em></div>
+          <div class="page-sub">Real-time performance data across all your vouchers.</div>
+        </div>
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <div class="ac-title">⏰ Peak Redemption Times</div>
+            <div class="peak-times" id="peakTimes">
+              <div style="color:var(--muted);font-size:.82rem">No data yet — redemptions will appear here.</div>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <div class="ac-title">🌍 City Distribution</div>
+            <div class="city-rows" id="cityDistribution">
+              <div style="color:var(--muted);font-size:.82rem">No data yet — cities will appear after redemptions.</div>
+            </div>
+          </div>
+        </div>
+        <div class="analytics-card" style="margin-bottom:20px">
+          <div class="ac-title">📊 Voucher Performance</div>
+          <div id="voucherPerformanceTable">
+            <div style="color:var(--muted);font-size:.82rem;padding:16px">Loading performance data...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROFILE ── -->
+      <div class="section" id="sec-profile">
+        <div class="page-header">
+          <div class="page-title">BUSINESS <em>PROFILE</em></div>
+          <div class="page-sub">This information is shown to DWC members browsing partner offers.</div>
+        </div>
+        <div class="profile-card">
+          <div class="profile-grid">
+            <div class="profile-field">
+              <label>Business Name</label>
+              <input type="text" id="pBizName" placeholder="Your business name">
+            </div>
+            <div class="profile-field">
+              <label>Category</label>
+              <input type="text" id="pCategory" placeholder="e.g. Food & Beverage">
+            </div>
+            <div class="profile-field">
+              <label>City</label>
+              <input type="text" id="pCity" placeholder="e.g. Hyderabad">
+            </div>
+            <div class="profile-field">
+              <label>Contact Phone</label>
+              <input type="tel" id="pPhone" placeholder="+91 98765 43210">
+            </div>
+            <div class="profile-field" style="grid-column:1/-1">
+              <label>Address</label>
+              <input type="text" id="pAddress" placeholder="Full address with landmark">
+            </div>
+            <div class="profile-field" style="grid-column:1/-1">
+              <label>Operating Hours</label>
+              <input type="text" id="pHours" placeholder="e.g. Mon–Sat: 11am–11pm, Sun: 12pm–10pm">
+            </div>
+          </div>
+          <button class="btn-primary" style="margin-top:20px" onclick="saveProfile()">Save Profile</button>
+          <div class="badge-download" style="margin-top:20px">
+            <div class="bd-title">🏷️ DWC Verified Partner Badge</div>
+            <div class="bd-sub">Download your badge for your storefront, menu, and social media. Members recognize it and trust your outlet.</div>
+            <button class="btn-badge" onclick="downloadBadge()">⬇ Download Badge</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="section" id="sec-settings">
+        <div class="page-header">
+          <div class="page-title">ACCOUNT <em>SETTINGS</em></div>
+        </div>
+        <div class="settings-section">
+          <div class="ss-title">🔐 Change Redemption PIN</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <input type="password" id="newPin1" maxlength="4" placeholder="New PIN (4 digits)" style="background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;flex:1;min-width:140px">
+            <input type="password" id="newPin2" maxlength="4" placeholder="Confirm PIN" style="background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;flex:1;min-width:140px">
+            <button class="btn-primary" onclick="changePin()">Update PIN</button>
+          </div>
+          <div id="pinChangeMsg" style="font-size:.8rem;margin-top:10px;display:none"></div>
+        </div>
+        <div class="settings-section">
+          <div class="ss-title">📄 Contract Details</div>
+          <div class="contract-info" id="contractInfo">
+            <div class="ci-item"><label>Partner Tier</label><div class="ci-val" id="ci-tier">Basic</div></div>
+            <div class="ci-item"><label>Contract Start</label><div class="ci-val" id="ci-start">—</div></div>
+            <div class="ci-item"><label>Contract Expiry</label><div class="ci-val" id="ci-expiry">—</div></div>
+            <div class="ci-item"><label>Monthly Redemption Limit</label><div class="ci-val" id="ci-quota">20</div></div>
+            <div class="ci-item"><label>Redemption Fee</label><div class="ci-val" id="ci-fee">₹50/redemption</div></div>
+            <div class="ci-item"><label>Security Deposit</label><div class="ci-val" id="ci-deposit">₹0</div></div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="ss-title">💬 Contact Support</div>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px">For billing, contract, or technical issues:</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="mailto:partners@dinewithcelebrity.com" style="background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:800;padding:10px 18px;border-radius:8px;text-decoration:none;text-transform:uppercase;letter-spacing:.06em">📧 Email Support</a>
+            <a href="https://wa.me/919000000000" target="_blank" style="background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:var(--green);font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none">💬 WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ── CREATE VOUCHER MODAL ── -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal">
+    <div class="modal-title">CREATE VOUCHER</div>
+    <div class="modal-sub">Define your offer. Our system validates it for profitability before going live.</div>
+
+    <div class="voucher-preview-mini">
+      <div class="vpm-label" id="mvpPartner">YOUR BRAND</div>
+      <div class="vpm-value" id="mvpValue">₹500 OFF</div>
+      <div class="vpm-min" id="mvpMin">on minimum billing of ₹2,000</div>
+    </div>
+
+    <div class="modal-field">
+      <label>Voucher Title</label>
+      <input type="text" id="mv-title" placeholder="e.g. Weekend Dinner for 2" oninput="updateModalPreview()">
+    </div>
+    <div class="modal-grid2">
+      <div class="modal-field">
+        <label>Discount (₹ flat off)</label>
+        <select id="mv-discount" onchange="updateModalPreview();suggestMinBillingModal()">
+          <option value="200">₹200 off</option>
+          <option value="300">₹300 off</option>
+          <option value="500" selected>₹500 off</option>
+          <option value="750">₹750 off</option>
+          <option value="1000">₹1,000 off</option>
+          <option value="2000">₹2,000 off</option>
+          <option value="5000">₹5,000 off</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label>Minimum Billing (₹)</label>
+        <input type="number" id="mv-minbill" placeholder="2000" min="500" oninput="updateModalPreview();checkEcon()">
+        <div class="modal-field-hint" id="mv-econ-hint"></div>
+      </div>
+    </div>
+    <div class="modal-grid2">
+      <div class="modal-field">
+        <label>Quantity</label>
+        <select id="mv-qty" onchange="updateModalPreview()">
+          <option value="25">25 vouchers</option>
+          <option value="50" selected>50 vouchers</option>
+          <option value="100">100 vouchers</option>
+          <option value="200">200 vouchers</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label>Validity</label>
+        <select id="mv-validity">
+          <option value="15">15 days</option>
+          <option value="30" selected>30 days</option>
+          <option value="45">45 days</option>
+          <option value="60">60 days</option>
+          <option value="90">90 days</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-field">
+      <label>Available For (Tiers)</label>
+      <div class="tier-checks">
+        <label class="tier-check selected" onclick="toggleTierCheck(this,'gold')">
+          <input type="checkbox" value="gold" checked> ★ Gold
+        </label>
+        <label class="tier-check" onclick="toggleTierCheck(this,'platinum')">
+          <input type="checkbox" value="platinum"> ⭑ Platinum
+        </label>
+        <label class="tier-check" onclick="toggleTierCheck(this,'dwcpurple')">
+          <input type="checkbox" value="dwcpurple"> 🟣 Purple
+        </label>
+      </div>
+    </div>
+    <div class="econ-preview" id="econPreview">
+      <div class="econ-row"><span class="econ-key">Expected redemptions (40%)</span><span class="econ-val" id="ep-redeemed">20</span></div>
+      <div class="econ-row"><span class="econ-key">Revenue generated</span><span class="econ-val green" id="ep-revenue">₹40,000</span></div>
+      <div class="econ-row"><span class="econ-key">Discount cost</span><span class="econ-val" id="ep-cost">₹10,000</span></div>
+      <div class="econ-row"><span class="econ-key">Net gain</span><span class="econ-val green" id="ep-net">₹30,000</span></div>
+    </div>
+    <div class="modal-err" id="createErr"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeCreateModal()">Cancel</button>
+      <button class="btn-modal-submit" id="btnCreateVoucher" onclick="submitVoucher()">Submit for Approval →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Stars ──
+(function(){
+  var se=document.getElementById('stars');
+  for(var i=0;i<50;i++){
+    var s=document.createElement('i');
+    s.textContent='★';
+    s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';
+    se.appendChild(s);
+  }
+})();
+
+// ── Supabase ──
+var sbClient = supabase.createClient(
+  'https://blwqqqzhnovsveeryjlm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
+);
+
+var _partner = null;
+var _vouchers = [];
+var _redemptions = [];
+
+// ── Init ──
+(async function init(){
+  var sess = await sbClient.auth.getSession();
+  if(!sess.data.session){
+    show('authScreen'); return;
+  }
+  var user = sess.data.session.user;
+  // Fetch partner record by auth_user_id
+  var {data:partner, error} = await sbClient
+    .from('partners')
+    .select('*')
+    .eq('contact_email', user.email)
+    .single();
+
+  if(error || !partner){
+    show('authScreen'); return;
+  }
+  _partner = partner;
+
+  if(!partner.is_active){
+    show('pendingScreen'); return;
+  }
+
+  // Active partner — load dashboard
+  loadDashboard();
+})();
+
+function show(id){
+  ['loadingScreen','authScreen','pendingScreen','appShell'].forEach(function(s){
+    var el = document.getElementById(s);
+    if(el) el.style.display = s === id ? (s==='appShell'?'block':'flex') : 'none';
+  });
+}
+
+// ── Login ──
+document.getElementById('btnLogin').onclick = async function(){
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass = document.getElementById('loginPass').value;
+  var err = document.getElementById('loginErr');
+  err.style.display='none';
+  if(!email||!pass){err.textContent='Please enter email and password.';err.style.display='block';return;}
+  this.disabled=true; this.textContent='Signing in...';
+  var {error} = await sbClient.auth.signInWithPassword({email,password:pass});
+  if(error){
+    err.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
+    err.style.display='block'; this.disabled=false; this.textContent='Sign In to Dashboard'; return;
+  }
+  location.reload();
+};
+
+// Enter key on auth
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnLogin').click();});
+
+// ── Sign out ──
+async function signOut(){
+  await sbClient.auth.signOut();
+  location.reload();
+}
+
+// ── Load dashboard ──
+async function loadDashboard(){
+  // Sidebar
+  document.getElementById('sbPartnerName').textContent = _partner.name || 'Partner';
+  var tierBadge = document.getElementById('sbTierBadge');
+  var tier = (_partner.partner_tier || 'basic').toLowerCase();
+  tierBadge.textContent = tier.charAt(0).toUpperCase()+tier.slice(1);
+  tierBadge.className = 'sb-tier-badge badge-'+tier;
+
+  // Greeting
+  var hr = new Date().getHours();
+  document.getElementById('greeting').textContent = hr<12?'MORNING':hr<17?'AFTERNOON':'EVENING';
+  document.getElementById('partnerGreeting').textContent = 'Welcome back, ' + (_partner.name||'Partner');
+
+  // Contract countdown
+  if(_partner.contract_expires_at){
+    var days = Math.max(0,Math.ceil((new Date(_partner.contract_expires_at)-new Date())/86400000));
+    var daysEl = document.getElementById('contractDays');
+    daysEl.textContent = days;
+    daysEl.style.color = days<=7?'var(--red)':days<=15?'var(--gold)':'var(--green)';
+    document.getElementById('contractSub').textContent = days<=3?'⚠️ CRITICAL — renew now':days<=7?'🔴 Expiring soon':days<=15?'🟡 Renewing soon':'days remaining';
+  }
+
+  // Settings
+  document.getElementById('ci-tier').textContent = tier.charAt(0).toUpperCase()+tier.slice(1);
+  document.getElementById('ci-start').textContent = _partner.contract_starts_at ? new Date(_partner.contract_starts_at).toLocaleDateString('en-IN') : '—';
+  document.getElementById('ci-expiry').textContent = _partner.contract_expires_at ? new Date(_partner.contract_expires_at).toLocaleDateString('en-IN') : '—';
+  document.getElementById('ci-quota').textContent = (_partner.total_redemption_quota||20)+'/month';
+  document.getElementById('ci-fee').textContent = '₹'+(_partner.redemption_fee||50)+'/redemption';
+  document.getElementById('ci-deposit').textContent = '₹'+(_partner.security_deposit||0).toLocaleString('en-IN');
+
+  // Max vouchers by tier
+  var maxMap = {basic:1, growth:5, premium:999};
+  document.getElementById('statMax').textContent = maxMap[tier]||1;
+
+  // Profile prefill
+  document.getElementById('pBizName').value = _partner.name||'';
+  document.getElementById('pCategory').value = _partner.category||'';
+  document.getElementById('pCity').value = _partner.city||'';
+  document.getElementById('pPhone').value = _partner.contact_phone||'';
+  document.getElementById('pAddress').value = _partner.address||'';
+  document.getElementById('pHours').value = _partner.operating_hours||'';
+
+  // PIN check
+  if(!_partner.pin_code){
+    document.getElementById('pinSetup').style.display='block';
+    document.getElementById('otpPanel').style.opacity='.5';
+    document.getElementById('otpPanel').style.pointerEvents='none';
+  }
+
+  // Load data
+  await loadVouchers();
+  await loadRedemptions();
+  loadOnboarding();
+  show('appShell');
+}
+
+// ── Load vouchers ──
+async function loadVouchers(){
+  var {data} = await sbClient
+    .from('partner_vouchers')
+    .select('*')
+    .eq('partner_id', _partner.id)
+    .order('created_at',{ascending:false});
+  _vouchers = data||[];
+
+  // Stats
+  var active = _vouchers.filter(v=>v.status==='active').length;
+  var expiringSoon = _vouchers.filter(v=>{
+    if(!v.expires_at) return false;
+    var days=(new Date(v.expires_at)-new Date())/86400000;
+    return days>0 && days<=7;
+  }).length;
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statExpiring').textContent = expiringSoon;
+
+  // Compute health scores + alerts
+  var alerts = '';
+  _vouchers.forEach(function(v){
+    v._health = computeHealth(v);
+    // Dying voucher alert
+    if(v.status==='active' && v._health < 30 && v.expires_at){
+      var daysLeft = Math.ceil((new Date(v.expires_at)-new Date())/86400000);
+      if(daysLeft>0 && daysLeft<=7 && (v.redeemed_count/v.quantity)<0.2){
+        alerts += '<div class="alert-banner alert-dying"><div class="alert-icon">🔴</div><div class="alert-text"><strong>'+v.title+' is underperforming</strong>Only '+(v.redeemed_count||0)+' of '+v.quantity+' redeemed with '+daysLeft+' days left.<div class="alert-actions"><button class="btn-alert btn-extend" onclick="extendVoucher(\''+v.id+'\')">Extend +7 days</button><button class="btn-alert btn-dismiss" onclick="this.closest(\'.alert-banner\').remove()">Dismiss</button></div></div></div>';
+      }
+    }
+  });
+  document.getElementById('alertsContainer').innerHTML = alerts;
+
+  renderVouchers();
+}
+
+function computeHealth(v){
+  if(!v.expires_at||!v.quantity) return 0;
+  var redemptionRate = Math.min(1,(v.redeemed_count||0)/v.quantity);
+  var totalMs = new Date(v.expires_at)-new Date(v.created_at);
+  var passedMs = Date.now()-new Date(v.created_at);
+  var timeUtil = Math.min(1,Math.max(0,passedMs/totalMs));
+  var tierCount = (v.valid_for_tiers||[]).length;
+  var tierReach = Math.min(1,tierCount/3);
+  var score = Math.round(redemptionRate*40 + timeUtil*30 + tierReach*30);
+  return Math.min(100,Math.max(0,score));
+}
+
+function getHealthClass(score){
+  return score>=80?'health-high':score>=50?'health-mid':'health-low';
+}
+
+function getHealthAction(v,score){
+  if(score>=80) return '✅ This voucher is performing well. Keep it running.';
+  if(score>=50) return '⚠️ Try extending the expiry or broadening tier access to boost redemptions.';
+  return '🔴 Low performance. Suggestions: extend validity, add Platinum/Purple tier, or reduce minimum billing.';
+}
+
+function mn(n){return '₹'+Number(n).toLocaleString('en-IN');}
+
+function renderVouchers(){
+  var c = document.getElementById('vouchersContainer');
+  if(!_vouchers.length){
+    c.innerHTML='<div class="empty-state"><div class="empty-icon">🎟️</div><div class="empty-title">No Vouchers Yet</div><div class="empty-sub">Create your first voucher to start attracting DWC members.</div><button class="btn-primary" onclick="openCreateModal()">+ Create First Voucher</button></div>';
+    return;
+  }
+  var html = '<div class="vouchers-grid">';
+  _vouchers.forEach(function(v){
+    var statusClass={'active':'status-active','pending_approval':'status-pending','paused':'status-paused','expired':'status-expired','fully_redeemed':'status-redeemed'}[v.status]||'status-pending';
+    var statusLabel={'active':'Active','pending_approval':'Pending Approval','paused':'Paused','expired':'Expired','fully_redeemed':'Fully Redeemed'}[v.status]||v.status;
+    var health = v._health||0;
+    var hc = getHealthClass(health);
+    var hAction = getHealthAction(v,health);
+    var pct = v.quantity>0?Math.round((v.redeemed_count||0)/v.quantity*100):0;
+    var tiers = (v.valid_for_tiers||['gold']).map(function(t){
+      return '<span class="vc-tier tier-'+t+'">'+t.charAt(0).toUpperCase()+t.slice(1)+'</span>';
+    }).join('');
+    var expiry = v.expires_at ? new Date(v.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    var isPaused = v.status==='paused';
+    html+='<div class="voucher-card'+(isPaused?' paused':'')+'" id="vc-'+v.id+'">';
+    if(v.is_featured) html+='<div class="vc-featured">Featured</div>';
+    html+='<div class="vc-status '+statusClass+'">'+statusLabel+'</div>';
+    html+='<div class="vc-title">'+(v.title||'Untitled Voucher')+'</div>';
+    html+='<div class="vc-value">'+mn(v.discount_value)+' OFF</div>';
+    html+='<div class="vc-minbill">on min billing of '+mn(v.min_billing)+'</div>';
+    html+='<div class="vc-tiers">'+tiers+'</div>';
+    html+='<div class="health-bar-wrap '+hc+'">';
+    html+='<div class="health-bar-label"><span class="health-label">Voucher Health</span><span class="health-val">'+health+'/100</span></div>';
+    html+='<div class="health-bar"><div class="health-fill" style="width:'+health+'%"></div></div>';
+    html+='</div>';
+    html+='<div class="health-action">'+hAction+'</div>';
+    html+='<div class="vc-progress">';
+    html+='<div class="vc-prog-row"><span>Redeemed</span><span>'+(v.redeemed_count||0)+' / '+v.quantity+'</span></div>';
+    html+='<div class="vc-prog-bar"><div class="vc-prog-fill" style="width:'+pct+'%"></div></div>';
+    html+='</div>';
+    html+='<div class="vc-meta"><span>Expires: '+expiry+'</span><span>Views: '+(v.views||0)+' | Clicks: '+(v.clicks||0)+'</span></div>';
+    html+='<div class="vc-actions">';
+    if(v.status==='active') html+='<button class="btn-vc btn-pause" onclick="toggleVoucherStatus(\''+v.id+'\',\'paused\')">Pause</button>';
+    if(v.status==='paused') html+='<button class="btn-vc btn-activate" onclick="toggleVoucherStatus(\''+v.id+'\',\'active\')">Activate</button>';
+    html+='<button class="btn-vc btn-delete" onclick="deleteVoucher(\''+v.id+'\')">Delete</button>';
+    html+='</div>';
+    html+='</div>';
+  });
+  html+='</div>';
+  c.innerHTML=html;
+}
+
+// ── Load Redemptions ──
+async function loadRedemptions(){
+  var {data} = await sbClient
+    .from('partner_redemptions')
+    .select('*')
+    .eq('partner_id',_partner.id)
+    .order('redeemed_at',{ascending:false});
+  _redemptions = data||[];
+
+  var total = _redemptions.length;
+  var now = new Date();
+  var monthStart = new Date(now.getFullYear(),now.getMonth(),1);
+  var thisMonth = _redemptions.filter(r=>new Date(r.redeemed_at)>=monthStart).length;
+  var remaining = Math.max(0,(_partner.total_redemption_quota||20)-thisMonth);
+  var totalRevenue = _redemptions.filter(r=>new Date(r.redeemed_at)>=monthStart)
+    .reduce(function(s,r){return s+(r.bill_amount||(_partner.avg_order_value||1500));},0);
+  var totalFee = thisMonth*(_partner.redemption_fee||50);
+
+  document.getElementById('statRedemptions').textContent = total;
+  document.getElementById('statThisMonth').textContent = thisMonth;
+  document.getElementById('statQuota').textContent = remaining;
+  document.getElementById('redemptionCount').textContent = total+' total';
+  document.getElementById('heroRevenue').textContent = mn(totalRevenue);
+  document.getElementById('heroRedeemCount').textContent = thisMonth;
+  document.getElementById('heroFee').textContent = mn(totalFee);
+  document.getElementById('heroDeposit').textContent = mn(_partner.security_deposit||0);
+
+  renderRedemptionsTable(_redemptions);
+  loadAnalytics();
+}
+
+function renderRedemptionsTable(data){
+  if(!data.length){
+    document.getElementById('redemptionsTable').innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:.82rem">No redemptions yet. Redemptions will appear here as members use your vouchers.</div>';
+    return;
+  }
+  var html='<table><thead><tr><th>Member</th><th>Voucher</th><th>Date & Time</th><th>Bill</th><th>Status</th><th>Fraud Score</th></tr></thead><tbody>';
+  data.forEach(function(r){
+    var fs=r.fraud_score||0;
+    var fc=fs<30?'fraud-low':fs<70?'fraud-med':'fraud-high';
+    var scl=r.status==='used'?'status-active':r.status==='pending'?'status-pending':'status-paused';
+    html+='<tr>';
+    html+='<td class="td-member">'+(r.member_display_id||'Member')+'</td>';
+    html+='<td class="td-voucher">'+(r.partner_voucher_id||'—')+'</td>';
+    html+='<td>'+new Date(r.redeemed_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</td>';
+    html+='<td>'+(r.bill_amount?mn(r.bill_amount):'—')+'</td>';
+    html+='<td><span class="td-status '+scl+'">'+(r.status||'used')+'</span></td>';
+    html+='<td><span class="td-fraud '+fc+'">'+(fs<30?'Low':fs<70?'Medium':'High')+'</span></td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  document.getElementById('redemptionsTable').innerHTML=html;
+}
+
+function filterRedemptions(status,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  var filtered = status==='all'?_redemptions:_redemptions.filter(r=>r.status===status);
+  renderRedemptionsTable(filtered);
+}
+
+// ── Analytics ──
+function loadAnalytics(){
+  // Peak times from redemptions
+  var hourBuckets={};
+  _redemptions.forEach(function(r){
+    var h=new Date(r.redeemed_at).getHours();
+    var bucket=h<12?'Morning (8–12pm)':h<17?'Afternoon (12–5pm)':h<21?'Evening (5–9pm)':'Night (9pm+)';
+    hourBuckets[bucket]=(hourBuckets[bucket]||0)+1;
+  });
+  var total=_redemptions.length||1;
+  var peakHtml='';
+  ['Evening (5–9pm)','Night (9pm+)','Afternoon (12–5pm)','Morning (8–12pm)'].forEach(function(b){
+    var n=hourBuckets[b]||0;
+    var pct=Math.round(n/total*100);
+    peakHtml+='<div class="peak-row"><span class="peak-label">'+b+'</span><div class="peak-bar-wrap"><div class="peak-bar" style="width:'+pct+'%"></div></div><span class="peak-pct">'+pct+'%</span></div>';
+  });
+  document.getElementById('peakTimes').innerHTML=peakHtml||'<div style="color:var(--muted);font-size:.82rem">No redemption data yet.</div>';
+
+  // City distribution
+  var cities={};
+  _redemptions.forEach(function(r){var c=r.city||'Unknown';cities[c]=(cities[c]||0)+1;});
+  var cityHtml='';
+  Object.entries(cities).sort((a,b)=>b[1]-a[1]).slice(0,5).forEach(function([c,n]){
+    var p=Math.round(n/total*100);
+    cityHtml+='<div class="city-row"><span class="city-name">'+c+'</span><div class="city-bar-wrap"><div class="city-bar" style="width:'+p+'%"></div></div><span class="city-pct">'+p+'%</span></div>';
+  });
+  if(!cityHtml) cityHtml='<div style="color:var(--muted);font-size:.82rem">No city data yet.</div>';
+  else if(Object.keys(cities).length>1) cityHtml+='<div class="insight-box"><strong>Insight:</strong> '+(Object.values(cities).reduce((a,b)=>a+b,0)-cities[Object.keys(cities)[0]])+'</strong> redemptions came from outside your primary city — DWC has wider reach than expected.</div>';
+  document.getElementById('cityDistribution').innerHTML=cityHtml;
+
+  // Voucher performance table
+  if(!_vouchers.length){
+    document.getElementById('voucherPerformanceTable').innerHTML='<div style="color:var(--muted);font-size:.82rem;padding:16px">Create vouchers to see performance data.</div>';
+    return;
+  }
+  var vpHtml='<table><thead><tr><th>Voucher</th><th>Views</th><th>Clicks</th><th>Redemptions</th><th>Conv. Rate</th><th>Health</th></tr></thead><tbody>';
+  _vouchers.forEach(function(v){
+    var cr=v.views>0?((v.redeemed_count||0)/v.views*100).toFixed(1)+'%':'—';
+    var h=v._health||computeHealth(v);
+    var hc=getHealthClass(h);
+    vpHtml+='<tr><td class="td-voucher">'+(v.title||'Untitled')+'</td><td>'+(v.views||0)+'</td><td>'+(v.clicks||0)+'</td><td>'+(v.redeemed_count||0)+'/'+v.quantity+'</td><td>'+cr+'</td><td><span class="'+hc+'" style="font-weight:700;font-size:.8rem">'+h+'/100</span></td></tr>';
+  });
+  vpHtml+='</tbody></table>';
+  document.getElementById('voucherPerformanceTable').innerHTML=vpHtml;
+}
+
+// ── Onboarding checklist ──
+function loadOnboarding(){
+  if(_partner.onboarding_complete) return;
+  var bar = document.getElementById('onboardingBar');
+  var steps={
+    profile: (_partner.name && _partner.city && _partner.address),
+    pin: !!_partner.pin_code,
+    voucher: _vouchers.length>0,
+    redeem: _redemptions.length>0
+  };
+  var allDone = Object.values(steps).every(Boolean);
+  if(allDone){
+    sbClient.from('partners').update({onboarding_complete:true}).eq('id',_partner.id);
+    return;
+  }
+  bar.style.display='block';
+  Object.entries(steps).forEach(function([key,done]){
+    var el=document.getElementById('ob-'+key);
+    if(el){
+      el.classList.toggle('done',done);
+      el.querySelector('.ob-step-icon').textContent=done?'✅':'○';
+    }
+  });
+}
+
+// ── Section navigation ──
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
+  document.querySelector('[data-section="'+id+'"]').classList.add('active');
+  if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+}
+
+function toggleMobileMenu(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ── OTP Redemption ──
+function otpNext(el,next){
+  if(el.value.length===1 && next<=5){
+    document.getElementById('otp'+next).focus();
+  }
+}
+function otpFinish(el){
+  if(el.value.length===1) document.getElementById('partnerPinInput').focus();
+}
+function otpBack(e,el,prev){
+  if(e.key==='Backspace'&&!el.value&&prev!==null) document.getElementById('otp'+prev).focus();
+}
+
+async function savePin(){
+  var pin = document.getElementById('newPinInput').value.trim();
+  if(pin.length!==4||isNaN(pin)){alert('PIN must be exactly 4 digits.');return;}
+  var {error}=await sbClient.from('partners').update({pin_code:pin}).eq('id',_partner.id);
+  if(error){alert('Failed to save PIN. Try again.');return;}
+  _partner.pin_code=pin;
+  document.getElementById('pinSetup').style.display='none';
+  document.getElementById('otpPanel').style.opacity='1';
+  document.getElementById('otpPanel').style.pointerEvents='auto';
+  alert('PIN set successfully! You can now validate redemptions.');
+}
+
+async function validateOTP(){
+  var otp = [0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
+  var pin = document.getElementById('partnerPinInput').value.trim();
+  var btn = document.getElementById('btnValidate');
+  var result = document.getElementById('otpResult');
+
+  if(otp.length!==6){showOTPResult(false,'Enter all 6 OTP digits.',''); return;}
+  if(!pin){showOTPResult(false,'Enter your 4-digit partner PIN.',''); return;}
+  if(pin!==_partner.pin_code){showOTPResult(false,'Incorrect PIN. Please try again.',''); return;}
+
+  btn.disabled=true; btn.textContent='Validating...';
+
+  // Check OTP in partner_otps table
+  var {data:otpRecord,error}=await sbClient
+    .from('partner_otps')
+    .select('*')
+    .eq('otp',otp)
+    .eq('used',false)
+    .gte('expires_at',new Date().toISOString())
+    .single();
+
+  if(error||!otpRecord){
+    btn.disabled=false; btn.textContent='Validate & Confirm Redemption';
+    showOTPResult(false,'Invalid or expired OTP. Ask the member to refresh their dashboard for a new OTP.','');
+    return;
+  }
+
+  // Mark OTP as used
+  await sbClient.from('partner_otps').update({used:true}).eq('id',otpRecord.id);
+
+  // Get member info
+  var {data:member}=await sbClient.from('members').select('full_name,member_id,tier,city').eq('id',otpRecord.member_id).single();
+
+  // Log redemption
+  await sbClient.from('partner_redemptions').insert({
+    partner_id: _partner.id,
+    partner_voucher_id: otpRecord.partner_voucher_id,
+    member_id: otpRecord.member_id,
+    member_display_id: member?member.member_id:'Unknown',
+    otp: otp,
+    city: member?member.city:null,
+    discount_given: 0,
+    status: 'used',
+    fraud_score: 0
+  });
+
+  // Update voucher redeemed count
+  if(otpRecord.partner_voucher_id){
+    await sbClient.rpc('increment_voucher_redemptions',{vid:otpRecord.partner_voucher_id}).catch(()=>{});
+  }
+
+  btn.disabled=false; btn.textContent='Validate & Confirm Redemption';
+  var memberDetail = member ? 'Member: '+member.full_name+' ('+member.member_id+')\nTier: '+(member.tier||'free').toUpperCase()+'\nCity: '+(member.city||'Unknown') : '';
+  showOTPResult(true,'Redemption Confirmed ✅','Voucher has been validated and recorded.',memberDetail);
+
+  // Reset OTP inputs
+  [0,1,2,3,4,5].forEach(i=>{document.getElementById('otp'+i).value='';});
+  document.getElementById('partnerPinInput').value='';
+  document.getElementById('otp0').focus();
+  await loadRedemptions();
+}
+
+function showOTPResult(success,title,detail,member=''){
+  var r=document.getElementById('otpResult');
+  var m=document.getElementById('otpResultMember');
+  r.className='otp-result '+(success?'success':'error');
+  document.getElementById('otpResultTitle').textContent=title;
+  document.getElementById('otpResultDetail').textContent=detail;
+  r.style.display='block';
+  if(member){
+    m.style.display='block';
+    m.textContent=member;
+  } else { m.style.display='none'; }
+  setTimeout(function(){r.style.display='none';},success?5000:4000);
+}
+
+// ── Create Voucher Modal ──
+function openCreateModal(){
+  var tier=(_partner.partner_tier||'basic').toLowerCase();
+  var maxMap={basic:1,growth:5,premium:999};
+  var max=maxMap[tier]||1;
+  var active=_vouchers.filter(v=>v.status==='active'||v.status==='pending_approval').length;
+  if(active>=max){
+    alert('You\'ve reached your voucher limit ('+max+' for '+tier+' tier). Upgrade to Growth or Premium to create more.');
+    return;
+  }
+  document.getElementById('createModal').classList.add('open');
+  suggestMinBillingModal();
+  updateModalPreview();
+}
+function closeCreateModal(){document.getElementById('createModal').classList.remove('open');}
+
+function suggestMinBillingModal(){
+  var d=parseInt(document.getElementById('mv-discount').value)||500;
+  var suggested=Math.max(d*3,(_partner.avg_order_value||1500));
+  suggested=Math.ceil(suggested/500)*500;
+  document.getElementById('mv-minbill').value=suggested;
+  checkEcon();
+  updateModalPreview();
+}
+
+function checkEcon(){
+  var d=parseInt(document.getElementById('mv-discount').value)||0;
+  var m=parseInt(document.getElementById('mv-minbill').value)||0;
+  var hint=document.getElementById('mv-econ-hint');
+  if(!m){hint.textContent='';return;}
+  var pct=(d/m)*100;
+  if(pct>35){hint.className='modal-field-hint bad';hint.textContent='⚠ Discount is '+pct.toFixed(0)+'% of min billing — too high. Max 30% recommended.';}
+  else if(pct>25){hint.className='modal-field-hint warn';hint.textContent='⚠ '+pct.toFixed(0)+'% of min billing — acceptable but high.';}
+  else{hint.className='modal-field-hint good';hint.textContent='✓ '+pct.toFixed(0)+'% of min billing — healthy margin.';}
+}
+
+function updateModalPreview(){
+  var d=parseInt(document.getElementById('mv-discount').value)||500;
+  var m=parseInt(document.getElementById('mv-minbill').value)||2000;
+  var q=parseInt(document.getElementById('mv-qty').value)||50;
+  document.getElementById('mvpPartner').textContent=(_partner.name||'YOUR BRAND').toUpperCase();
+  document.getElementById('mvpValue').textContent=mn(d)+' OFF';
+  document.getElementById('mvpMin').textContent='on minimum billing of '+mn(m);
+  var redeemed=Math.round(q*0.4);
+  var revenue=redeemed*m;
+  var cost=redeemed*d;
+  document.getElementById('ep-redeemed').textContent=redeemed;
+  document.getElementById('ep-revenue').textContent=mn(revenue);
+  document.getElementById('ep-cost').textContent=mn(cost);
+  document.getElementById('ep-net').textContent=mn(revenue-cost);
+}
+
+var _selectedTiers=['gold'];
+function toggleTierCheck(el,tier){
+  el.classList.toggle('selected');
+  if(_selectedTiers.includes(tier)) _selectedTiers=_selectedTiers.filter(t=>t!==tier);
+  else _selectedTiers.push(tier);
+}
+
+async function submitVoucher(){
+  var title=document.getElementById('mv-title').value.trim();
+  var discount=parseInt(document.getElementById('mv-discount').value);
+  var minBill=parseInt(document.getElementById('mv-minbill').value);
+  var qty=parseInt(document.getElementById('mv-qty').value);
+  var validity=parseInt(document.getElementById('mv-validity').value);
+  var err=document.getElementById('createErr');
+  err.style.display='none';
+
+  if(!title){err.textContent='Please enter a voucher title.';err.style.display='block';return;}
+  if(!minBill){err.textContent='Please set a minimum billing amount.';err.style.display='block';return;}
+  if(!_selectedTiers.length){err.textContent='Please select at least one member tier.';err.style.display='block';return;}
+  if((discount/minBill)>0.35){err.textContent='Discount exceeds 35% of min billing. Please adjust.';err.style.display='block';return;}
+
+  var btn=document.getElementById('btnCreateVoucher');
+  btn.disabled=true;btn.textContent='Submitting...';
+
+  var expiresAt=new Date();
+  expiresAt.setDate(expiresAt.getDate()+validity);
+
+  var {error}=await sbClient.from('partner_vouchers').insert({
+    partner_id: _partner.id,
+    title, discount_value:discount, min_billing:minBill,
+    quantity:qty, validity_days:validity,
+    valid_for_tiers:_selectedTiers,
+    expires_at:expiresAt.toISOString(),
+    status:'pending_approval'
+  });
+
+  btn.disabled=false;btn.textContent='Submit for Approval →';
+  if(error){err.textContent=error.message;err.style.display='block';return;}
+
+  closeCreateModal();
+  await loadVouchers();
+  showSection('vouchers');
+  alert('Voucher submitted for approval! Our team will review it within 24 hours.');
+}
+
+// ── Voucher actions ──
+async function toggleVoucherStatus(id,status){
+  await sbClient.from('partner_vouchers').update({status}).eq('id',id);
+  await loadVouchers();
+}
+
+async function deleteVoucher(id){
+  if(!confirm('Delete this voucher? It will be removed from member dashboards immediately.')) return;
+  await sbClient.from('partner_vouchers').update({status:'deleted'}).eq('id',id);
+  await loadVouchers();
+}
+
+async function extendVoucher(id){
+  var v=_vouchers.find(x=>x.id===id);
+  if(!v) return;
+  var newExpiry=new Date(v.expires_at||Date.now());
+  newExpiry.setDate(newExpiry.getDate()+7);
+  await sbClient.from('partner_vouchers').update({expires_at:newExpiry.toISOString()}).eq('id',id);
+  await loadVouchers();
+  alert('Voucher extended by 7 days.');
+}
+
+// ── Profile ──
+async function saveProfile(){
+  var updates={
+    name:document.getElementById('pBizName').value.trim(),
+    category:document.getElementById('pCategory').value.trim(),
+    city:document.getElementById('pCity').value.trim(),
+    contact_phone:document.getElementById('pPhone').value.trim(),
+    address:document.getElementById('pAddress').value.trim(),
+    operating_hours:document.getElementById('pHours').value.trim()
+  };
+  var {error}=await sbClient.from('partners').update(updates).eq('id',_partner.id);
+  if(error){alert('Error saving: '+error.message);return;}
+  Object.assign(_partner,updates);
+  document.getElementById('sbPartnerName').textContent=_partner.name;
+  loadOnboarding();
+  alert('Profile saved successfully!');
+}
+
+// ── Badge download ──
+function downloadBadge(){
+  var tier=(_partner.partner_tier||'basic');
+  var label=tier==='premium'?'DWC Premium Partner':tier==='growth'?'DWC Growth Partner':'DWC Verified Partner';
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="400" height="160" viewBox="0 0 400 160"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#06040A"/><stop offset="100%" style="stop-color:#1a0f1e"/></linearGradient></defs><rect width="400" height="160" rx="16" fill="url(#g)" stroke="#F2B705" stroke-width="2"/><rect width="400" height="4" rx="2" fill="#F2B705" opacity="0.6"/><text x="30" y="55" font-family="Georgia,serif" font-size="28" font-weight="bold" fill="#F2B705">★ DINE WITH CELEBRITY</text><text x="30" y="90" font-family="Georgia,serif" font-size="18" fill="rgba(255,255,255,0.8)">'+label+'</text><text x="30" y="130" font-family="Georgia,serif" font-size="14" fill="rgba(255,255,255,0.5)">DWC Members Accepted Here &nbsp;|&nbsp; dinewithcelebrity.com</text></svg>';
+  var blob=new Blob([svg],{type:'image/svg+xml'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='dwc-partner-badge.svg';
+  a.click();
+}
+
+// ── Change PIN ──
+async function changePin(){
+  var p1=document.getElementById('newPin1').value.trim();
+  var p2=document.getElementById('newPin2').value.trim();
+  var msg=document.getElementById('pinChangeMsg');
+  if(p1.length!==4||isNaN(p1)){msg.textContent='PIN must be 4 digits.';msg.style.color='var(--red)';msg.style.display='block';return;}
+  if(p1!==p2){msg.textContent='PINs do not match.';msg.style.color='var(--red)';msg.style.display='block';return;}
+  await sbClient.from('partners').update({pin_code:p1}).eq('id',_partner.id);
+  _partner.pin_code=p1;
+  msg.textContent='✓ PIN updated successfully.';msg.style.color='var(--green)';msg.style.display='block';
+  document.getElementById('newPin1').value='';document.getElementById('newPin2').value='';
+}
+
+// ── Contract renewal ──
+function handleRenew(){
+  window.location.href='mailto:partners@dinewithcelebrity.com?subject=Contract Renewal — '+(encodeURIComponent(_partner.name||'Partner'))+'&body=Hi DWC Team,%0A%0AI would like to renew my partnership contract.%0A%0APartner: '+encodeURIComponent(_partner.name||'')+'%0AEmail: '+encodeURIComponent(_partner.contact_email||'')+'%0A%0APlease share the renewal details.%0A%0AThank you.';
+}
+</script>
+</body>
+</html>
