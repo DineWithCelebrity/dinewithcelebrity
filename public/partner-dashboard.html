@@ -23,9 +23,33 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 @keyframes tw{0%{opacity:.03;transform:scale(.85)}100%{opacity:.2;transform:scale(1.1)}}
 
 /* ── AUTH / LOADING SCREENS ── */
-#authScreen,#pendingScreen,#loadingScreen{
+#pendingScreen,#loadingScreen{
   position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;text-align:center;padding:24px;background:var(--bg);
 }
+#authScreen{
+  position:fixed;inset:0;z-index:999;display:grid;grid-template-columns:1fr 1fr;background:var(--bg);
+}
+.auth-left{display:flex;flex-direction:column;justify-content:center;gap:28px;padding:48px 40px;background:linear-gradient(180deg,#0a0610 0%,#06040A 100%);border-right:1px solid var(--border2);overflow-y:auto}
+.auth-right{display:flex;align-items:center;justify-content:center;padding:40px;overflow-y:auto}
+.al-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
+.al-eyebrow::before{content:'';width:20px;height:2px;background:var(--gold)}
+.al-headline{font-family:'Bebas Neue',cursive;font-size:2.6rem;line-height:1.05;color:var(--text)}
+.al-headline em{color:var(--gold);font-style:normal;display:block}
+.al-sub{font-size:.86rem;color:var(--sub);line-height:1.7}
+.al-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.al-stat{background:rgba(242,183,5,.05);border:1px solid var(--border);border-radius:10px;padding:12px}
+.al-stat-num{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--gold);line-height:1}
+.al-stat-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.al-points{display:flex;flex-direction:column;gap:10px}
+.al-point{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:8px}
+.al-point-icon{font-size:1rem;flex-shrink:0}
+.al-point-text{font-size:.78rem;color:var(--sub);line-height:1.5}
+.al-point-text strong{color:var(--text);display:block;margin-bottom:1px;font-size:.82rem}
+.al-proof{background:rgba(0,200,83,.04);border:1px solid rgba(0,200,83,.15);border-radius:10px;padding:14px}
+.al-proof-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--green);margin-bottom:8px}
+.al-proof-item{font-size:.76rem;color:var(--sub);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.al-proof-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+@media(max-width:768px){#authScreen{grid-template-columns:1fr}.auth-left{display:none}.auth-right{padding:32px 20px}}
 .auth-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:420px;width:100%}
 .auth-logo{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--gold);letter-spacing:.08em;margin-bottom:8px}
 .auth-title{font-family:'Bebas Neue',cursive;font-size:2.4rem;color:var(--text);margin-bottom:4px}
@@ -353,21 +377,52 @@ tr:hover td{background:rgba(255,255,255,.02)}
 
 <!-- ── AUTH ── -->
 <div id="authScreen" style="display:none">
-  <div class="auth-card">
-    <div class="auth-logo">★ DINE WITH CELEBRITY</div>
-    <div class="auth-title">PARTNER<br>LOGIN</div>
-    <div class="auth-sub">Sign in to your partner dashboard to manage vouchers and track redemptions.</div>
-    <div class="auth-field">
-      <label>Business Email</label>
-      <input type="email" id="loginEmail" placeholder="hello@yourbusiness.com">
+  <!-- LEFT: TEMPTATION -->
+  <div class="auth-left">
+    <div>
+      <div class="al-eyebrow">Partner Portal</div>
+      <div class="al-headline">YOUR BUSINESS.<br><em>OUR PREMIUM MEMBERS.</em></div>
+      <p class="al-sub">Sign in to manage your vouchers, track every redemption in real time, and see exactly what DWC is driving to your business.</p>
     </div>
-    <div class="auth-field">
-      <label>Password</label>
-      <input type="password" id="loginPass" placeholder="Your password" id="loginPass">
+    <div class="al-stats">
+      <div class="al-stat"><div class="al-stat-num">10K+</div><div class="al-stat-label">Premium Members</div></div>
+      <div class="al-stat"><div class="al-stat-num">24h</div><div class="al-stat-label">Go Live After Approval</div></div>
+      <div class="al-stat"><div class="al-stat-num">100%</div><div class="al-stat-label">Verified Audience</div></div>
+      <div class="al-stat"><div class="al-stat-num">₹50</div><div class="al-stat-label">Per Redemption Fee</div></div>
     </div>
-    <button class="btn-auth" id="btnLogin">Sign In to Dashboard</button>
-    <div class="auth-err" id="loginErr"></div>
-    <div class="auth-link">New partner? <a href="/partner-signup.html">Apply here →</a></div>
+    <div class="al-points">
+      <div class="al-point"><div class="al-point-icon">📊</div><div class="al-point-text"><strong>Real-Time Dashboard</strong>See every redemption as it happens — member ID, time, city, voucher used.</div></div>
+      <div class="al-point"><div class="al-point-icon">🔐</div><div class="al-point-text"><strong>OTP + PIN Validation</strong>Dual-verified redemptions. No fraud, no screenshots, no abuse.</div></div>
+      <div class="al-point"><div class="al-point-icon">📈</div><div class="al-point-text"><strong>Voucher Health Score</strong>Know exactly which vouchers are working and get actionable suggestions.</div></div>
+      <div class="al-point"><div class="al-point-icon">💰</div><div class="al-point-text"><strong>Revenue Attribution</strong>See the exact rupee value DWC drove to your business this month.</div></div>
+    </div>
+    <div class="al-proof">
+      <div class="al-proof-label">What's waiting inside</div>
+      <div class="al-proof-item">Voucher management — create, pause, extend</div>
+      <div class="al-proof-item">Redemption log with fraud scoring</div>
+      <div class="al-proof-item">City heatmap & peak time analytics</div>
+      <div class="al-proof-item">DWC Verified Partner badge download</div>
+      <div class="al-proof-item">Contract countdown & renewal</div>
+    </div>
+  </div>
+  <!-- RIGHT: LOGIN FORM -->
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-logo">★ DINE WITH CELEBRITY</div>
+      <div class="auth-title">PARTNER<br>LOGIN</div>
+      <div class="auth-sub">Sign in to your partner dashboard to manage vouchers and track redemptions.</div>
+      <div class="auth-field">
+        <label>Business Email</label>
+        <input type="email" id="loginEmail" placeholder="hello@yourbusiness.com">
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Your password">
+      </div>
+      <button class="btn-auth" id="btnLogin">Sign In to Dashboard</button>
+      <div class="auth-err" id="loginErr"></div>
+      <div class="auth-link">New partner? <a href="/partner-signup.html">Apply here →</a></div>
+    </div>
   </div>
 </div>
 
