@@ -4,64 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Partner With DWC — Dine With Celebrity Pvt Ltd</title>
-<meta name="description" content="Partner with Dine With Celebrity. Design profitable demand campaigns for your business.">
+<meta name="description" content="Partner with Dine With Celebrity. Reach premium members who pay ₹2,499–₹14,999/year. Design profitable voucher campaigns in 3 minutes.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#06040A;--card:#0f0d14;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
+:root{--bg:#06040A;--card:#0f0d14;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--purple:#9b59b6;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.5);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden}
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 #stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
-@keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
-.brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
+@keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.3;transform:scale(1.1)}}
 nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
 .nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;text-decoration:none}
 .nav-logo span{color:var(--text)}
 .nav-login{font-size:.85rem;color:var(--muted);text-decoration:none;transition:color .2s}
 .nav-login:hover{color:var(--gold)}
-.wrapper{max-width:680px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-.progress-wrap{margin-bottom:36px}
+
+/* ── LAYOUT ── */
+.page-wrap{display:grid;grid-template-columns:420px 1fr;min-height:calc(100vh - 60px);position:relative;z-index:1}
+
+/* ── LEFT SIDEBAR — TEMPTATION ── */
+.temptation{background:linear-gradient(180deg,#0a0610 0%,#06040A 100%);border-right:1px solid var(--border2);padding:40px 32px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;display:flex;flex-direction:column;gap:28px}
+.t-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
+.t-eyebrow::before{content:'';width:20px;height:2px;background:var(--gold)}
+.t-headline{font-family:'Bebas Neue',cursive;font-size:2.4rem;line-height:1.05;color:var(--text)}
+.t-headline em{color:var(--gold);font-style:normal;display:block}
+.t-sub{font-size:.88rem;color:var(--sub);line-height:1.7}
+
+/* Stats row */
+.t-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.t-stat{background:rgba(242,183,5,.05);border:1px solid var(--border);border-radius:12px;padding:14px}
+.t-stat-num{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--gold);line-height:1}
+.t-stat-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+
+/* Why points */
+.t-points{display:flex;flex-direction:column;gap:12px}
+.t-point{display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:10px}
+.t-point-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.t-point-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.t-point-desc{font-size:.75rem;color:var(--muted);line-height:1.5}
+
+/* Proof */
+.t-proof{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.03));border:1px solid var(--border);border-radius:12px;padding:16px}
+.t-proof-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--gold);margin-bottom:10px}
+.t-proof-item{font-size:.82rem;color:var(--sub);margin-bottom:6px;line-height:1.5;display:flex;align-items:flex-start;gap:8px}
+.t-proof-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+
+/* Revenue calc */
+.t-calc{background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.2);border-radius:12px;padding:16px}
+.t-calc-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--green);margin-bottom:10px}
+.t-calc-row{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:6px}
+.t-calc-row:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid rgba(0,200,83,.15);font-weight:700}
+.t-calc-key{color:var(--muted)}
+.t-calc-val{color:var(--text)}
+.t-calc-val.green{color:var(--green)}
+
+/* ── RIGHT — FORM ── */
+.form-wrap{padding:40px 40px 80px;max-width:700px}
+.progress-wrap{margin-bottom:32px}
 .progress-label{display:flex;justify-content:space-between;margin-bottom:10px}
-.prog-step{font-size:.75rem;font-weight:600;color:var(--muted);transition:color .3s}
+.prog-step{font-size:.72rem;font-weight:600;color:var(--muted);transition:color .3s}
 .prog-step.active{color:var(--gold)}
 .prog-step.done{color:var(--green)}
 .progress-bar{height:4px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
 .progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s ease}
 .screen{display:none}
 .screen.active{display:block}
-.screen-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.screen-title{font-family:'Bebas Neue',cursive;font-size:2.8rem;line-height:1;color:var(--text);margin-bottom:6px}
+.screen-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.screen-title{font-family:'Bebas Neue',cursive;font-size:2.6rem;line-height:1;color:var(--text);margin-bottom:6px}
 .screen-title em{color:var(--gold);font-style:normal}
-.screen-sub{font-size:.92rem;color:var(--sub);margin-bottom:28px;line-height:1.6}
+.screen-sub{font-size:.9rem;color:var(--sub);margin-bottom:28px;line-height:1.6}
 .field{margin-bottom:18px}
-.field label{display:block;font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.field label{display:block;font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
 .field input,.field select,.field textarea{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:13px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
 .field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.25)}
 .field select option{background:#0d0814}
-.field-hint{font-size:.75rem;color:var(--muted);margin-top:6px;line-height:1.4}
+.field-hint{font-size:.72rem;color:var(--muted);margin-top:5px;line-height:1.4}
 .field-hint.good{color:var(--green)}
-.field-hint.warn{color:#F2B705}
+.field-hint.warn{color:var(--gold)}
 .field-hint.bad{color:var(--red)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .voucher-preview{background:linear-gradient(135deg,#1a0f00,#0d0814);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden}
 .voucher-preview::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.vp-partner{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:6px}
-.vp-value{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1;margin-bottom:4px}
-.vp-minbill{font-size:.85rem;color:var(--sub);margin-bottom:8px}
+.vp-partner{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:4px}
+.vp-value{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--gold);line-height:1;margin-bottom:4px}
+.vp-minbill{font-size:.82rem;color:var(--sub);margin-bottom:8px}
 .vp-tags{display:flex;gap:6px;flex-wrap:wrap}
-.vp-tag{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase}
+.vp-tag{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase}
 .vp-tag-gold{background:rgba(242,183,5,.12);border:1px solid rgba(242,183,5,.3);color:var(--gold)}
 .vp-tag-plat{background:rgba(200,200,220,.08);border:1px solid rgba(200,200,220,.2);color:#E8E8E8}
 .vp-tag-purp{background:rgba(155,89,182,.12);border:1px solid rgba(155,89,182,.3);color:#c39bd3}
 .vp-tag-qty{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);color:var(--green)}
 .econ-box{background:rgba(0,200,83,.04);border:1px solid rgba(0,200,83,.15);border-radius:12px;padding:16px;margin-bottom:18px}
-.econ-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--green);margin-bottom:12px}
+.econ-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--green);margin-bottom:12px}
 .econ-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .econ-row:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid rgba(0,200,83,.1)}
-.econ-label{font-size:.82rem;color:var(--muted)}
-.econ-val{font-size:.88rem;font-weight:700;color:var(--text)}
+.econ-label{font-size:.8rem;color:var(--muted)}
+.econ-val{font-size:.85rem;font-weight:700;color:var(--text)}
 .econ-val.green{color:var(--green)}
 .econ-val.gold{color:var(--gold)}
 .tier-toggles{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
@@ -69,192 +109,299 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .tier-toggle.selected{border-color:var(--gold);background:rgba(242,183,5,.04)}
 .tier-toggle-left{display:flex;align-items:center;gap:12px}
 .tier-toggle-icon{font-size:1.2rem}
-.tier-toggle-name{font-size:.9rem;font-weight:700;color:var(--text)}
-.tier-toggle-desc{font-size:.75rem;color:var(--muted)}
+.tier-toggle-name{font-size:.88rem;font-weight:700;color:var(--text)}
+.tier-toggle-desc{font-size:.72rem;color:var(--muted)}
 .tier-toggle-right{display:flex;align-items:center;gap:10px}
-.tier-limit{font-size:.78rem;color:var(--muted)}
+.tier-limit{font-size:.75rem;color:var(--muted)}
 .toggle-switch{width:36px;height:20px;background:rgba(255,255,255,.1);border-radius:100px;position:relative;transition:background .2s;flex-shrink:0}
 .toggle-switch.on{background:var(--gold)}
 .toggle-switch::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:left .2s}
 .toggle-switch.on::after{left:19px}
+.suggest-box{background:rgba(242,183,5,.05);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.78rem;color:var(--sub);line-height:1.5;display:none}
+.suggest-box strong{color:var(--gold)}
+.summary-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:18px;margin-bottom:16px}
+.summary-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px}
+.summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.86rem}
+.summary-row:last-child{margin-bottom:0}
+.summary-key{color:var(--muted)}
+.summary-val{color:var(--text);font-weight:600;text-align:right}
 .btn-next{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;padding:15px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s;margin-top:8px}
 .btn-next:hover{opacity:.88}
 .btn-next:disabled{opacity:.5;cursor:not-allowed}
-.btn-back{background:none;border:none;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer;padding:0;margin-top:14px;display:block;text-align:center;width:100%;transition:color .2s}
+.btn-back{background:none;border:none;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.86rem;cursor:pointer;padding:0;margin-top:14px;display:block;text-align:center;width:100%;transition:color .2s}
 .btn-back:hover{color:var(--gold)}
-.err-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.85rem;padding:12px;border-radius:8px;margin-top:12px;display:none;text-align:center}
+.err-msg{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.83rem;padding:12px;border-radius:8px;margin-top:12px;display:none;text-align:center}
 .pending-wrap{text-align:center;padding:40px 0}
 .pending-icon{font-size:4rem;margin-bottom:20px}
 .pending-title{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--text);margin-bottom:8px}
 .pending-title em{color:var(--gold);font-style:normal}
-.pending-sub{font-size:.95rem;color:var(--sub);line-height:1.7;margin-bottom:28px;max-width:460px;margin-left:auto;margin-right:auto}
-.pending-steps{display:flex;flex-direction:column;gap:12px;text-align:left;max-width:400px;margin:0 auto 32px}
+.pending-sub{font-size:.92rem;color:var(--sub);line-height:1.7;margin-bottom:28px}
+.pending-steps{display:flex;flex-direction:column;gap:12px;text-align:left;margin:0 auto 28px;max-width:460px}
 .pending-step{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:14px 16px}
-.ps-num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:#06040A;font-weight:800;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ps-text{font-size:.85rem;color:var(--sub);line-height:1.5}
+.ps-num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:#06040A;font-weight:800;font-size:.78rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps-text{font-size:.82rem;color:var(--sub);line-height:1.5}
 .ps-text strong{color:var(--text);display:block;margin-bottom:2px}
-.pending-note{font-size:.82rem;color:var(--muted);line-height:1.5}
-.suggest-box{background:rgba(242,183,5,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-top:8px;font-size:.82rem;color:var(--sub);line-height:1.5;display:none}
-.suggest-box strong{color:var(--gold)}
-.summary-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:18px;margin-bottom:16px}
-.summary-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px}
-.summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.88rem}
-.summary-row:last-child{margin-bottom:0}
-.summary-key{color:var(--muted)}
-.summary-val{color:var(--text);font-weight:600;text-align:right}
-@media(max-width:540px){.grid2{grid-template-columns:1fr}.screen-title{font-size:2.2rem}}
+@media(max-width:960px){
+  .page-wrap{grid-template-columns:1fr}
+  .temptation{position:relative;top:0;height:auto;border-right:none;border-bottom:1px solid var(--border2)}
+  .form-wrap{padding:32px 24px 60px}
+  .grid2{grid-template-columns:1fr}
+}
 </style>
-<style id="dwc-shared">body{font-family:'Poppins',sans-serif;font-size:1rem;color:rgba(255,255,255,.95);background:#06040A}h1,h2,h3{font-family:'Bebas Neue',cursive;letter-spacing:.05em;line-height:1.05}label{font-size:.78rem!important;font-weight:700!important;color:rgba(255,255,255,.75)!important;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:7px}p{font-size:.95rem;color:rgba(255,255,255,.75);line-height:1.65}input[type="text"],input[type="email"],input[type="password"],input[type="tel"],input[type="number"],select,textarea{font-family:'Poppins',sans-serif!important;font-size:.95rem!important;color:rgba(255,255,255,.95)!important;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 16px;outline:none;width:100%;box-sizing:border-box}input:focus,select:focus,textarea:focus{border-color:#F2B705}input::placeholder,textarea::placeholder{color:rgba(255,255,255,.3)}select option{background:#0f0d14}button{font-family:'Poppins',sans-serif}table{width:100%;border-collapse:collapse;font-size:.85rem}th{font-size:.72rem!important;font-weight:700;color:rgba(255,255,255,.5)!important;text-transform:uppercase;letter-spacing:.1em;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left}td{padding:12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.04);font-size:.85rem}</style></head>
+</head>
 <body>
 <div id="stars"></div>
-<div class="brand-bg">DWC</div>
 <nav>
   <a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
-  <a class="nav-login" href="/partner-sponsor.html">Partner Login &#x2192;</a>
+  <a class="nav-login" href="/partner-dashboard.html">Partner Login &#x2192;</a>
 </nav>
-<div class="wrapper">
-  <div class="progress-wrap">
-    <div class="progress-label">
-      <span class="prog-step active" id="ps1">01 — Your Business</span>
-      <span class="prog-step" id="ps2">02 — Design Campaign</span>
-      <span class="prog-step" id="ps3">03 — Review &amp; Submit</span>
+
+<div class="page-wrap">
+
+  <!-- ── LEFT: TEMPTATION SIDEBAR ── -->
+  <div class="temptation">
+    <div>
+      <div class="t-eyebrow">For Businesses</div>
+      <div class="t-headline">BRING <em>PREMIUM CUSTOMERS</em> TO YOUR DOOR</div>
+      <p class="t-sub">DWC members are urban professionals who pay ₹2,499–₹14,999/year for exclusive experiences. They're not bargain hunters. They're your highest-value customers.</p>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:33%"></div></div>
-  </div>
-  <div class="screen active" id="s1">
-    <div class="screen-eyebrow">Step 1 of 3</div>
-    <div class="screen-title">YOUR<br><em>BUSINESS</em></div>
-    <p class="screen-sub">We don’t let partners discount blindly. We help you design profitable demand. Tell us about your business first.</p>
-    <div class="field"><label>Business Name</label><input type="text" id="bizName" placeholder="e.g. 36 Chemistry, Naturals Salon"></div>
-    <div class="grid2">
-      <div class="field"><label>Business Category</label><select id="bizCategory"><option value="">Select category</option><option value="food">Food &amp; Beverage</option><option value="wellness">Wellness &amp; Spa</option><option value="fashion">Fashion &amp; Lifestyle</option><option value="entertainment">Entertainment</option><option value="travel">Travel &amp; Hospitality</option><option value="other">Other</option></select></div>
-      <div class="field"><label>City</label><input type="text" id="bizCity" placeholder="e.g. Hyderabad"></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>Contact Person</label><input type="text" id="bizContact" placeholder="Your full name"></div>
-      <div class="field"><label>Mobile Number</label><input type="tel" id="bizPhone" placeholder="+91 98765 43210"></div>
-    </div>
-    <div class="field"><label>Business Email</label><input type="email" id="bizEmail" placeholder="hello@yourbusiness.com"><div class="field-hint">This will be your login email for the partner dashboard.</div></div>
-    <div class="grid2">
-      <div class="field"><label>Password <span style="color:var(--gold)">*</span></label><input type="password" id="bizPassword" placeholder="Create a password (min 8 chars)" minlength="8"><div class="field-hint">You'll use this to sign in to your partner dashboard.</div></div>
-      <div class="field"><label>GSTIN <span style="color:var(--muted);font-size:.8em">(optional)</span></label><input type="text" id="bizGstin" placeholder="e.g. 36AABCT1332L1ZU" maxlength="15" style="text-transform:uppercase"><div class="field-hint">15-digit GST number. Verified partners get a trust badge.</div></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>Number of Outlets</label><select id="bizOutlets"><option value="">Select</option><option value="1">1 outlet</option><option value="2-5">2–5 outlets</option><option value="6-10">6–10 outlets</option><option value="10+">10+ outlets</option></select></div>
-      <div class="field"><label>Average Order Value</label><select id="bizAOV"><option value="">Select AOV</option><option value="500">Under ₹500</option><option value="1000">₹500 – ₹1,000</option><option value="1500">₹1,000 – ₹1,500</option><option value="2500">₹1,500 – ₹2,500</option><option value="5000">₹2,500 – ₹5,000</option><option value="5001">Above ₹5,000</option></select></div>
-    </div>
-    <div class="field"><label>Licensed Premises?</label><select id="bizLicensed"><option value="no">No — standard business</option><option value="yes">Yes — pub / bar / lounge (liquor licence)</option></select><div class="field-hint">Licensed premises will show an age verification gate to members before voucher reveal.</div></div>
-    <div class="err-msg" id="s1Err"></div>
-    <button class="btn-next" id="btnS1">Continue to Campaign Design &#x2192;</button>
-  </div>
-  <div class="screen" id="s2">
-    <div class="screen-eyebrow">Step 2 of 3</div>
-    <div class="screen-title">DESIGN YOUR<br><em>CAMPAIGN</em></div>
-    <p class="screen-sub">Our system validates your voucher economics in real time — keeping it profitable for you.</p>
-    <div class="voucher-preview" id="voucherPreview">
-      <div class="vp-partner" id="vpPartner">YOUR BRAND</div>
-      <div class="vp-value" id="vpValue">₹500 OFF</div>
-      <div class="vp-minbill" id="vpMinBill">on minimum billing of ₹2,000</div>
-      <div class="vp-tags" id="vpTags"><span class="vp-tag vp-tag-gold">★ Gold</span><span class="vp-tag vp-tag-qty">50 vouchers</span></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>Discount Value (₹ Flat Off)</label><select id="vDiscount"><option value="200">₹200 off</option><option value="300">₹300 off</option><option value="500" selected>₹500 off</option><option value="750">₹750 off</option><option value="1000">₹1,000 off</option><option value="2000">₹2,000 off</option><option value="5000">₹5,000 off</option><option value="10000">₹10,000 off</option></select></div>
-      <div class="field"><label>Minimum Billing (₹)</label><input type="number" id="vMinBill" placeholder="e.g. 2000" min="500"><div class="suggest-box" id="suggestBox">&#x1F4A1; <strong>Smart Suggestion:</strong> <span id="suggestText"></span></div><div class="field-hint" id="econHint"></div></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>Number of Vouchers</label><select id="vQty"><option value="25">25 vouchers</option><option value="50" selected>50 vouchers</option><option value="100">100 vouchers</option><option value="200">200 vouchers</option><option value="500">500 vouchers</option></select></div>
-      <div class="field"><label>Voucher Validity</label><select id="vValidity"><option value="15">15 days</option><option value="30" selected>30 days</option><option value="45">45 days</option><option value="60">60 days</option><option value="90">90 days</option></select></div>
-    </div>
-    <div class="field"><label>Which Members Can Use This?</label></div>
-    <div class="tier-toggles">
-      <div class="tier-toggle selected" id="tt-gold" onclick="toggleTier('gold')"><div class="tier-toggle-left"><div class="tier-toggle-icon">★</div><div><div class="tier-toggle-name">Gold Members</div><div class="tier-toggle-desc">Widest reach — most members — best for ₹300–₹1,000 vouchers</div></div></div><div class="tier-toggle-right"><div class="tier-limit">1 voucher/month</div><div class="toggle-switch on" id="ts-gold"></div></div></div>
-      <div class="tier-toggle" id="tt-platinum" onclick="toggleTier('platinum')"><div class="tier-toggle-left"><div class="tier-toggle-icon">⭑</div><div><div class="tier-toggle-name">Platinum Members</div><div class="tier-toggle-desc">Mid-tier — higher spenders — best for ₹1,000–₹5,000 vouchers</div></div></div><div class="tier-toggle-right"><div class="tier-limit">2 vouchers/month</div><div class="toggle-switch" id="ts-platinum"></div></div></div>
-      <div class="tier-toggle" id="tt-purple" onclick="toggleTier('purple')"><div class="tier-toggle-left"><div class="tier-toggle-icon">🟣</div><div><div class="tier-toggle-name">Purple VIP Members</div><div class="tier-toggle-desc">VIP only — premium audience — best for ₹5,000–₹10,000 vouchers</div></div></div><div class="tier-toggle-right"><div class="tier-limit">3 vouchers/month</div><div class="toggle-switch" id="ts-purple"></div></div></div>
-    </div>
-    <div class="econ-box" id="econBox">
-      <div class="econ-title">&#x1F4CA; Campaign Economics (Estimated)</div>
-      <div class="econ-row"><span class="econ-label">Vouchers issued</span><span class="econ-val" id="econIssued">50</span></div>
-      <div class="econ-row"><span class="econ-label">Expected redemptions (40%)</span><span class="econ-val" id="econRedeemed">20</span></div>
-      <div class="econ-row"><span class="econ-label">Revenue generated</span><span class="econ-val green" id="econRevenue">₹40,000</span></div>
-      <div class="econ-row"><span class="econ-label">Discount cost</span><span class="econ-val" id="econCost">₹10,000</span></div>
-      <div class="econ-row"><span class="econ-label">Net gain</span><span class="econ-val gold" id="econNet">₹30,000 + new customers</span></div>
-    </div>
-    <div class="err-msg" id="s2Err"></div>
-    <button class="btn-next" id="btnS2">Review &amp; Submit &#x2192;</button>
-    <button class="btn-back" onclick="goBack(1)">&#x2190; Back</button>
-  </div>  <div class="screen" id="s3">
-    <div class="screen-eyebrow">Step 3 of 3</div>
-    <div class="screen-title">REVIEW &amp;<br><em>SUBMIT</em></div>
-    <p class="screen-sub">Review your campaign before submitting. Our ops team will review and activate your account within 24 hours.</p>
-    <div class="voucher-preview" id="reviewCard">
-      <div class="vp-partner" id="rvPartner">YOUR BRAND</div>
-      <div class="vp-value" id="rvValue">₹500 OFF</div>
-      <div class="vp-minbill" id="rvMinBill">on minimum billing of ₹2,000</div>
-      <div class="vp-tags" id="rvTags"></div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-title">Business Details</div>
-      <div class="summary-row"><span class="summary-key">Business</span><span class="summary-val" id="rv-biz">—</span></div>
-      <div class="summary-row"><span class="summary-key">Category</span><span class="summary-val" id="rv-cat">—</span></div>
-      <div class="summary-row"><span class="summary-key">City</span><span class="summary-val" id="rv-city">—</span></div>
-      <div class="summary-row"><span class="summary-key">Contact</span><span class="summary-val" id="rv-contact">—</span></div>
-      <div class="summary-row"><span class="summary-key">Email</span><span class="summary-val" id="rv-email">—</span></div>
-      <div class="summary-row"><span class="summary-key">Outlets</span><span class="summary-val" id="rv-outlets">—</span></div>
-      <div class="summary-row"><span class="summary-key">Avg Order Value</span><span class="summary-val" id="rv-aov">—</span></div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-title">Campaign Details</div>
-      <div class="summary-row"><span class="summary-key">Discount</span><span class="summary-val" id="rv-discount">—</span></div>
-      <div class="summary-row"><span class="summary-key">Min Billing</span><span class="summary-val" id="rv-minbill">—</span></div>
-      <div class="summary-row"><span class="summary-key">Quantity</span><span class="summary-val" id="rv-qty">—</span></div>
-      <div class="summary-row"><span class="summary-key">Validity</span><span class="summary-val" id="rv-validity">—</span></div>
-      <div class="summary-row"><span class="summary-key">Tiers</span><span class="summary-val" id="rv-tiers">—</span></div>
-      <div class="summary-row"><span class="summary-key">Discount %</span><span class="summary-val" id="rv-pct">—</span></div>
-    </div>
-    <div class="econ-box">
-      <div class="econ-title">&#x1F4CA; Expected Campaign Performance</div>
-      <div class="econ-row"><span class="econ-label">Revenue generated</span><span class="econ-val green" id="rv-revenue">—</span></div>
-      <div class="econ-row"><span class="econ-label">Net gain after discounts</span><span class="econ-val gold" id="rv-net">—</span></div>
-    </div>
-    <div class="err-msg" id="s3Err"></div>
-    <button class="btn-next" id="btnS3">Submit Partner Application &#x2192;</button>
-    <button class="btn-back" onclick="goBack(2)">&#x2190; Back</button>
-  </div>
-  <div class="screen" id="s4">
-    <div class="pending-wrap">
-      <div class="pending-icon">⏳</div>
-      <div class="pending-title">APPLICATION<br><em>SUBMITTED!</em></div>
-      <p class="pending-sub">Thank you for partnering with Dine With Celebrity. Your application is under review. Here’s what happens next:</p>
-      <div class="pending-steps">
-        <div class="pending-step"><div class="ps-num">1</div><div class="ps-text"><strong>Our ops team reviews your campaign</strong>Within 24 hours we’ll check your voucher economics and business details.</div></div>
-        <div class="pending-step"><div class="ps-num">2</div><div class="ps-text"><strong>You receive an email with login credentials</strong>Once approved, you’ll get access to your partner dashboard.</div></div>
-        <div class="pending-step"><div class="ps-num">3</div><div class="ps-text"><strong>Your vouchers go live to DWC members</strong>Members start seeing your offers on their dashboard immediately.</div></div>
+
+    <div class="t-stats">
+      <div class="t-stat">
+        <div class="t-stat-num">10K+</div>
+        <div class="t-stat-label">Target Members</div>
       </div>
-      <p class="pending-note">Questions? Email us at <a href="mailto:partners@dinewithcelebrity.com" style="color:var(--gold)">partners@dinewithcelebrity.com</a></p>
+      <div class="t-stat">
+        <div class="t-stat-num">₹70K</div>
+        <div class="t-stat-label">Celebrity Dinner Goal</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-stat-num">100%</div>
+        <div class="t-stat-label">Verified Premium</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-stat-num">24h</div>
+        <div class="t-stat-label">Go Live After Approval</div>
+      </div>
+    </div>
+
+    <div class="t-points">
+      <div class="t-point">
+        <div class="t-point-icon">🎯</div>
+        <div>
+          <div class="t-point-title">You Pick the Offer. We Drive Demand.</div>
+          <div class="t-point-desc">Design your own voucher — flat discount, minimum billing, which tiers. Our system validates it's profitable for you before it goes live.</div>
+        </div>
+      </div>
+      <div class="t-point">
+        <div class="t-point-icon">📊</div>
+        <div>
+          <div class="t-point-title">Real-Time Redemption Dashboard</div>
+          <div class="t-point-desc">See every redemption as it happens. Who redeemed, when, from which city. No guessing on ROI.</div>
+        </div>
+      </div>
+      <div class="t-point">
+        <div class="t-point-icon">🔐</div>
+        <div>
+          <div class="t-point-title">Zero Fraud. Dual Verification.</div>
+          <div class="t-point-desc">Members use OTP. You confirm with your PIN. Every redemption is logged, verified, and tamper-proof.</div>
+        </div>
+      </div>
+      <div class="t-point">
+        <div class="t-point-icon">💸</div>
+        <div>
+          <div class="t-point-title">Pay Only When Customers Come</div>
+          <div class="t-point-desc">Small redemption fee per customer (₹15–₹50). No upfront ad spend. No wasted budget on eyeballs that don't convert.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-calc">
+      <div class="t-calc-label">📈 Example — 50 Vouchers Campaign</div>
+      <div class="t-calc-row"><span class="t-calc-key">Vouchers issued</span><span class="t-calc-val">50</span></div>
+      <div class="t-calc-row"><span class="t-calc-key">Expected redemptions (40%)</span><span class="t-calc-val">20 visits</span></div>
+      <div class="t-calc-row"><span class="t-calc-key">Revenue per visit (₹2,000 min)</span><span class="t-calc-val">₹40,000</span></div>
+      <div class="t-calc-row"><span class="t-calc-key">Discount cost (₹500 × 20)</span><span class="t-calc-val">₹10,000</span></div>
+      <div class="t-calc-row"><span class="t-calc-key">Net gain</span><span class="t-calc-val green">₹30,000 + 20 new customers</span></div>
+    </div>
+
+    <div class="t-proof">
+      <div class="t-proof-label">✅ What Partners Get</div>
+      <div class="t-proof-item">Direct access to Gold, Platinum & Purple members</div>
+      <div class="t-proof-item">Your offer on member dashboards from day one</div>
+      <div class="t-proof-item">DWC Verified Partner badge for your outlet</div>
+      <div class="t-proof-item">Real-time analytics — views, clicks, redemptions, ROI</div>
+      <div class="t-proof-item">Dedicated support from DWC partner team</div>
     </div>
   </div>
-</div>
+
+  <!-- ── RIGHT: FORM ── -->
+  <div class="form-wrap">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span class="prog-step active" id="ps1">01 — Your Business</span>
+        <span class="prog-step" id="ps2">02 — Design Campaign</span>
+        <span class="prog-step" id="ps3">03 — Review & Submit</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:33%"></div></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="screen active" id="s1">
+      <div class="screen-eyebrow">Step 1 of 3</div>
+      <div class="screen-title">YOUR<br><em>BUSINESS</em></div>
+      <p class="screen-sub">We don't let partners discount blindly. We help you design profitable demand. Tell us about your business first.</p>
+      <div class="field"><label>Business Name</label><input type="text" id="bizName" placeholder="e.g. 36 Chemistry, Naturals Salon"></div>
+      <div class="grid2">
+        <div class="field"><label>Business Category</label><select id="bizCategory"><option value="">Select category</option><option value="food">Food & Beverage</option><option value="wellness">Wellness & Spa</option><option value="fashion">Fashion & Lifestyle</option><option value="entertainment">Entertainment</option><option value="travel">Travel & Hospitality</option><option value="other">Other</option></select></div>
+        <div class="field"><label>City</label><input type="text" id="bizCity" placeholder="e.g. Hyderabad"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>Contact Person</label><input type="text" id="bizContact" placeholder="Your full name"></div>
+        <div class="field"><label>Mobile Number</label><input type="tel" id="bizPhone" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="field"><label>Business Email</label><input type="email" id="bizEmail" placeholder="hello@yourbusiness.com"><div class="field-hint">This becomes your partner dashboard login.</div></div>
+      <div class="grid2">
+        <div class="field"><label>Password <span style="color:var(--gold)">*</span></label><input type="password" id="bizPassword" placeholder="Min 8 characters" minlength="8"></div>
+        <div class="field"><label>GSTIN <span style="color:var(--muted);font-size:.8em">(optional)</span></label><input type="text" id="bizGstin" placeholder="36AABCT1332L1ZU" maxlength="15" style="text-transform:uppercase"><div class="field-hint">Get a verified partner badge.</div></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>Number of Outlets</label><select id="bizOutlets"><option value="">Select</option><option value="1">1 outlet</option><option value="2-5">2–5 outlets</option><option value="6-10">6–10 outlets</option><option value="10+">10+ outlets</option></select></div>
+        <div class="field"><label>Average Order Value</label><select id="bizAOV"><option value="">Select AOV</option><option value="500">Under ₹500</option><option value="1000">₹500–₹1,000</option><option value="1500">₹1,000–₹1,500</option><option value="2500">₹1,500–₹2,500</option><option value="5000">₹2,500–₹5,000</option><option value="5001">Above ₹5,000</option></select></div>
+      </div>
+      <div class="field"><label>Licensed Premises?</label><select id="bizLicensed"><option value="no">No — standard business</option><option value="yes">Yes — pub / bar / lounge (liquor licence)</option></select><div class="field-hint">Licensed premises shows age verification to members before voucher reveal.</div></div>
+      <div class="err-msg" id="s1Err"></div>
+      <button class="btn-next" id="btnS1">Continue to Campaign Design →</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="screen" id="s2">
+      <div class="screen-eyebrow">Step 2 of 3</div>
+      <div class="screen-title">DESIGN YOUR<br><em>CAMPAIGN</em></div>
+      <p class="screen-sub">Our system validates your voucher economics in real time — keeping it profitable for you.</p>
+      <div class="voucher-preview" id="voucherPreview">
+        <div class="vp-partner" id="vpPartner">YOUR BRAND</div>
+        <div class="vp-value" id="vpValue">₹500 OFF</div>
+        <div class="vp-minbill" id="vpMinBill">on minimum billing of ₹2,000</div>
+        <div class="vp-tags" id="vpTags"><span class="vp-tag vp-tag-gold">★ Gold</span><span class="vp-tag vp-tag-qty">50 vouchers</span></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>Discount Value (₹ Flat Off)</label><select id="vDiscount"><option value="200">₹200 off</option><option value="300">₹300 off</option><option value="500" selected>₹500 off</option><option value="750">₹750 off</option><option value="1000">₹1,000 off</option><option value="2000">₹2,000 off</option><option value="5000">₹5,000 off</option><option value="10000">₹10,000 off</option></select></div>
+        <div class="field"><label>Minimum Billing (₹)</label><input type="number" id="vMinBill" placeholder="e.g. 2000" min="500"><div class="suggest-box" id="suggestBox">💡 <strong>Smart Suggestion:</strong> <span id="suggestText"></span></div><div class="field-hint" id="econHint"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>Number of Vouchers</label><select id="vQty"><option value="25">25 vouchers</option><option value="50" selected>50 vouchers</option><option value="100">100 vouchers</option><option value="200">200 vouchers</option><option value="500">500 vouchers</option></select></div>
+        <div class="field"><label>Voucher Validity</label><select id="vValidity"><option value="15">15 days</option><option value="30" selected>30 days</option><option value="45">45 days</option><option value="60">60 days</option><option value="90">90 days</option></select></div>
+      </div>
+      <div class="field"><label>Which Members Can Use This?</label></div>
+      <div class="tier-toggles">
+        <div class="tier-toggle selected" id="tt-gold" onclick="toggleTier('gold')"><div class="tier-toggle-left"><div class="tier-toggle-icon">★</div><div><div class="tier-toggle-name">Gold Members</div><div class="tier-toggle-desc">Widest reach — most members — best for ₹300–₹1,000 vouchers</div></div></div><div class="tier-toggle-right"><div class="tier-limit">1 voucher/month</div><div class="toggle-switch on" id="ts-gold"></div></div></div>
+        <div class="tier-toggle" id="tt-platinum" onclick="toggleTier('platinum')"><div class="tier-toggle-left"><div class="tier-toggle-icon">⭑</div><div><div class="tier-toggle-name">Platinum Members</div><div class="tier-toggle-desc">Higher spenders — best for ₹1,000–₹5,000 vouchers</div></div></div><div class="tier-toggle-right"><div class="tier-limit">2 vouchers/month</div><div class="toggle-switch" id="ts-platinum"></div></div></div>
+        <div class="tier-toggle" id="tt-purple" onclick="toggleTier('purple')"><div class="tier-toggle-left"><div class="tier-toggle-icon">🟣</div><div><div class="tier-toggle-name">Purple VIP Members</div><div class="tier-toggle-desc">VIP only — premium audience — best for ₹5,000+ vouchers</div></div></div><div class="tier-toggle-right"><div class="tier-limit">3 vouchers/month</div><div class="toggle-switch" id="ts-purple"></div></div></div>
+      </div>
+      <div class="econ-box" id="econBox">
+        <div class="econ-title">📊 Campaign Economics (Estimated)</div>
+        <div class="econ-row"><span class="econ-label">Vouchers issued</span><span class="econ-val" id="econIssued">50</span></div>
+        <div class="econ-row"><span class="econ-label">Expected redemptions (40%)</span><span class="econ-val" id="econRedeemed">20</span></div>
+        <div class="econ-row"><span class="econ-label">Revenue generated</span><span class="econ-val green" id="econRevenue">₹40,000</span></div>
+        <div class="econ-row"><span class="econ-label">Discount cost</span><span class="econ-val" id="econCost">₹10,000</span></div>
+        <div class="econ-row"><span class="econ-label">Net gain</span><span class="econ-val gold" id="econNet">₹30,000 + new customers</span></div>
+      </div>
+      <div class="err-msg" id="s2Err"></div>
+      <button class="btn-next" id="btnS2">Review & Submit →</button>
+      <button class="btn-back" onclick="goBack(1)">← Back</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="screen" id="s3">
+      <div class="screen-eyebrow">Step 3 of 3</div>
+      <div class="screen-title">REVIEW &<br><em>SUBMIT</em></div>
+      <p class="screen-sub">Our ops team will review your campaign and activate your account within 24 hours.</p>
+      <div class="voucher-preview" id="reviewCard">
+        <div class="vp-partner" id="rvPartner">YOUR BRAND</div>
+        <div class="vp-value" id="rvValue">₹500 OFF</div>
+        <div class="vp-minbill" id="rvMinBill">on minimum billing of ₹2,000</div>
+        <div class="vp-tags" id="rvTags"></div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-title">Business Details</div>
+        <div class="summary-row"><span class="summary-key">Business</span><span class="summary-val" id="rv-biz">—</span></div>
+        <div class="summary-row"><span class="summary-key">Category</span><span class="summary-val" id="rv-cat">—</span></div>
+        <div class="summary-row"><span class="summary-key">City</span><span class="summary-val" id="rv-city">—</span></div>
+        <div class="summary-row"><span class="summary-key">Email</span><span class="summary-val" id="rv-email">—</span></div>
+        <div class="summary-row"><span class="summary-key">Outlets</span><span class="summary-val" id="rv-outlets">—</span></div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-title">Campaign Details</div>
+        <div class="summary-row"><span class="summary-key">Discount</span><span class="summary-val" id="rv-discount">—</span></div>
+        <div class="summary-row"><span class="summary-key">Min Billing</span><span class="summary-val" id="rv-minbill">—</span></div>
+        <div class="summary-row"><span class="summary-key">Quantity</span><span class="summary-val" id="rv-qty">—</span></div>
+        <div class="summary-row"><span class="summary-key">Validity</span><span class="summary-val" id="rv-validity">—</span></div>
+        <div class="summary-row"><span class="summary-key">Tiers</span><span class="summary-val" id="rv-tiers">—</span></div>
+        <div class="summary-row"><span class="summary-key">Net Gain (est.)</span><span class="summary-val" id="rv-net" style="color:var(--green)">—</span></div>
+      </div>
+      <div class="err-msg" id="s3Err"></div>
+      <button class="btn-next" id="btnS3">Submit Partner Application →</button>
+      <button class="btn-back" onclick="goBack(2)">← Back</button>
+    </div>
+
+    <!-- STEP 4: SUCCESS -->
+    <div class="screen" id="s4">
+      <div class="pending-wrap">
+        <div class="pending-icon">⏳</div>
+        <div class="pending-title">APPLICATION<br><em>SUBMITTED!</em></div>
+        <p class="pending-sub">Thank you for partnering with Dine With Celebrity. Your application is under review. Here's what happens next:</p>
+        <div class="pending-steps">
+          <div class="pending-step"><div class="ps-num">1</div><div class="ps-text"><strong>Our ops team reviews your campaign</strong>Within 24 hours we'll verify your economics and business details.</div></div>
+          <div class="pending-step"><div class="ps-num">2</div><div class="ps-text"><strong>You get an approval email</strong>With your dashboard login link and next steps.</div></div>
+          <div class="pending-step"><div class="ps-num">3</div><div class="ps-text"><strong>Your vouchers go live to DWC members</strong>Members start seeing your offer on their dashboard immediately.</div></div>
+        </div>
+        <p style="font-size:.8rem;color:var(--muted)">Questions? <a href="mailto:partners@dinewithcelebrity.com" style="color:var(--gold)">partners@dinewithcelebrity.com</a></p>
+      </div>
+    </div>
+
+  </div><!-- /form-wrap -->
+</div><!-- /page-wrap -->
+
 <script>
-(function(){var se=document.getElementById('stars');for(var i=0;i<65;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
+(function(){var se=document.getElementById('stars');for(var i=0;i<60;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*9)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
+
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 var _tiers={gold:true,platinum:false,purple:false};
 function mn(n){return '\u20B9'+Number(n).toLocaleString('en-IN');}
-window.toggleTier=function(tier){_tiers[tier]=!_tiers[tier];document.getElementById('tt-'+tier).classList.toggle('selected',_tiers[tier]);document.getElementById('ts-'+tier).classList.toggle('on',_tiers[tier]);updatePreview();updateEconomics();};
-function suggestMinBilling(discount){var aov=parseInt(document.getElementById('bizAOV').value)||1500;var suggested=Math.max(discount*3,aov);return Math.ceil(suggested/500)*500;}
-function validateEconomics(){var discount=parseInt(document.getElementById('vDiscount').value)||500;var minBill=parseInt(document.getElementById('vMinBill').value)||0;var hint=document.getElementById('econHint');if(!minBill){hint.textContent='';hint.className='field-hint';return true;}var pct=(discount/minBill)*100;if(pct>35){hint.textContent='\u26A0\uFE0F Discount is '+pct.toFixed(0)+'% of min billing \u2014 too aggressive. Max 25-30% recommended.';hint.className='field-hint bad';return false;}else if(pct>25){hint.textContent='\u26A0\uFE0F Discount is '+pct.toFixed(0)+'% of min billing \u2014 acceptable but high.';hint.className='field-hint warn';return true;}else{hint.textContent='\u2713 Discount is '+pct.toFixed(0)+'% of min billing \u2014 healthy margin.';hint.className='field-hint good';return true;}}
-function updatePreview(){var bizName=document.getElementById('bizName').value||'YOUR BRAND';var discount=parseInt(document.getElementById('vDiscount').value)||500;var minBill=parseInt(document.getElementById('vMinBill').value)||0;var qty=document.getElementById('vQty').value||'50';document.getElementById('vpPartner').textContent=bizName.toUpperCase();document.getElementById('vpValue').textContent=mn(discount)+' OFF';document.getElementById('vpMinBill').textContent=minBill?'on minimum billing of '+mn(minBill):'minimum billing to be set';var tags='';if(_tiers.gold)tags+='<span class="vp-tag vp-tag-gold">\u2605 Gold</span>';if(_tiers.platinum)tags+='<span class="vp-tag vp-tag-plat">\u2B51 Platinum</span>';if(_tiers.purple)tags+='<span class="vp-tag vp-tag-purp">\uD83D\uDFE3 Purple</span>';tags+='<span class="vp-tag vp-tag-qty">'+qty+' vouchers</span>';document.getElementById('vpTags').innerHTML=tags;}
-function updateEconomics(){var discount=parseInt(document.getElementById('vDiscount').value)||500;var minBill=parseInt(document.getElementById('vMinBill').value)||2000;var qty=parseInt(document.getElementById('vQty').value)||50;var redeemed=Math.round(qty*0.4);var revenue=redeemed*minBill;var cost=redeemed*discount;var net=revenue-cost;document.getElementById('econIssued').textContent=qty;document.getElementById('econRedeemed').textContent=redeemed;document.getElementById('econRevenue').textContent=mn(revenue);document.getElementById('econCost').textContent=mn(cost);document.getElementById('econNet').textContent=mn(net)+' + new customers';}
-document.getElementById('vDiscount').addEventListener('change',function(){var discount=parseInt(this.value);var suggested=suggestMinBilling(discount);document.getElementById('suggestText').textContent='Set minimum billing to '+mn(suggested)+' for a healthy margin.';document.getElementById('suggestBox').style.display='block';document.getElementById('vMinBill').value=suggested;updatePreview();updateEconomics();validateEconomics();});
-document.getElementById('vMinBill').addEventListener('input',function(){updatePreview();updateEconomics();validateEconomics();});
-document.getElementById('vQty').addEventListener('change',function(){updatePreview();updateEconomics();});
+window.toggleTier=function(t){_tiers[t]=!_tiers[t];document.getElementById('tt-'+t).classList.toggle('selected',_tiers[t]);document.getElementById('ts-'+t).classList.toggle('on',_tiers[t]);updatePreview();updateEcon();};
+function suggestMin(d){var aov=parseInt(document.getElementById('bizAOV').value)||1500;return Math.ceil(Math.max(d*3,aov)/500)*500;}
+function validateEcon(){var d=parseInt(document.getElementById('vDiscount').value)||0,m=parseInt(document.getElementById('vMinBill').value)||0,h=document.getElementById('econHint');if(!m){h.textContent='';return true;}var p=(d/m)*100;if(p>35){h.textContent='\u26A0\uFE0F Discount is '+p.toFixed(0)+'% of min billing \u2014 too high. Max 30% recommended.';h.className='field-hint bad';return false;}else if(p>25){h.textContent='\u26A0\uFE0F '+p.toFixed(0)+'% of min billing \u2014 acceptable but high.';h.className='field-hint warn';return true;}else{h.textContent='\u2713 '+p.toFixed(0)+'% of min billing \u2014 healthy margin.';h.className='field-hint good';return true;}}
+function updatePreview(){var d=parseInt(document.getElementById('vDiscount').value)||500,m=parseInt(document.getElementById('vMinBill').value)||0,q=document.getElementById('vQty').value||50,biz=document.getElementById('bizName').value||'YOUR BRAND';document.getElementById('vpPartner').textContent=biz.toUpperCase();document.getElementById('vpValue').textContent=mn(d)+' OFF';document.getElementById('vpMinBill').textContent=m?'on minimum billing of '+mn(m):'minimum billing to be set';var tags='';if(_tiers.gold)tags+='<span class="vp-tag vp-tag-gold">\u2605 Gold</span>';if(_tiers.platinum)tags+='<span class="vp-tag vp-tag-plat">\u2B51 Platinum</span>';if(_tiers.purple)tags+='<span class="vp-tag vp-tag-purp">\uD83D\uDFE3 Purple</span>';tags+='<span class="vp-tag vp-tag-qty">'+q+' vouchers</span>';document.getElementById('vpTags').innerHTML=tags;}
+function updateEcon(){var d=parseInt(document.getElementById('vDiscount').value)||500,m=parseInt(document.getElementById('vMinBill').value)||2000,q=parseInt(document.getElementById('vQty').value)||50,r=Math.round(q*0.4),rev=r*m,cost=r*d;document.getElementById('econIssued').textContent=q;document.getElementById('econRedeemed').textContent=r;document.getElementById('econRevenue').textContent=mn(rev);document.getElementById('econCost').textContent=mn(cost);document.getElementById('econNet').textContent=mn(rev-cost)+' + new customers';}
+document.getElementById('vDiscount').addEventListener('change',function(){var s=suggestMin(parseInt(this.value));document.getElementById('suggestText').textContent='Set minimum billing to '+mn(s)+' for a healthy margin.';document.getElementById('suggestBox').style.display='block';document.getElementById('vMinBill').value=s;updatePreview();updateEcon();validateEcon();});
+document.getElementById('vMinBill').addEventListener('input',function(){updatePreview();updateEcon();validateEcon();});
+document.getElementById('vQty').addEventListener('change',function(){updatePreview();updateEcon();});
 document.getElementById('bizName').addEventListener('input',updatePreview);
-(function(){var discount=parseInt(document.getElementById('vDiscount').value)||500;document.getElementById('vMinBill').value=suggestMinBilling(discount);updatePreview();updateEconomics();})();
-function goBack(step){showScreen(step);}
-function showScreen(n){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.getElementById('s'+n).classList.add('active');var pcts={1:33,2:66,3:100,4:100};document.getElementById('progFill').style.width=pcts[n]+'%';['1','2','3'].forEach(function(i){var el=document.getElementById('ps'+i);if(!el)return;el.className='prog-step';if(parseInt(i)<n)el.classList.add('done');else if(parseInt(i)===n)el.classList.add('active');});window.scrollTo({top:0,behavior:'smooth'});}
-document.getElementById('btnS1').onclick=function(){var err=document.getElementById('s1Err');err.style.display='none';var name=document.getElementById('bizName').value.trim();var cat=document.getElementById('bizCategory').value;var city=document.getElementById('bizCity').value.trim();var contact=document.getElementById('bizContact').value.trim();var phone=document.getElementById('bizPhone').value.trim();var email=document.getElementById('bizEmail').value.trim();var aov=document.getElementById('bizAOV').value;if(!name||!cat||!city||!contact||!phone||!email||!aov){err.textContent='Please fill all fields before continuing.';err.style.display='block';return;}if(!email.includes('@')){err.textContent='Please enter a valid email address.';err.style.display='block';return;}var discount=parseInt(document.getElementById('vDiscount').value)||500;document.getElementById('vMinBill').value=suggestMinBilling(discount);updatePreview();updateEconomics();showScreen(2);};
-document.getElementById('btnS2').onclick=function(){var err=document.getElementById('s2Err');err.style.display='none';var minBill=parseInt(document.getElementById('vMinBill').value)||0;var discount=parseInt(document.getElementById('vDiscount').value)||0;if(!minBill){err.textContent='Please set a minimum billing amount.';err.style.display='block';return;}var pct=(discount/minBill)*100;if(pct>35){err.textContent='Discount exceeds 35% of min billing. Increase min billing or reduce discount.';err.style.display='block';return;}if(!_tiers.gold&&!_tiers.platinum&&!_tiers.purple){err.textContent='Please select at least one member tier.';err.style.display='block';return;}populateReview();showScreen(3);};
-function populateReview(){var discount=parseInt(document.getElementById('vDiscount').value);var minBill=parseInt(document.getElementById('vMinBill').value);var qty=parseInt(document.getElementById('vQty').value);var validity=document.getElementById('vValidity').value;var bizName=document.getElementById('bizName').value.trim();var cat=document.getElementById('bizCategory').options[document.getElementById('bizCategory').selectedIndex].text;var aovEl=document.getElementById('bizAOV');var aovText=aovEl.options[aovEl.selectedIndex].text;document.getElementById('rvPartner').textContent=bizName.toUpperCase();document.getElementById('rvValue').textContent=mn(discount)+' OFF';document.getElementById('rvMinBill').textContent='on minimum billing of '+mn(minBill);var tags='';var tierNames=[];if(_tiers.gold){tags+='<span class="vp-tag vp-tag-gold">\u2605 Gold</span>';tierNames.push('Gold');}if(_tiers.platinum){tags+='<span class="vp-tag vp-tag-plat">\u2B51 Platinum</span>';tierNames.push('Platinum');}if(_tiers.purple){tags+='<span class="vp-tag vp-tag-purp">\uD83D\uDFE3 Purple</span>';tierNames.push('Purple');}tags+='<span class="vp-tag vp-tag-qty">'+qty+' vouchers</span>';document.getElementById('rvTags').innerHTML=tags;document.getElementById('rv-biz').textContent=bizName;document.getElementById('rv-cat').textContent=cat;document.getElementById('rv-city').textContent=document.getElementById('bizCity').value.trim();document.getElementById('rv-contact').textContent=document.getElementById('bizContact').value.trim();document.getElementById('rv-email').textContent=document.getElementById('bizEmail').value.trim();document.getElementById('rv-outlets').textContent=document.getElementById('bizOutlets').value||'Not specified';document.getElementById('rv-aov').textContent=aovText;document.getElementById('rv-discount').textContent=mn(discount)+' flat off';document.getElementById('rv-minbill').textContent=mn(minBill);document.getElementById('rv-qty').textContent=qty+' vouchers';document.getElementById('rv-validity').textContent=validity+' days';document.getElementById('rv-tiers').textContent=tierNames.join(', ');var pct=((discount/minBill)*100).toFixed(1);document.getElementById('rv-pct').textContent=pct+'% of min billing';var redeemed=Math.round(qty*0.4);var revenue=redeemed*minBill;var cost=redeemed*discount;document.getElementById('rv-revenue').textContent=mn(revenue);document.getElementById('rv-net').textContent=mn(revenue-cost)+' + new customers';}
-document.getElementById('btnS3').onclick=async function(){var err=document.getElementById('s3Err');err.style.display='none';this.disabled=true;this.textContent='Submitting...';try{var email=document.getElementById('bizEmail').value.trim();var bizName=document.getElementById('bizName').value.trim();var cat=document.getElementById('bizCategory').value;var contact=document.getElementById('bizContact').value.trim();var phone=document.getElementById('bizPhone').value.trim();var city=document.getElementById('bizCity').value.trim();var outlets=document.getElementById('bizOutlets').value;var aov=document.getElementById('bizAOV').value;var licensed=document.getElementById('bizLicensed').value==='yes';var discount=parseInt(document.getElementById('vDiscount').value);var minBill=parseInt(document.getElementById('vMinBill').value);var qty=parseInt(document.getElementById('vQty').value);var validity=parseInt(document.getElementById('vValidity').value);var tierList=Object.keys(_tiers).filter(function(t){return _tiers[t];}).join(',');var pw=document.getElementById('bizPassword')?document.getElementById('bizPassword').value:'';await sbClient.auth.signUp({email:email,password:pw});var res=await sbClient.from('partners').insert({name:bizName,type:cat,contact_name:contact,contact_email:email,gstin:(document.getElementById("bizGstin")||{}).value||"",contact_phone:phone,description:'City:'+city+'|Outlets:'+outlets+'|AOV:\u20B9'+aov+'|Campaign:\u20B9'+discount+' off on \u20B9'+minBill+'|Qty:'+qty+'|Tiers:'+tierList,is_licensed_premises:licensed,is_active:false});if(res.error){err.textContent=res.error.message.includes('unique')?'This email is already registered. Contact partners@dinewithcelebrity.com':'Submission failed: '+res.error.message;err.style.display='block';this.disabled=false;this.textContent='Submit Partner Application \u2192';return;}await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'\uD83E\uDD1D New DWC Partner — '+bizName,from_name:contact,email:email,message:'Business:'+bizName+'\nCategory:'+cat+'\nCity:'+city+'\nPhone:'+phone+'\nEmail:'+email+'\nOutlets:'+outlets+'\nAOV:\u20B9'+aov+'\nLicensed:'+licensed+'\n\nCAMPAIGN:\nDiscount:\u20B9'+discount+' off\nMin Billing:\u20B9'+minBill+'\nQty:'+qty+'\nValidity:'+validity+' days\nTiers:'+tierList+'\n\nACTION: Activate at supabase.com/dashboard'})});showScreen(4);}catch(e){err.textContent='Something went wrong. Email partners@dinewithcelebrity.com';err.style.display='block';this.disabled=false;this.textContent='Submit Partner Application \u2192';}};
+(function(){var d=parseInt(document.getElementById('vDiscount').value)||500;document.getElementById('vMinBill').value=suggestMin(d);updatePreview();updateEcon();})();
+function goBack(n){showScreen(n);}
+function showScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');var pcts={1:33,2:66,3:100,4:100};document.getElementById('progFill').style.width=pcts[n]+'%';['1','2','3'].forEach(i=>{var el=document.getElementById('ps'+i);if(!el)return;el.className='prog-step';if(parseInt(i)<n)el.classList.add('done');else if(parseInt(i)===n)el.classList.add('active');});window.scrollTo({top:0,behavior:'smooth'});}
+document.getElementById('btnS1').onclick=function(){var err=document.getElementById('s1Err');err.style.display='none';var name=document.getElementById('bizName').value.trim(),cat=document.getElementById('bizCategory').value,city=document.getElementById('bizCity').value.trim(),contact=document.getElementById('bizContact').value.trim(),phone=document.getElementById('bizPhone').value.trim(),email=document.getElementById('bizEmail').value.trim(),aov=document.getElementById('bizAOV').value;if(!name||!cat||!city||!contact||!phone||!email||!aov){err.textContent='Please fill all required fields.';err.style.display='block';return;}if(!email.includes('@')){err.textContent='Please enter a valid email address.';err.style.display='block';return;}var pw=document.getElementById('bizPassword').value;if(!pw||pw.length<8){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}var s=suggestMin(parseInt(document.getElementById('vDiscount').value)||500);document.getElementById('vMinBill').value=s;updatePreview();updateEcon();showScreen(2);};
+document.getElementById('btnS2').onclick=function(){var err=document.getElementById('s2Err');err.style.display='none';var m=parseInt(document.getElementById('vMinBill').value)||0,d=parseInt(document.getElementById('vDiscount').value)||0;if(!m){err.textContent='Please set a minimum billing amount.';err.style.display='block';return;}if((d/m)>0.35){err.textContent='Discount exceeds 35% of min billing. Increase min billing or reduce discount.';err.style.display='block';return;}if(!_tiers.gold&&!_tiers.platinum&&!_tiers.purple){err.textContent='Please select at least one member tier.';err.style.display='block';return;}populateReview();showScreen(3);};
+function populateReview(){var d=parseInt(document.getElementById('vDiscount').value),m=parseInt(document.getElementById('vMinBill').value),q=parseInt(document.getElementById('vQty').value),v=document.getElementById('vValidity').value,biz=document.getElementById('bizName').value.trim(),cat=document.getElementById('bizCategory').options[document.getElementById('bizCategory').selectedIndex].text;document.getElementById('rvPartner').textContent=biz.toUpperCase();document.getElementById('rvValue').textContent=mn(d)+' OFF';document.getElementById('rvMinBill').textContent='on minimum billing of '+mn(m);var tags='',tierNames=[];if(_tiers.gold){tags+='<span class="vp-tag vp-tag-gold">\u2605 Gold</span>';tierNames.push('Gold');}if(_tiers.platinum){tags+='<span class="vp-tag vp-tag-plat">\u2B51 Platinum</span>';tierNames.push('Platinum');}if(_tiers.purple){tags+='<span class="vp-tag vp-tag-purp">\uD83D\uDFE3 Purple</span>';tierNames.push('Purple');}tags+='<span class="vp-tag vp-tag-qty">'+q+' vouchers</span>';document.getElementById('rvTags').innerHTML=tags;document.getElementById('rv-biz').textContent=biz;document.getElementById('rv-cat').textContent=cat;document.getElementById('rv-city').textContent=document.getElementById('bizCity').value.trim();document.getElementById('rv-email').textContent=document.getElementById('bizEmail').value.trim();document.getElementById('rv-outlets').textContent=document.getElementById('bizOutlets').value||'Not specified';document.getElementById('rv-discount').textContent=mn(d)+' flat off';document.getElementById('rv-minbill').textContent=mn(m);document.getElementById('rv-qty').textContent=q+' vouchers';document.getElementById('rv-validity').textContent=v+' days';document.getElementById('rv-tiers').textContent=tierNames.join(', ');var r=Math.round(q*0.4),rev=r*m,cost=r*d;document.getElementById('rv-net').textContent=mn(rev-cost)+' + new customers';}
+document.getElementById('btnS3').onclick=async function(){var err=document.getElementById('s3Err');err.style.display='none';this.disabled=true;this.textContent='Submitting...';
+try{
+  var email=document.getElementById('bizEmail').value.trim(),pw=document.getElementById('bizPassword').value,bizName=document.getElementById('bizName').value.trim(),cat=document.getElementById('bizCategory').value,city=document.getElementById('bizCity').value.trim(),contact=document.getElementById('bizContact').value.trim(),phone=document.getElementById('bizPhone').value.trim(),outlets=document.getElementById('bizOutlets').value,aov=parseInt(document.getElementById('bizAOV').value)||1500,licensed=document.getElementById('bizLicensed').value==='yes',discount=parseInt(document.getElementById('vDiscount').value),minBill=parseInt(document.getElementById('vMinBill').value),qty=parseInt(document.getElementById('vQty').value),validity=parseInt(document.getElementById('vValidity').value),tierList=Object.keys(_tiers).filter(t=>_tiers[t]);
+  // 1. Create auth account
+  var {error:authErr}=await sbClient.auth.signUp({email,password:pw});
+  if(authErr&&!authErr.message.includes('already registered')){throw new Error(authErr.message);}
+  // 2. Insert partner record
+  var {data:partner,error:partnerErr}=await sbClient.from('partners').insert({name:bizName,type:cat,category:cat,city:city,contact_name:contact,contact_email:email,contact_phone:phone,description:'Outlets:'+outlets+'|AOV:'+aov,is_licensed_premises:licensed,is_active:false,avg_order_value:aov,partner_tier:'basic',total_redemption_quota:20,redemption_fee:50}).select('id').single();
+  if(partnerErr){throw new Error(partnerErr.message);}
+  // 3. Auto-create voucher in partner_vouchers
+  if(partner&&partner.id){
+    var expiresAt=new Date();expiresAt.setDate(expiresAt.getDate()+validity);
+    await sbClient.from('partner_vouchers').insert({partner_id:partner.id,title:bizName+' — Welcome Offer',discount_value:discount,min_billing:minBill,quantity:qty,validity_days:validity,valid_for_tiers:tierList,expires_at:expiresAt.toISOString(),status:'pending_approval'});
+  }
+  // 4. Notify DWC team
+  await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'\uD83E\uDD1D New Partner Application \u2014 '+bizName,from_name:contact,email:email,message:'Business: '+bizName+'\nCategory: '+cat+'\nCity: '+city+'\nPhone: '+phone+'\nEmail: '+email+'\nOutlets: '+outlets+'\nAOV: \u20B9'+aov+'\nLicensed: '+licensed+'\n\nCAMPAIGN:\nDiscount: \u20B9'+discount+' off\nMin Billing: \u20B9'+minBill+'\nQty: '+qty+'\nValidity: '+validity+' days\nTiers: '+tierList.join(', ')+'\n\nACTION: Activate at admin-partners.html'})});
+  showScreen(4);
+}catch(e){err.textContent=e.message.includes('unique')||e.message.includes('already')?'This email is already registered. Please login at partner-dashboard.html':'Submission failed: '+e.message;err.style.display='block';this.disabled=false;this.textContent='Submit Partner Application \u2192';}};
 </script>
 </body>
 </html>
