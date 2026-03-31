@@ -10,7 +10,7 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
 .celeb svg{width:100%;height:auto;filter:drop-shadow(0 0 28px rgba(242,183,5,.2));}
 @keyframes celebRise{0%{opacity:0;transform:translateY(40px) scale(.95)}35%{opacity:var(--cop,.08)}65%{opacity:var(--cop,.08)}100%{opacity:0;transform:translateY(-10px) scale(1.02)}}
 .app{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
-.logo-bar{font-family:"Bebas Neue",sans-serif;font-size:1rem;color:var(--gold);letter-spacing:4px;margin-bottom:2rem;opacity:.7;text-align:center;}
+.logo-bar{margin-bottom:2rem;text-align:center;}
 .card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:440px;backdrop-filter:blur(12px);}
 .card-title{font-family:"Bebas Neue",sans-serif;font-size:2.4rem;color:var(--white);letter-spacing:1px;text-align:center;margin-bottom:.3rem;}
 .card-title em{color:var(--gold);font-style:normal;}
@@ -56,7 +56,7 @@ body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;m
 <div class="stars-bg" id="starsBg"></div>
 <div class="celeb-bg" id="celebBg"></div>
 <div class="app">
-  <div class="logo-bar">&#10022; DINE WITH CELEBRITY &#10022;</div>
+  <div class="logo-bar"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:44px;width:auto;display:inline-block;filter:drop-shadow(0 0 10px rgba(242,183,5,0.6));"></div>
   <div class="card" id="mainCard">
     <div class="free-pill">&#9733; Free Forever &mdash; No Credit Card</div>
     <div class="card-title">Join <em>Free.</em></div>
