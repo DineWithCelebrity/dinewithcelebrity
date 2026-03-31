@@ -15,7 +15,7 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 .star{position:absolute;color:var(--gold);opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(0.5)}50%{opacity:var(--op,0.3);transform:scale(1)}}
 .nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;background:rgba(6,4,10,0.96);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:2px;text-decoration:none}
+..nav-logo{text-decoration:none;display:flex;align-items:center}
 .nav-right{display:flex;align-items:center;gap:1rem}
 .nav-pts{background:rgba(242,183,5,0.1);border:1px solid rgba(242,183,5,0.3);border-radius:20px;padding:.3rem .9rem;font-size:.8rem;color:var(--gold);font-weight:600}
 .nav-wrap{position:relative}
@@ -144,7 +144,7 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
 <div class="stars" id="stars"></div>
 
 <nav class="nav">
-  <a class="nav-logo" href="/">DWC</a>
+  <a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block;"></a>
   <div class="nav-right">
     <div class="nav-pts" id="navPts">0 pts</div>
     <div class="nav-wrap">
