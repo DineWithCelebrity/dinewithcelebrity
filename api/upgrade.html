@@ -17,7 +17,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 @keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
 .brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
 nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
-.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;text-decoration:none}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
 .nav-logo span{color:var(--text)}
 .nav-back{font-size:.85rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
 .nav-back:hover{color:var(--gold)}
@@ -121,7 +121,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filte
 </div>
 
 <nav>
-  <a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
+  <a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:40px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(242,183,5,0.6));"></a>
   <a class="nav-back" href="/dashboard.html">&#x2190; Back to Dashboard</a>
 </nav>
 
