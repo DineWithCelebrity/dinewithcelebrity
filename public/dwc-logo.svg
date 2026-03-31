@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 100" width="480" height="100">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="40%" style="stop-color:#F2B705"/>
+      <stop offset="100%" style="stop-color:#9a6e00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Stars arc above icon -->
+  <text x="37" y="22" font-size="10" fill="url(#goldGrad)" text-anchor="middle" filter="url(#glow)">★</text>
+  <text x="52" y="14" font-size="11" fill="url(#goldGrad)" text-anchor="middle" filter="url(#glow)">★</text>
+  <text x="70" y="11" font-size="13" fill="url(#goldGrad)" text-anchor="middle" filter="url(#glow)">★</text>
+  <text x="88" y="14" font-size="11" fill="url(#goldGrad)" text-anchor="middle" filter="url(#glow)">★</text>
+  <text x="103" y="22" font-size="10" fill="url(#goldGrad)" text-anchor="middle" filter="url(#glow)">★</text>
+  <!-- Outer ring -->
+  <circle cx="70" cy="58" r="28" stroke="url(#goldGrad)" stroke-width="2" fill="none" filter="url(#glow)"/>
+  <!-- Inner ring -->
+  <circle cx="70" cy="58" r="18" stroke="url(#goldGrad)" stroke-width="1.2" fill="none"/>
+  <!-- Plate -->
+  <circle cx="70" cy="58" r="11" stroke="url(#goldGrad)" stroke-width="1" fill="none"/>
+  <!-- Fork (left of plate) -->
+  <line x1="54" y1="38" x2="54" y2="78" stroke="url(#goldGrad)" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="52.5" y1="38" x2="52.5" y2="48" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round"/>
+  <line x1="55.5" y1="38" x2="55.5" y2="48" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round"/>
+  <!-- Knife (right of plate) -->
+  <line x1="86" y1="38" x2="86" y2="78" stroke="url(#goldGrad)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M86 38 Q91 45 86 54" stroke="url(#goldGrad)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <!-- Divider lines -->
+  <line x1="145" y1="38" x2="472" y2="38" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.6"/>
+  <line x1="145" y1="76" x2="472" y2="76" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.6"/>
+  <!-- Main brand text -->
+  <text x="308" y="65" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="bold" fill="url(#goldGrad)" text-anchor="middle" filter="url(#glow)" letter-spacing="2">Dine With Celebrity</text>
+  <!-- Tagline -->
+  <text x="308" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="9.5" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="4" opacity="0.85">DINE  FOR  A  CAUSE</text>
+</svg>
