@@ -444,7 +444,34 @@ tr:hover td{background:rgba(255,255,255,.02)}
 <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
 
 <!-- ── APP SHELL ── -->
-<div id="appShell">
+<div
+<div id="rejectedScreen" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px">
+  <div style="font-size:3rem;margin-bottom:12px">&#10060;</div>
+  <div style="font-family:'Bebas Neue',cursive;font-size:2.2rem;color:#D4002A;margin-bottom:8px">APPLICATION REJECTED</div>
+  <div style="color:rgba(255,255,255,.6);font-size:.9rem;max-width:420px;margin-bottom:16px">Your partner application was not approved at this time.</div>
+  <div id="rejectedReason" style="display:none;background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.2);border-radius:12px;padding:14px 22px;color:rgba(255,255,255,.85);font-size:.85rem;max-width:420px;margin-bottom:20px"></div>
+  <a href="/partner-signup.html" style="background:#F2B705;color:#06040A;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:.9rem;display:inline-block;margin-bottom:10px">Fix and Resubmit</a><br>
+  <a href="mailto:partners@dinewithcelebrity.com" style="color:rgba(255,255,255,.4);font-size:.8rem;margin-top:10px;display:inline-block">Contact Support</a>
+</div>
+<div id="suspendedScreen" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px">
+  <div style="font-size:3rem;margin-bottom:12px">&#9888;&#65039;</div>
+  <div style="font-family:'Bebas Neue',cursive;font-size:2.2rem;color:#F2B705;margin-bottom:8px">ACCOUNT SUSPENDED</div>
+  <div style="color:rgba(255,255,255,.6);font-size:.9rem;max-width:420px;margin-bottom:16px">Your partner account has been temporarily suspended.</div>
+  <div id="suspendedReason" style="background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.15);border-radius:12px;padding:14px 22px;color:rgba(255,255,255,.85);font-size:.85rem;max-width:420px;margin-bottom:20px">Please contact support for details.</div>
+  <a href="mailto:partners@dinewithcelebrity.com" style="background:#F2B705;color:#06040A;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:.9rem;display:inline-block">Contact Support</a>
+</div>
+<div id="celebrationScreen" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(6,4,10,.95);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;cursor:pointer" onclick="this.style.display='none'">
+  <div style="font-size:5rem;margin-bottom:16px">&#127881;</div>
+  <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:#F2B705;letter-spacing:.06em;margin-bottom:8px">YOU ARE LIVE!</div>
+  <div style="font-size:1.2rem;color:#fff;font-weight:700;margin-bottom:10px">Start Earning Now</div>
+  <div style="color:rgba(255,255,255,.6);font-size:.9rem;max-width:380px;margin-bottom:24px">Your profile is complete. DWC premium members can now redeem your vouchers.</div>
+  <div style="background:rgba(242,183,5,.1);border:1px solid #F2B705;border-radius:14px;padding:18px 32px;margin-bottom:20px">
+    <div style="font-family:'Bebas Neue',cursive;font-size:2rem;color:#F2B705">6 MONTHS FREE</div>
+    <div style="color:rgba(255,255,255,.5);font-size:.8rem">No charges during your trial period</div>
+  </div>
+  <div style="color:rgba(255,255,255,.35);font-size:.78rem">Tap anywhere to continue</div>
+</div>
+ id="appShell">
   <div class="layout">
 
     <!-- SIDEBAR -->
@@ -885,6 +912,21 @@ var _redemptions = [];
   }
   _partner = partner;
 
+  // ── STATE ROUTER ──
+  if(partner.suspended){
+    const ss = document.getElementById('suspendedScreen');
+    if(ss){ ss.style.display='flex'; }
+    const sr = document.getElementById('suspendedReason');
+    if(sr && partner.suspension_reason) sr.textContent = partner.suspension_reason;
+    return;
+  }
+  if(!partner.is_active && partner.rejected_at){
+    const rs = document.getElementById('rejectedScreen');
+    if(rs){ rs.style.display='flex'; }
+    const rr = document.getElementById('rejectedReason');
+    if(rr && partner.rejection_reason){ rr.textContent = 'Reason: ' + partner.rejection_reason; rr.style.display='block'; }
+    return;
+  }
   if(!partner.is_active){
     show('pendingScreen'); return;
   }
@@ -1219,6 +1261,25 @@ function loadOnboarding(){
       el.querySelector('.ob-step-icon').textContent=done?'✅':'○';
     }
   });
+
+  // ── ONBOARDING COMPLETION ──
+  const _steps = {
+    profile: _partner && _partner.business_name && _partner.city,
+    pin: _partner && _partner.pin_hash,
+    voucher: _partner && _partner.first_voucher_created,
+    redeem: _partner && _partner.first_redemption_done
+  };
+  if(_steps.profile && _steps.pin && _steps.voucher && _steps.redeem && _partner && !_partner.onboarding_completed){
+    sbClient.from('partners').update({onboarding_completed:true}).eq('id',_partner.id).then(()=>{
+      _partner.onboarding_completed = true;
+      const ob = document.getElementById('onboardingBar'); if(ob) ob.style.display='none';
+      const cel = document.getElementById('celebrationScreen');
+      if(cel){ cel.style.display='flex'; setTimeout(()=>{cel.style.display='none';},9000); }
+    });
+  }
+  if(_partner && _partner.onboarding_completed){
+    const ob = document.getElementById('onboardingBar'); if(ob) ob.style.display='none';
+  }
 }
 
 // ── Section navigation ──
