@@ -992,7 +992,7 @@ async function initPartners(){
   await loadPendingPartners();
 }
 async function loadPendingPartners(){
-  const { data } = await sbClient.from('partners').select('*').eq('is_active',false).order('created_at',{ascending:false});
+  const { data } = await sbClient.from('partners').select('*').eq('is_active',false).is('rejected_at',null).is('approved_at',null).order('created_at',{ascending:false});
   const el = document.getElementById('pending-partners-list');
   if(!data||!data.length){
     el.innerHTML='<div class="empty"><div class="empty-icon">✅</div><div class="empty-text">No pending partner applications</div></div>';
@@ -1101,6 +1101,8 @@ async function confirmApprove(){
 
     await auditLog('approve_partner','partner',_currentPartnerId,_currentPartnerName,{tier,contractDays,quota,fee});
     closeModal('modalApprove');
+    const aCard = document.getElementById('pc-'+_currentPartnerId);
+    if(aCard) aCard.remove();
     toast(`Partner approved — ${_currentPartnerName} 🎉`);
     loadSidebarBadges();
     initPartners();
@@ -1133,6 +1135,8 @@ async function confirmReject(){
     await auditLog('reject_partner','partner',_currentPartnerId,_currentPartnerName,{reason});
     closeModal('modalReject');
     toast(`Partner rejected — ${_currentPartnerName}`,'warning');
+    const card = document.getElementById('pc-'+_currentPartnerId);
+    if(card) card.remove();
     loadSidebarBadges();
     initPartners();
   } catch(e){
