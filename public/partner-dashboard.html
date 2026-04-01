@@ -1259,6 +1259,30 @@ async function savePin(){
   alert('PIN set successfully! You can now validate redemptions.');
 }
 
+
+// ── GEO CITY NORMALIZER ──
+function normalizeCity(city) {
+  if (!city) return '';
+  const s = city.toLowerCase().trim();
+  const map = {
+    'vizag': 'visakhapatnam',
+    'vishakhapatnam': 'visakhapatnam',
+    'visakhapatnam': 'visakhapatnam',
+    'hyd': 'hyderabad',
+    'hyderabad': 'hyderabad',
+    'secunderabad': 'hyderabad',
+    'cyberabad': 'hyderabad',
+    'delhi': 'new delhi',
+    'new delhi': 'new delhi',
+    'bombay': 'mumbai',
+    'calcutta': 'kolkata',
+    'bangalore': 'bengaluru',
+    'bengaluru': 'bengaluru',
+    'madras': 'chennai',
+    'chennai': 'chennai'
+  };
+  return map[s] || s;
+}
 async function validateOTP(){
   var otp = [0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
   var pin = document.getElementById('partnerPinInput').value.trim();
@@ -1293,6 +1317,13 @@ async function validateOTP(){
   var {data:member}=await sbClient.from('members').select('full_name,member_id,tier,city').eq('id',otpRecord.member_id).single();
 
   // Log redemption
+  // ── GEO VALIDATION ──
+  const memberCity = normalizeCity(member.city);
+  const partnerCity = normalizeCity(_partner ? _partner.city : '');
+  const geoMismatch = memberCity.length > 0 && partnerCity.length > 0 && memberCity !== partnerCity;
+  if (geoMismatch) {
+    console.warn('[GEO] City mismatch - member:', member.city, 'partner:', _partner.city);
+  }
   await sbClient.from('partner_redemptions').insert({
     partner_id: _partner.id,
     partner_voucher_id: otpRecord.partner_voucher_id,
@@ -1302,7 +1333,10 @@ async function validateOTP(){
     city: member?member.city:null,
     discount_given: 0,
     status: 'used',
-    fraud_score: 0
+    fraud_score: 0,
+  geo_mismatch: geoMismatch,
+  member_city: member.city || null,
+  partner_city: _partner.city || null
   });
 
   // Update voucher redeemed count
@@ -1313,6 +1347,16 @@ async function validateOTP(){
   btn.disabled=false; btn.textContent='Validate & Confirm Redemption';
   var memberDetail = member ? 'Member: '+member.full_name+' ('+member.member_id+')\nTier: '+(member.tier||'free').toUpperCase()+'\nCity: '+(member.city||'Unknown') : '';
   showOTPResult(true,'Redemption Confirmed ✅','Voucher has been validated and recorded.',memberDetail);
+  // ── SHOW GEO WARNING IF MISMATCH ──
+  if (geoMismatch) {
+    setTimeout(() => {
+      const alertDiv = document.createElement('div');
+      alertDiv.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1a1200;border:1px solid #F2B705;border-radius:12px;padding:14px 20px;z-index:9999;max-width:340px;text-align:center;font-family:Poppins,sans-serif';
+      alertDiv.innerHTML = '<div style="color:#F2B705;font-weight:700;margin-bottom:4px">⚠️ City Mismatch Flagged</div><div style="color:rgba(255,255,255,.7);font-size:.8rem">Member home city: <b style="color:#fff">' + (member.city || 'Unknown') + '</b><br>Your city: <b style="color:#fff">' + (_partner.city || 'Unknown') + '</b><br><span style="color:rgba(255,255,255,.5);font-size:.72rem">Redemption valid — logged for review</span></div>';
+      document.body.appendChild(alertDiv);
+      setTimeout(() => alertDiv.remove(), 7000);
+    }, 1500);
+  }
 
   // Reset OTP inputs
   [0,1,2,3,4,5].forEach(i=>{document.getElementById('otp'+i).value='';});
