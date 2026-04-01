@@ -1375,6 +1375,26 @@ async function validateOTP(){
   await sbClient.from('partner_otps').update({used:true}).eq('id',otpRecord.id);
 
   // Get member info
+  // ── VELOCITY FRAUD CHECK: >5 redemptions in 10 min = block + flag ──
+  const _tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+  const {data: _recentReds} = await sbClient
+    .from('partner_redemptions')
+    .select('id')
+    .eq('partner_id', _partner.id)
+    .gte('created_at', _tenMinAgo);
+  if(_recentReds && _recentReds.length >= 5){
+    await sbClient.from('admin_logs').insert({
+      admin_email: 'system',
+      action: 'velocity_fraud_flagged',
+      target_type: 'partner',
+      target_id: _partner.id,
+      target_label: _partner.business_name || 'Unknown',
+      metadata: {redemptions_in_10min: _recentReds.length + 1}
+    }).catch(()=>{});
+    showOTPResult(false, null, 'Too many redemptions in a short time. Flagged for review. Please wait a few minutes.');
+    return;
+  }
+
   var {data:member}=await sbClient.from('members').select('full_name,member_id,tier,city').eq('id',otpRecord.member_id).single();
 
   // Log redemption
