@@ -1229,6 +1229,27 @@ function openVoucherModal(id, title, partnerId, discount, minBill, qty, expiry){
   document.getElementById('mv-err').style.display='none';
   openModal('modalVoucher');
 }
+
+// ── EMAIL HELPER: Send partner notification ──
+async function sendVoucherEmail(type, voucherId, extraData = {}) {
+  try {
+    const {data: v} = await sbClient.from('partner_vouchers')
+      .select('title, partner_id, partners(business_name, email)')
+      .eq('id', voucherId).single();
+    if(!v || !v.partners?.email) return;
+    await fetch('/api/send-partner-email', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        type,
+        partnerEmail: v.partners.email,
+        partnerName: v.partners.business_name || 'Partner',
+        voucherTitle: v.title,
+        ...extraData
+      })
+    });
+  } catch(e) { console.warn('Email notification failed:', e.message); }
+}
 async function approveVoucher(){
   const btn = document.getElementById('btnVoucherApprove');
   btn.disabled=true; btn.textContent='Approving…';
@@ -1245,7 +1266,8 @@ async function approveVoucher(){
     await sbClient.from('partner_vouchers').update(updates).eq('id',_currentVoucherId);
     await auditLog('approve_voucher','voucher',_currentVoucherId,updates.title,{updates});
     closeModal('modalVoucher');
-    toast('Voucher approved and live 🎟️');
+    toast('Voucher approved and live 🎟️')
+  sendVoucherEmail('voucher_approved', _currentVoucherId); // notify partner;
     loadSidebarBadges();
     initVouchers();
   } catch(e){ document.getElementById('mv-err').textContent=e.message; document.getElementById('mv-err').style.display='block'; }
@@ -1256,14 +1278,16 @@ async function rejectVoucher(){
   await sbClient.from('partner_vouchers').update({status:'rejected'}).eq('id',_currentVoucherId);
   await auditLog('reject_voucher','voucher',_currentVoucherId,'');
   closeModal('modalVoucher');
-  toast('Voucher rejected','warning');
+  toast('Voucher rejected','warning')
+  sendVoucherEmail('voucher_rejected', _currentVoucherId, {reason: document.getElementById('voucherRejectReason')?.value || ''}); // notify partner;
   loadSidebarBadges();
   initVouchers();
 }
 async function quickApproveVoucher(id, title){
   await sbClient.from('partner_vouchers').update({status:'active',updated_at:new Date().toISOString()}).eq('id',id);
   await auditLog('approve_voucher','voucher',id,title);
-  toast(`Voucher approved — ${title}`);
+  toast(`Voucher approved — ${title}`)
+  sendVoucherEmail('voucher_approved', id);;
   loadSidebarBadges();
   loadPendingVouchers();
 }
@@ -1271,7 +1295,8 @@ async function quickRejectVoucher(id, title){
   if(!confirm(`Reject "${title}"?`)) return;
   await sbClient.from('partner_vouchers').update({status:'rejected'}).eq('id',id);
   await auditLog('reject_voucher','voucher',id,title);
-  toast(`Voucher rejected — ${title}`,'warning');
+  toast(`Voucher rejected — ${title}`,'warning')
+  sendVoucherEmail('voucher_rejected', id);;
   loadSidebarBadges();
   loadPendingVouchers();
 }
