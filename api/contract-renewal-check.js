@@ -1,13 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Uses SUPABASE_SERVICE_ROLE_KEY (consistent with razorpay-webhook.js)
 const sbAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 export default async function handler(req, res) {
-  // ── Auth: Vercel cron sends Bearer token, or dev bypass ──
   const authHeader = req.headers.authorization;
   if (
     authHeader !== `Bearer ${process.env.CRON_SECRET}` &&
@@ -16,18 +14,17 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const today  = new Date();
-  const in25   = new Date(today); in25.setDate(today.getDate() + 25);
-  const in35   = new Date(today); in35.setDate(today.getDate() + 35);
+  const today = new Date();
+  const in25  = new Date(today); in25.setDate(today.getDate() + 25);
+  const in35  = new Date(today); in35.setDate(today.getDate() + 35);
 
-  // Partners whose contract expires in 25–35 days (month 5 renewal window)
   const { data: partners, error } = await sbAdmin
     .from('partners')
-    .select('id, business_name, email, contract_expires, approved_at, city')
+    .select('id, name, contact_email, contract_expires_at, approved_at, city')
     .eq('is_active', true)
     .eq('suspended', false)
-    .gte('contract_expires', in25.toISOString())
-    .lte('contract_expires', in35.toISOString());
+    .gte('contract_expires_at', in25.toISOString())
+    .lte('contract_expires_at', in35.toISOString());
 
   if (error) return res.status(500).json({ error: error.message });
   if (!partners || partners.length === 0) {
@@ -47,7 +44,7 @@ export default async function handler(req, res) {
       const totalRedemptions = redemptions?.length || 0;
       const totalRevenue     = redemptions?.reduce((s, r) => s + (r.discount_given || 0), 0) || 0;
       const formattedRevenue = totalRevenue > 0 ? `₹${totalRevenue.toLocaleString('en-IN')}` : '₹0';
-      const expiryDate       = new Date(partner.contract_expires).toLocaleDateString('en-IN', {
+      const expiryDate       = new Date(partner.contract_expires_at).toLocaleDateString('en-IN', {
         day: 'numeric', month: 'long', year: 'numeric',
       });
 
@@ -58,8 +55,8 @@ export default async function handler(req, res) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             type: 'contract_renewal',
-            partnerEmail: partner.email,
-            partnerName: partner.business_name,
+            partnerEmail: partner.contact_email,
+            partnerName: partner.name,
             expiryDate,
             redemptions: totalRedemptions,
             revenue: formattedRevenue,
@@ -72,17 +69,17 @@ export default async function handler(req, res) {
         action: 'renewal_email_sent',
         target_type: 'partner',
         target_id: partner.id,
-        target_label: partner.business_name,
+        target_label: partner.name,
         metadata: {
           redemptions: totalRedemptions,
           revenue: formattedRevenue,
-          expires: partner.contract_expires,
+          expires: partner.contract_expires_at,
         },
       });
 
-      results.push({ partner: partner.business_name, status: 'sent' });
+      results.push({ partner: partner.name, status: 'sent' });
     } catch (e) {
-      results.push({ partner: partner.business_name, status: 'failed', error: e.message });
+      results.push({ partner: partner.name, status: 'failed', error: e.message });
     }
   }
 
