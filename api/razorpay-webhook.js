@@ -1,14 +1,17 @@
-// ============================================================
-// /api/razorpay-webhook.js — DWC Final Production Version
-// FIX: user_id now validated from payment_logs order lookup
-//      NOT trusted from notes.user_id (frontend-passed)
-// ============================================================
-
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
-import { buffer } from 'micro';
 
 export const config = { api: { bodyParser: false } };
+
+// Read raw body without 'micro' — uses Node.js readable stream directly
+function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', chunk => { data += chunk.toString('utf8'); });
+    req.on('end', () => resolve(data));
+    req.on('error', reject);
+  });
+}
 
 const TIER_PRICES = { gold: 249900, platinum: 699900, dwcpurple: 1499900 };
 const TIER_RANK   = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
@@ -16,15 +19,18 @@ const TIER_RANK   = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // ── Read raw body for signature verification ──
+  // ── Read raw body for HMAC verification ──
   let rawBody;
-  try { rawBody = (await buffer(req)).toString('utf8'); }
-  catch { return res.status(400).json({ error: 'Failed to read body' }); }
+  try {
+    rawBody = await getRawBody(req);
+  } catch {
+    return res.status(400).json({ error: 'Failed to read body' });
+  }
 
-  // ── Webhook signature verification ──
+  // ── Verify Razorpay signature ──
   const sig = req.headers['x-razorpay-signature'];
   if (!sig) {
-    console.warn('[webhook] Missing x-razorpay-signature header');
+    console.warn('[webhook] Missing x-razorpay-signature');
     return res.status(400).json({ error: 'Missing signature' });
   }
 
@@ -40,8 +46,11 @@ export default async function handler(req, res) {
 
   // ── Parse event ──
   let event;
-  try { event = JSON.parse(rawBody); }
-  catch { return res.status(400).json({ error: 'Invalid JSON' }); }
+  try {
+    event = JSON.parse(rawBody);
+  } catch {
+    return res.status(400).json({ error: 'Invalid JSON' });
+  }
 
   if (event.event !== 'payment.captured') {
     return res.status(200).json({ received: true, action: 'ignored', event: event.event });
@@ -53,9 +62,8 @@ export default async function handler(req, res) {
   const notes     = payment?.notes || {};
   const tier      = notes.tier;
 
-  // ── Validate fields ──
   if (!paymentId || !orderId || !tier || !TIER_PRICES[tier]) {
-    console.error('[webhook] Missing required fields:', { paymentId, orderId, tier });
+    console.error('[webhook] Missing fields:', { paymentId, orderId, tier });
     return res.status(400).json({ error: 'Missing payment fields' });
   }
 
@@ -64,7 +72,7 @@ export default async function handler(req, res) {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  // ── Idempotency — skip if already processed by verify-payment.js ──
+  // ── Idempotency — skip if already handled by verify-payment ──
   const { data: existing } = await sbAdmin
     .from('payment_logs')
     .select('id')
@@ -72,53 +80,37 @@ export default async function handler(req, res) {
     .single();
 
   if (existing) {
-    console.log('[webhook] Already processed by frontend, skipping:', paymentId);
+    console.log('[webhook] Already processed:', paymentId);
     return res.status(200).json({ received: true, action: 'already_processed' });
   }
 
-  // ── FIX: Validate user_id from our own DB — NOT from notes ──
-  // notes.user_id is frontend-passed and could be spoofed.
-  // Instead: look up the order_id in our create-order logs to find
-  // the real user who created this order.
-  // We stored order notes in Razorpay — cross-verify with Razorpay API.
+  // ── Validate user via Razorpay API (not from frontend-passed notes) ──
   let verifiedUserId = null;
-
   try {
-    // Double-verify payment via Razorpay API
-    const rpRes = await fetch(
-      `https://api.razorpay.com/v1/payments/${paymentId}`,
-      {
-        headers: {
-          Authorization: 'Basic ' + Buffer.from(
-            `${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`
-          ).toString('base64'),
-        },
-      }
-    );
+    const rpRes = await fetch(`https://api.razorpay.com/v1/payments/${paymentId}`, {
+      headers: {
+        Authorization: 'Basic ' + Buffer.from(
+          `${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`
+        ).toString('base64'),
+      },
+    });
     const rpData = await rpRes.json();
-
     if (rpData.status !== 'captured') {
-      console.warn('[webhook] Payment not captured via API:', rpData.status);
+      console.warn('[webhook] Payment not captured:', rpData.status);
       return res.status(400).json({ error: 'Payment not captured' });
     }
-
-    // Get user_id from Razorpay notes (set server-side in create-order.js)
-    // This is safe because Razorpay notes are set by our server, not the frontend
     verifiedUserId = rpData.notes?.user_id || null;
-
   } catch (err) {
-    console.error('[webhook] Razorpay API verification failed:', err.message);
-    // Fall back to notes.user_id with a warning
+    console.error('[webhook] Razorpay API verify failed:', err.message);
     verifiedUserId = notes.user_id || null;
-    console.warn('[webhook] Falling back to notes.user_id — less secure');
   }
 
   if (!verifiedUserId) {
-    console.error('[webhook] Could not determine user_id for payment:', paymentId);
+    console.error('[webhook] Cannot identify user for payment:', paymentId);
     return res.status(400).json({ error: 'Cannot identify member for this payment' });
   }
 
-  // ── Verify user exists in our DB ──
+  // ── Verify member exists ──
   const { data: member } = await sbAdmin
     .from('members')
     .select('tier, expires_at, member_id, city')
@@ -126,7 +118,7 @@ export default async function handler(req, res) {
     .single();
 
   if (!member) {
-    console.error('[webhook] Member not found in DB for user_id:', verifiedUserId);
+    console.error('[webhook] Member not found:', verifiedUserId);
     return res.status(400).json({ error: 'Member not found' });
   }
 
@@ -134,15 +126,14 @@ export default async function handler(req, res) {
   const currentTier = (member.tier || 'free').toLowerCase();
   const currentRank = TIER_RANK[currentTier] || 0;
   if (TIER_RANK[tier] <= currentRank) {
-    console.warn('[webhook] Attempted downgrade blocked:', currentTier, '->', tier);
+    console.warn('[webhook] Downgrade blocked:', currentTier, '->', tier);
     return res.status(400).json({ error: 'Cannot downgrade membership' });
   }
 
-  // ── Pro-rata expiry — same logic as verify-payment.js ──
-  const now           = new Date();
+  // ── Compute new expiry (preserve if mid-cycle upgrade) ──
+  const now = new Date();
   const currentExpiry = member.expires_at ? new Date(member.expires_at) : null;
-  let   newExpiry;
-
+  let newExpiry;
   if (currentRank > 0 && currentExpiry && currentExpiry > now) {
     newExpiry = currentExpiry.toISOString();
   } else {
@@ -156,9 +147,9 @@ export default async function handler(req, res) {
     .from('members')
     .update({
       tier,
-      upgraded_at:      now.toISOString(),
-      expires_at:       newExpiry,
-      payment_id:       paymentId,
+      upgraded_at: now.toISOString(),
+      expires_at: newExpiry,
+      payment_id: paymentId,
       payment_order_id: orderId,
     })
     .eq('id', verifiedUserId);
@@ -170,28 +161,28 @@ export default async function handler(req, res) {
 
   // ── Audit log ──
   await sbAdmin.from('payment_logs').insert({
-    member_id:  verifiedUserId,
+    member_id: verifiedUserId,
     payment_id: paymentId,
-    order_id:   orderId,
+    order_id: orderId,
     tier,
-    amount:     TIER_PRICES[tier],
-    status:     'success',
-    source:     'webhook',
+    amount: TIER_PRICES[tier],
+    status: 'success',
+    source: 'webhook',
     created_at: now.toISOString(),
   });
 
   // ── Activity log ──
   if (member.member_id) {
     await sbAdmin.from('member_activity').insert({
-      member_id:     member.member_id,
-      member_uuid:   verifiedUserId,
+      member_id: member.member_id,
+      member_uuid: verifiedUserId,
       activity_type: 'upgrade',
       activity_data: {
-        from_tier:   currentTier,
-        to_tier:     tier,
-        payment_id:  paymentId,
-        expiry:      newExpiry,
-        source:      'webhook',
+        from_tier: currentTier,
+        to_tier: tier,
+        payment_id: paymentId,
+        expiry: newExpiry,
+        source: 'webhook',
         is_pro_rata: currentRank > 0,
       },
       city: member.city || null,
