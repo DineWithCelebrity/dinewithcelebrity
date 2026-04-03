@@ -1,201 +1,705 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>My Dashboard - Dine With Celebrity</title>
-<meta name="description" content="Your DWC member dashboard - vouchers, points, and celebrity dining experiences."/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root{--black:#06040A;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--purple:#7C3AED;--white:rgba(255,255,255,0.92);--sub:rgba(255,255,255,0.75);--muted:rgba(255,255,255,0.5);--card:rgba(255,255,255,0.04);--border:rgba(242,183,5,0.15)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden}
-.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;color:var(--gold);opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}
-@keyframes twinkle{0%,100%{opacity:0;transform:scale(0.5)}50%{opacity:var(--op,0.3);transform:scale(1)}}
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;background:rgba(6,4,10,0.96);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
-..nav-logo{text-decoration:none;display:flex;align-items:center}
-.nav-right{display:flex;align-items:center;gap:1rem}
-.nav-pts{background:rgba(242,183,5,0.1);border:1px solid rgba(242,183,5,0.3);border-radius:20px;padding:.3rem .9rem;font-size:.8rem;color:var(--gold);font-weight:600}
-.nav-wrap{position:relative}
-.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:#06040A;border:none;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer}
-.nav-drop{display:none;position:absolute;right:0;top:calc(100% + 8px);background:#0e0c14;border:1px solid var(--border);border-radius:12px;padding:.4rem;min-width:170px;z-index:200}
-.nav-drop.open{display:block}
-.nav-drop a,.nav-drop button{display:block;width:100%;padding:.65rem 1rem;color:var(--sub);font-size:.85rem;text-decoration:none;background:none;border:none;cursor:pointer;text-align:left;border-radius:8px;font-family:'Poppins',sans-serif}
-.nav-drop a:hover,.nav-drop button:hover{background:rgba(255,255,255,0.06);color:var(--white)}
-.app{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:2rem 1.5rem}
-/* EXPIRY BANNER */
-.expiry-banner{background:linear-gradient(135deg,rgba(212,0,42,.12),rgba(212,0,42,.04));border:1px solid rgba(212,0,42,.4);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.expiry-text{font-size:.85rem;color:var(--white)}
-.expiry-text strong{color:#ff6b6b}
-.expiry-btn{background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.5rem 1.1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer}
-/* TIER BANNER */
-.tier-banner{border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.tier-banner.free{background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1)}
-.tier-banner.gold{background:linear-gradient(135deg,rgba(242,183,5,.1),rgba(242,183,5,.04));border:1px solid rgba(242,183,5,.3)}
-.tier-banner.platinum{background:linear-gradient(135deg,rgba(192,192,192,.1),rgba(192,192,192,.04));border:1px solid rgba(192,192,192,.3)}
-.tier-banner.dwcpurple{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(124,58,237,.05));border:1px solid rgba(124,58,237,.4)}
-.tier-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px}
-.tier-name.free{color:var(--sub)}.tier-name.gold{color:var(--gold)}.tier-name.platinum{color:#C0C0C0}.tier-name.dwcpurple{color:#A78BFA}
-.tier-desc{color:var(--sub);font-size:.82rem;margin-top:.2rem}
-.tier-expiry{color:var(--muted);font-size:.75rem;margin-top:.3rem}
-.tier-expiry.expiring-soon{color:#ff6b6b;font-weight:600}
-.tier-upgrade-btn{background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.65rem 1.4rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap}
-.tier-upgrade-btn.hidden{display:none}
-.welcome{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--white);margin-bottom:1.75rem;letter-spacing:1px}
-.welcome em{color:var(--gold);font-style:normal}
-.profile-banner{background:linear-gradient(135deg,rgba(0,200,83,.07),rgba(0,200,83,.02));border:1px solid rgba(0,200,83,.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.profile-banner-text{font-size:.85rem;color:var(--sub)}
-.profile-banner-text strong{color:var(--green)}
-.profile-banner-btn{background:var(--green);color:#06040A;border:none;border-radius:8px;padding:.5rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;position:relative;overflow:hidden}
-.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
-.stat-label{color:var(--sub);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem}
-.stat-value{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1}
-.stat-sub{color:var(--muted);font-size:.72rem;margin-top:.25rem}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--white);letter-spacing:1px;margin-bottom:1rem}
-/* VOUCHERS */
-.vouchers{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;margin-bottom:2.5rem}
-.voucher{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;position:relative;overflow:hidden;transition:border-color .2s}
-.voucher:hover{border-color:rgba(242,183,5,.3)}
-.voucher-badge{display:inline-block;padding:.2rem .7rem;border-radius:20px;font-size:.7rem;font-weight:600;margin-bottom:.75rem}
-.badge-free{background:rgba(0,200,83,.12);color:var(--green)}
-.badge-gold{background:rgba(242,183,5,.12);color:var(--gold)}
-.badge-platinum{background:rgba(192,192,192,.12);color:#C0C0C0}
-.badge-purple{background:rgba(124,58,237,.15);color:#A78BFA}
-.voucher-title{font-weight:600;font-size:.95rem;color:var(--white);margin-bottom:.3rem}
-.voucher-desc{color:var(--sub);font-size:.8rem;line-height:1.5;margin-bottom:.75rem}
-.voucher-disc{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--gold);margin-bottom:.5rem}
-.voucher-city{color:var(--muted);font-size:.75rem;margin-bottom:.5rem}
-.voucher-expiry{color:var(--muted);font-size:.72rem;margin-bottom:1rem}
-.voucher-expiry.expiring-soon{color:#ff6b6b}
-.voucher-redeem{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.7rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:opacity .2s}
-.voucher-redeem:hover{opacity:.88}
-.voucher-redeem:disabled{opacity:.4;cursor:not-allowed}
-.voucher-locked .voucher-title,.voucher-locked .voucher-desc,.voucher-locked .voucher-disc,.voucher-locked .voucher-city{filter:blur(3px);user-select:none}
-.voucher-overlay{position:absolute;inset:0;background:rgba(6,4,10,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:14px;cursor:pointer;transition:background .2s}
-.voucher-overlay:hover{background:rgba(6,4,10,.72)}
-.voucher-lock-icon{font-size:1.6rem;margin-bottom:.4rem}
-.voucher-lock-label{color:var(--gold);font-size:.8rem;font-weight:600;text-align:center}
-.voucher-lock-tier{color:var(--sub);font-size:.72rem;margin-top:.2rem}
-/* REFERRAL */
-.ref-card{background:linear-gradient(135deg,rgba(242,183,5,.07),rgba(242,183,5,.02));border:1px solid rgba(242,183,5,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem}
-.ref-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);margin-bottom:.3rem}
-.ref-sub{color:var(--sub);font-size:.83rem;margin-bottom:1rem;line-height:1.6}
-.ref-row{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
-.ref-code{background:rgba(255,255,255,.06);border:1px dashed rgba(242,183,5,.4);border-radius:8px;padding:.6rem 1.1rem;font-family:monospace;font-size:1rem;color:var(--gold);letter-spacing:2px;flex:1;min-width:160px}
-.ref-copy{background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.65rem 1.2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.83rem;cursor:pointer;white-space:nowrap}
-/* OVERLAYS */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);animation:fadeIn .2s ease}
-.overlay.hidden{display:none}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.sheet{background:#0d0b13;border:1px solid var(--border);border-radius:24px 24px 0 0;padding:2rem;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;animation:slideUp .3s ease}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@media(min-width:640px){.overlay{align-items:center}.sheet{border-radius:24px}}
-.sheet-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
-.sheet-title{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--white)}
-.sheet-close{background:rgba(255,255,255,.08);border:none;color:var(--sub);width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;font-family:'Poppins',sans-serif}
-.sheet-sub{color:var(--sub);font-size:.85rem;margin-bottom:1.5rem;line-height:1.6}
-.tier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1.5rem}
-.tier-card{border-radius:12px;padding:1rem;cursor:pointer;transition:transform .15s;border:2px solid transparent}
-.tier-card:hover{transform:translateY(-2px)}
-.tier-card.selected{border-color:var(--gold)}
-.tier-card.t-gold{background:rgba(242,183,5,.08)}
-.tier-card.t-platinum{background:rgba(192,192,192,.08)}
-.tier-card.t-purple{background:rgba(124,58,237,.1)}
-.tc-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:.3rem}
-.tc-name.g{color:var(--gold)}.tc-name.p{color:#C0C0C0}.tc-name.v{color:#A78BFA}
-.tc-price{font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:.6rem}
-.tc-perks{list-style:none}
-.tc-perks li{font-size:.75rem;color:var(--sub);padding:.2rem 0;display:flex;gap:.4rem}
-.tc-perks li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.7rem}
-.upgrade-cta{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:12px;padding:1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:.5px;transition:opacity .2s}
-.upgrade-cta:hover{opacity:.88}
-/* PROFILE */
-.profile-sheet-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--white)}
-.profile-reward{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);border-radius:20px;padding:.3rem .9rem;font-size:.78rem;color:var(--green);font-weight:600;margin-bottom:1.5rem}
-.profile-sub{color:var(--sub);font-size:.85rem;line-height:1.6;margin-bottom:1.5rem}
-.field{margin-bottom:1.25rem}
-.field-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:var(--sub);margin-bottom:.5rem;display:block}
-.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem}
-.chip{padding:.65rem .5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.82rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif}
-.chip:hover{border-color:rgba(242,183,5,.4);color:var(--white)}
-.chip.on{background:rgba(242,183,5,.1);border-color:var(--gold);color:var(--gold);font-weight:600}
-.state-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;margin-bottom:.75rem}
-.state-btn{flex:1;padding:.5rem;border:none;border-radius:7px;background:transparent;color:var(--sub);font-family:'Poppins',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
-.state-btn.active{background:var(--gold);color:#06040A;font-weight:700}
-.city-sel{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.75rem 1rem;color:var(--white);font-family:'Poppins',sans-serif;font-size:.9rem;outline:none}
-.city-sel:focus{border-color:var(--gold)}
-.city-sel option{background:#0d0b13}
-.profile-save{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:1.5rem}
-.profile-save:disabled{opacity:.4;cursor:default}
-/* DEV PANEL */
-.dev-panel{display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:#0d0b13;border:2px solid var(--gold);border-radius:12px;padding:1rem}
-.dev-panel-title{color:var(--gold);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;font-family:'Poppins',sans-serif}
-.dev-btn{display:block;width:100%;margin-bottom:.4rem;border:none;border-radius:8px;padding:.5rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer}
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1828;border:1px solid var(--gold);border-radius:12px;padding:.85rem 1.5rem;color:var(--white);font-size:.85rem;z-index:2000;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:600px){.app{padding:1.2rem 1rem}.stats{grid-template-columns:1fr 1fr}.vouchers{grid-template-columns:1fr}.tier-cards{grid-template-columns:1fr}.ref-row{flex-direction:column}.ref-code{width:100%}.chips{grid-template-columns:repeat(3,1fr)}}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>My Dashboard - Dine With Celebrity | Member Benefits & Vouchers</title>
+  <meta name="description" content="Access your Dine With Celebrity membership dashboard. View vouchers, track points, unlock celebrity dining experiences across India."/>
+  <meta name="keywords" content="Dine With Celebrity dashboard, DWC member portal, celebrity dining vouchers, restaurant discounts India"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/dashboard"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="My DWC Dashboard - Dine With Celebrity"/>
+  <meta property="og:description" content="View your vouchers, points, and celebrity dining experiences."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/dashboard"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="My DWC Dashboard"/>
+  <meta name="twitter:description" content="Your Dine With Celebrity member portal."/>
+  <meta name="twitter:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"DWC Member Dashboard","description":"Dine With Celebrity membership dashboard for vouchers, points and celebrity experiences.","url":"https://www.dinewithcelebrity.com/dashboard","publisher":{"@type":"Organization","name":"Dine With Celebrity","url":"https://www.dinewithcelebrity.com"}}
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    /* ── CSS VARIABLES ── */
+    :root {
+      --black: #06040A;
+      --gold: #F2B705;
+      --gold2: #FFD166;
+      --red: #D4002A;
+      --green: #00C853;
+      --purple: #7C3AED;
+      --white: rgba(255,255,255,0.92);
+      --sub: rgba(255,255,255,0.75);
+      --muted: rgba(255,255,255,0.5);
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(242,183,5,0.15);
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── PAGE LOADER ── */
+    #pageLoader {
+      position: fixed; inset: 0; background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity .4s ease;
+    }
+    #pageLoader.hidden { opacity: 0; pointer-events: none; }
+    .loader-logo { height: 48px; width: auto; animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:.5; transform: scale(.96); } 50% { opacity:1; transform: scale(1); } }
+
+    /* ── STARS ── */
+    .stars {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .star {
+      position: absolute; color: var(--gold); opacity: 0;
+      animation: twinkle var(--d,3s) var(--del,0s) infinite;
+      font-size: var(--sz, 10px);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:0; transform:scale(.5); }
+      50% { opacity:var(--op,.25); transform:scale(1); }
+    }
+
+    /* ── NAVBAR ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 1.5rem;
+      background: rgba(6,4,10,.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      text-decoration: none;
+      display: flex; align-items: center;
+    }
+    .nav-logo img { height: 34px; width: auto; display: block; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .nav-pts {
+      background: rgba(242,183,5,.1);
+      border: 1px solid rgba(242,183,5,.3);
+      border-radius: 20px; padding: .3rem .9rem;
+      font-size: .8rem; color: var(--gold); font-weight: 600;
+    }
+    .nav-wrap { position: relative; }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--gold); color: #06040A;
+      border: none; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .9rem; cursor: pointer;
+    }
+    .nav-drop {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px);
+      background: #0e0c14; border: 1px solid var(--border);
+      border-radius: 12px; padding: .4rem; min-width: 175px; z-index: 200;
+    }
+    .nav-drop.open { display: block; }
+    .nav-drop a, .nav-drop button {
+      display: block; width: 100%;
+      padding: .65rem 1rem; color: var(--sub); font-size: .85rem;
+      text-decoration: none; background: none; border: none;
+      cursor: pointer; text-align: left; border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .nav-drop a:hover, .nav-drop button:hover {
+      background: rgba(255,255,255,.06); color: var(--white);
+    }
+
+    /* ── MAIN ── */
+    .app {
+      position: relative; z-index: 1;
+      max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem;
+      display: none; /* hidden until auth confirmed */
+    }
+    .app.visible { display: block; }
+
+    /* ── BANNERS ── */
+    .banner {
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .banner-text { font-size: .85rem; }
+    .banner-text strong { font-weight: 700; }
+    .banner-btn {
+      border: none; border-radius: 8px;
+      padding: .5rem 1.1rem; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .8rem; cursor: pointer; white-space: nowrap;
+    }
+    .banner-expiry {
+      background: linear-gradient(135deg,rgba(212,0,42,.12),rgba(212,0,42,.04));
+      border: 1px solid rgba(212,0,42,.4); display: none;
+    }
+    .banner-expiry strong { color: #ff6b6b; }
+    .banner-expiry .banner-btn { background: var(--gold); color: #06040A; }
+    .banner-profile {
+      background: linear-gradient(135deg,rgba(0,200,83,.07),rgba(0,200,83,.02));
+      border: 1px solid rgba(0,200,83,.25); display: none;
+    }
+    .banner-profile strong { color: var(--green); }
+    .banner-profile .banner-btn { background: var(--green); color: #06040A; }
+
+    /* ── TIER BANNER ── */
+    .tier-banner {
+      border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .tier-banner.t-free   { background: linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.1); }
+    .tier-banner.t-gold   { background: linear-gradient(135deg,rgba(242,183,5,.1),rgba(242,183,5,.04)); border: 1px solid rgba(242,183,5,.3); }
+    .tier-banner.t-platinum { background: linear-gradient(135deg,rgba(192,192,192,.1),rgba(192,192,192,.04)); border: 1px solid rgba(192,192,192,.3); }
+    .tier-banner.t-dwcpurple { background: linear-gradient(135deg,rgba(124,58,237,.15),rgba(124,58,237,.05)); border: 1px solid rgba(124,58,237,.4); }
+
+    .tier-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem; letter-spacing: 1px;
+    }
+    .tier-name.c-free     { color: var(--sub); }
+    .tier-name.c-gold     { color: var(--gold); }
+    .tier-name.c-platinum { color: #C0C0C0; }
+    .tier-name.c-dwcpurple{ color: #A78BFA; }
+
+    .tier-desc  { color: var(--sub); font-size: .82rem; margin-top: .25rem; }
+    .tier-expiry{ color: var(--muted); font-size: .75rem; margin-top: .3rem; }
+    .tier-expiry.warn { color: #ff6b6b; font-weight: 600; }
+
+    .tier-upgrade-btn {
+      background: var(--gold); color: #06040A;
+      border: none; border-radius: 10px;
+      padding: .65rem 1.4rem; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .85rem; cursor: pointer;
+      white-space: nowrap;
+    }
+    .tier-upgrade-btn.hidden { display: none; }
+
+    /* ── WELCOME & MEMBER ID ── */
+    .welcome {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; color: var(--white);
+      margin-bottom: .6rem; letter-spacing: 1px;
+    }
+    .welcome em { color: var(--gold); font-style: normal; }
+
+    .member-id-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(242,183,5,.08);
+      border: 1px solid rgba(242,183,5,.2);
+      border-radius: 100px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 700; color: var(--gold);
+      letter-spacing: .1em; cursor: pointer; margin-bottom: 1.5rem;
+      transition: all .2s;
+    }
+    .member-id-chip:hover { background: rgba(242,183,5,.14); }
+    .member-id-chip.copied { background: rgba(0,200,83,.12); border-color: rgba(0,200,83,.3); color: #00C853; }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+    }
+    .stat::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+    .stat-label { color: var(--sub); font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .4rem; }
+    .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); line-height: 1; }
+    .stat-sub   { color: var(--muted); font-size: .72rem; margin-top: .25rem; }
+
+    /* ── SECTION TITLES ── */
+    .section-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--white); letter-spacing: 1px;
+    }
+    .section-badge {
+      background: rgba(242,183,5,.1); border: 1px solid rgba(242,183,5,.25);
+      border-radius: 20px; padding: .2rem .75rem;
+      font-size: .72rem; color: var(--gold); font-weight: 600;
+    }
+
+    /* ── VOUCHERS ── */
+    .vouchers {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px,1fr));
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .voucher {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+    .voucher:hover { border-color: rgba(242,183,5,.3); transform: translateY(-1px); }
+
+    .voucher-badge {
+      display: inline-block; padding: .2rem .7rem;
+      border-radius: 20px; font-size: .7rem; font-weight: 600; margin-bottom: .75rem;
+    }
+    .b-free     { background: rgba(0,200,83,.12);    color: var(--green); }
+    .b-gold     { background: rgba(242,183,5,.12);   color: var(--gold); }
+    .b-platinum { background: rgba(192,192,192,.12); color: #C0C0C0; }
+    .b-dwcpurple{ background: rgba(124,58,237,.15);  color: #A78BFA; }
+
+    .voucher-title { font-weight: 600; font-size: .95rem; color: var(--white); margin-bottom: .3rem; }
+    .voucher-desc  { color: var(--sub); font-size: .8rem; line-height: 1.5; margin-bottom: .75rem; }
+    .voucher-disc  { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--gold); margin-bottom: .25rem; }
+    .voucher-meta  { color: var(--muted); font-size: .75rem; margin-bottom: .35rem; }
+    .voucher-expiry{ color: var(--muted); font-size: .72rem; margin-bottom: 1rem; }
+    .voucher-expiry.warn { color: #ff6b6b; }
+
+    .voucher-redeem {
+      width: 100%; background: var(--gold); color: #06040A;
+      border: none; border-radius: 8px; padding: .7rem;
+      font-family: 'Poppins', sans-serif; font-weight: 700;
+      font-size: .85rem; cursor: pointer; transition: opacity .2s;
+    }
+    .voucher-redeem:hover:not(:disabled) { opacity: .88; }
+    .voucher-redeem:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* Locked voucher */
+    .voucher-locked .voucher-title,
+    .voucher-locked .voucher-desc,
+    .voucher-locked .voucher-disc,
+    .voucher-locked .voucher-meta { filter: blur(3px); user-select: none; }
+
+    .voucher-overlay {
+      position: absolute; inset: 0;
+      background: rgba(6,4,10,.6);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 14px; cursor: pointer; transition: background .2s;
+    }
+    .voucher-overlay:hover { background: rgba(6,4,10,.72); }
+    .vl-icon  { font-size: 1.6rem; margin-bottom: .4rem; }
+    .vl-label { color: var(--gold); font-size: .8rem; font-weight: 600; text-align: center; }
+    .vl-tier  { color: var(--sub); font-size: .72rem; margin-top: .2rem; }
+
+    /* Divider between city and other vouchers */
+    .voucher-divider {
+      grid-column: 1 / -1;
+      padding: .5rem 0;
+      font-size: .78rem; color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: .5rem;
+    }
+
+    /* ── PARTNER RESTAURANTS (upgrade teaser for FREE) ── */
+    .partner-teaser { margin-bottom: 2.5rem; }
+    .pt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .pt-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+      opacity: .55; filter: blur(1.5px);
+      pointer-events: none;
+    }
+    .pt-card-emoji { font-size: 1.8rem; margin-bottom: .5rem; }
+    .pt-card-name  { font-weight: 600; font-size: .9rem; margin-bottom: .25rem; }
+    .pt-card-city  { font-size: .75rem; color: var(--muted); }
+    .pt-card-disc  { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--gold); margin-top: .6rem; }
+    .pt-cta-wrap {
+      grid-column: 1 / -1; margin-top: 1rem;
+      background: linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.02));
+      border: 1px solid rgba(242,183,5,.2);
+      border-radius: 14px; padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .pt-cta-text { font-size: .85rem; line-height: 1.6; }
+    .pt-cta-text strong { color: var(--gold); }
+    .pt-cta-btn {
+      background: var(--gold); color: #06040A;
+      border: none; border-radius: 8px;
+      padding: .65rem 1.3rem; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .85rem; cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ── CELEBRITY EVENTS ── */
+    .events-section { margin-bottom: 2.5rem; }
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .event-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+      transition: border-color .2s;
+    }
+    .event-card:hover { border-color: rgba(242,183,5,.3); }
+    .event-card.locked { opacity: .55; }
+    .event-tag {
+      display: inline-block; padding: .2rem .7rem;
+      border-radius: 20px; font-size: .7rem; font-weight: 600; margin-bottom: .75rem;
+      background: rgba(242,183,5,.1); color: var(--gold);
+    }
+    .event-title { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
+    .event-meta  { color: var(--sub); font-size: .78rem; margin-bottom: .75rem; line-height: 1.6; }
+    .event-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--gold); margin-bottom: .75rem; }
+    .event-price span { font-size: .8rem; font-family: 'Poppins',sans-serif; color: var(--sub); }
+    .event-action {
+      width: 100%; border: none; border-radius: 8px; padding: .7rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .85rem;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .event-action.locked-btn {
+      background: rgba(242,183,5,.1); color: var(--gold);
+      border: 1px solid rgba(242,183,5,.25);
+    }
+    .event-action.book-btn {
+      background: var(--gold); color: #06040A;
+    }
+    .event-action.book-btn:hover { opacity: .88; }
+
+    /* ── REFERRAL ── */
+    .ref-card {
+      background: linear-gradient(135deg,rgba(242,183,5,.07),rgba(242,183,5,.02));
+      border: 1px solid rgba(242,183,5,.2);
+      border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;
+    }
+    .ref-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); margin-bottom: .3rem; }
+    .ref-sub   { color: var(--sub); font-size: .83rem; margin-bottom: 1rem; line-height: 1.6; }
+    .ref-row   { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    .ref-code  {
+      background: rgba(255,255,255,.06); border: 1px dashed rgba(242,183,5,.4);
+      border-radius: 8px; padding: .6rem 1.1rem;
+      font-family: monospace; font-size: 1rem; color: var(--gold);
+      letter-spacing: 2px; flex: 1; min-width: 160px;
+    }
+    .ref-copy {
+      background: var(--gold); color: #06040A; border: none;
+      border-radius: 8px; padding: .65rem 1.2rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: .83rem; cursor: pointer; white-space: nowrap;
+    }
+    .ref-stats {
+      display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid rgba(242,183,5,.12);
+    }
+    .ref-stat-item { font-size: .8rem; }
+    .ref-stat-num  { font-family: 'Bebas Neue',sans-serif; font-size: 1.5rem; color: var(--gold); display: block; }
+    .ref-stat-lbl  { color: var(--muted); font-size: .72rem; }
+
+    /* ── OVERLAYS / SHEETS ── */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.8);
+      z-index: 500; display: flex; align-items: flex-end;
+      justify-content: center; backdrop-filter: blur(6px);
+      animation: fadeIn .2s ease;
+    }
+    .overlay.hidden { display: none; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    .sheet {
+      background: #0d0b13; border: 1px solid var(--border);
+      border-radius: 24px 24px 0 0; padding: 2rem;
+      width: 100%; max-width: 600px; max-height: 88vh;
+      overflow-y: auto; animation: slideUp .3s ease;
+    }
+    @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+    @media(min-width:640px) {
+      .overlay { align-items: center; }
+      .sheet { border-radius: 24px; }
+    }
+    .sheet-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .4rem;
+    }
+    .sheet-title { font-family: 'Bebas Neue',sans-serif; font-size: 1.9rem; color: var(--white); }
+    .sheet-close {
+      background: rgba(255,255,255,.08); border: none; color: var(--sub);
+      width: 32px; height: 32px; border-radius: 50%;
+      font-size: 1rem; cursor: pointer; font-family: 'Poppins',sans-serif;
+      transition: background .2s;
+    }
+    .sheet-close:hover { background: rgba(255,255,255,.14); }
+    .sheet-sub { color: var(--sub); font-size: .85rem; margin-bottom: 1.5rem; line-height: 1.6; }
+
+    /* Upgrade tier cards */
+    .tier-cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: .75rem; margin-bottom: 1.5rem; }
+    .tier-card  { border-radius: 12px; padding: 1rem; cursor: pointer; transition: transform .15s; border: 2px solid transparent; }
+    .tier-card:hover { transform: translateY(-2px); }
+    .tier-card.selected { border-color: var(--gold); }
+    .tier-card.c-gold     { background: rgba(242,183,5,.08); }
+    .tier-card.c-platinum { background: rgba(192,192,192,.08); }
+    .tier-card.c-dwcpurple{ background: rgba(124,58,237,.1); }
+    .tc-name  { font-family: 'Bebas Neue',sans-serif; font-size: 1.1rem; letter-spacing: 1px; margin-bottom: .3rem; }
+    .tc-name.g { color: var(--gold); } .tc-name.p { color: #C0C0C0; } .tc-name.v { color: #A78BFA; }
+    .tc-price  { font-size: .85rem; font-weight: 700; color: var(--white); margin-bottom: .6rem; }
+    .tc-perks  { list-style: none; }
+    .tc-perks li { font-size: .75rem; color: var(--sub); padding: .2rem 0; display: flex; gap: .4rem; }
+    .tc-perks li::before { content:'✓'; color: var(--green); font-weight: 700; flex-shrink: 0; font-size: .7rem; }
+
+    .upgrade-cta {
+      width: 100%; background: var(--gold); color: #06040A; border: none;
+      border-radius: 12px; padding: 1rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; letter-spacing: .5px;
+      transition: opacity .2s;
+    }
+    .upgrade-cta:hover { opacity: .88; }
+
+    /* Profile sheet */
+    .profile-reward {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(0,200,83,.1); border: 1px solid rgba(0,200,83,.25);
+      border-radius: 20px; padding: .3rem .9rem;
+      font-size: .78rem; color: var(--green); font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .field { margin-bottom: 1.25rem; }
+    .field-label {
+      font-size: .75rem; text-transform: uppercase;
+      letter-spacing: .5px; color: var(--sub);
+      margin-bottom: .5rem; display: block;
+    }
+    .chips { display: grid; grid-template-columns: repeat(auto-fill,minmax(110px,1fr)); gap: .5rem; }
+    .chip {
+      padding: .65rem .5rem; background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08); border-radius: 10px;
+      font-size: .82rem; color: var(--sub); cursor: pointer;
+      transition: all .2s; text-align: center; font-family: 'Poppins',sans-serif;
+    }
+    .chip:hover { border-color: rgba(242,183,5,.4); color: var(--white); }
+    .chip.on    { background: rgba(242,183,5,.1); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+
+    .state-toggle {
+      display: flex; background: rgba(255,255,255,.04);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 3px; gap: 3px; margin-bottom: .75rem;
+    }
+    .state-btn {
+      flex: 1; padding: .5rem; border: none; border-radius: 7px;
+      background: transparent; color: var(--sub);
+      font-family: 'Poppins',sans-serif; font-size: .82rem; cursor: pointer;
+      transition: all .2s;
+    }
+    .state-btn.active { background: var(--gold); color: #06040A; font-weight: 700; }
+
+    .city-sel {
+      width: 100%; background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+      padding: .75rem 1rem; color: var(--white);
+      font-family: 'Poppins',sans-serif; font-size: .9rem; outline: none;
+    }
+    .city-sel:focus { border-color: var(--gold); }
+    .city-sel option { background: #0d0b13; }
+
+    .profile-save {
+      width: 100%; background: var(--gold); color: #06040A; border: none;
+      border-radius: 10px; padding: 1rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; margin-top: 1.5rem;
+      transition: opacity .2s;
+    }
+    .profile-save:disabled { opacity: .4; cursor: default; }
+
+    /* ── DEV PANEL ── */
+    .dev-panel {
+      display: none; position: fixed; bottom: 1.5rem; right: 1.5rem;
+      z-index: 999; background: #0d0b13;
+      border: 2px solid var(--gold); border-radius: 12px; padding: 1rem;
+    }
+    .dev-panel-title {
+      color: var(--gold); font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: .75rem;
+    }
+    .dev-btn {
+      display: block; width: 100%; margin-bottom: .4rem;
+      border: none; border-radius: 8px; padding: .5rem 1rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: .8rem; cursor: pointer;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a1828; border: 1px solid var(--gold);
+      border-radius: 12px; padding: .85rem 1.5rem;
+      color: var(--white); font-size: .85rem;
+      z-index: 2000; opacity: 0; transition: all .3s;
+      white-space: nowrap; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── EMPTY STATES ── */
+    .empty { color: var(--muted); font-size: .85rem; padding: 1.5rem 0; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px) {
+      .app              { padding: 1.2rem 1rem; }
+      .stats            { grid-template-columns: 1fr 1fr; }
+      .vouchers, .pt-grid, .events-grid { grid-template-columns: 1fr; }
+      .tier-cards       { grid-template-columns: 1fr; }
+      .ref-row          { flex-direction: column; }
+      .ref-code         { width: 100%; }
+      .chips            { grid-template-columns: repeat(3,1fr); }
+      .pt-cta-wrap      { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
+
+<!-- ── PAGE LOADER ── -->
+<div id="pageLoader">
+  <img class="loader-logo" src="/dwc-logo.svg" alt="DWC" onerror="this.src='/logo.png'"/>
+</div>
+
+<!-- ── ANIMATED GOLD STARS ── -->
 <div class="stars" id="stars"></div>
 
+<!-- ── NAVBAR ── -->
 <nav class="nav">
-  <a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block;"></a>
+  <a class="nav-logo" href="/">
+    <img src="/logo_navbar_400px.png" alt="Dine With Celebrity" onerror="this.src='/logo.png'"/>
+  </a>
   <div class="nav-right">
     <div class="nav-pts" id="navPts">0 pts</div>
     <div class="nav-wrap">
-      <button class="nav-avatar" id="navAvatar" onclick="toggleDrop()">R</button>
+      <button class="nav-avatar" id="navAvatar" onclick="toggleDrop()">D</button>
       <div class="nav-drop" id="navDrop">
-        <a href="#" onclick="openProfile();closeDrop();return false;">Complete Profile</a>
+        <a href="#" id="navProfileLink">Complete Profile</a>
         <a href="/upgrade">Upgrade Plan</a>
+        <a href="/events">Celebrity Events</a>
         <button onclick="signOut()">Sign Out</button>
       </div>
     </div>
   </div>
 </nav>
 
-<div class="app">
+<!-- ── MAIN CONTENT ── -->
+<div class="app" id="app">
 
-  <!-- EXPIRY BANNER — shown when membership expired -->
-  <div class="expiry-banner" id="expiryBanner" style="display:none">
-    <div class="expiry-text"><strong>⚠️ Your membership has expired.</strong> Renew now to keep your benefits.</div>
-    <button class="expiry-btn" onclick="window.location.href='/upgrade'">Renew Now</button>
+  <!-- Expiry banner -->
+  <div class="banner banner-expiry" id="expiryBanner">
+    <div class="banner-text"><strong>⚠️ Your membership has expired.</strong> Renew now to keep your benefits.</div>
+    <button class="banner-btn" onclick="location.href='/upgrade'">Renew Now</button>
   </div>
 
-  <!-- PROFILE BANNER -->
-  <div class="profile-banner" id="profileBanner" style="display:none">
-    <div class="profile-banner-text"><strong>Earn 25 points</strong> — Complete your profile in 30 seconds</div>
-    <button class="profile-banner-btn" onclick="openProfile()">Complete Now</button>
+  <!-- Profile banner -->
+  <div class="banner banner-profile" id="profileBanner">
+    <div class="banner-text"><strong>Earn 25 points</strong> — Complete your profile in 30 seconds</div>
+    <button class="banner-btn" onclick="openProfile()">Complete Now</button>
   </div>
 
-  <!-- TIER BANNER -->
-  <div class="tier-banner free" id="tierBanner">
+  <!-- Tier banner -->
+  <div class="tier-banner t-free" id="tierBanner">
     <div>
-      <div class="tier-name free" id="tierName">FREE MEMBER</div>
+      <div class="tier-name c-free" id="tierName">FREE MEMBER</div>
       <div class="tier-desc" id="tierDesc">Upgrade to Gold to unlock more vouchers and events</div>
       <div class="tier-expiry" id="tierExpiry"></div>
     </div>
-    <button class="tier-upgrade-btn" id="tierUpgradeBtn" onclick="goUpgrade()">Upgrade Now</button>
+    <button class="tier-upgrade-btn" id="tierUpgradeBtn" onclick="location.href='/upgrade'">Upgrade Now</button>
   </div>
 
-  <div class="welcome">Welcome, <em id="memberName">Star</em>!</div>
-  <div id="memberIdDisplay" style="display:inline-flex;align-items:center;gap:8px;background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.2);border-radius:100px;padding:5px 14px;font-size:.75rem;font-weight:700;color:var(--gold);letter-spacing:.1em;font-family:'Poppins',sans-serif;cursor:pointer;margin-top:8px;margin-bottom:1.5rem" onclick="copyMemberId(this)" title="Click to copy">📋 <span id="memberIdText"></span></div>
+  <!-- Welcome -->
+  <h1 class="welcome">Welcome, <em id="memberName">Star</em>!</h1>
+  <div class="member-id-chip" id="memberIdChip" style="display:none" onclick="copyMemberId()">
+    📋 <span id="memberIdText"></span>
+  </div>
 
+  <!-- Stats -->
   <div class="stats">
-    <div class="stat"><div class="stat-label">Points</div><div class="stat-value" id="statPts">300</div><div class="stat-sub">Keep earning</div></div>
-    <div class="stat"><div class="stat-label">Vouchers</div><div class="stat-value" id="statV">0</div><div class="stat-sub">Available</div></div>
-    <div class="stat"><div class="stat-label">Your City</div><div class="stat-value" id="statCity" style="font-size:1rem;padding-top:.5rem">-</div><div class="stat-sub">Partner area</div></div>
-    <div class="stat"><div class="stat-label">Celebrity Ticket</div><div class="stat-value" id="statTicket" style="font-size:1rem;padding-top:.5rem">₹70,000</div><div class="stat-sub" id="statTicketSub">Earn points to reduce</div></div>
+    <div class="stat">
+      <div class="stat-label">Points</div>
+      <div class="stat-value" id="statPts">300</div>
+      <div class="stat-sub">Keep earning</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Vouchers</div>
+      <div class="stat-value" id="statV">0</div>
+      <div class="stat-sub">Available</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Your City</div>
+      <div class="stat-value" id="statCity" style="font-size:1rem;padding-top:.4rem">–</div>
+      <div class="stat-sub">Partner area</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Celebrity Ticket</div>
+      <div class="stat-value" id="statTicket" style="font-size:1rem;padding-top:.4rem">₹70,000</div>
+      <div class="stat-sub" id="statTicketSub">Earn points to reduce</div>
+    </div>
   </div>
 
-  <div class="section-title">Your Vouchers</div>
-  <div class="vouchers" id="vouchersGrid"><div style="color:var(--muted);font-size:.85rem">Loading vouchers...</div></div>
+  <!-- VOUCHERS SECTION -->
+  <div class="section-hdr">
+    <div class="section-title">Your Vouchers</div>
+    <div class="section-badge" id="voucherCountBadge">Loading…</div>
+  </div>
+  <div class="vouchers" id="vouchersGrid">
+    <div class="empty">Loading vouchers…</div>
+  </div>
 
-  <div class="section-title">Refer and Earn</div>
+  <!-- PARTNER RESTAURANTS SECTION (for FREE members only) -->
+  <div class="partner-teaser" id="partnerTeaser" style="display:none">
+    <div class="section-hdr">
+      <div class="section-title">Partner Restaurants</div>
+      <div class="section-badge">🔒 Unlock with Gold</div>
+    </div>
+    <div class="pt-grid">
+      <!-- Locked placeholder cards -->
+      <div class="pt-card"><div class="pt-card-emoji">🍽️</div><div class="pt-card-name">Premium Restaurant</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹500 Off</div></div>
+      <div class="pt-card"><div class="pt-card-emoji">🥘</div><div class="pt-card-name">Celebrity Kitchen</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹350 Off</div></div>
+      <div class="pt-card"><div class="pt-card-emoji">🍣</div><div class="pt-card-name">Exclusive Diner</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹400 Off</div></div>
+      <div class="pt-cta-wrap">
+        <div class="pt-cta-text"><strong>20+ partner restaurants</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
+        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹2,499/yr →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CELEBRITY EVENTS SECTION -->
+  <div class="events-section" id="eventsSection">
+    <div class="section-hdr">
+      <div class="section-title">Celebrity Events</div>
+      <div class="section-badge" id="eventsSubBadge">🌟 Exclusive</div>
+    </div>
+    <div class="events-grid" id="eventsGrid">
+      <div class="empty">Loading events…</div>
+    </div>
+  </div>
+
+  <!-- REFERRAL SECTION -->
+  <div class="section-title" style="margin-bottom:1rem">Refer and Earn</div>
   <div class="ref-card">
     <div class="ref-title">Your Referral Code</div>
     <p class="ref-sub">Share with friends — earn <strong style="color:var(--gold)">500 points</strong> per referral. They get 300 bonus points on joining.</p>
@@ -203,12 +707,22 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
       <div class="ref-code" id="refCode">DWC-LOADING</div>
       <button class="ref-copy" onclick="copyRef()">Copy Link</button>
     </div>
+    <div class="ref-stats">
+      <div class="ref-stat-item">
+        <span class="ref-stat-num" id="refCount">0</span>
+        <span class="ref-stat-lbl">Referrals made</span>
+      </div>
+      <div class="ref-stat-item">
+        <span class="ref-stat-num" id="refPtsEarned">0</span>
+        <span class="ref-stat-lbl">Points from referrals</span>
+      </div>
+    </div>
   </div>
 
-</div>
+</div><!-- /.app -->
 
-<!-- UPGRADE POPUP -->
-<div class="overlay hidden" id="upgradeOverlay" onclick="closeOnOverlay(event,this)" data-close="upgradeOverlay">
+<!-- ── UPGRADE OVERLAY ── -->
+<div class="overlay hidden" id="upgradeOverlay">
   <div class="sheet">
     <div class="sheet-hdr">
       <div class="sheet-title" id="upgradeTitle">Unlock This Voucher</div>
@@ -216,566 +730,772 @@ body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif
     </div>
     <p class="sheet-sub" id="upgradeSub">Choose a plan to unlock this voucher and more exclusive benefits.</p>
     <div class="tier-cards">
-      <div class="tier-card t-gold selected" id="card-gold" onclick="selectTier(this)" data-tier="gold">
-        <div class="tc-name g">Gold</div><div class="tc-price">₹2,499/yr</div>
-        <ul class="tc-perks"><li>Restaurant discounts</li><li>Film event tickets</li><li>Celebrity events</li></ul>
+      <div class="tier-card c-gold selected" id="card-gold" data-tier="gold">
+        <div class="tc-name g">Gold</div>
+        <div class="tc-price">₹2,499/yr</div>
+        <ul class="tc-perks">
+          <li>10 restaurant vouchers</li>
+          <li>Celebrity event tickets</li>
+          <li>200 pts per visit</li>
+        </ul>
       </div>
-      <div class="tier-card t-platinum" id="card-platinum" onclick="selectTier(this)" data-tier="platinum">
-        <div class="tc-name p">Platinum</div><div class="tc-price">₹6,999/yr</div>
-        <ul class="tc-perks"><li>Everything in Gold</li><li>Priority booking</li><li>Premium seating</li></ul>
+      <div class="tier-card c-platinum" id="card-platinum" data-tier="platinum">
+        <div class="tc-name p">Platinum</div>
+        <div class="tc-price">₹6,999/yr</div>
+        <ul class="tc-perks">
+          <li>Unlimited vouchers</li>
+          <li>Priority booking</li>
+          <li>Concierge service</li>
+        </ul>
       </div>
-      <div class="tier-card t-purple" id="card-dwcpurple" onclick="selectTier(this)" data-tier="dwcpurple">
-        <div class="tc-name v">DWC Purple</div><div class="tc-price">₹14,999/yr</div>
-        <ul class="tc-perks"><li>Everything in Platinum</li><li>VIP access</li><li>Personal concierge</li></ul>
+      <div class="tier-card c-dwcpurple" id="card-dwcpurple" data-tier="dwcpurple">
+        <div class="tc-name v">DWC Purple</div>
+        <div class="tc-price">₹14,999/yr</div>
+        <ul class="tc-perks">
+          <li>VIP access everywhere</li>
+          <li>Personal concierge</li>
+          <li>Exclusive meet &amp; greets</li>
+        </ul>
       </div>
     </div>
-    <button class="upgrade-cta" onclick="goUpgrade()">Upgrade Now</button>
+    <button class="upgrade-cta" onclick="goUpgradeSelected()">Upgrade Now</button>
   </div>
 </div>
 
-<!-- PROFILE POPUP -->
-<div class="overlay hidden" id="profileOverlay" onclick="closeOnOverlay(event,this)" data-close="profileOverlay">
+<!-- ── PROFILE OVERLAY ── -->
+<div class="overlay hidden" id="profileOverlay">
   <div class="sheet">
     <div class="sheet-hdr">
-      <div class="profile-sheet-title">Complete Profile</div>
+      <div class="sheet-title">Complete Profile</div>
       <button class="sheet-close" onclick="closeProfile()">✕</button>
     </div>
     <div class="profile-reward">🎁 Earn 25 points on completion</div>
-    <p class="profile-sub">Help us personalise your vouchers and celebrity experiences.</p>
+    <p class="sheet-sub">Help us personalise your vouchers and celebrity experiences.</p>
+
     <div class="field">
       <label class="field-label">Movie Industry (pick any)</label>
       <div class="chips">
-        <div class="chip" data-k="ind" data-v="Tollywood" onclick="toggleChip(this)">Tollywood</div>
-        <div class="chip" data-k="ind" data-v="Bollywood" onclick="toggleChip(this)">Bollywood</div>
-        <div class="chip" data-k="ind" data-v="Sandalwood" onclick="toggleChip(this)">Sandalwood</div>
-        <div class="chip" data-k="ind" data-v="Kollywood" onclick="toggleChip(this)">Kollywood</div>
-        <div class="chip" data-k="ind" data-v="Mollywood" onclick="toggleChip(this)">Mollywood</div>
+        <div class="chip" data-group="ind" data-val="Tollywood">Tollywood</div>
+        <div class="chip" data-group="ind" data-val="Bollywood">Bollywood</div>
+        <div class="chip" data-group="ind" data-val="Sandalwood">Sandalwood</div>
+        <div class="chip" data-group="ind" data-val="Kollywood">Kollywood</div>
+        <div class="chip" data-group="ind" data-val="Mollywood">Mollywood</div>
       </div>
     </div>
+
     <div class="field">
       <label class="field-label">Your City</label>
       <div class="state-toggle">
-        <button class="state-btn active" id="btnTS" onclick="setPopState(this)" data-state="TS">Telangana</button>
-        <button class="state-btn" id="btnAP" onclick="setPopState(this)" data-state="AP">Andhra Pradesh</button>
-        <button class="state-btn" id="btnOT" onclick="setPopState(this)" data-state="OT">Other</button>
+        <button class="state-btn active" id="btnTS" data-state="TS">Telangana</button>
+        <button class="state-btn" id="btnAP" data-state="AP">Andhra Pradesh</button>
+        <button class="state-btn" id="btnOT" data-state="OT">Other</button>
       </div>
-      <select class="city-sel" id="popCity"><option value="">Select your city...</option></select>
+      <select class="city-sel" id="popCity">
+        <option value="">Select your city…</option>
+      </select>
     </div>
+
     <div class="field">
       <label class="field-label">Interests (pick any)</label>
       <div class="chips">
-        <div class="chip" data-k="int" data-v="Food and Dining" onclick="toggleChip(this)">Food</div>
-        <div class="chip" data-k="int" data-v="Sports" onclick="toggleChip(this)">Sports</div>
-        <div class="chip" data-k="int" data-v="Music" onclick="toggleChip(this)">Music</div>
-        <div class="chip" data-k="int" data-v="Business" onclick="toggleChip(this)">Business</div>
-        <div class="chip" data-k="int" data-v="Travel" onclick="toggleChip(this)">Travel</div>
-        <div class="chip" data-k="int" data-v="Fashion" onclick="toggleChip(this)">Fashion</div>
+        <div class="chip" data-group="int" data-val="Food and Dining">Food</div>
+        <div class="chip" data-group="int" data-val="Sports">Sports</div>
+        <div class="chip" data-group="int" data-val="Music">Music</div>
+        <div class="chip" data-group="int" data-val="Business">Business</div>
+        <div class="chip" data-group="int" data-val="Travel">Travel</div>
+        <div class="chip" data-group="int" data-val="Fashion">Fashion</div>
       </div>
     </div>
-    <button class="profile-save" id="profileSaveBtn" onclick="saveProfile()">Save and Earn 25 Points</button>
+
+    <button class="profile-save" id="profileSaveBtn">Save and Earn 25 Points</button>
   </div>
 </div>
 
-<!-- DEV PANEL -->
+<!-- ── DEV PANEL (rupeshking@gmail.com only) ── -->
 <div class="dev-panel" id="devPanel">
-  <div class="dev-panel-title">⚡ Dev Test Panel</div>
-  <button class="dev-btn" style="background:var(--gold);color:#06040A" onclick="devTier(this)" data-tier="gold">Set Gold</button>
-  <button class="dev-btn" style="background:rgba(192,192,192,0.15);color:#C0C0C0;border:1px solid #C0C0C0" onclick="devTier(this)" data-tier="platinum">Set Platinum</button>
-  <button class="dev-btn" style="background:rgba(124,58,237,0.15);color:#A78BFA;border:1px solid #A78BFA" onclick="devTier(this)" data-tier="dwcpurple">Set DWC Purple</button>
-  <button class="dev-btn" style="background:rgba(255,255,255,0.06);color:var(--sub);border:1px solid rgba(255,255,255,0.15)" onclick="devTier(this)" data-tier="free">Reset Free</button>
+  <div class="dev-panel-title">⚡ Dev Panel</div>
+  <button class="dev-btn" style="background:var(--gold);color:#06040A" data-dev-tier="gold">Set Gold</button>
+  <button class="dev-btn" style="background:rgba(192,192,192,.15);color:#C0C0C0;border:1px solid #C0C0C0" data-dev-tier="platinum">Set Platinum</button>
+  <button class="dev-btn" style="background:rgba(124,58,237,.15);color:#A78BFA;border:1px solid #A78BFA" data-dev-tier="dwcpurple">Set DWC Purple</button>
+  <button class="dev-btn" style="background:rgba(255,255,255,.06);color:var(--sub);border:1px solid rgba(255,255,255,.15)" data-dev-tier="free">Reset Free</button>
 </div>
 
+<!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 
 <script>
-var SURL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
-var SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
-var sbClient = supabase.createClient(SURL, SKEY);
-var DEV_EMAIL = 'rupeshking@gmail.com';
+(function() {
+  // ── CONFIG ──────────────────────────────────────────────────────────
+  const SB_URL  = 'https://blwqqqzhnovsveeryjlm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+  const DEV_EMAIL = 'rupeshking@gmail.com';
 
-var CITIES = {
-  TS:['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Nalgonda','Sangareddy','Medak','Adilabad','Mahabubnagar','Suryapet','Bhongir','Rangareddy','Mancherial','Siddipet'],
-  AP:['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Vizianagaram','Ongole'],
-  OT:['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Chandigarh','Other']
-};
+  const sbClient = supabase.createClient(SB_URL, SB_ANON);
 
-var TIERS = {
-  free:      { label:'FREE',       css:'free',      next:'Gold',       nextPrice:'₹2,499', desc:'Upgrade to Gold to unlock vouchers and celebrity events' },
-  gold:      { label:'GOLD',       css:'gold',      next:'Platinum',   nextPrice:'₹6,999', desc:'Upgrade to Platinum for premium vouchers and priority booking' },
-  platinum:  { label:'PLATINUM',   css:'platinum',  next:'DWC Purple', nextPrice:'₹14,999',desc:'Upgrade to DWC Purple for VIP access and personal concierge' },
-  dwcpurple: { label:'DWC PURPLE', css:'dwcpurple', next:null,         nextPrice:null,     desc:'You have our best membership. Enjoy unlimited VIP access!' }
-};
+  const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
+  const TIER_META = {
+    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹2,499', desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
+    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹6,999', desc: 'Upgrade to Platinum for unlimited vouchers and priority booking' },
+    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹14,999',desc: 'Upgrade to DWC Purple for VIP access and personal concierge' },
+    dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,     desc: 'You have our best membership. Enjoy unlimited VIP access!' }
+  };
 
-var TIER_RANK = { free:0, gold:1, platinum:2, dwcpurple:3 };
+  // Mock celebrity events shown while real data loads / as fallback
+  const DEMO_EVENTS = [
+    { title: 'Tollywood Dinner Gala',  meta: 'Exclusive 8-celebrity dinner · Hyderabad · Jul 2025', price: 70000, locked: true,  tag: 'Tollywood' },
+    { title: 'Cricket Legends Night',  meta: 'Meet &amp; dine with India cricket stars · Mumbai',    price: 55000, locked: true,  tag: 'Cricket'    },
+    { title: 'Bollywood Brunch',       meta: 'Sunday brunch with top Bollywood names · Delhi',       price: 48000, locked: false, tag: 'Bollywood'  },
+  ];
 
-var cu = null;
-var md = null;
-var myRedemptions = {};  // voucher_id → count
-var selInd = [];
-var selInt = [];
-var selectedUpgradeTier = 'gold';
+  // State
+  let cu  = null; // current auth user
+  let md  = null; // member data
+  let myRedemptions = {}; // voucher_id → count
+  let selInd = [], selInt = [];
+  let selectedUpgradeTier = 'gold';
+  let allCities = {}; // state → [city,...]
 
-// ── STARS ──
-(function(){
-  var bg = document.getElementById('stars');
-  for(var i=0;i<60;i++){
-    var s=document.createElement('span');
-    s.className='star'; s.textContent='★';
-    s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
-    s.style.setProperty('--d',(2+Math.random()*4)+'s');
-    s.style.setProperty('--del',Math.random()*5+'s');
-    s.style.setProperty('--op',(0.1+Math.random()*0.25)+'');
-    s.style.setProperty('--sz',(7+Math.random()*8)+'px');
-    bg.appendChild(s);
+  // ── STARS ──────────────────────────────────────────────────────────
+  (function buildStars() {
+    const bg = document.getElementById('stars');
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('span');
+      s.className = 'star';
+      s.textContent = '★';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top  = Math.random() * 100 + '%';
+      s.style.setProperty('--d',   (2 + Math.random() * 4) + 's');
+      s.style.setProperty('--del',  Math.random() * 6 + 's');
+      s.style.setProperty('--op',  (0.08 + Math.random() * 0.22) + '');
+      s.style.setProperty('--sz',  (6 + Math.random() * 8) + 'px');
+      bg.appendChild(s);
+    }
+  })();
+
+  // ── HELPERS ────────────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
   }
-})();
 
-// ── NAV ──
-function toggleDrop(){ document.getElementById('navDrop').classList.toggle('open'); }
-function closeDrop(){ document.getElementById('navDrop').classList.remove('open'); }
-document.addEventListener('click',function(e){ if(!e.target.closest('.nav-wrap')) closeDrop(); });
-function signOut(){ sbClient.auth.signOut().finally(function(){ window.location.href='/signin'; }); }
-
-// ── CHECK EXPIRY ──
-function isMembershipExpired(expiresAt) {
-  if (!expiresAt) return false;
-  return new Date(expiresAt) < new Date();
-}
-
-function daysUntilExpiry(expiresAt) {
-  if (!expiresAt) return null;
-  return Math.ceil((new Date(expiresAt) - new Date()) / 86400000);
-}
-
-function formatExpiry(expiresAt) {
-  if (!expiresAt) return '';
-  var d = new Date(expiresAt);
-  return d.toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-}
-
-// ── AUTH + INIT ──
-sbClient.auth.getSession().then(function(res) {
-  var sess = res.data && res.data.session;
-  if (!sess) { window.location.href = '/signin'; return; }
-  cu = sess.user;
-  return sbClient.from('members').select('*').eq('id', cu.id).single();
-}).then(function(r) {
-  if (!r || !r.data) {
-    var n = (cu.user_metadata && (cu.user_metadata.full_name || cu.user_metadata.name)) || cu.email.split('@')[0];
-    return sbClient.from('members').upsert(
-      { id:cu.id, email:cu.email, full_name:n, tier:'free', points:300 },
-      { onConflict:'id' }
-    ).then(function(){
-      return sbClient.from('members').select('*').eq('id',cu.id).single();
-    }).then(function(r2){ md=r2.data||{}; initDashboard(); });
+  function hideLoader() {
+    const l = document.getElementById('pageLoader');
+    l.classList.add('hidden');
+    setTimeout(() => l.remove(), 500);
   }
-  md = r.data || {};
-  initDashboard();
-});
 
-async function initDashboard() {
-  // Load redemptions for this user
-  var { data: reds } = await sbClient
-    .from('voucher_redemptions')
-    .select('voucher_id')
-    .eq('user_id', cu.id);
+  function showApp() {
+    document.getElementById('app').classList.add('visible');
+  }
 
-  if (reds) {
-    reds.forEach(function(r) {
-      myRedemptions[r.voucher_id] = (myRedemptions[r.voucher_id] || 0) + 1;
+  function isExpired(expiresAt) {
+    return expiresAt && new Date(expiresAt) < new Date();
+  }
+
+  function daysLeft(expiresAt) {
+    if (!expiresAt) return null;
+    return Math.ceil((new Date(expiresAt) - new Date()) / 86400000);
+  }
+
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function tierBadgeClass(tier) {
+    return { free: 'b-free', gold: 'b-gold', platinum: 'b-platinum', dwcpurple: 'b-dwcpurple' }[tier] || 'b-free';
+  }
+
+  function tierDisplayName(tier) {
+    return { free: 'Free', gold: 'Gold', platinum: 'Platinum', dwcpurple: 'DWC Purple' }[tier] || 'Free';
+  }
+
+  // ── NAV ────────────────────────────────────────────────────────────
+  function toggleDrop() { document.getElementById('navDrop').classList.toggle('open'); }
+  function closeDrop()  { document.getElementById('navDrop').classList.remove('open'); }
+  document.addEventListener('click', e => { if (!e.target.closest('.nav-wrap')) closeDrop(); });
+
+  function signOut() {
+    sbClient.auth.signOut().finally(() => { window.location.href = '/signin'; });
+  }
+
+  document.getElementById('navProfileLink').addEventListener('click', e => {
+    e.preventDefault();
+    closeDrop();
+    openProfile();
+  });
+
+  // ── AUTH + INIT ─────────────────────────────────────────────────────
+  sbClient.auth.getSession().then(({ data }) => {
+    if (!data.session) { window.location.href = '/signin'; return; }
+    cu = data.session.user;
+    return sbClient.from('members').select('*').eq('id', cu.id).single();
+  }).then(async res => {
+    if (!res) return;
+
+    if (!res.data) {
+      // New member — auto-create row
+      const name = (cu.user_metadata?.full_name || cu.user_metadata?.name || cu.email.split('@')[0]).split(' ')[0];
+      await sbClient.from('members').upsert(
+        { id: cu.id, email: cu.email, full_name: name, tier: 'free', points: 300 },
+        { onConflict: 'id' }
+      );
+      const { data: fresh } = await sbClient.from('members').select('*').eq('id', cu.id).single();
+      md = fresh || {};
+    } else {
+      md = res.data;
+    }
+
+    // Load redemptions
+    const { data: reds } = await sbClient
+      .from('voucher_redemptions').select('voucher_id').eq('user_id', cu.id);
+    if (reds) reds.forEach(r => { myRedemptions[r.voucher_id] = (myRedemptions[r.voucher_id] || 0) + 1; });
+
+    // Load cities from Supabase live
+    await loadCities();
+
+    // Render static UI
+    renderDashboard();
+    hideLoader();
+    showApp();
+
+    // Async: load vouchers + events + referral stats
+    await Promise.all([ loadVouchers(), loadReferralStats() ]);
+    renderEvents();
+
+  }).catch(err => {
+    console.error('Dashboard init error:', err);
+    window.location.href = '/signin';
+  });
+
+  // ── LOAD CITIES FROM SUPABASE ───────────────────────────────────────
+  async function loadCities() {
+    const { data } = await sbClient
+      .from('cities')
+      .select('city, state')
+      .eq('is_active', true)
+      .order('city', { ascending: true });
+
+    if (!data || data.length === 0) {
+      // Fallback hardcoded
+      allCities = {
+        TS: ['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Nalgonda','Sangareddy','Medak','Adilabad','Siddipet'],
+        AP: ['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur'],
+        OT: ['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Chandigarh','Other']
+      };
+      return;
+    }
+
+    const stateMap = { 'Telangana': 'TS', 'Andhra Pradesh': 'AP' };
+    allCities = { TS: [], AP: [], OT: [] };
+    data.forEach(row => {
+      const key = stateMap[row.state] || 'OT';
+      if (!allCities[key]) allCities[key] = [];
+      allCities[key].push(row.city);
     });
   }
 
-  render();
-  await loadVouchers();
-}
+  // ── RENDER DASHBOARD ────────────────────────────────────────────────
+  function renderDashboard() {
+    const tier     = (md.tier || 'free').toLowerCase();
+    const tm       = TIER_META[tier] || TIER_META.free;
+    const expired  = isExpired(md.expires_at);
+    const effTier  = (expired && tier !== 'free') ? 'free' : tier;
+    const effTm    = TIER_META[effTier] || TIER_META.free;
 
-// ── RENDER ──
-function render() {
-  var m    = md;
-  var tier = (m.tier || 'free').toLowerCase();
-  var tc   = TIERS[tier] || TIERS.free;
+    // ── Name ──
+    const rawName = md.full_name
+      || cu.user_metadata?.full_name
+      || cu.user_metadata?.name
+      || cu.email.split('@')[0];
+    const firstName = rawName.split(' ')[0];
+    const display   = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
 
-  // Check expiry — if expired, treat as free
-  var expired  = isMembershipExpired(m.expires_at);
-  var effTier  = (expired && tier !== 'free') ? 'free' : tier;
-  var effTc    = TIERS[effTier] || TIERS.free;
+    document.getElementById('memberName').textContent = display;
+    document.getElementById('navAvatar').textContent  = display[0].toUpperCase();
 
-  if (expired && tier !== 'free') {
-    document.getElementById('expiryBanner').style.display = 'flex';
-  }
-
-  // Name
-  var raw  = m.full_name || (cu.user_metadata && (cu.user_metadata.full_name || cu.user_metadata.name)) || cu.email.split('@')[0];
-  var name = raw.split(' ')[0];
-  name     = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-  document.getElementById('memberName').textContent  = name;
-  document.getElementById('navAvatar').textContent   = name[0].toUpperCase();
-
-  // Member ID
-  if (m.member_id) {
-    document.getElementById('memberIdText').textContent = m.member_id;
-    document.getElementById('memberIdDisplay').style.display = 'inline-flex';
-  }
-
-  // Points
-  var pts = m.points || 300;
-  document.getElementById('statPts').textContent   = pts.toLocaleString();
-  document.getElementById('navPts').textContent    = pts.toLocaleString() + ' pts';
-  document.getElementById('statCity').textContent  = m.city || '-';
-
-  // Celebrity ticket
-  var reduction   = Math.floor(pts / 100) * 500;
-  var ticketPrice = Math.max(70000 - reduction, 20000);
-  document.getElementById('statTicket').textContent    = '₹' + ticketPrice.toLocaleString();
-  document.getElementById('statTicketSub').textContent = reduction > 0 ? '₹' + reduction.toLocaleString() + ' saved so far' : 'Earn points to reduce';
-
-  // Tier banner
-  var banner = document.getElementById('tierBanner');
-  var tn     = document.getElementById('tierName');
-  var tub    = document.getElementById('tierUpgradeBtn');
-  var te     = document.getElementById('tierExpiry');
-
-  banner.className   = 'tier-banner ' + effTc.css;
-  tn.className       = 'tier-name ' + effTc.css;
-  tn.textContent     = (expired && tier !== 'free') ? 'EXPIRED — ' + tc.label : effTc.label + ' MEMBER';
-  document.getElementById('tierDesc').textContent = effTc.desc;
-
-  // Expiry display
-  if (m.expires_at) {
-    var days = daysUntilExpiry(m.expires_at);
-    if (expired) {
-      te.textContent  = 'Expired on ' + formatExpiry(m.expires_at);
-      te.className    = 'tier-expiry expiring-soon';
-    } else if (days <= 30) {
-      te.textContent  = '⚠️ Expires in ' + days + ' days (' + formatExpiry(m.expires_at) + ')';
-      te.className    = 'tier-expiry expiring-soon';
-    } else {
-      te.textContent  = 'Valid until ' + formatExpiry(m.expires_at);
-      te.className    = 'tier-expiry';
+    // ── Member ID ──
+    if (md.member_id) {
+      document.getElementById('memberIdText').textContent = md.member_id;
+      document.getElementById('memberIdChip').style.display = 'inline-flex';
     }
-  }
 
-  if (effTc.next) {
-    tub.classList.remove('hidden');
-    tub.textContent = expired ? 'Renew Now' : 'Upgrade to ' + effTc.next + ' — ' + effTc.nextPrice;
-  } else {
-    tub.classList.add('hidden');
-  }
+    // ── Points ──
+    const pts = md.points || 300;
+    document.getElementById('statPts').textContent  = pts.toLocaleString();
+    document.getElementById('navPts').textContent   = pts.toLocaleString() + ' pts';
+    document.getElementById('statCity').textContent = md.city || '–';
 
-  // Profile banner
-  var profileDone = m.city && m.interests && m.interests.length > 0;
-  if (!profileDone) {
-    document.getElementById('profileBanner').style.display = 'flex';
-    if (!sessionStorage.getItem('dwc_pop_shown')) {
-      sessionStorage.setItem('dwc_pop_shown','1');
-      setTimeout(openProfile, 1400);
-    }
-  }
+    // ── Celebrity ticket reduction ──
+    const reduction  = Math.floor(pts / 100) * 500;
+    const ticketAmt  = Math.max(70000 - reduction, 20000);
+    document.getElementById('statTicket').textContent    = '₹' + ticketAmt.toLocaleString();
+    document.getElementById('statTicketSub').textContent = reduction > 0
+      ? '₹' + reduction.toLocaleString() + ' saved via points'
+      : 'Earn points to reduce';
 
-  // Referral code
-  document.getElementById('refCode').textContent = m.referral_code || ('DWC-' + name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6) + Math.floor(1000+Math.random()*9000));
+    // ── Tier banner ──
+    const banner = document.getElementById('tierBanner');
+    const tn     = document.getElementById('tierName');
+    const te     = document.getElementById('tierExpiry');
+    const tub    = document.getElementById('tierUpgradeBtn');
 
-  prefill(m);
-  if (cu.email === DEV_EMAIL) document.getElementById('devPanel').style.display = 'block';
+    banner.className = 'tier-banner t-' + effTm.css;
+    tn.className     = 'tier-name c-' + effTm.css;
+    tn.textContent   = (expired && tier !== 'free')
+      ? 'EXPIRED — ' + tm.label
+      : effTm.label + ' MEMBER';
+    document.getElementById('tierDesc').textContent = effTm.desc;
 
-  if (location.search.indexOf('upgraded=1') > -1) {
-    showToast('Membership upgraded! Welcome to ' + tc.label);
-    history.replaceState({},'','/dashboard');
-  }
-}
-
-// ── LOAD LIVE VOUCHERS FROM SUPABASE ──
-async function loadVouchers() {
-  var grid = document.getElementById('vouchersGrid');
-  var tier = (md.tier || 'free').toLowerCase();
-  var now  = new Date();
-
-  // If membership expired → treat as free
-  var expired = isMembershipExpired(md.expires_at);
-  var effTier = (expired && tier !== 'free') ? 'free' : tier;
-  var effRank = TIER_RANK[effTier] || 0;
-
-  // Fetch all active vouchers from Supabase
-  var { data: vouchers, error } = await sbClient
-    .from('vouchers')
-    .select('*')
-    .eq('is_active', true)
-    .gt('partner_expiry', now.toISOString())
-    .order('tier_required', { ascending: true });
-
-  if (error || !vouchers || vouchers.length === 0) {
-    grid.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0">No vouchers available in your city yet. Check back soon!</div>';
-    document.getElementById('statV').textContent = '0';
-    return;
-  }
-
-  // ── City filter: member's city first, then others ──
-  var memberCity = (md.city || '').toLowerCase().trim();
-  var cityVouchers  = [];
-  var otherVouchers = [];
-
-  vouchers.forEach(function(v) {
-    if (!memberCity || v.city.toLowerCase().trim() === memberCity) {
-      cityVouchers.push(v);
-    } else {
-      otherVouchers.push(v);
-    }
-  });
-
-  // Show city vouchers first, then others with a separator
-  var sortedVouchers = cityVouchers.concat(otherVouchers);
-  var showCitySeparator = memberCity && cityVouchers.length > 0 && otherVouchers.length > 0;
-  var otherSeparatorIndex = cityVouchers.length;
-
-  var html           = '';
-  var availableCount = 0;
-  var voucherIndex   = 0;
-
-  sortedVouchers.forEach(function(v) {
-    var voucherRank  = TIER_RANK[v.tier_required] || 0;
-    var unlocked     = effRank >= voucherRank;
-    var userRedeemed = myRedemptions[v.id] || 0;
-    var canRedeem    = unlocked
-      && !expired
-      && v.total_redemptions < v.max_redemptions
-      && userRedeemed < v.per_user_limit;
-
-    var badgeClass   = v.tier_required === 'free' ? 'badge-free'
-      : v.tier_required === 'gold'      ? 'badge-gold'
-      : v.tier_required === 'platinum'  ? 'badge-platinum' : 'badge-purple';
-    var badgeLabel   = v.tier_required === 'free' ? 'Free'
-      : v.tier_required === 'gold'      ? 'Gold'
-      : v.tier_required === 'platinum'  ? 'Platinum' : 'DWC Purple';
-
-    // Expiry display
-    var vDays        = Math.ceil((new Date(v.partner_expiry) - now) / 86400000);
-    var expiryClass  = vDays <= 7 ? 'voucher-expiry expiring-soon' : 'voucher-expiry';
-    var expiryText   = vDays <= 7
-      ? '⚠️ Expires in ' + vDays + ' day' + (vDays === 1 ? '' : 's')
-      : 'Valid until ' + new Date(v.partner_expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-
-    // Insert separator before other-city vouchers
-    if (showCitySeparator && voucherIndex === otherSeparatorIndex) {
-      html += '<div style="grid-column:1/-1;padding:.5rem 0;font-size:.78rem;color:var(--muted);border-top:1px solid rgba(255,255,255,.06);margin-top:.5rem">📍 Vouchers in other cities</div>';
-    }
-    voucherIndex++;
-
-    if (unlocked) availableCount++;
-
-    // Dim other-city vouchers slightly
-    var isOtherCity = memberCity && v.city.toLowerCase().trim() !== memberCity;
-    html += '<div class="voucher' + (unlocked ? '' : ' voucher-locked') + '"' + (isOtherCity ? ' style="opacity:.65"' : '') + '>';
-    html += '<span class="voucher-badge ' + badgeClass + '">' + badgeLabel + '</span>';
-    html += '<div class="voucher-title">' + v.title + '</div>';
-    html += '<div class="voucher-desc">' + (v.description || '') + '</div>';
-    html += '<div class="voucher-disc">₹' + v.discount_amount + ' Off</div>';
-    html += '<div class="voucher-city">' + v.city + (isOtherCity ? ' 📍' : '') + ' · Min bill ₹' + v.min_bill.toLocaleString() + '</div>';
-    html += '<div class="' + expiryClass + '">' + expiryText + '</div>';
-
-    if (unlocked) {
-      if (userRedeemed >= v.per_user_limit) {
-        html += '<button class="voucher-redeem" disabled>Already Redeemed</button>';
-      } else if (v.total_redemptions >= v.max_redemptions) {
-        html += '<button class="voucher-redeem" disabled>Fully Redeemed</button>';
-      } else if (expired) {
-        html += '<button class="voucher-redeem" disabled>Membership Expired</button>';
+    if (md.expires_at) {
+      const days = daysLeft(md.expires_at);
+      if (expired) {
+        te.textContent = 'Expired on ' + fmtDate(md.expires_at);
+        te.className   = 'tier-expiry warn';
+      } else if (days !== null && days <= 30) {
+        te.textContent = '⚠️ Expires in ' + days + ' day' + (days === 1 ? '' : 's') + ' (' + fmtDate(md.expires_at) + ')';
+        te.className   = 'tier-expiry warn';
       } else {
-        html += '<button class="voucher-redeem" onclick="redeemVoucher(\'' + v.id + '\',\'' + v.title.replace(/'/g,"\\'") + '\',this)">Redeem Voucher</button>';
+        te.textContent = 'Valid until ' + fmtDate(md.expires_at);
+        te.className   = 'tier-expiry';
       }
-    } else {
-      var reqLabel = v.tier_required === 'gold' ? 'Gold' : v.tier_required === 'platinum' ? 'Platinum' : 'DWC Purple';
-      html += '<div class="voucher-overlay" onclick="showUpgradePopup(\'' + v.tier_required + '\',\'' + v.title.replace(/'/g,"\\'") + '\')">';
-      html += '<div class="voucher-lock-icon">🔒</div>';
-      html += '<div class="voucher-lock-label">Unlock with ' + reqLabel + '</div>';
-      html += '<div class="voucher-lock-tier">Tap to upgrade</div>';
-      html += '</div>';
     }
-    html += '</div>';
+
+    if (effTm.next) {
+      tub.classList.remove('hidden');
+      tub.textContent = expired
+        ? 'Renew Now'
+        : 'Upgrade to ' + effTm.nextLabel + ' — ' + effTm.nextPrice;
+    } else {
+      tub.classList.add('hidden');
+    }
+
+    // ── Expiry banner ──
+    if (expired && tier !== 'free') {
+      document.getElementById('expiryBanner').style.display = 'flex';
+    }
+
+    // ── Profile banner ──
+    const profileDone = md.city && md.interests && md.interests.length > 0;
+    if (!profileDone) {
+      document.getElementById('profileBanner').style.display = 'flex';
+      // Show popup once per day (not every session)
+      const lastShown = localStorage.getItem('dwc_profile_pop');
+      const oneDayAgo = Date.now() - 86400000;
+      if (!lastShown || Number(lastShown) < oneDayAgo) {
+        localStorage.setItem('dwc_profile_pop', Date.now());
+        setTimeout(openProfile, 1800);
+      }
+    }
+
+    // ── Partner restaurants teaser (free only) ──
+    if (effTier === 'free') {
+      document.getElementById('partnerTeaser').style.display = 'block';
+    }
+
+    // ── Referral code ──
+    const code = md.referral_code || ('DWC-' + display.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6) + Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('refCode').textContent = code;
+
+    // ── Dev panel ──
+    if (cu.email === DEV_EMAIL) document.getElementById('devPanel').style.display = 'block';
+
+    // ── Prefill profile chips ──
+    prefillProfile();
+
+    // ── Upgrade success toast ──
+    if (location.search.includes('upgraded=1')) {
+      showToast('Membership upgraded! Welcome to ' + tm.label + ' 🎉');
+      history.replaceState({}, '', '/dashboard');
+    }
+  }
+
+  // ── LOAD VOUCHERS ───────────────────────────────────────────────────
+  async function loadVouchers() {
+    const grid  = document.getElementById('vouchersGrid');
+    const badge = document.getElementById('voucherCountBadge');
+    const tier  = (md.tier || 'free').toLowerCase();
+    const expired  = isExpired(md.expires_at);
+    const effTier  = (expired && tier !== 'free') ? 'free' : tier;
+    const effRank  = TIER_RANK[effTier] || 0;
+    const memberCity = (md.city || '').toLowerCase().trim();
+    const now = new Date();
+
+    const { data: vouchers, error } = await sbClient
+      .from('vouchers')
+      .select('*')
+      .eq('is_active', true)
+      .gt('partner_expiry', now.toISOString())
+      .order('tier_required', { ascending: true });
+
+    if (error || !vouchers || vouchers.length === 0) {
+      grid.innerHTML = '<div class="empty">No vouchers available in your city yet — we\'re onboarding partners. Check back soon!</div>';
+      badge.textContent = '0 available';
+      document.getElementById('statV').textContent = '0';
+      return;
+    }
+
+    // Sort: city-matching first
+    const cityVouchers  = vouchers.filter(v => !memberCity || v.city?.toLowerCase().trim() === memberCity);
+    const otherVouchers = vouchers.filter(v => memberCity  && v.city?.toLowerCase().trim() !== memberCity);
+    const sorted = cityVouchers.concat(otherVouchers);
+    const showSep = memberCity && cityVouchers.length > 0 && otherVouchers.length > 0;
+
+    let html = '';
+    let availCount = 0;
+
+    // No local vouchers message
+    if (memberCity && cityVouchers.length === 0 && otherVouchers.length > 0) {
+      html += `<div style="grid-column:1/-1;background:rgba(242,183,5,.05);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:.85rem 1rem;font-size:.82rem;color:var(--sub)">
+        🏙️ No vouchers in <strong style="color:var(--gold)">${md.city}</strong> yet — we're onboarding partners. Showing vouchers from other cities below.
+      </div>`;
+    }
+
+    sorted.forEach((v, idx) => {
+      const vRank     = TIER_RANK[v.tier_required] || 0;
+      const unlocked  = effRank >= vRank;
+      const redeemed  = myRedemptions[v.id] || 0;
+      const canRedeem = unlocked && !expired
+        && v.total_redemptions < v.max_redemptions
+        && redeemed < v.per_user_limit;
+
+      const isOther   = memberCity && v.city?.toLowerCase().trim() !== memberCity;
+      const vDays     = Math.ceil((new Date(v.partner_expiry) - now) / 86400000);
+      const expClass  = vDays <= 7 ? 'voucher-expiry warn' : 'voucher-expiry';
+      const expText   = vDays <= 7
+        ? `⚠️ Expires in ${vDays} day${vDays === 1 ? '' : 's'}`
+        : `Valid until ${new Date(v.partner_expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`;
+
+      if (unlocked) availCount++;
+
+      if (showSep && idx === cityVouchers.length) {
+        html += `<div class="voucher-divider">📍 Vouchers in other cities</div>`;
+      }
+
+      html += `<div class="voucher${unlocked ? '' : ' voucher-locked'}"${isOther ? ' style="opacity:.65"' : ''} data-voucher-id="${v.id}">`;
+      html += `<span class="voucher-badge ${tierBadgeClass(v.tier_required)}">${tierDisplayName(v.tier_required)}</span>`;
+      html += `<div class="voucher-title">${v.title}</div>`;
+      html += `<div class="voucher-desc">${v.description || ''}</div>`;
+      html += `<div class="voucher-disc">₹${v.discount_amount} Off</div>`;
+      html += `<div class="voucher-meta">${v.city}${isOther ? ' 📍' : ''} · Min bill ₹${v.min_bill.toLocaleString()}</div>`;
+      html += `<div class="${expClass}">${expText}</div>`;
+
+      if (unlocked) {
+        if (redeemed >= v.per_user_limit) {
+          html += `<button class="voucher-redeem" disabled>Already Redeemed</button>`;
+        } else if (v.total_redemptions >= v.max_redemptions) {
+          html += `<button class="voucher-redeem" disabled>Fully Redeemed</button>`;
+        } else if (expired) {
+          html += `<button class="voucher-redeem" disabled>Membership Expired</button>`;
+        } else {
+          // ✅ DATA ATTRIBUTES — no onclick quoting issues
+          html += `<button class="voucher-redeem" data-action="redeem" data-voucher-id="${v.id}" data-voucher-title="${v.title.replace(/"/g,'&quot;')}">Redeem Voucher</button>`;
+        }
+      } else {
+        html += `<div class="voucher-overlay" data-action="upgrade" data-tier="${v.tier_required}" data-title="${v.title.replace(/"/g,'&quot;')}">`;
+        html += `<div class="vl-icon">🔒</div>`;
+        html += `<div class="vl-label">Unlock with ${tierDisplayName(v.tier_required)}</div>`;
+        html += `<div class="vl-tier">Tap to upgrade</div>`;
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+
+    grid.innerHTML = html || '<div class="empty">No vouchers available yet. Check back soon!</div>';
+    document.getElementById('statV').textContent = availCount;
+    badge.textContent = availCount + ' available';
+  }
+
+  // ── EVENT DELEGATION for voucher grid ───────────────────────────────
+  document.getElementById('vouchersGrid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === 'redeem') {
+      redeemVoucher(btn.dataset.voucherId, btn.dataset.voucherTitle, btn);
+    } else if (action === 'upgrade') {
+      showUpgradePopup(btn.dataset.tier, btn.dataset.title);
+    }
   });
 
-  // If no vouchers in member's city, show message at top
-  if (memberCity && cityVouchers.length === 0 && otherVouchers.length > 0) {
-    html = '<div style="grid-column:1/-1;background:rgba(242,183,5,.05);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:.85rem 1rem;font-size:.82rem;color:var(--sub);margin-bottom:.5rem">🏙️ No vouchers in <strong style="color:var(--gold)">' + md.city + '</strong> yet — we\'re onboarding partners. Showing vouchers from other cities below.</div>' + html;
+  // ── REDEEM VOUCHER (atomic) ─────────────────────────────────────────
+  async function redeemVoucher(voucherId, voucherTitle, btn) {
+    if (!voucherId || !cu) return;
+    btn.disabled = true;
+    btn.textContent = 'Redeeming…';
+
+    if (isExpired(md.expires_at)) {
+      showToast('Your membership has expired. Please renew.');
+      btn.disabled = false;
+      btn.textContent = 'Redeem Voucher';
+      return;
+    }
+
+    const { data: result, error } = await sbClient.rpc('redeem_voucher_atomic', {
+      p_voucher_id:    voucherId,
+      p_user_id:       cu.id,
+      p_member_id_text: md.member_id || null,
+      p_member_tier:   md.tier || 'free',
+    });
+
+    if (error || !result?.success) {
+      const reason = result?.reason || 'Redemption failed. Please try again.';
+      showToast(reason);
+      btn.disabled = false;
+      btn.textContent = 'Redeem Voucher';
+      return;
+    }
+
+    // Log activity (non-blocking)
+    if (md.member_id) {
+      sbClient.from('member_activity').insert({
+        member_id:     md.member_id,
+        member_uuid:   cu.id,
+        activity_type: 'voucher_redeem',
+        activity_data: { voucher_id: voucherId, voucher_title: voucherTitle, tier: md.tier },
+        city:          md.city || null,
+      });
+    }
+
+    myRedemptions[voucherId] = (myRedemptions[voucherId] || 0) + 1;
+    btn.textContent = 'Redeemed ✓';
+    showToast('Voucher redeemed! Show this screen to the restaurant. 🎉');
+    setTimeout(loadVouchers, 2000);
   }
 
-  grid.innerHTML = html || '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0">No vouchers available yet. Check back soon!</div>';
-  document.getElementById('statV').textContent = availableCount;
-}
+  // ── CELEBRITY EVENTS ────────────────────────────────────────────────
+  function renderEvents() {
+    const tier    = (md.tier || 'free').toLowerCase();
+    const expired = isExpired(md.expires_at);
+    const effTier = (expired && tier !== 'free') ? 'free' : tier;
+    const effRank = TIER_RANK[effTier] || 0;
+    const grid    = document.getElementById('eventsGrid');
 
-// ── REDEEM VOUCHER ──
-async function redeemVoucher(voucherId, voucherTitle, btn) {
-  btn.disabled   = true;
-  btn.textContent = 'Redeeming...';
+    const events = DEMO_EVENTS; // Replace with Supabase fetch when events table exists
 
-  // Double-check subscription active
-  if (isMembershipExpired(md.expires_at)) {
-    showToast('Your membership has expired. Please renew.');
-    btn.disabled   = false;
-    btn.textContent = 'Redeem Voucher';
-    return;
+    const html = events.map(ev => {
+      const locked     = ev.locked || effRank < 1;
+      const reduction  = Math.floor((md.points || 300) / 100) * 500;
+      const finalPrice = Math.max(ev.price - (locked ? 0 : reduction), ev.price * 0.3);
+
+      return `<div class="event-card${locked ? ' locked' : ''}">
+        <span class="event-tag">${ev.tag}</span>
+        <div class="event-title">${ev.title}</div>
+        <div class="event-meta">${ev.meta}</div>
+        <div class="event-price">
+          ₹${finalPrice.toLocaleString()}
+          <span>${locked ? '' : (reduction > 0 ? '· ' + reduction.toLocaleString() + ' pts applied' : '')}</span>
+        </div>
+        ${locked
+          ? `<button class="event-action locked-btn" data-action="event-upgrade" data-tier="gold" data-title="${ev.title.replace(/"/g,'&quot;')}">🔒 Unlock with Gold</button>`
+          : `<button class="event-action book-btn" data-action="book-event">Book Seat →</button>`
+        }
+      </div>`;
+    }).join('');
+
+    grid.innerHTML = html || '<div class="empty">No upcoming events. Check back soon!</div>';
+    document.getElementById('eventsSubBadge').textContent = effRank < 1 ? '🔒 Gold+' : '🌟 Exclusive';
   }
 
-  // ── Atomic redemption — check + insert + increment in ONE DB transaction ──
-  // Prevents race conditions where two requests pass the limit check simultaneously
-  var { data: result, error } = await sbClient.rpc('redeem_voucher_atomic', {
-    p_voucher_id:      voucherId,
-    p_user_id:         cu.id,
-    p_member_id_text:  md.member_id || null,
-    p_member_tier:     md.tier || 'free',
+  // ── EVENT DELEGATION for events grid ───────────────────────────────
+  document.getElementById('eventsGrid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'event-upgrade') showUpgradePopup(btn.dataset.tier, btn.dataset.title);
+    if (btn.dataset.action === 'book-event')   location.href = '/events';
   });
 
-  if (error || !result || !result.success) {
-    var reason = (result && result.reason) || 'Redemption failed. Please try again.';
-    showToast(reason);
-    btn.disabled    = false;
-    btn.textContent = 'Redeem Voucher';
-    return;
+  // ── REFERRAL STATS ───────────────────────────────────────────────────
+  async function loadReferralStats() {
+    if (!md.referral_code) return;
+    const { count } = await sbClient
+      .from('members')
+      .select('*', { count: 'exact', head: true })
+      .eq('referred_by', md.referral_code);
+    const refCount = count || 0;
+    document.getElementById('refCount').textContent     = refCount;
+    document.getElementById('refPtsEarned').textContent = (refCount * 500).toLocaleString();
   }
 
-  // Log activity (non-critical — don't block on failure)
-  if (md.member_id) {
-    sbClient.from('member_activity').insert({
-      member_id:     md.member_id,
-      member_uuid:   cu.id,
-      activity_type: 'voucher_redeem',
-      activity_data: { voucher_id: voucherId, voucher_title: voucherTitle, tier: md.tier },
-      city:          md.city || null,
+  // ── UPGRADE POPUP ───────────────────────────────────────────────────
+  function showUpgradePopup(reqTier, title) {
+    selectedUpgradeTier = reqTier;
+    const reqLabel = tierDisplayName(reqTier);
+    document.getElementById('upgradeTitle').textContent = title ? `Unlock: ${title}` : 'Choose Your Plan';
+    document.getElementById('upgradeSub').textContent   = title
+      ? `This requires ${reqLabel} or above.`
+      : 'Pick a plan to unlock exclusive dining experiences.';
+
+    ['gold','platinum','dwcpurple'].forEach(t => {
+      document.getElementById('card-' + t)?.classList.remove('selected');
+    });
+    document.getElementById('card-' + reqTier)?.classList.add('selected');
+    document.getElementById('upgradeOverlay').classList.remove('hidden');
+  }
+
+  function closeUpgrade() { document.getElementById('upgradeOverlay').classList.add('hidden'); }
+
+  function goUpgradeSelected() { window.location.href = '/upgrade?tier=' + selectedUpgradeTier; }
+
+  // Tier card selection
+  document.getElementById('upgradeOverlay').addEventListener('click', e => {
+    const card = e.target.closest('.tier-card');
+    if (card) {
+      selectedUpgradeTier = card.dataset.tier;
+      document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+    if (e.target === document.getElementById('upgradeOverlay')) closeUpgrade();
+  });
+
+  // ── PROFILE ─────────────────────────────────────────────────────────
+  function openProfile()  { buildCityDropdown(md?.city ? detectState(md.city) : 'TS'); document.getElementById('profileOverlay').classList.remove('hidden'); }
+  function closeProfile() { document.getElementById('profileOverlay').classList.add('hidden'); }
+
+  document.getElementById('profileOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('profileOverlay')) closeProfile();
+  });
+
+  function detectState(city) {
+    if (!allCities.TS || !allCities.AP) return 'TS';
+    if (allCities.TS.includes(city)) return 'TS';
+    if (allCities.AP.includes(city)) return 'AP';
+    return 'OT';
+  }
+
+  function buildCityDropdown(state) {
+    document.querySelectorAll('.state-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.state === state);
+    });
+    const cities = allCities[state] || [];
+    let opts = '<option value="">Select your city…</option>';
+    cities.forEach(c => { opts += `<option value="${c}">${c}</option>`; });
+    const sel = document.getElementById('popCity');
+    sel.innerHTML = opts;
+    if (md?.city && cities.includes(md.city)) sel.value = md.city;
+  }
+
+  document.querySelectorAll('.state-btn').forEach(btn => {
+    btn.addEventListener('click', () => buildCityDropdown(btn.dataset.state));
+  });
+
+  // Chip toggling via event delegation
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('on');
+      const arr = chip.dataset.group === 'ind' ? selInd : selInt;
+      const val = chip.dataset.val;
+      const idx = arr.indexOf(val);
+      if (chip.classList.contains('on')) { if (idx === -1) arr.push(val); }
+      else { if (idx > -1) arr.splice(idx, 1); }
+    });
+  });
+
+  function prefillProfile() {
+    if (!md) return;
+    const state = detectState(md.city);
+    buildCityDropdown(state);
+    if (md.interests?.length) {
+      md.interests.forEach(v => {
+        const c = document.querySelector(`.chip[data-group="int"][data-val="${v}"]`);
+        if (c) { c.classList.add('on'); if (!selInt.includes(v)) selInt.push(v); }
+      });
+    }
+    if (md.movie_industry?.length) {
+      md.movie_industry.forEach(v => {
+        const c = document.querySelector(`.chip[data-group="ind"][data-val="${v}"]`);
+        if (c) { c.classList.add('on'); if (!selInd.includes(v)) selInd.push(v); }
+      });
+    }
+  }
+
+  document.getElementById('profileSaveBtn').addEventListener('click', saveProfile);
+
+  async function saveProfile() {
+    const city = document.getElementById('popCity').value;
+    const btn  = document.getElementById('profileSaveBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    const wasDone = md?.city && md?.interests?.length > 0;
+    const update = { onboarded: true };
+    if (city)           update.city           = city;
+    if (selInt.length)  update.interests      = selInt;
+    if (selInd.length)  update.movie_industry = selInd;
+    if (!wasDone)       update.points         = (md.points || 300) + 25;
+
+    const { error } = await sbClient.from('members').update(update).eq('id', cu.id);
+
+    if (error) {
+      showToast('Error saving. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Save and Earn 25 Points';
+      return;
+    }
+
+    Object.assign(md, update);
+    if (update.points) {
+      document.getElementById('statPts').textContent = update.points.toLocaleString();
+      document.getElementById('navPts').textContent  = update.points.toLocaleString() + ' pts';
+    }
+    if (update.city) document.getElementById('statCity').textContent = update.city;
+    document.getElementById('profileBanner').style.display = 'none';
+    closeProfile();
+    showToast(wasDone ? 'Profile updated!' : '✅ Profile complete! +25 points earned');
+    btn.disabled = false;
+    btn.textContent = 'Save and Earn 25 Points';
+    loadVouchers(); // Reload with new city filter
+  }
+
+  // ── REFERRAL ────────────────────────────────────────────────────────
+  function copyRef() {
+    const code = document.getElementById('refCode').textContent.trim();
+    const link = 'https://www.dinewithcelebrity.com/signup?ref=' + code;
+    navigator.clipboard.writeText(link).then(() => {
+      showToast('Referral link copied!');
+    }).catch(() => {
+      showToast('Your code: ' + code);
     });
   }
 
-  // Update local redemption count
-  myRedemptions[voucherId] = (myRedemptions[voucherId] || 0) + 1;
-
-  btn.textContent = 'Redeemed ✓';
-  showToast('Voucher redeemed! Show this to the restaurant.');
-
-  // Reload vouchers after 2s to reflect updated state
-  setTimeout(loadVouchers, 2000);
-}
-
-// ── UPGRADE POPUP ──
-function showUpgradePopup(reqTier, voucherName) {
-  selectedUpgradeTier = reqTier;
-  document.getElementById('upgradeTitle').textContent = 'Unlock ' + voucherName;
-  var reqLabel = reqTier === 'gold' ? 'Gold' : reqTier === 'platinum' ? 'Platinum' : 'DWC Purple';
-  document.getElementById('upgradeSub').textContent   = 'This voucher requires ' + reqLabel + ' or above.';
-  ['gold','platinum','dwcpurple'].forEach(function(t){
-    var el = document.getElementById('card-' + t);
-    if (el) el.classList.remove('selected');
-  });
-  var sel = document.getElementById('card-' + reqTier);
-  if (sel) sel.classList.add('selected');
-  document.getElementById('upgradeOverlay').classList.remove('hidden');
-}
-function closeUpgrade(){ document.getElementById('upgradeOverlay').classList.add('hidden'); }
-function closeOnOverlay(e,el){ var id=el.getAttribute('data-close'); if(e.target===el) document.getElementById(id).classList.add('hidden'); }
-function selectTier(el){
-  var t=el.dataset.tier; selectedUpgradeTier=t;
-  ['gold','platinum','dwcpurple'].forEach(function(x){ var c=document.getElementById('card-'+x); if(c) c.classList.remove('selected'); });
-  var s=document.getElementById('card-'+t); if(s) s.classList.add('selected');
-}
-function goUpgrade(){ window.location.href='/upgrade'; }
-
-// ── PROFILE ──
-function openProfile(){ document.getElementById('profileOverlay').classList.remove('hidden'); }
-function closeProfile(){ document.getElementById('profileOverlay').classList.add('hidden'); }
-
-function setPopState(el){
-  var s=(typeof el==='string')?el:el.dataset.state;
-  ['TS','AP','OT'].forEach(function(k){ document.getElementById('btn'+k).classList.remove('active'); });
-  document.getElementById('btn'+s).classList.add('active');
-  var cities=CITIES[s]||[];
-  var opts='<option value="">Select your city...</option>';
-  cities.forEach(function(c){ opts+='<option value="'+c+'">'+c+'</option>'; });
-  document.getElementById('popCity').innerHTML=opts;
-}
-
-function toggleChip(el){
-  el.classList.toggle('on');
-  var arr=el.dataset.k==='ind'?selInd:selInt;
-  var v=el.dataset.v;
-  if(el.classList.contains('on')){ if(arr.indexOf(v)===-1) arr.push(v); }
-  else{ var idx=arr.indexOf(v); if(idx>-1) arr.splice(idx,1); }
-}
-
-function prefill(m){
-  if(m.city){
-    if(CITIES.TS.indexOf(m.city)>-1) setPopState('TS');
-    else if(CITIES.AP.indexOf(m.city)>-1) setPopState('AP');
-    else setPopState('OT');
-    document.getElementById('popCity').value=m.city;
-  } else { setPopState('TS'); }
-  if(m.interests&&m.interests.length){
-    m.interests.forEach(function(v){ var c=document.querySelector('.chip[data-k="int"][data-v="'+v+'"]'); if(c){c.classList.add('on');if(selInt.indexOf(v)===-1)selInt.push(v);} });
+  // ── MEMBER ID ───────────────────────────────────────────────────────
+  function copyMemberId() {
+    const mid  = document.getElementById('memberIdText').textContent;
+    const chip = document.getElementById('memberIdChip');
+    if (!mid) return;
+    navigator.clipboard.writeText(mid).then(() => {
+      const orig = chip.innerHTML;
+      chip.innerHTML = '✔ Copied!';
+      chip.classList.add('copied');
+      setTimeout(() => { chip.innerHTML = orig; chip.classList.remove('copied'); }, 1500);
+    });
   }
-  if(m.movie_industry&&m.movie_industry.length){
-    m.movie_industry.forEach(function(v){ var c=document.querySelector('.chip[data-k="ind"][data-v="'+v+'"]'); if(c){c.classList.add('on');if(selInd.indexOf(v)===-1)selInd.push(v);} });
-  }
-}
 
-function saveProfile(){
-  var city=document.getElementById('popCity').value;
-  var btn=document.getElementById('profileSaveBtn');
-  btn.disabled=true; btn.textContent='Saving...';
-  var wasDone=md&&md.city&&md.interests&&md.interests.length>0;
-  var u={onboarded:true};
-  if(city) u.city=city;
-  if(selInt.length) u.interests=selInt;
-  if(selInd.length) u.movie_industry=selInd;
-  if(!wasDone) u.points=(md.points||300)+25;
-  sbClient.from('members').update(u).eq('id',cu.id).then(function(r){
-    if(r.error){ showToast('Error saving. Try again.'); btn.disabled=false; btn.textContent='Save and Earn 25 Points'; return; }
-    Object.assign(md,u);
-    if(u.points){ document.getElementById('statPts').textContent=u.points.toLocaleString(); document.getElementById('navPts').textContent=u.points.toLocaleString()+' pts'; }
-    if(u.city) document.getElementById('statCity').textContent=u.city;
-    document.getElementById('profileBanner').style.display='none';
-    closeProfile();
-    showToast(wasDone?'Profile updated!':'Profile complete! +25 points earned');
-    btn.disabled=false; btn.textContent='Save and Earn 25 Points';
-    // Reload vouchers with new city
-    loadVouchers();
+  // ── DEV PANEL ───────────────────────────────────────────────────────
+  document.getElementById('devPanel').addEventListener('click', async e => {
+    const btn = e.target.closest('[data-dev-tier]');
+    if (!btn || !cu || cu.email !== DEV_EMAIL) return;
+    const tier   = btn.dataset.devTier;
+    const expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 1);
+    const update = tier === 'free'
+      ? { tier: 'free', expires_at: expiry.toISOString() }
+      : { tier, expires_at: expiry.toISOString(), upgraded_at: new Date().toISOString() };
+
+    await sbClient.from('members').update(update).eq('id', cu.id);
+    showToast('Dev: tier set to ' + tier.toUpperCase());
+    setTimeout(() => location.reload(), 900);
   });
-}
 
-// ── REFERRAL ──
-function copyRef(){
-  var code=document.getElementById('refCode').textContent.trim();
-  var link='https://www.dinewithcelebrity.com/signup?ref='+code;
-  navigator.clipboard.writeText(link).then(function(){ showToast('Referral link copied!'); }).catch(function(){ showToast('Your code: '+code); });
-}
+  // Expose for nav onclick
+  window.toggleDrop   = toggleDrop;
+  window.signOut      = signOut;
+  window.openProfile  = openProfile;
+  window.copyRef      = copyRef;
+  window.copyMemberId = copyMemberId;
 
-// ── TOAST ──
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); },3000);
-}
-
-// ── COPY MEMBER ID ──
-function copyMemberId(el){
-  var mid=document.getElementById('memberIdText').textContent;
-  if(!mid) return;
-  navigator.clipboard.writeText(mid).then(function(){
-    var orig=el.innerHTML;
-    el.innerHTML='✔ Copied!';
-    el.style.background='rgba(0,200,83,.12)'; el.style.borderColor='rgba(0,200,83,.3)'; el.style.color='#00C853';
-    setTimeout(function(){ el.innerHTML=orig; el.style.background=''; el.style.borderColor=''; el.style.color=''; },1500);
-  });
-}
-
-// ── DEV PANEL ──
-function devTier(el){
-  var tier=(typeof el==='string')?el:el.dataset.tier;
-  if(!cu||cu.email!==DEV_EMAIL) return;
-  var expiry=new Date(); expiry.setFullYear(expiry.getFullYear()+1);
-  var u=tier==='free'?{tier:'free',expires_at:new Date(Date.now()+365*86400000).toISOString()}:{tier:tier,expires_at:expiry.toISOString(),upgraded_at:new Date().toISOString()};
-  sbClient.from('members').update(u).eq('id',cu.id).then(function(){
-    showToast('Tier set to '+tier.toUpperCase()); setTimeout(function(){ location.reload(); },1000);
-  });
-}
-
-setPopState('TS');
+})();
 </script>
 </body>
 </html>
