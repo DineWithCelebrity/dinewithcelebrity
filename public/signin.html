@@ -54,7 +54,18 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .bottom-row a{color:var(--gold);font-weight:700;text-decoration:none}
 .back-btn{background:none;border:none;color:var(--gold);font-weight:700;font-family:'Poppins',sans-serif;font-size:.9rem;cursor:pointer;padding:0}
 @media(max-width:768px){.page{grid-template-columns:1fr}.left{display:none}.right{padding:40px 24px;min-height:100vh}}
-</style>
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
+
+  <meta property="og:title" content="Sign In — Dine With Celebrity"/>
+  <meta property="og:description" content="Sign in to your Dine With Celebrity member account."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/signin"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Sign In — Dine With Celebrity"/>
+  <meta name="twitter:description" content="Sign in to your Dine With Celebrity member account."/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/signin"/>
 </head>
 <body>
 <div id="stars"></div>
@@ -205,5 +216,6 @@ document.getElementById('siPass').addEventListener('keydown',function(e){if(e.ke
 document.getElementById('siEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('siPass').focus();});
 document.getElementById('fpEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnForgot').click();});
 </script>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

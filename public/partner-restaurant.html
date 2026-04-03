@@ -91,7 +91,18 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .footer-logo span{color:var(--text)}
 .footer-text{font-size:.82rem;color:var(--muted)}
 @media(max-width:900px){.cards{grid-template-columns:1fr}.forms{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.stats{gap:24px}}
-</style>
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
+
+  <meta property="og:title" content="Partner Restaurant — Dine With Celebrity"/>
+  <meta property="og:description" content="Become a Dine With Celebrity partner restaurant."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/partner-restaurant"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Partner Restaurant — Dine With Celebrity"/>
+  <meta name="twitter:description" content="Become a Dine With Celebrity partner restaurant."/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/partner-restaurant"/>
 </head>
 <body>
 <div id="stars"></div>
@@ -303,5 +314,6 @@ document.getElementById('btnSponsor').onclick=async function(){
   }catch(e){err.textContent='Something went wrong. Email us at partners@dinewithcelebrity.com';err.style.display='block';this.disabled=false;this.textContent='Submit Sponsor Inquiry';}
 };
 </script>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

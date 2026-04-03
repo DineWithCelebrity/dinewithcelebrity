@@ -90,7 +90,7 @@ tr:last-child td{border-bottom:none}
 .cr input[type=checkbox]{accent-color:var(--gold);width:16px;height:16px;flex-shrink:0}
 .cr label{font-size:.85rem;color:var(--sub);cursor:pointer}
 @media(min-width:600px){.sts{grid-template-columns:repeat(4,1fr)}}
-</style><style id="dwc-shared">
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style><style id="dwc-shared">
 /* DWC Shared Typography */
 body{font-family:'Poppins',sans-serif;font-size:1rem;color:rgba(255,255,255,.95);background:#06040A}
 h1,h2,h3,.dwc-title{font-family:'Bebas Neue',cursive;letter-spacing:.05em;line-height:1.05;color:rgba(255,255,255,.95)}
@@ -104,7 +104,18 @@ button{font-family:'Poppins',sans-serif}
 table{width:100%;border-collapse:collapse;font-size:.85rem}
 th{font-size:.72rem!important;font-weight:700;color:rgba(255,255,255,.5)!important;text-transform:uppercase;letter-spacing:.1em;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left}
 td{padding:12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.04);font-size:.85rem}
-</style></head><body>
+</style>
+  <meta property="og:title" content="Partner Login — Dine With Celebrity"/>
+  <meta property="og:description" content="Log in to your DWC restaurant partner account."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/partner-login"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Partner Login — Dine With Celebrity"/>
+  <meta name="twitter:description" content="Log in to your DWC restaurant partner account."/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/partner-login"/>
+</head><body>
 <div id="stars"></div><div class="brand-bg">DWC</div>
 <div id="lw"><div class="spin"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading partner portal</div></div>
 <div id="lgw"><div class="lgb">
@@ -117,7 +128,7 @@ td{padding:12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255
   <div class="em" id="lErr"></div>
   <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:20px">No account? <a href="mailto:partners@dinewithcelebrity.com" style="color:var(--gold)">partners@dinewithcelebrity.com</a></p>
 </div></div>
-<nav id="nv"><a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a><div class="nbadge" id="nName">Partner</div><button class="bso" id="btnSO">Sign Out</button></nav>
+<nav id="nv"><a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block" onerror="this.src='/logo.png'"/>&#9733; DINE <span>WITH CELEBRITY</span></a><div class="nbadge" id="nName">Partner</div><button class="bso" id="btnSO">Sign Out</button></nav>
 <div class="pg" id="pg">
   <div style="margin-bottom:20px"><div style="font-size:.75rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">Welcome back</div><div style="font-family:'Bebas Neue',cursive;font-size:2.2rem;line-height:1">PARTNER <em style="color:var(--gold);font-style:normal" id="pgN">DASHBOARD</em></div></div>
   <div class="sts">
@@ -236,5 +247,6 @@ window.validateOTP=async function(){
     <div id="otpResult" style="margin-top:16px;display:none"></div>
   </div>
 </div>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

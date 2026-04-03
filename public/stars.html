@@ -100,14 +100,14 @@ footer a{color:var(--gold);text-decoration:none}
   .celeb-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
   .hero-stats{gap:28px}
 }
-</style>
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
 </head>
 <body>
 <div id="stars"></div>
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
+  <a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block" onerror="this.src='/logo.png'"/>&#9733; DINE <span>WITH CELEBRITY</span></a>
   <div class="nav-links">
     <a href="/">Home</a>
     <a href="/stars.html" class="active">&#x2B50; Our Stars</a>
@@ -321,5 +321,6 @@ function filterStars(cat){
   });
 }
 </script>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

@@ -42,11 +42,23 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 .last-updated{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);font-size:.76rem;color:var(--muted);text-align:center}
 footer{background:#0A0002;padding:28px 24px;border-top:1px solid var(--border);text-align:center;font-size:.76rem;color:var(--muted)}
 footer a{color:var(--gold);text-decoration:none;margin:0 10px}
-</style>
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
+
+  <meta property="og:title" content="Refund Policy — Dine With Celebrity"/>
+  <meta property="og:description" content="Refund and cancellation policy for Dine With Celebrity memberships."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/refund"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Refund Policy — Dine With Celebrity"/>
+  <meta name="twitter:description" content="Refund and cancellation policy for Dine With Celebrity memberships."/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/refund"/>
 </head>
 <body>
+<div class="stars" id="stars"></div>
 <nav class="nav">
-  <a href="/" class="nav-logo">★ DINE WITH CELEBRITY</a>
+  <a href="/" class="nav-logo"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block" onerror="this.src='/logo.png'"/>★ DINE WITH CELEBRITY</a>
   <a href="/" class="nav-back">← Back to Home</a>
 </nav>
 
@@ -141,5 +153,6 @@ footer a{color:var(--gold);text-decoration:none;margin:0 10px}
   <a href="mailto:legal@dinewithcelebrity.com">legal@dinewithcelebrity.com</a>
   <br><br>© 2025 Dine With Celebrity Pvt Ltd. All rights reserved.
 </footer>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

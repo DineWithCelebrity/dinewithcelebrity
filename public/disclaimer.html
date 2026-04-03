@@ -36,13 +36,24 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 .warning-tag{display:inline-block;background:rgba(212,0,42,.15);border:1px solid rgba(212,0,42,.3);color:var(--red);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
 .footer-note{text-align:center;font-size:.82rem;color:var(--muted);margin-top:48px;padding-top:24px;border-top:1px solid var(--border2)}
 .footer-note a{color:var(--gold);text-decoration:none}
-</style>
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
+
+  <meta property="og:title" content="Disclaimer — Dine With Celebrity"/>
+  <meta property="og:description" content="Legal disclaimer for Dine With Celebrity Pvt Ltd."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/disclaimer"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Disclaimer — Dine With Celebrity"/>
+  <meta name="twitter:description" content="Legal disclaimer for Dine With Celebrity Pvt Ltd."/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/disclaimer"/>
 </head>
 <body>
 <div id="stars"></div>
 <div class="brand-bg">DWC</div>
 <nav>
-  <a class="nav-logo" href="/">&#9733; DINE <span>WITH CELEBRITY</span></a>
+  <a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block" onerror="this.src='/logo.png'"/>&#9733; DINE <span>WITH CELEBRITY</span></a>
   <a class="nav-back" href="/">&#x2190; Back to Home</a>
 </nav>
 <div class="page">
@@ -147,5 +158,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 <script>
 (function(){var se=document.getElementById('stars');for(var i=0;i<40;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(4+Math.random()*7)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 </script>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

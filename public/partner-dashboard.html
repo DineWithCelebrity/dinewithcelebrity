@@ -364,7 +364,18 @@ tr:hover td{background:rgba(255,255,255,.02)}
   .stats-grid{grid-template-columns:1fr 1fr}
   .otp-digit{width:42px;height:52px;font-size:1.4rem}
 }
-</style>
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
+
+  <meta property="og:title" content="Partner Dashboard — Dine With Celebrity"/>
+  <meta property="og:description" content="Manage your DWC partnership, vouchers and redemptions."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/partner-dashboard"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Partner Dashboard — Dine With Celebrity"/>
+  <meta name="twitter:description" content="Manage your DWC partnership, vouchers and redemptions."/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/partner-dashboard"/>
 </head>
 <body>
 <div id="stars"></div>
@@ -483,6 +494,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
         <span class="sb-tier-badge badge-basic" id="sbTierBadge">Basic</span>
       </div>
       <nav class="sb-nav">
+  <a class="nav-logo" href="/" style="text-decoration:none;display:flex;align-items:center"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:34px;width:auto;display:block" onerror="this.src='/logo.png'"/></a>
         <div class="sb-section">Main</div>
         <div class="sb-item active" data-section="overview" onclick="showSection('overview')">
           <span class="sb-item-icon">📊</span> Overview
@@ -1627,5 +1639,6 @@ function handleRenew(){
   window.location.href='mailto:partners@dinewithcelebrity.com?subject=Contract Renewal — '+(encodeURIComponent(_partner.name||'Partner'))+'&body=Hi DWC Team,%0A%0AI would like to renew my partnership contract.%0A%0APartner: '+encodeURIComponent(_partner.name||'')+'%0AEmail: '+encodeURIComponent(_partner.contact_email||'')+'%0A%0APlease share the renewal details.%0A%0AThank you.';
 }
 </script>
+<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>
