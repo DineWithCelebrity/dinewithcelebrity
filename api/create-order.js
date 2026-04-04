@@ -1,79 +1,178 @@
-import Razorpay from 'razorpay';
+// POST /api/create-order
+// Validates redemption token, RE-COMPUTES discount (never trusts token amount),
+// marks token used, locks seat, creates Razorpay order.
+
 import { createClient } from '@supabase/supabase-js';
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
 
-const TIER_PRICES = { gold: 249900, platinum: 699900, dwcpurple: 1499900 };
-const TIER_LABELS = { gold: 'DWC Gold', platinum: 'DWC Platinum', dwcpurple: 'DWC Purple' };
-const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
+const sbAdmin = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
-const rateLimitMap = new Map();
-function isRateLimited(ip) {
-  const now = Date.now();
-  if (!rateLimitMap.has(ip)) { rateLimitMap.set(ip, { count: 1, start: now }); return false; }
-  const e = rateLimitMap.get(ip);
-  if (now - e.start > 60000) { rateLimitMap.set(ip, { count: 1, start: now }); return false; }
-  if (e.count >= 5) return true;
-  e.count++; return false;
-}
+const razorpay = new Razorpay({
+  key_id:     process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
-function setCORS(res) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.dinewithcelebrity.com');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-}
+// ── Token verification ────────────────────────────────────────────
+function verifyToken(token) {
+  try {
+    const [b64, sig] = token.split('.');
+    if (!b64 || !sig) return null;
 
-function calculateAmount(currentTier, newTier, expiresAt) {
-  const now = new Date();
-  if (!expiresAt || new Date(expiresAt) <= now || TIER_RANK[currentTier] === 0) {
-    return { amount: TIER_PRICES[newTier], isProRata: false, keepExpiry: false };
+    const expectedSig = crypto
+      .createHmac('sha256', process.env.REDEMPTION_SECRET)
+      .update(b64)
+      .digest('hex');
+
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig))) return null;
+
+    const payload = JSON.parse(Buffer.from(b64, 'base64').toString());
+    if (Date.now() > payload.expires_at) return null;
+
+    return payload;
+  } catch {
+    return null;
   }
-  const remainingDays = Math.max(1, Math.ceil((new Date(expiresAt) - now) / 86400000));
-  const currentDaily = TIER_PRICES[currentTier] / 365;
-  const newDaily = TIER_PRICES[newTier] / 365;
-  const proRata = Math.ceil((newDaily - currentDaily) * remainingDays);
-  return { amount: Math.max(proRata, 10000), isProRata: true, keepExpiry: true, remainingDays, originalExpiry: expiresAt };
 }
 
 export default async function handler(req, res) {
-  setCORS(res);
-  if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
-  if (isRateLimited(ip)) return res.status(429).json({ error: 'Too many requests.' });
+  // ── Auth ──────────────────────────────────────────────────────
+  const jwt = (req.headers.authorization || '').replace('Bearer ', '').trim();
+  if (!jwt) return res.status(401).json({ error: 'Unauthorized' });
 
-  const authHeader = req.headers['authorization'];
-  if (!authHeader?.startsWith('Bearer ')) return res.status(401).json({ error: 'Unauthorized.' });
+  const { data: { user }, error: authErr } = await sbAdmin.auth.getUser(jwt);
+  if (authErr || !user) return res.status(401).json({ error: 'Invalid token' });
+
+  const { event_id, redemption_token } = req.body || {};
+  if (!event_id) return res.status(400).json({ error: 'event_id required' });
+
+  // ── Verify redemption token if provided ───────────────────────
+  let tokenPayload = null;
+  if (redemption_token) {
+    tokenPayload = verifyToken(redemption_token);
+    if (!tokenPayload) return res.status(400).json({ error: 'Invalid or expired redemption token' });
+    if (tokenPayload.user_id !== user.id) return res.status(403).json({ error: 'Token user mismatch' });
+    if (tokenPayload.event_id !== event_id) return res.status(400).json({ error: 'Token event mismatch' });
+  }
 
   try {
-    const sbAdmin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-    const { data: { user }, error } = await sbAdmin.auth.getUser(authHeader.replace('Bearer ', '').trim());
-    if (error || !user) return res.status(401).json({ error: 'Invalid session.' });
+    // ── Token replay check ────────────────────────────────────
+    if (redemption_token) {
+      const tokenHash = crypto.createHash('sha256').update(redemption_token).digest('hex');
+      const { data: usedToken } = await sbAdmin
+        .from('used_tokens')
+        .select('token_hash')
+        .eq('token_hash', tokenHash)
+        .maybeSingle();
 
-    const { tier } = req.body || {};
-    if (!tier || !TIER_PRICES[tier]) return res.status(400).json({ error: 'Invalid tier.' });
+      if (usedToken) return res.status(400).json({ error: 'Redemption token already used' });
 
-    const { data: member } = await sbAdmin.from('members').select('tier, expires_at').eq('id', user.id).single();
-    const currentTier = (member?.tier || 'free').toLowerCase();
-    if (TIER_RANK[tier] <= TIER_RANK[currentTier]) return res.status(400).json({ error: 'Cannot downgrade membership.' });
+      // Mark token as used immediately
+      await sbAdmin.from('used_tokens').insert({
+        token_hash: tokenHash,
+        member_id:  tokenPayload.member_id,
+        event_id:   event_id,
+        expires_at: new Date(tokenPayload.expires_at).toISOString(),
+      });
+    }
 
-    const pricing = calculateAmount(currentTier, tier, member?.expires_at);
+    // ── Fetch event ────────────────────────────────────────────
+    const { data: event, error: evErr } = await sbAdmin
+      .from('celebrity_events')
+      .select('*')
+      .eq('id', event_id)
+      .eq('status', 'live')
+      .single();
 
-    const razorpay = new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET });
-    const order = await razorpay.orders.create({
-      amount: pricing.amount,
+    if (evErr || !event) return res.status(404).json({ error: 'Event not found' });
+
+    // ── Seat availability check ────────────────────────────────
+    const seatsAvail = event.available_seats - event.reserved_seats;
+    if (seatsAvail <= 0) return res.status(400).json({ error: 'No seats available' });
+
+    // ── Fetch member ───────────────────────────────────────────
+    const { data: member } = await sbAdmin
+      .from('members')
+      .select('id, points, tier')
+      .eq('auth_user_id', user.id)
+      .single();
+
+    if (!member) return res.status(404).json({ error: 'Member not found' });
+
+    // ── RE-COMPUTE discount server-side (never trust token amount) ──
+    const { data: redeemableRows } = await sbAdmin
+      .from('points_transactions')
+      .select('points')
+      .eq('member_id', member.id)
+      .eq('type', 'earn')
+      .lte('redeemable_after', new Date().toISOString())
+      .gt('expires_at', new Date().toISOString())
+      .gt('points', 0);
+
+    const redeemablePts = (redeemableRows || []).reduce((s, r) => s + r.points, 0);
+    const ptsPerRupee   = 100 / event.points_value_per_100;
+    const maxDiscount   = Math.min(
+      Math.floor(event.ticket_price * event.max_discount_pct / 100),
+      event.max_discount_abs
+    );
+    const ptsForMax   = Math.ceil(maxDiscount * ptsPerRupee);
+    const usablePts   = Math.min(redeemablePts, ptsForMax);
+    const rawDiscount = usablePts / ptsPerRupee;
+    const discount    = Math.floor(rawDiscount / 50) * 50;
+    const pointsUsed  = Math.ceil(discount * ptsPerRupee);
+    const finalPrice  = event.ticket_price - discount;
+
+    // ── Lock seat (reserved_seats++) ──────────────────────────
+    const { error: lockErr } = await sbAdmin.rpc('lock_event_seat', { p_event_id: event_id });
+    if (lockErr) {
+      console.error('[create-order] seat lock failed:', lockErr);
+      return res.status(400).json({ error: 'Could not reserve seat. Try again.' });
+    }
+
+    // ── Create Razorpay order ─────────────────────────────────
+    const rpOrder = await razorpay.orders.create({
+      amount:   finalPrice * 100,   // paise
       currency: 'INR',
-      receipt: 'dwc_' + user.id.substring(0, 8) + '_' + Date.now(),
-      notes: { user_id: user.id, user_email: user.email, tier, current_tier: currentTier, is_pro_rata: String(pricing.isProRata), keep_expiry: String(pricing.keepExpiry), original_expiry: pricing.originalExpiry || '' }
+      notes: {
+        member_id:   member.id,
+        event_id:    event_id,
+        points_used: pointsUsed,
+        discount:    discount,
+      },
+    });
+
+    // ── Store pending booking ─────────────────────────────────
+    const idempKey = `booking_${member.id}_${event_id}_${rpOrder.id}`;
+    await sbAdmin.from('event_bookings').insert({
+      member_id:        member.id,
+      event_id:         event_id,
+      seats:            1,
+      base_price:       event.ticket_price,
+      points_used:      pointsUsed,
+      discount_given:   discount,
+      final_price:      finalPrice,
+      payment_order_id: rpOrder.id,
+      status:           'pending',
+      idempotency_key:  idempKey,
     });
 
     return res.status(200).json({
-      order_id: order.id, amount: order.amount, currency: order.currency,
-      tier, label: TIER_LABELS[tier], key_id: process.env.RAZORPAY_KEY_ID,
-      user_name: user.user_metadata?.full_name || user.email, user_email: user.email,
-      is_pro_rata: pricing.isProRata, remaining_days: pricing.remainingDays || null, original_expiry: pricing.originalExpiry || null
+      order_id:      rpOrder.id,
+      amount:        rpOrder.amount,
+      currency:      rpOrder.currency,
+      final_price:   finalPrice,
+      discount:      discount,
+      points_used:   pointsUsed,
+      key_id:        process.env.RAZORPAY_KEY_ID,
     });
+
   } catch (err) {
-    console.error('[create-order] error:', err.message, JSON.stringify(err));
-    return res.status(500).json({ error: 'Failed to create order.', detail: err.message });
+    console.error('[create-order]', err);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
