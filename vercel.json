@@ -17,7 +17,8 @@
     { "source": "/partner-restaurant", "destination": "/partner-restaurant.html" },
     { "source": "/partner-signup",     "destination": "/partner-signup.html" },
     { "source": "/partner-dashboard",  "destination": "/partner-dashboard.html" },
-    { "source": "/partner-login",      "destination": "/partner-sponsor.html" }
+    { "source": "/partner-login",      "destination": "/partner-login.html" },
+    { "source": "/partner-sponsor",    "destination": "/partner-login.html" }
   ],
   "crons": [
     {
