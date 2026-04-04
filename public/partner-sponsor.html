@@ -115,6 +115,7 @@ td{padding:12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255
   <meta name="twitter:title" content="Partner Login — Dine With Celebrity"/>
   <meta name="twitter:description" content="Log in to your DWC restaurant partner account."/>
   <link rel="canonical" href="https://www.dinewithcelebrity.com/partner-login"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Partner Login","url":"https://www.dinewithcelebrity.com/partner-login","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
 </head><body>
 <div id="stars"></div><div class="brand-bg">DWC</div>
 <div id="lw"><div class="spin"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading partner portal</div></div>
@@ -186,7 +187,24 @@ td{padding:12px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255
     <p class="cds">Every redemption tracked in real time.</p>
     <div class="tw"><table><thead><tr><th>Code</th><th>Value</th><th>When</th><th>Seat Reduction</th></tr></thead><tbody id="rTb"><tr><td colspan="4" class="emp">No redemptions yet.</td></tr></tbody></table></div>
   </div>
-  </div><script>
+  </div>
+
+<div id="otpSection" style="display:none;max-width:700px;margin:0 auto 40px;padding:0 20px">
+  <div style="background:#0f0d14;border:1px solid rgba(242,183,5,.25);border-radius:16px;padding:28px">
+    <div style="font-family:'Bebas Neue',cursive;font-size:1.5rem;color:#F2B705;margin-bottom:4px">&#x1F511; VALIDATE MEMBER OTP</div>
+    <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:20px">Member shows you a 6-digit OTP on their phone. Enter it below to validate and mark the voucher as redeemed.</p>
+    <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <label style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:8px">Member OTP</label>
+        <input id="otpInput" type="text" maxlength="6" placeholder="Enter 6-digit OTP" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 16px;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:1.8rem;letter-spacing:.3em;text-align:center;outline:none;box-sizing:border-box" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+      </div>
+      <button onclick="validateOTP()" style="background:#F2B705;color:#06040A;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:800;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;white-space:nowrap">Validate OTP</button>
+    </div>
+    <div id="otpResult" style="margin-top:16px;display:none"></div>
+  </div>
+</div>
+
+<script>
 (function(){var se=document.getElementById('stars');for(var i=0;i<50;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 var _pid=null,_codes=[],_done=false;
@@ -231,22 +249,8 @@ window.validateOTP=async function(){
   document.getElementById('otpInput').value='';
   btn.textContent='Validate OTP';btn.disabled=false;
 };
-</script>
 
-<div id="otpSection" style="display:none;max-width:700px;margin:0 auto 40px;padding:0 20px">
-  <div style="background:#0f0d14;border:1px solid rgba(242,183,5,.25);border-radius:16px;padding:28px">
-    <div style="font-family:'Bebas Neue',cursive;font-size:1.5rem;color:#F2B705;margin-bottom:4px">&#x1F511; VALIDATE MEMBER OTP</div>
-    <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:20px">Member shows you a 6-digit OTP on their phone. Enter it below to validate and mark the voucher as redeemed.</p>
-    <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
-      <div style="flex:1;min-width:200px">
-        <label style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:8px">Member OTP</label>
-        <input id="otpInput" type="text" maxlength="6" placeholder="Enter 6-digit OTP" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 16px;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:1.8rem;letter-spacing:.3em;text-align:center;outline:none;box-sizing:border-box" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-      </div>
-      <button onclick="validateOTP()" style="background:#F2B705;color:#06040A;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:800;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;white-space:nowrap">Validate OTP</button>
-    </div>
-    <div id="otpResult" style="margin-top:16px;display:none"></div>
-  </div>
-</div>
-<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
+(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
+</script>
 </body>
 </html>

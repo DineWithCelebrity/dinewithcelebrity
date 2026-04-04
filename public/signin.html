@@ -66,6 +66,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
   <meta name="twitter:title" content="Sign In — Dine With Celebrity"/>
   <meta name="twitter:description" content="Sign in to your Dine With Celebrity member account."/>
   <link rel="canonical" href="https://www.dinewithcelebrity.com/signin"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Member Sign In","url":"https://www.dinewithcelebrity.com/signin","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
 </head>
 <body>
 <div id="stars"></div>
@@ -129,6 +130,8 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
     </div>
   </div>
 </div>
+
+
 <script>
 // Stars
 (function(){var se=document.getElementById('stars');for(var i=0;i<65;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
@@ -215,7 +218,8 @@ document.getElementById('btnUpdate').onclick=async function(){
 document.getElementById('siPass').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnSignin').click();});
 document.getElementById('siEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('siPass').focus();});
 document.getElementById('fpEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnForgot').click();});
+
+(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
 </script>
-<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

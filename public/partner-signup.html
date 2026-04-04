@@ -159,6 +159,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
   <meta name="twitter:title" content="Partner With DWC — Dine With Celebrity"/>
   <meta name="twitter:description" content="List your restaurant as a DWC partner and attract premium celebrity dining members."/>
   <link rel="canonical" href="https://www.dinewithcelebrity.com/partner-signup"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Partner With DWC","url":"https://www.dinewithcelebrity.com/partner-signup","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
 </head>
 <body>
 <div id="stars"></div>
@@ -374,6 +375,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
   </div><!-- /form-wrap -->
 </div><!-- /page-wrap -->
 
+
+
 <script>
 (function(){var se=document.getElementById('stars');for(var i=0;i<60;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*9)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
@@ -413,7 +416,8 @@ try{
   await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'\uD83E\uDD1D New Partner Application \u2014 '+bizName,from_name:contact,email:email,message:'Business: '+bizName+'\nCategory: '+cat+'\nCity: '+city+'\nPhone: '+phone+'\nEmail: '+email+'\nOutlets: '+outlets+'\nAOV: \u20B9'+aov+'\nLicensed: '+licensed+'\n\nCAMPAIGN:\nDiscount: \u20B9'+discount+' off\nMin Billing: \u20B9'+minBill+'\nQty: '+qty+'\nValidity: '+validity+' days\nTiers: '+tierList.join(', ')+'\n\nACTION: Activate at admin-partners.html'})});
   showScreen(4);
 }catch(e){err.textContent=e.message.includes('unique')||e.message.includes('already')?'This email is already registered. Please login at partner-dashboard.html':'Submission failed: '+e.message;err.style.display='block';this.disabled=false;this.textContent='Submit Partner Application \u2192';}};
+
+(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
 </script>
-<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>

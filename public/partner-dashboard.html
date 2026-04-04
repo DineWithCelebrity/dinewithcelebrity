@@ -376,6 +376,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
   <meta name="twitter:title" content="Partner Dashboard — Dine With Celebrity"/>
   <meta name="twitter:description" content="Manage your DWC partnership, vouchers and redemptions."/>
   <link rel="canonical" href="https://www.dinewithcelebrity.com/partner-dashboard"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Partner Dashboard","url":"https://www.dinewithcelebrity.com/partner-dashboard","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
 </head>
 <body>
 <div id="stars"></div>
@@ -882,6 +883,8 @@ tr:hover td{background:rgba(255,255,255,.02)}
     </div>
   </div>
 </div>
+
+
 
 <script>
 // ── Stars ──
@@ -1638,7 +1641,8 @@ async function changePin(){
 function handleRenew(){
   window.location.href='mailto:partners@dinewithcelebrity.com?subject=Contract Renewal — '+(encodeURIComponent(_partner.name||'Partner'))+'&body=Hi DWC Team,%0A%0AI would like to renew my partnership contract.%0A%0APartner: '+encodeURIComponent(_partner.name||'')+'%0AEmail: '+encodeURIComponent(_partner.contact_email||'')+'%0A%0APlease share the renewal details.%0A%0AThank you.';
 }
+
+(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
 </script>
-<script>(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();</script>
 </body>
 </html>
