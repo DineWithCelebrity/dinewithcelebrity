@@ -96,7 +96,7 @@
       text-decoration: none;
       display: flex; align-items: center;
     }
-    .nav-logo img { height:60px; width: auto; display: block; }
+    .nav-logo img { height: 34px; width: auto; display: block; }
     .nav-right { display: flex; align-items: center; gap: 1rem; }
     .nav-pts {
       background: rgba(242,183,5,.1);
@@ -574,13 +574,60 @@
       .chips            { grid-template-columns: repeat(3,1fr); }
       .pt-cta-wrap      { flex-direction: column; }
     }
+  
+  /* ── POINTS HISTORY ── */
+  .pts-history{margin-top:1rem;}
+  .pts-hist-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid rgba(255,255,255,.05);gap:.5rem;}
+  .pts-hist-row:last-child{border-bottom:none;}
+  .pts-hist-left{display:flex;align-items:center;gap:.75rem;}
+  .pts-hist-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+  .pts-hist-icon.earn{background:rgba(0,200,83,.1);}
+  .pts-hist-icon.spend{background:rgba(212,0,42,.1);}
+  .pts-hist-icon.expire{background:rgba(255,255,255,.05);}
+  .pts-hist-reason{font-size:.82rem;color:var(--text);font-weight:500;}
+  .pts-hist-date{font-size:.7rem;color:var(--muted);}
+  .pts-hist-pts{font-family:'Bebas Neue',cursive;font-size:1.1rem;}
+  .pts-hist-pts.earn{color:var(--green);}
+  .pts-hist-pts.spend{color:var(--red);}
+  .pts-hist-pts.expire{color:var(--muted);}
+  /* ── MONTHLY CAP BAR ── */
+  .monthly-cap-bar{margin-top:.5rem;}
+  .monthly-cap-label{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted);margin-bottom:.3rem;}
+  .monthly-cap-track{height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;}
+  .monthly-cap-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:100px;transition:width .5s ease;}
+  /* ── CELEBRITY EVENTS ── */
+  .events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;margin-top:1rem;}
+  .event-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s;}
+  .event-card:hover{transform:translateY(-2px);border-color:var(--border);}
+  .event-card-top{padding:1.1rem 1.1rem .6rem;}
+  .event-tier{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .55rem;border-radius:100px;margin-bottom:.5rem;}
+  .event-tier.S{background:rgba(212,0,42,.12);border:1px solid rgba(242,183,5,.4);color:var(--gold);}
+  .event-tier.A{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);color:var(--gold);}
+  .event-tier.B{background:rgba(100,150,255,.08);border:1px solid rgba(100,150,255,.2);color:#7eb3ff;}
+  .event-tier.C{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--sub);}
+  .event-name{font-family:'Bebas Neue',cursive;font-size:1.25rem;line-height:1.1;margin-bottom:.2rem;}
+  .event-title-sub{font-size:.75rem;color:var(--sub);margin-bottom:.5rem;}
+  .event-meta{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem;}
+  .event-meta-pill{font-size:.65rem;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:100px;padding:.12rem .5rem;}
+  .event-pricing{background:rgba(242,183,5,.03);border-top:1px solid rgba(242,183,5,.08);padding:.9rem 1.1rem;}
+  .event-price-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem;}
+  .event-price-val{font-weight:600;color:var(--sub);}
+  .event-price-val.hl{color:var(--green);}
+  .event-final{display:flex;justify-content:space-between;align-items:center;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.05);}
+  .event-final-label{font-size:.72rem;color:var(--muted);}
+  .event-final-price{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--gold);}
+  .event-book-btn{width:100%;margin-top:.6rem;background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;transition:opacity .2s;}
+  .event-book-btn:hover{opacity:.88;}
+  .event-book-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .event-sold{width:100%;margin-top:.6rem;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-size:.78rem;text-align:center;}
+
   </style>
 </head>
 <body>
 
 <!-- ── PAGE LOADER ── -->
 <div id="pageLoader">
-  <img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:120px;width:auto;display:block" onerror="this.src='/logo.png'"/>
+  <img class="loader-logo" src="/dwc-logo.svg" alt="DWC" onerror="this.src='/logo.png'"/>
 </div>
 
 <!-- ── ANIMATED GOLD STARS ── -->
@@ -637,30 +684,20 @@
   </div>
 
   <!-- Stats -->
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-label">Points</div>
-      <div class="stat-value" id="statPts">300</div>
-      <div class="stat-sub">Keep earning</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Vouchers</div>
-      <div class="stat-value" id="statV">0</div>
-      <div class="stat-sub">Available</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Your City</div>
-      <div class="stat-value" id="statCity" style="font-size:1rem;padding-top:.4rem">–</div>
-      <div class="stat-sub">Partner area</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Celebrity Ticket</div>
-      <div class="stat-value" id="statTicket" style="font-size:1rem;padding-top:.4rem">₹70,000</div>
-      <div class="stat-sub" id="statTicketSub">Earn points to reduce</div>
-    </div>
-  </div>
-
-  <!-- VOUCHERS SECTION -->
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card"><div class="stat-val" id="statT">—</div><div class="stat-label">Tier</div></div>
+        <div class="stat-card">
+          <div class="stat-val" id="statP" style="color:var(--gold)">—</div>
+          <div class="stat-label">Points</div>
+          <div class="monthly-cap-bar">
+            <div class="monthly-cap-label"><span><span id="monthlyEarned">0</span> / 2,000 this month</span></div>
+            <div class="monthly-cap-track"><div class="monthly-cap-fill" id="monthlyBar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="stat-card"><div class="stat-val" id="statV">—</div><div class="stat-label">Vouchers</div></div>
+        <div class="stat-card"><div class="stat-val" id="statR">—</div><div class="stat-label">Referrals</div></div>
+      </div>
+      <!-- VOUCHERS SECTION -->
   <div class="section-hdr">
     <div class="section-title">Your Vouchers</div>
     <div class="section-badge" id="voucherCountBadge">Loading…</div>
@@ -688,17 +725,24 @@
   </div>
 
   <!-- CELEBRITY EVENTS SECTION -->
-  <div class="events-section" id="eventsSection">
-    <div class="section-hdr">
-      <div class="section-title">Celebrity Events</div>
-      <div class="section-badge" id="eventsSubBadge">🌟 Exclusive</div>
-    </div>
-    <div class="events-grid" id="eventsGrid">
-      <div class="empty">Loading events…</div>
-    </div>
-  </div>
+      <div class="card" id="eventsCard">
+        <div class="card-header">
+          <div class="card-title">⭐ Celebrity Events</div>
+          <div class="card-subtitle">Earn points dining &amp; shopping — redeem them for a discount on your celebrity dinner</div>
+        </div>
+        <div class="events-grid" id="eventsGrid"><div class="empty">Loading events...</div></div>
+      </div>
 
-  <!-- REFERRAL SECTION -->
+      <!-- POINTS HISTORY SECTION -->
+      <div class="card" id="ptsHistCard">
+        <div class="card-header">
+          <div class="card-title">💰 Points History</div>
+          <div class="card-subtitle" id="ptsExpiry"></div>
+        </div>
+        <div class="pts-history" id="ptsHistoryList"><div class="empty">No transactions yet.</div></div>
+      </div>
+
+      <!-- REFERRAL SECTION -->
   <div class="section-title" style="margin-bottom:1rem">Refer and Earn</div>
   <div class="ref-card">
     <div class="ref-title">Your Referral Code</div>
@@ -1119,173 +1163,203 @@
     const expired  = isExpired(md.expires_at);
     const effTier  = (expired && tier !== 'free') ? 'free' : tier;
     const effRank  = TIER_RANK[effTier] || 0;
+    const memberCity = (md.city || '').toLowerCase().trim();
+    const now = new Date();
 
-    // Tiers member can access
-    const eligibleTiers = Object.entries(TIER_RANK)
-      .filter(([,r]) => r <= effRank).map(([t]) => t);
-
-    // My claimed vouchers (issued to me, not redeemed)
-    const { data: mine } = await sbClient
+    const { data: vouchers, error } = await sbClient
       .from('vouchers')
-      .select('*, partners(name,city,category)')
-      .eq('issued_to', cu.id)
-      .eq('is_redeemed', false)
-      .order('issued_at', { ascending: false });
+      .select('*')
+      .eq('is_active', true)
+      .gt('partner_expiry', now.toISOString())
+      .order('tier_required', { ascending: true });
 
-    // Available pool for my tier (unissued)
-    const { data: pool } = effRank > 0 ? await sbClient
-      .from('vouchers')
-      .select('*, partners(name,city,category)')
-      .is('issued_to', null)
-      .eq('is_redeemed', false)
-      .in('min_tier', eligibleTiers)
-      .limit(12) : { data: [] };
-
-    // Locked teasers for free members
-    const { data: lockedPool } = effRank < 1 ? await sbClient
-      .from('vouchers')
-      .select('code,face_value,min_tier,partners(name,city)')
-      .is('issued_to', null)
-      .eq('is_redeemed', false)
-      .eq('min_tier', 'gold')
-      .limit(4) : { data: [] };
-
-    const allMine   = mine || [];
-    const allPool   = pool || [];
-    const allLocked = lockedPool || [];
-
-    // Free member — show upgrade teaser
-    if (effRank < 1) {
-      const teasers = (allLocked.length ? allLocked : [
-        {code:'DWC-GOLD-XXXX',face_value:1000,min_tier:'gold',partners:{name:'Premium Restaurant',city:'Hyderabad'}},
-        {code:'DWC-GOLD-YYYY',face_value:500,min_tier:'gold',partners:{name:'Celebrity Kitchen',city:'Hyderabad'}}
-      ]);
-      let html2 = teasers.map(v => {
-        const pname = v.partners?.name || 'Partner Restaurant';
-        const city  = v.partners?.city || '';
-        return `<div class="voucher voucher-locked">
-          <span class="voucher-badge b-gold">Gold</span>
-          <div class="voucher-title">${pname}</div>
-          <div class="voucher-desc">Exclusive DWC member discount at this outlet</div>
-          <div class="voucher-disc">₹${v.face_value} Off</div>
-          <div class="voucher-meta">${city || 'Hyderabad'}</div>
-          <div class="voucher-overlay" data-action="upgrade" data-tier="gold" data-title="${pname}">
-            <div class="vl-icon">🔒</div>
-            <div class="vl-label">Unlock with Gold</div>
-            <div class="vl-tier">Tap to upgrade</div>
-          </div>
-        </div>`;
-      }).join('');
-      html2 += `<div style="grid-column:1/-1;background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.02));border:1px solid rgba(242,183,5,.2);border-radius:14px;padding:1.5rem;text-align:center">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);margin-bottom:.5rem">UNLOCK ${teasers.length}+ VOUCHERS</div>
-        <p style="color:var(--sub);font-size:.85rem;margin-bottom:1rem">Upgrade to Gold to start saving at premium restaurants</p>
-        <button onclick="location.href='/upgrade'" style="background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.75rem 2rem;font-family:'Poppins',sans-serif;font-weight:700;cursor:pointer;font-size:.9rem">Upgrade to Gold — ₹2,499/yr →</button>
-      </div>`;
-      grid.innerHTML = html2;
+    if (error || !vouchers || vouchers.length === 0) {
+      grid.innerHTML = '<div class="empty">No vouchers available in your city yet — we\'re onboarding partners. Check back soon!</div>';
       badge.textContent = '0 available';
       document.getElementById('statV').textContent = '0';
       return;
     }
 
-    let htmlOut = '';
+    // Sort: city-matching first
+    const cityVouchers  = vouchers.filter(v => !memberCity || v.city?.toLowerCase().trim() === memberCity);
+    const otherVouchers = vouchers.filter(v => memberCity  && v.city?.toLowerCase().trim() !== memberCity);
+    const sorted = cityVouchers.concat(otherVouchers);
+    const showSep = memberCity && cityVouchers.length > 0 && otherVouchers.length > 0;
+
+    let html = '';
     let availCount = 0;
 
-    // My claimed vouchers
-    if (allMine.length > 0) {
-      htmlOut += `<div class="voucher-divider" style="grid-column:1/-1">⭐ Your Vouchers (${allMine.length})</div>`;
-      allMine.forEach(v => {
-        const pname   = v.partners?.name || 'Partner Restaurant';
-        const city    = v.partners?.city || '';
-        const expiry  = v.issued_at ? new Date(new Date(v.issued_at).getTime() + v.valid_days * 86400000) : null;
-        const daysLeft = expiry ? Math.ceil((expiry - new Date()) / 86400000) : null;
-        const expClass = daysLeft !== null && daysLeft <= 3 ? 'voucher-expiry warn' : 'voucher-expiry';
-        const expText  = expiry
-          ? (daysLeft <= 0 ? 'Expired' : daysLeft <= 3 ? '⚠️ Expires in '+daysLeft+' day'+(daysLeft===1?'':'s') : 'Valid until '+expiry.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}))
-          : v.valid_days + ' days validity';
-        availCount++;
-        htmlOut += `<div class="voucher" data-voucher-id="${v.id}">
-          <span class="voucher-badge b-${v.min_tier}">${tierDisplayName(v.min_tier)}</span>
-          <div class="voucher-title">${pname}</div>
-          <div class="voucher-desc">Show OTP to restaurant staff to redeem</div>
-          <div class="voucher-disc">₹${v.face_value} Off</div>
-          <div class="voucher-meta">${city ? city+' · ' : ''}Code: ${v.code}</div>
-          <div class="${expClass}">${expText}</div>
-          ${daysLeft !== null && daysLeft <= 0
-            ? '<button class="voucher-redeem" disabled>Expired</button>'
-            : '<button class="voucher-redeem" data-action="getotp" data-voucher-id="'+v.id+'" data-code="'+v.code+'">Get Redemption OTP</button>'}
-        </div>`;
-      });
+    // No local vouchers message
+    if (memberCity && cityVouchers.length === 0 && otherVouchers.length > 0) {
+      html += `<div style="grid-column:1/-1;background:rgba(242,183,5,.05);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:.85rem 1rem;font-size:.82rem;color:var(--sub)">
+        🏙️ No vouchers in <strong style="color:var(--gold)">${md.city}</strong> yet — we're onboarding partners. Showing vouchers from other cities below.
+      </div>`;
     }
 
-    // Available pool
-    if (allPool.length > 0) {
-      if (allMine.length > 0) htmlOut += '<div style="grid-column:1/-1;height:.25rem"></div>';
-      htmlOut += `<div class="voucher-divider" style="grid-column:1/-1">🎁 Available to Claim (${allPool.length})</div>`;
-      allPool.forEach(v => {
-        const pname = v.partners?.name || 'Partner Restaurant';
-        const city  = v.partners?.city || '';
-        availCount++;
-        htmlOut += `<div class="voucher" data-voucher-id="${v.id}">
-          <span class="voucher-badge b-${v.min_tier}">${tierDisplayName(v.min_tier)}</span>
-          <div class="voucher-title">${pname}</div>
-          <div class="voucher-desc">Claim to add to your account, then redeem at the outlet</div>
-          <div class="voucher-disc">₹${v.face_value} Off</div>
-          <div class="voucher-meta">${city ? city+' · ' : ''}Valid ${v.valid_days} days after claiming</div>
-          <div class="voucher-expiry">Available now</div>
-          <button class="voucher-redeem" data-action="claim" data-voucher-id="${v.id}">Claim Voucher</button>
-        </div>`;
-      });
-    }
+    sorted.forEach((v, idx) => {
+      const vRank     = TIER_RANK[v.tier_required] || 0;
+      const unlocked  = effRank >= vRank;
+      const redeemed  = myRedemptions[v.id] || 0;
+      const canRedeem = unlocked && !expired
+        && v.total_redemptions < v.max_redemptions
+        && redeemed < v.per_user_limit;
 
-    if (!htmlOut) {
-      htmlOut = '<div class="empty">No vouchers available yet. Check back soon!</div>';
-    }
+      const isOther   = memberCity && v.city?.toLowerCase().trim() !== memberCity;
+      const vDays     = Math.ceil((new Date(v.partner_expiry) - now) / 86400000);
+      const expClass  = vDays <= 7 ? 'voucher-expiry warn' : 'voucher-expiry';
+      const expText   = vDays <= 7
+        ? `⚠️ Expires in ${vDays} day${vDays === 1 ? '' : 's'}`
+        : `Valid until ${new Date(v.partner_expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`;
 
-    grid.innerHTML = htmlOut;
+      if (unlocked) availCount++;
+
+      if (showSep && idx === cityVouchers.length) {
+        html += `<div class="voucher-divider">📍 Vouchers in other cities</div>`;
+      }
+
+      html += `<div class="voucher${unlocked ? '' : ' voucher-locked'}"${isOther ? ' style="opacity:.65"' : ''} data-voucher-id="${v.id}">`;
+      html += `<span class="voucher-badge ${tierBadgeClass(v.tier_required)}">${tierDisplayName(v.tier_required)}</span>`;
+      html += `<div class="voucher-title">${v.title}</div>`;
+      html += `<div class="voucher-desc">${v.description || ''}</div>`;
+      html += `<div class="voucher-disc">₹${v.discount_amount} Off</div>`;
+      html += `<div class="voucher-meta">${v.city}${isOther ? ' 📍' : ''} · Min bill ₹${v.min_bill.toLocaleString()}</div>`;
+      html += `<div class="${expClass}">${expText}</div>`;
+
+      if (unlocked) {
+        if (redeemed >= v.per_user_limit) {
+          html += `<button class="voucher-redeem" disabled>Already Redeemed</button>`;
+        } else if (v.total_redemptions >= v.max_redemptions) {
+          html += `<button class="voucher-redeem" disabled>Fully Redeemed</button>`;
+        } else if (expired) {
+          html += `<button class="voucher-redeem" disabled>Membership Expired</button>`;
+        } else {
+          // ✅ DATA ATTRIBUTES — no onclick quoting issues
+          html += `<button class="voucher-redeem" data-action="redeem" data-voucher-id="${v.id}" data-voucher-title="${v.title.replace(/"/g,'&quot;')}">Redeem Voucher</button>`;
+        }
+      } else {
+        html += `<div class="voucher-overlay" data-action="upgrade" data-tier="${v.tier_required}" data-title="${v.title.replace(/"/g,'&quot;')}">`;
+        html += `<div class="vl-icon">🔒</div>`;
+        html += `<div class="vl-label">Unlock with ${tierDisplayName(v.tier_required)}</div>`;
+        html += `<div class="vl-tier">Tap to upgrade</div>`;
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+
+    grid.innerHTML = html || '<div class="empty">No vouchers available yet. Check back soon!</div>';
     document.getElementById('statV').textContent = availCount;
     badge.textContent = availCount + ' available';
   }
 
-  // ── CLAIM VOUCHER ───────────────────────────────────────────────────
-  async function claimVoucher(voucherId, btn) {
-    btn.disabled = true; btn.textContent = 'Claiming…';
+  // ── EVENT DELEGATION for voucher grid ───────────────────────────────
+  document.getElementById('vouchersGrid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === 'redeem') {
+      redeemVoucher(btn.dataset.voucherId, btn.dataset.voucherTitle, btn);
+    } else if (action === 'upgrade') {
+      showUpgradePopup(btn.dataset.tier, btn.dataset.title);
+    }
+  });
+
+  // ── REDEEM VOUCHER (atomic) ─────────────────────────────────────────
+  async function redeemVoucher(voucherId, voucherTitle, btn) {
+    if (!voucherId || !cu) return;
+    btn.disabled = true;
+    btn.textContent = 'Redeeming…';
+
     if (isExpired(md.expires_at)) {
-      showToast('Membership expired. Please renew first.');
-      btn.disabled = false; btn.textContent = 'Claim Voucher'; return;
+      showToast('Your membership has expired. Please renew.');
+      btn.disabled = false;
+      btn.textContent = 'Redeem Voucher';
+      return;
     }
-    const { error } = await sbClient
-      .from('vouchers')
-      .update({ issued_to: cu.id, issued_at: new Date().toISOString() })
-      .eq('id', voucherId)
-      .is('issued_to', null);
-    if (error) {
-      showToast('Could not claim. May already be taken — try another.');
-      btn.disabled = false; btn.textContent = 'Claim Voucher'; return;
+
+    const { data: result, error } = await sbClient.rpc('redeem_voucher_atomic', {
+      p_voucher_id:    voucherId,
+      p_user_id:       cu.id,
+      p_member_id_text: md.member_id || null,
+      p_member_tier:   md.tier || 'free',
+    });
+
+    if (error || !result?.success) {
+      const reason = result?.reason || 'Redemption failed. Please try again.';
+      showToast(reason);
+      btn.disabled = false;
+      btn.textContent = 'Redeem Voucher';
+      return;
     }
-    showToast('Voucher claimed! Check Your Vouchers above. 🎉');
-    setTimeout(loadVouchers, 800);
+
+    // Log activity (non-blocking)
+    if (md.member_id) {
+      sbClient.from('member_activity').insert({
+        member_id:     md.member_id,
+        member_uuid:   cu.id,
+        activity_type: 'voucher_redeem',
+        activity_data: { voucher_id: voucherId, voucher_title: voucherTitle, tier: md.tier },
+        city:          md.city || null,
+      });
+    }
+
+    myRedemptions[voucherId] = (myRedemptions[voucherId] || 0) + 1;
+    btn.textContent = 'Redeemed ✓';
+    showToast('Voucher redeemed! Show this screen to the restaurant. 🎉');
+    setTimeout(loadVouchers, 2000);
   }
 
-  // ── GET OTP FOR REDEMPTION ──────────────────────────────────────────
-  async function getVoucherOTP(voucherId, code, btn) {
-    btn.disabled = true; btn.textContent = 'Generating OTP…';
-    const otp    = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
-    const { error } = await sbClient
-      .from('vouchers')
-      .update({ otp, otp_expires_at: expiry, redeemed_by: cu.id })
-      .eq('id', voucherId)
-      .eq('issued_to', cu.id);
-    if (error) {
-      showToast('Error generating OTP. Try again.');
-      btn.disabled = false; btn.textContent = 'Get Redemption OTP'; return;
-    }
-    btn.textContent = 'OTP: ' + otp;
-    btn.style.background = 'var(--green)';
-    btn.style.letterSpacing = '4px';
-    btn.style.fontSize = '1.1rem';
-    btn.style.color = '#06040A';
-    showToast('Show OTP ' + otp + ' to restaurant staff. Valid for 10 minutes.');
+  // ── CELEBRITY EVENTS ────────────────────────────────────────────────
+  function renderEvents() {
+    const tier    = (md.tier || 'free').toLowerCase();
+    const expired = isExpired(md.expires_at);
+    const effTier = (expired && tier !== 'free') ? 'free' : tier;
+    const effRank = TIER_RANK[effTier] || 0;
+    const grid    = document.getElementById('eventsGrid');
+
+    const events = DEMO_EVENTS; // Replace with Supabase fetch when events table exists
+
+    const html = events.map(ev => {
+      const locked     = ev.locked || effRank < 1;
+      const reduction  = Math.floor((md.points || 300) / 100) * 500;
+      const finalPrice = Math.max(ev.price - (locked ? 0 : reduction), ev.price * 0.3);
+
+      return `<div class="event-card${locked ? ' locked' : ''}">
+        <span class="event-tag">${ev.tag}</span>
+        <div class="event-title">${ev.title}</div>
+        <div class="event-meta">${ev.meta}</div>
+        <div class="event-price">
+          ₹${finalPrice.toLocaleString()}
+          <span>${locked ? '' : (reduction > 0 ? '· ' + reduction.toLocaleString() + ' pts applied' : '')}</span>
+        </div>
+        ${locked
+          ? `<button class="event-action locked-btn" data-action="event-upgrade" data-tier="gold" data-title="${ev.title.replace(/"/g,'&quot;')}">🔒 Unlock with Gold</button>`
+          : `<button class="event-action book-btn" data-action="book-event">Book Seat →</button>`
+        }
+      </div>`;
+    }).join('');
+
+    grid.innerHTML = html || '<div class="empty">No upcoming events. Check back soon!</div>';
+    document.getElementById('eventsSubBadge').textContent = effRank < 1 ? '🔒 Gold+' : '🌟 Exclusive';
+  }
+
+  // ── EVENT DELEGATION for events grid ───────────────────────────────
+  document.getElementById('eventsGrid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'event-upgrade') showUpgradePopup(btn.dataset.tier, btn.dataset.title);
+    if (btn.dataset.action === 'book-event')   location.href = '/events';
+  });
+
+  // ── REFERRAL STATS ───────────────────────────────────────────────────
+  async function loadReferralStats() {
+    if (!md.referral_code) return;
+    const { count } = await sbClient
+      .from('members')
+      .select('*', { count: 'exact', head: true })
+      .eq('referred_by', md.referral_code);
+    const refCount = count || 0;
+    document.getElementById('refCount').textContent     = refCount;
+    document.getElementById('refPtsEarned').textContent = (refCount * 500).toLocaleString();
   }
 
   // ── UPGRADE POPUP ───────────────────────────────────────────────────
@@ -1415,7 +1489,10 @@
     showToast(wasDone ? 'Profile updated!' : '✅ Profile complete! +25 points earned');
     btn.disabled = false;
     btn.textContent = 'Save and Earn 25 Points';
-    loadVouchers(); // Reload with new city filter
+    loadVouchers();
+    loadEvents();
+    loadPointsHistory();
+    updateMonthlyBar(md.monthly_points_earned || 0); // Reload with new city filter
   }
 
   // ── REFERRAL ────────────────────────────────────────────────────────
@@ -1466,6 +1543,193 @@
   window.copyMemberId = copyMemberId;
 
 })();
+
+  // ── LOAD CELEBRITY EVENTS ────────────────────────────────────
+  async function loadEvents() {
+    const grid = document.getElementById('eventsGrid');
+    if (!grid) return;
+    const memberPts = md.points || 0;
+
+    const { data: events, error } = await sbClient
+      .from('celebrity_events')
+      .select('*')
+      .eq('status','live')
+      .order('ticket_price', { ascending: false })
+      .limit(12);
+
+    if (error || !events || !events.length) {
+      grid.innerHTML = '<div class="empty">No events scheduled yet. Check back soon.</div>';
+      return;
+    }
+
+    const fmtINR = n => '\u20B9' + n.toLocaleString('en-IN');
+    const tierLabel = {S:'S-Class · VIP',A:'A-Class',B:'B-Class',C:'C-Class'};
+
+    grid.innerHTML = events.map(e => {
+      const seatsLeft = e.available_seats - e.reserved_seats;
+      const soldOut   = seatsLeft <= 0;
+      const ptsPerRupee = 100 / e.points_value_per_100;
+      const maxDiscount = Math.min(
+        Math.floor(e.ticket_price * e.max_discount_pct / 100),
+        e.max_discount_abs
+      );
+      const ptsForMax   = Math.ceil(maxDiscount * ptsPerRupee);
+      const usablePts   = Math.min(memberPts, ptsForMax);
+      const rawDiscount = usablePts / ptsPerRupee;
+      const discount    = Math.floor(rawDiscount / 50) * 50;
+      const ptsUsed     = Math.ceil(discount * ptsPerRupee);
+      const finalPrice  = e.ticket_price - discount;
+      const eventDate   = e.event_date
+        ? new Date(e.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})
+        : 'TBA';
+
+      return `<div class="event-card">
+        <div class="event-card-top">
+          <div class="event-tier ${e.tier}">${tierLabel[e.tier]||e.tier}</div>
+          <div class="event-name">${e.celebrity_name}</div>
+          <div class="event-title-sub">${e.event_title}</div>
+          <div class="event-meta">
+            <span class="event-meta-pill">\uD83D\uDCC5 ${eventDate}</span>
+            <span class="event-meta-pill">\uD83D\uDCCD ${e.city||'TBA'}</span>
+            <span class="event-meta-pill">${soldOut ? '\uD83D\uDD34 Sold Out' : '\uD83D\uDFE2 '+seatsLeft+' seats left'}</span>
+          </div>
+        </div>
+        <div class="event-pricing">
+          <div class="event-price-row"><span>Base price</span><span class="event-price-val">${fmtINR(e.ticket_price)}</span></div>
+          <div class="event-price-row"><span>Max possible saving</span><span class="event-price-val">${fmtINR(maxDiscount)}</span></div>
+          <div class="event-price-row"><span>Your points saving</span><span class="event-price-val hl">${discount > 0 ? '− '+fmtINR(discount)+' ('+ptsUsed+' pts)' : 'Earn points to save'}</span></div>
+          <div class="event-final">
+            <span class="event-final-label">Your price</span>
+            <span class="event-final-price">${fmtINR(finalPrice)}</span>
+          </div>
+          ${soldOut
+            ? '<div class="event-sold">SOLD OUT</div>'
+            : '<button class="event-book-btn" onclick="bookEvent(this)" data-event-id="'+e.id+'" data-final-price="'+finalPrice+'" data-discount="'+discount+'" data-pts-used="'+ptsUsed+'">Book Seat — '+fmtINR(finalPrice)+'</button>'}
+          ${!soldOut && seatsLeft <= 5 ? '<div style="font-size:.65rem;color:var(--red);text-align:center;margin-top:.3rem">\u26A1 Only '+seatsLeft+' seats left!</div>' : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── BOOK EVENT ───────────────────────────────────────────────
+  async function bookEvent(btn) {
+    const eventId    = btn.dataset.eventId;
+    const finalPrice = parseInt(btn.dataset.finalPrice);
+    btn.disabled = true; btn.textContent = 'Processing...';
+    try {
+      const sess = await sbClient.auth.getSession();
+      const jwt  = sess.data.session?.access_token;
+      if (!jwt) { showToast('Please sign in first.'); btn.disabled=false; return; }
+
+      const quoteRes = await fetch('/api/redeem-points', {
+        method:'POST',
+        headers:{'content-type':'application/json','authorization':'Bearer '+jwt},
+        body: JSON.stringify({ event_id: eventId })
+      });
+      const quote = await quoteRes.json();
+      if (!quoteRes.ok || quote.error) { showToast(quote.error||'Could not get quote.'); btn.disabled=false; return; }
+
+      const orderRes = await fetch('/api/create-order', {
+        method:'POST',
+        headers:{'content-type':'application/json','authorization':'Bearer '+jwt},
+        body: JSON.stringify({ event_id: eventId, redemption_token: quote.token })
+      });
+      const order = await orderRes.json();
+      if (!orderRes.ok || order.error) { showToast(order.error||'Could not create order.'); btn.disabled=false; return; }
+
+      const rzp = new Razorpay({
+        key: order.key_id, amount: order.amount, currency: 'INR',
+        order_id: order.order_id,
+        name: 'Dine With Celebrity', description: 'Celebrity Event Booking',
+        image: '/logo_navbar_400px.png',
+        prefill: { email: cu?.email||'' },
+        theme: { color: '#F2B705' },
+        handler: async function(response) {
+          const verRes = await fetch('/api/verify-payment', {
+            method:'POST',
+            headers:{'content-type':'application/json','authorization':'Bearer '+jwt},
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              event_id: eventId,
+            })
+          });
+          const vr = await verRes.json();
+          if (vr.success) {
+            showToast('\uD83C\uDF89 Booking confirmed! Check your email.');
+            setTimeout(() => { loadEvents(); loadPointsHistory(); loadDashboard(); }, 1500);
+          } else {
+            showToast('Payment verified but booking had an issue. Contact support.');
+          }
+        },
+        modal: { ondismiss: () => { btn.disabled=false; btn.textContent='Book Seat'; } }
+      });
+      rzp.open();
+    } catch(err) {
+      console.error('[bookEvent]', err);
+      showToast('Something went wrong. Try again.');
+      btn.disabled=false;
+    }
+  }
+
+  // ── LOAD POINTS HISTORY ──────────────────────────────────────
+  async function loadPointsHistory() {
+    const list  = document.getElementById('ptsHistoryList');
+    const expEl = document.getElementById('ptsExpiry');
+    if (!list) return;
+
+    const { data: txns } = await sbClient
+      .from('points_transactions')
+      .select('*')
+      .eq('member_id', cu.id)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (!txns || !txns.length) {
+      list.innerHTML = '<div class="empty">No points transactions yet. Start earning!</div>';
+      return;
+    }
+
+    // Expiry warning
+    if (expEl) {
+      const earns = txns.filter(t => t.type==='earn' && t.expires_at && t.points > 0);
+      if (earns.length) {
+        const earliest = earns.reduce((a,b) => new Date(a.expires_at) < new Date(b.expires_at) ? a : b);
+        const days = Math.ceil((new Date(earliest.expires_at) - new Date()) / 86400000);
+        if (days <= 30) {
+          expEl.innerHTML = '<span style="color:var(--red)">\u26A0\uFE0F Some points expire in '+days+' days!</span>';
+        } else {
+          expEl.textContent = 'Points valid for 1 year from earning';
+        }
+      }
+    }
+
+    const labels = {signup:'Welcome bonus',profile_complete:'Profile completed',referral_sent:'Referred a friend',referral_received:'Joined via referral',voucher_claim:'Claimed voucher',voucher_redeemed:'Voucher redeemed',shopping:'Shopping',travel:'Travel booking',event_booking:'Event booked',admin_credit:'Admin credit',admin_debit:'Admin adjustment',expiry:'Points expired'};
+    const icons  = {signup:'\uD83C\uDF9F\uFE0F',profile_complete:'\u2705',referral_sent:'\uD83E\uDD1D',referral_received:'\uD83C\uDF81',voucher_claim:'\uD83D\uDCCB',voucher_redeemed:'\uD83C\uDF7D\uFE0F',shopping:'\uD83D\uDECD\uFE0F',travel:'\u2708\uFE0F',event_booking:'\u2B50',admin_credit:'\uD83D\uDCB3',admin_debit:'\uD83D\uDCB3',expiry:'\u23F3'};
+
+    list.innerHTML = txns.map(t => {
+      const sign = t.type==='earn' ? '+' : '';
+      const date = new Date(t.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+      return `<div class="pts-hist-row">
+        <div class="pts-hist-left">
+          <div class="pts-hist-icon ${t.type}">${icons[t.reason]||'\u2B50'}</div>
+          <div><div class="pts-hist-reason">${labels[t.reason]||t.reason}</div><div class="pts-hist-date">${date}</div></div>
+        </div>
+        <div class="pts-hist-pts ${t.type}">${sign}${Math.abs(t.points)} pts</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── MONTHLY BAR ──────────────────────────────────────────────
+  function updateMonthlyBar(earned) {
+    const pct = Math.min(100, Math.round(((earned||0) / 2000) * 100));
+    const el  = document.getElementById('monthlyBar');
+    const lbl = document.getElementById('monthlyEarned');
+    if (el)  el.style.width = pct + '%';
+    if (lbl) lbl.textContent = earned || 0;
+  }
+
 </script>
 </body>
 </html>
