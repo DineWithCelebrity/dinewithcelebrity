@@ -1,246 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>DWC Admin — Control Center</title>
-<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DWC Super Admin</title>
+<meta name="robots" content="noindex,nofollow"/>
+<meta property="og:title" content="DWC Super Admin Dashboard"/>
+<meta property="og:description" content="Dine With Celebrity — Super Admin Control Panel"/>
+<meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Super Admin","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd"}}</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#06040A;--sidebar:#08050E;--card:#0f0b18;--card2:#13101e;
-  --gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;
-  --purple:#9b59b6;--orange:#FF6B35;--blue:#3498db;
-  --text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);
-  --muted:rgba(255,255,255,.45);--border:rgba(242,183,5,.15);
-  --border2:rgba(255,255,255,.07);--sidebar-w:220px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden;font-size:.875rem}
+:root{--bg:#06040A;--card:#0f0d14;--card2:#13111a;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--blue:#1a6fff;--purple:#7c3aed;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.45);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08);--sidebar:160px;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;overflow:hidden}
+a{color:inherit;text-decoration:none}
+/* ── STARS ── */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
-@keyframes tw{0%{opacity:.03;transform:scale(.85)}100%{opacity:.18;transform:scale(1.1)}}
-
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3s ease-in-out infinite alternate}
+@keyframes tw{0%{opacity:.03}100%{opacity:.18}}
 /* ── LOGIN ── */
-#loginScreen{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:var(--bg)}
-.login-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;width:360px;text-align:center}
-.login-logo{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--gold);letter-spacing:.08em;margin-bottom:4px}
-.login-sub{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:28px}
-.lf{margin-bottom:14px;text-align:left}
-.lf label{font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
-.lf input{width:100%;background:#0a0712;border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:9px;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
-.lf input:focus{border-color:var(--gold)}
-.btn-login{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-weight:800;font-size:.9rem;padding:13px;border-radius:9px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;margin-top:6px;transition:opacity .2s}
+#loginScreen{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
+.login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2.5rem 2rem}
+.login-logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.08em;margin-bottom:2rem;display:block}
+.login-logo span{color:var(--text)}
+.login-title{font-family:'Bebas Neue',cursive;font-size:2.2rem;color:var(--text);margin-bottom:.25rem}
+.login-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.75rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.field input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.75rem 1rem;border-radius:8px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--gold)}
+.field input::placeholder{color:rgba(255,255,255,.25)}
+.btn-login{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.85rem;font-family:'Poppins',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:opacity .2s}
 .btn-login:hover{opacity:.88}
 .btn-login:disabled{opacity:.5;cursor:not-allowed}
-.login-err{color:#ff6b6b;font-size:.8rem;margin-top:10px;display:none}
-
-/* ── LAYOUT ── */
-#appShell{display:none;position:relative;z-index:1}
-.layout{display:flex;min-height:100vh}
-
+.login-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.8rem;padding:.6rem .9rem;border-radius:6px;display:none;text-align:center;margin-top:.75rem}
+/* ── APP SHELL ── */
+#app{position:fixed;inset:0;display:none;z-index:10}
 /* ── SIDEBAR ── */
-.sidebar{width:var(--sidebar-w);background:var(--sidebar);border-right:1px solid var(--border2);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:50}
-.sb-brand{padding:20px 18px 16px;border-bottom:1px solid var(--border2)}
-.sb-brand-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em}
-.sb-brand-sub{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.18em;margin-top:2px}
-.sb-admin{font-size:.72rem;color:var(--sub);margin-top:6px;font-weight:600}
-.sb-role{display:inline-block;font-size:.58rem;font-weight:800;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.1em;margin-top:3px;background:rgba(242,183,5,.12);border:1px solid var(--border);color:var(--gold)}
-.sb-nav{flex:1;padding:12px 0;overflow-y:auto}
-.sb-section{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);padding:10px 18px 4px}
-.sb-item{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:.82rem;color:var(--muted);cursor:pointer;transition:all .2s;border-left:3px solid transparent}
-.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
-.sb-item.active{color:var(--gold);background:rgba(242,183,5,.05);border-left-color:var(--gold)}
-.sb-item-icon{font-size:.95rem;width:16px;text-align:center;flex-shrink:0}
-.sb-badge{background:var(--red);color:#fff;font-size:.58rem;font-weight:800;padding:1px 6px;border-radius:100px;margin-left:auto}
-.sb-bottom{padding:14px 18px;border-top:1px solid var(--border2)}
-.btn-logout{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:color .2s;padding:0}
-.btn-logout:hover{color:var(--red)}
-
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:rgba(6,4,10,.97);border-right:1px solid var(--border2);z-index:50;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:1.1rem .9rem .8rem;border-bottom:1px solid var(--border2);flex-shrink:0}
+.sb-logo img{height:38px;width:auto}
+.sb-user{padding:.7rem .9rem;border-bottom:1px solid var(--border2);flex-shrink:0}
+.sb-name{font-size:.75rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-role{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+.sb-nav{flex:1;padding:.5rem 0}
+.sb-section-label{font-size:.58rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;padding:.6rem .9rem .3rem}
+.sb-item{display:flex;align-items:center;gap:.55rem;padding:.55rem .9rem;cursor:pointer;transition:background .15s,color .15s;border-radius:0;font-size:.75rem;color:var(--sub);white-space:nowrap;overflow:hidden}
+.sb-item:hover{background:rgba(242,183,5,.06);color:var(--text)}
+.sb-item.active{background:rgba(242,183,5,.1);color:var(--gold);border-right:2px solid var(--gold)}
+.sb-icon{font-size:.9rem;width:16px;text-align:center;flex-shrink:0}
+.sb-bottom{padding:.75rem .9rem;border-top:1px solid var(--border2);flex-shrink:0}
+.sb-signout{font-size:.72rem;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:.4rem;background:none;border:none;font-family:'Poppins',sans-serif;width:100%;padding:.4rem 0}
+.sb-signout:hover{color:var(--red)}
 /* ── MAIN ── */
-.main{margin-left:var(--sidebar-w);flex:1;padding:24px 28px;min-height:100vh}
-.page-header{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.page-title{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--text);line-height:1}
-.page-title em{color:var(--gold);font-style:normal}
-.page-sub{font-size:.82rem;color:var(--muted);margin-top:3px}
-.section{display:none}
-.section.active{display:block}
-
+.main{position:fixed;left:var(--sidebar);top:0;right:0;bottom:0;overflow-y:auto;background:var(--bg)}
+.sec{display:none;padding:1.75rem 2rem 4rem;min-height:100%}
+.sec.active{display:block}
+.sec-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+.sec-title{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--text);letter-spacing:1px}
+.sec-title em{color:var(--gold);font-style:normal}
+.sec-sub{font-size:.78rem;color:var(--muted);margin-top:.2rem}
 /* ── STAT CARDS ── */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
-.stat-card{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:18px;position:relative;overflow:hidden;transition:border-color .2s}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.stat-gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.stat-green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
-.stat-red::before{background:linear-gradient(90deg,transparent,var(--red),transparent)}
-.stat-purple::before{background:linear-gradient(90deg,transparent,var(--purple),transparent)}
-.stat-blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.stat-orange::before{background:linear-gradient(90deg,transparent,var(--orange),transparent)}
-.stat-icon{font-size:1.4rem;opacity:.2;position:absolute;top:14px;right:14px}
-.stat-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:7px}
-.stat-value{font-family:'Bebas Neue',cursive;font-size:2.2rem;line-height:1;color:var(--text)}
-.stat-sub{font-size:.68rem;color:var(--muted);margin-top:3px}
-
-/* ── CARDS & TABLES ── */
-.card{background:var(--card);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin-bottom:20px}
-.card-header{padding:14px 18px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.card-title{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--text)}
-.card-body{padding:18px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
-table{width:100%;border-collapse:collapse}
-th{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border2);text-align:left;white-space:nowrap}
-td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem;color:var(--sub);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,.02)}
-
-/* ── BADGES ── */
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:100px;text-transform:uppercase;letter-spacing:.07em}
-.badge-free{background:rgba(255,255,255,.07);border:1px solid var(--border2);color:var(--muted)}
-.badge-gold{background:rgba(242,183,5,.12);border:1px solid rgba(242,183,5,.3);color:var(--gold)}
-.badge-platinum{background:rgba(200,200,220,.08);border:1px solid rgba(200,200,220,.2);color:#E8E8E8}
-.badge-purple{background:rgba(155,89,182,.12);border:1px solid rgba(155,89,182,.3);color:#c39bd3}
-.badge-active{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:var(--green)}
-.badge-pending{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.2);color:#ffb347}
-.badge-rejected{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.2);color:#ff8080}
-.badge-blocked{background:rgba(212,0,42,.15);border:1px solid rgba(212,0,42,.3);color:#ff6b6b}
-.badge-basic{background:rgba(255,255,255,.07);border:1px solid var(--border2);color:var(--muted)}
-.badge-growth{background:rgba(242,183,5,.1);border:1px solid var(--border);color:var(--gold)}
-.badge-premium{background:rgba(155,89,182,.12);border:1px solid rgba(155,89,182,.3);color:#c39bd3}
-
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.9rem;margin-bottom:1.5rem}
+.stat-card{background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.1rem}
+.stat-val{font-family:'Bebas Neue',cursive;font-size:2rem;line-height:1;color:var(--gold);margin-bottom:.2rem}
+.stat-label{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.stat-sub{font-size:.7rem;color:var(--sub);margin-top:.2rem}
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.card-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text);margin-bottom:.25rem}
+.card-sub{font-size:.75rem;color:var(--muted);margin-bottom:1rem}
 /* ── BUTTONS ── */
-.btn{font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:700;padding:6px 13px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px}
-.btn-primary{background:var(--gold);color:#06040A}
+.btn-primary{background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.55rem 1.2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:opacity .2s;white-space:nowrap}
 .btn-primary:hover{opacity:.88}
-.btn-success{background:rgba(0,200,83,.15);border:1px solid rgba(0,200,83,.3);color:var(--green)}
-.btn-success:hover{background:rgba(0,200,83,.25)}
-.btn-danger{background:rgba(212,0,42,.12);border:1px solid rgba(212,0,42,.25);color:#ff8080}
-.btn-danger:hover{background:rgba(212,0,42,.22)}
-.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--sub)}
-.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
-.btn-sm{padding:4px 10px;font-size:.7rem}
-
-/* ── SEARCH & FILTERS ── */
-.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.search-input{background:#0a0712;border:1px solid var(--border2);color:var(--text);padding:8px 13px;border-radius:9px;font-family:'Poppins',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;width:220px}
-.search-input:focus{border-color:var(--gold)}
-.filter-select{background:#0a0712;border:1px solid var(--border2);color:var(--text);padding:8px 12px;border-radius:9px;font-family:'Poppins',sans-serif;font-size:.8rem;outline:none;cursor:pointer}
-.filter-select option{background:#0a0712}
-
-/* ── PAGINATION ── */
-.pagination{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid var(--border2)}
-.page-info{font-size:.75rem;color:var(--muted);flex:1}
-.btn-page{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--sub);font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:600;padding:5px 13px;border-radius:7px;cursor:pointer;transition:all .2s}
-.btn-page:hover{border-color:var(--gold);color:var(--gold)}
-.btn-page:disabled{opacity:.4;cursor:not-allowed}
-
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-secondary{background:transparent;color:var(--sub);border:1px solid var(--border2);border-radius:8px;padding:.5rem 1.1rem;font-family:'Poppins',sans-serif;font-size:.76rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:rgba(212,0,42,.12);color:var(--red);border:1px solid rgba(212,0,42,.3);border-radius:8px;padding:.45rem .9rem;font-family:'Poppins',sans-serif;font-size:.72rem;cursor:pointer;white-space:nowrap}
+.btn-danger:hover{background:rgba(212,0,42,.2)}
+.btn-sm{padding:.35rem .7rem;font-size:.68rem}
+.btn-green{background:rgba(0,200,83,.12);color:var(--green);border:1px solid rgba(0,200,83,.3);border-radius:8px;padding:.45rem .9rem;font-family:'Poppins',sans-serif;font-size:.72rem;cursor:pointer}
+.btn-green:hover{background:rgba(0,200,83,.2)}
+/* ── FILTERS ── */
+.filter-row{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.filter-input,.filter-sel{background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.5rem .75rem;border-radius:8px;font-family:'Poppins',sans-serif;font-size:.78rem;outline:none;transition:border-color .2s}
+.filter-input{flex:1;min-width:180px}
+.filter-input:focus,.filter-sel:focus{border-color:var(--gold)}
+.filter-input::placeholder{color:rgba(255,255,255,.25)}
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border2)}
+table{width:100%;border-collapse:collapse;min-width:600px}
+thead th{background:rgba(255,255,255,.03);font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.7rem .9rem;text-align:left;border-bottom:1px solid var(--border2);white-space:nowrap}
+tbody td{font-size:.78rem;color:var(--sub);padding:.7rem .9rem;border-bottom:1px solid rgba(255,255,255,.04)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+.td-actions{display:flex;gap:.4rem;flex-wrap:wrap}
+.empty{text-align:center;padding:2.5rem;color:var(--muted);font-size:.82rem}
+/* ── BADGES ── */
+.badge{display:inline-block;font-size:.6rem;font-weight:700;padding:.18rem .55rem;border-radius:100px;text-transform:uppercase;letter-spacing:.06em}
+.badge-gold{background:rgba(242,183,5,.12);border:1px solid rgba(242,183,5,.3);color:var(--gold)}
+.badge-green{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:var(--green)}
+.badge-red{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.25);color:#ff6b6b}
+.badge-blue{background:rgba(26,111,255,.1);border:1px solid rgba(26,111,255,.25);color:#7eb3ff}
+.badge-gray{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--muted)}
+.badge-purple{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);color:#c4b5fd}
 /* ── MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto}
-.modal-title{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--text);margin-bottom:4px}
-.modal-sub{font-size:.8rem;color:var(--muted);margin-bottom:22px}
-.mf{margin-bottom:14px}
-.mf label{display:block;font-size:.68rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-.mf input,.mf select,.mf textarea{width:100%;background:#0a0712;border:1px solid var(--border2);color:var(--text);padding:11px 13px;border-radius:9px;font-family:'Poppins',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
-.mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--gold)}
-.mf select option{background:#0a0712}
-.mf textarea{resize:vertical;min-height:80px}
-.modal-actions{display:flex;gap:10px;margin-top:18px}
-.modal-actions .btn{flex:1;justify-content:center;padding:11px}
-.modal-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.8rem;padding:10px 13px;border-radius:8px;margin-top:10px;display:none;text-align:center}
-
-/* ── ALERTS ── */
-.alert{padding:10px 14px;border-radius:9px;font-size:.8rem;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px}
-.alert-warning{background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);color:#ffb347}
-.alert-danger{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.2);color:#ff8080}
-
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.modal-backdrop.open{display:flex}
+.modal{background:#0f0d14;border:1px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:580px;max-height:88vh;overflow-y:auto;position:relative}
+.modal-title{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--gold);margin-bottom:1.5rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:.25rem}
+.modal-close:hover{color:var(--red)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.form-grid .full{grid-column:1/-1}
+.form-field label{display:block;font-size:.68rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.form-field input,.form-field select,.form-field textarea{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.62rem .85rem;border-radius:8px;font-family:'Poppins',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--gold)}
+.form-field input::placeholder,.form-field textarea::placeholder{color:rgba(255,255,255,.25)}
+.form-field textarea{resize:vertical;min-height:70px}
+.form-field select option{background:#0f0d14}
+.modal-actions{display:flex;gap:.75rem;margin-top:1.5rem}
+.modal-msg{font-size:.78rem;padding:.5rem .75rem;border-radius:6px;margin-top:.75rem;display:none}
+.modal-msg.success{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:var(--green)}
+.modal-msg.error{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b}
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;gap:.5rem;margin-top:1rem;justify-content:flex-end;font-size:.75rem}
+.page-btn{background:var(--card);border:1px solid var(--border2);color:var(--sub);padding:.35rem .75rem;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.72rem}
+.page-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.page-btn:disabled{opacity:.35;cursor:not-allowed}
+.page-info{color:var(--muted)}
+/* ── CONFIG GRID ── */
+.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.config-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:1rem}
+.config-key{font-size:.68rem;color:var(--muted);font-family:monospace;margin-bottom:.4rem}
+.config-label{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.config-desc{font-size:.7rem;color:var(--muted);margin-bottom:.75rem;line-height:1.5}
+.config-val{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.55rem .75rem;border-radius:6px;font-family:'Poppins',sans-serif;font-size:.82rem;outline:none}
+.config-val:focus{border-color:var(--gold)}
+.config-save{margin-top:.5rem}
+/* ── FLAG TOGGLE ── */
+.flag-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.flag-info{flex:1}
+.flag-label{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.flag-desc{font-size:.7rem;color:var(--muted)}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:100px;cursor:pointer;transition:.3s;border:1px solid var(--border2)}
+.toggle input:checked+.toggle-slider{background:var(--gold);border-color:var(--gold)}
+.toggle-slider::before{content:'';position:absolute;height:18px;width:18px;left:2px;bottom:2px;background:#06040A;border-radius:50%;transition:.3s}
+.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
 /* ── TOAST ── */
-#toast{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px}
-.toast-item{background:var(--card2);border-left:3px solid var(--green);border-radius:10px;padding:12px 16px;font-size:.82rem;color:var(--text);box-shadow:0 4px 20px rgba(0,0,0,.4);animation:toastIn .3s ease;max-width:320px}
-.toast-item.error{border-left-color:var(--red)}
-.toast-item.warning{border-left-color:var(--gold)}
-@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-
-/* ── PARTNER APPROVAL CARD ── */
-.partner-card{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:18px;margin-bottom:12px;transition:border-color .2s}
-.partner-card:hover{border-color:var(--border)}
-.partner-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.partner-name{font-weight:700;font-size:.95rem;color:var(--text)}
-.partner-meta{font-size:.75rem;color:var(--muted);margin-top:2px}
-.partner-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.ps-item{background:rgba(255,255,255,.03);border-radius:8px;padding:10px;text-align:center}
-.ps-val{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--gold);line-height:1}
-.ps-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
-.partner-actions{display:flex;gap:8px;flex-wrap:wrap}
-
-/* ── VOUCHER CARD ── */
-.voucher-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04)}
-.voucher-row:last-child{border-bottom:none}
-.v-title{font-weight:600;font-size:.85rem;color:var(--text)}
-.v-meta{font-size:.72rem;color:var(--muted);margin-top:2px}
-.v-actions{display:flex;gap:6px;flex-shrink:0}
-
-/* ── LOGS ── */
-.log-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.log-item:last-child{border-bottom:none}
-.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.log-dot-partner{background:var(--blue)}
-.log-dot-member{background:var(--green)}
-.log-dot-voucher{background:var(--gold)}
-.log-dot-payment{background:var(--purple)}
-.log-dot-system{background:var(--muted)}
-.log-action{font-size:.82rem;color:var(--text);font-weight:600}
-.log-detail{font-size:.72rem;color:var(--muted);margin-top:2px}
-.log-time{font-size:.68rem;color:var(--muted);white-space:nowrap;margin-left:auto;flex-shrink:0}
-
-/* ── OVERVIEW ALERTS ── */
-.alert-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-.alert-widget{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:16px}
-.aw-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.aw-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem}
-.aw-item:last-child{border-bottom:none}
-.aw-label{color:var(--sub)}
-.aw-val{color:var(--gold);font-weight:700}
-
-/* ── EDIT INLINE ── */
-.editable{border:1px solid transparent;border-radius:6px;padding:3px 7px;background:transparent;color:var(--text);font-family:'Poppins',sans-serif;font-size:.8rem;outline:none;transition:all .2s;width:100%}
-.editable:focus{border-color:var(--gold);background:#0a0712}
-
-/* ── EMPTY STATE ── */
-.empty{text-align:center;padding:48px 20px;color:var(--muted)}
-.empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.3}
-.empty-text{font-size:.88rem}
-
-/* ── SECTION TABS ── */
-.sub-tabs{display:flex;gap:4px;margin-bottom:20px;background:rgba(255,255,255,.03);border-radius:10px;padding:4px;width:fit-content}
-.sub-tab{padding:7px 16px;border-radius:8px;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:none;font-family:'Poppins',sans-serif}
-.sub-tab.active{background:var(--gold);color:#06040A}
-.sub-tab-content{display:none}
-.sub-tab-content.active{display:block}
-
-/* ── PAYMENT ROW ── */
-.payment-type-member{color:var(--green)}
-.payment-type-partner{color:var(--blue)}
-
-/* ── ANALYTICS ── */
-.chart-bar-wrap{display:flex;flex-direction:column;gap:10px}
-.chart-bar-row{display:flex;align-items:center;gap:12px}
-.chart-bar-label{font-size:.75rem;color:var(--sub);width:100px;flex-shrink:0;text-align:right}
-.chart-bar-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
-.chart-bar-fill{height:100%;border-radius:100px;transition:width .6s ease}
-.chart-bar-val{font-size:.72rem;color:var(--muted);width:40px;text-align:right}
-
-/* ── LOADER ── */
-.loader{width:28px;height:28px;border:2px solid rgba(242,183,5,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:20px auto}
-@keyframes spin{to{transform:rotate(360deg)}}
-
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:#13111a;border:1px solid var(--border);border-radius:10px;padding:.85rem 1.25rem;font-size:.8rem;color:var(--text);max-width:320px;transform:translateY(120%);transition:transform .3s ease;pointer-events:none}
+#toast.show{transform:translateY(0)}
+/* ── OVERVIEW SPECIFIC ── */
+.revenue-card{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.02));border:1px solid rgba(242,183,5,.2);border-radius:14px;padding:1.25rem 1.5rem}
+.revenue-num{font-family:'Bebas Neue',cursive;font-size:2.5rem;color:var(--gold);line-height:1}
+.event-pipeline{display:grid;gap:.75rem}
+.pipeline-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.pi-celeb{font-weight:700;font-size:.85rem;color:var(--text)}
+.pi-date{font-size:.72rem;color:var(--muted)}
+.pi-seats{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--gold)}
+/* ── CMS ── */
+.cms-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cms-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:1rem}
+.cms-label{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.cms-desc{font-size:.68rem;color:var(--muted);margin-bottom:.6rem}
+.cms-input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.55rem .75rem;border-radius:6px;font-family:'Poppins',sans-serif;font-size:.82rem;outline:none}
+.cms-input:focus{border-color:var(--gold)}
+/* ── ADMIN ROLES ── */
+.role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-bottom:1rem}
+.role-perm{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--sub)}
+.role-perm input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px}
+/* ── DYNAMIC PRICING PREVIEW ── */
+.dp-preview{background:rgba(26,111,255,.05);border:1px solid rgba(26,111,255,.15);border-radius:10px;padding:.9rem 1rem;margin-top:.75rem;font-size:.75rem;color:var(--sub)}
+.dp-row{display:flex;justify-content:space-between;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.dp-row:last-child{border-bottom:none}
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%)}
-  .main{margin-left:0;padding:16px}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .grid2{grid-template-columns:1fr}
-  .alert-row{grid-template-columns:1fr}
+  :root{--sidebar:0px}
+  .sidebar{transform:translateX(-160px);transition:transform .3s}
+  .sidebar.open{transform:translateX(0);width:160px}
+  .main{left:0}
+  .config-grid,.cms-grid,.form-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -249,1240 +190,1599 @@ tr:hover td{background:rgba(255,255,255,.02)}
 
 <!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-card">
-    <div class="login-logo">★ DWC</div>
-    <div class="login-sub">Admin Control Center</div>
-    <div class="lf"><label>Email</label><input type="email" id="lEmail" placeholder="admin@dinewithcelebrity.com" autocomplete="email"></div>
-    <div class="lf"><label>Password</label><input type="password" id="lPass" placeholder="Password" autocomplete="current-password"></div>
+  <div class="login-box">
+    <a class="login-logo" href="/">★ DINE <span>WITH CELEBRITY</span></a>
+    <div class="login-title">SUPER ADMIN</div>
+    <p class="login-sub">Restricted access. Authorised personnel only.</p>
+    <div class="field"><label>Email</label><input type="email" id="lEmail" placeholder="admin@dinewithcelebrity.com" autocomplete="email"/></div>
+    <div class="field"><label>Password</label><input type="password" id="lPass" placeholder="Password" autocomplete="current-password"/></div>
     <button class="btn-login" id="btnLogin">Sign In</button>
     <div class="login-err" id="lErr"></div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="appShell">
-<div class="layout">
-
+<div id="app">
   <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sb-brand">
-      <div class="sb-brand-logo">★ DWC ADMIN</div>
-      <div class="sb-brand-sub">Control Center</div>
-      <div class="sb-admin" id="sbEmail">—</div>
-      <span class="sb-role" id="sbRole">Super Admin</span>
+  <nav class="sidebar">
+    <div class="sb-logo"><img src="/logo_navbar_400px.png" alt="DWC" onerror="this.src='/logo.png'"/></div>
+    <div class="sb-user"><div class="sb-name" id="sbName">Admin</div><div class="sb-role" id="sbRole">Super Admin</div></div>
+    <div class="sb-nav">
+      <div class="sb-section-label">Core</div>
+      <div class="sb-item active" onclick="showSection('overview')" id="nav-overview"><span class="sb-icon">📊</span>Overview</div>
+      <div class="sb-section-label">Entertainment</div>
+      <div class="sb-item" onclick="showSection('celebrities')" id="nav-celebrities"><span class="sb-icon">⭐</span>Celebrities</div>
+      <div class="sb-item" onclick="showSection('agencies')" id="nav-agencies"><span class="sb-icon">🤝</span>Agencies</div>
+      <div class="sb-item" onclick="showSection('events')" id="nav-events"><span class="sb-icon">🎟️</span>Events</div>
+      <div class="sb-item" onclick="showSection('bookings')" id="nav-bookings"><span class="sb-icon">📋</span>Bookings</div>
+      <div class="sb-item" onclick="showSection('sponsors')" id="nav-sponsors"><span class="sb-icon">💼</span>Sponsors</div>
+      <div class="sb-section-label">Members & Partners</div>
+      <div class="sb-item" onclick="showSection('members')" id="nav-members"><span class="sb-icon">👥</span>Members</div>
+      <div class="sb-item" onclick="showSection('partners')" id="nav-partners"><span class="sb-icon">🏪</span>Partners</div>
+      <div class="sb-item" onclick="showSection('vouchers')" id="nav-vouchers"><span class="sb-icon">🎁</span>Vouchers</div>
+      <div class="sb-section-label">Control</div>
+      <div class="sb-item" onclick="showSection('cms')" id="nav-cms"><span class="sb-icon">📝</span>CMS</div>
+      <div class="sb-item" onclick="showSection('config')" id="nav-config"><span class="sb-icon">⚙️</span>Config</div>
+      <div class="sb-item" onclick="showSection('admins')" id="nav-admins"><span class="sb-icon">🔐</span>Admins</div>
+      <div class="sb-item" onclick="showSection('logs')" id="nav-logs"><span class="sb-icon">🔍</span>Audit Logs</div>
     </div>
-    <nav class="sb-nav">
-      <div class="sb-section">Dashboard</div>
-      <div class="sb-item active" data-sec="overview" onclick="showSection('overview')"><span class="sb-item-icon">📊</span> Overview</div>
-      <div class="sb-section">Management</div>
-      <div class="sb-item" data-sec="members" onclick="showSection('members')"><span class="sb-item-icon">👥</span> Members</div>
-      <div class="sb-item" data-sec="partners" onclick="showSection('partners')"><span class="sb-item-icon">🤝</span> Partners <span class="sb-badge" id="pendingBadge" style="display:none">0</span></div>
-      <div class="sb-item" data-sec="vouchers" onclick="showSection('vouchers')"><span class="sb-item-icon">🎟️</span> Vouchers <span class="sb-badge" id="voucherBadge" style="display:none">0</span></div>
-      <div class="sb-section">Finance</div>
-      <div class="sb-item" data-sec="payments" onclick="showSection('payments')"><span class="sb-item-icon">💰</span> Payments</div>
-      <div class="sb-section">Insights</div>
-      <div class="sb-item" data-sec="analytics" onclick="showSection('analytics')"><span class="sb-item-icon">📈</span> Analytics</div>
-      <div class="sb-item" data-sec="logs" onclick="showSection('logs')"><span class="sb-item-icon">🛡️</span> Audit Logs</div>
-      <div class="sb-section">System</div>
-      <div class="sb-item" data-sec="settings" onclick="showSection('settings')"><span class="sb-item-icon">⚙️</span> Settings</div>
-    </nav>
     <div class="sb-bottom">
-      <button class="btn-logout" onclick="doLogout()">⬅ Sign Out</button>
+      <button class="sb-signout" onclick="signOut()">🚪 Sign Out</button>
     </div>
-  </aside>
+  </nav>
 
   <!-- MAIN CONTENT -->
   <main class="main">
 
-    <!-- ── OVERVIEW ── -->
-    <div class="section active" id="sec-overview">
-      <div class="page-header">
-        <div><div class="page-title">CONTROL <em>TOWER</em></div><div class="page-sub">Real-time business overview</div></div>
-        <button class="btn btn-ghost" onclick="initOverview()">↻ Refresh</button>
+    <!-- 1. OVERVIEW -->
+    <section class="sec active" id="sec-overview">
+      <div class="sec-header">
+        <div><div class="sec-title">📊 OVERVIEW</div><div class="sec-sub">Real-time platform snapshot</div></div>
+        <button class="btn-secondary" onclick="loadOverview()">↻ Refresh</button>
       </div>
       <div class="stats-row">
-        <div class="stat-card stat-gold"><div class="stat-icon">👥</div><div class="stat-label">Total Members</div><div class="stat-value" id="ov-members">—</div><div class="stat-sub" id="ov-members-sub">Loading...</div></div>
-        <div class="stat-card stat-green"><div class="stat-icon">💳</div><div class="stat-label">Paid Members</div><div class="stat-value" id="ov-paid">—</div><div class="stat-sub">Gold + Platinum + Purple</div></div>
-        <div class="stat-card stat-blue"><div class="stat-icon">🤝</div><div class="stat-label">Partners</div><div class="stat-value" id="ov-partners">—</div><div class="stat-sub" id="ov-partners-sub">Loading...</div></div>
-        <div class="stat-card stat-purple"><div class="stat-icon">🎟️</div><div class="stat-label">Redemptions</div><div class="stat-value" id="ov-redemptions">—</div><div class="stat-sub">All time</div></div>
-        <div class="stat-card stat-orange"><div class="stat-icon">⏰</div><div class="stat-label">Expiring Soon</div><div class="stat-value" id="ov-expiring">—</div><div class="stat-sub">Members in 7 days</div></div>
-        <div class="stat-card stat-red"><div class="stat-icon">🚨</div><div class="stat-label">Pending Actions</div><div class="stat-value" id="ov-pending">—</div><div class="stat-sub" id="ov-pending-sub">Partners + Vouchers</div></div>
+        <div class="stat-card"><div class="stat-val" id="ov-members" style="color:var(--gold)">—</div><div class="stat-label">Total Members</div><div class="stat-sub" id="ov-members-sub"></div></div>
+        <div class="stat-card"><div class="stat-val" id="ov-paid" style="color:var(--green)">—</div><div class="stat-label">Paid Members</div></div>
+        <div class="stat-card"><div class="stat-val" id="ov-partners" style="color:var(--blue)">—</div><div class="stat-label">Active Partners</div></div>
+        <div class="stat-card"><div class="stat-val" id="ov-events" style="color:var(--purple)">—</div><div class="stat-label">Live Events</div></div>
+        <div class="stat-card"><div class="stat-val" id="ov-bookings-count" style="color:var(--gold2)">—</div><div class="stat-label">Bookings</div></div>
+        <div class="stat-card"><div class="stat-val" id="ov-celebrities" style="color:#ff6b6b">—</div><div class="stat-label">Celebrities</div></div>
       </div>
-      <div class="alert-row">
-        <div class="alert-widget">
-          <div class="aw-title">⏳ Pending Partner Approvals</div>
-          <div id="ov-pending-partners"><div class="loader"></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="revenue-card">
+          <div class="card-sub">Total DWC Revenue (Voucher Fees)</div>
+          <div class="revenue-num" id="ov-revenue">₹0</div>
+          <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">12% of all voucher face values redeemed</div>
         </div>
-        <div class="alert-widget">
-          <div class="aw-title">🎟️ Pending Voucher Approvals</div>
-          <div id="ov-pending-vouchers"><div class="loader"></div></div>
+        <div class="revenue-card">
+          <div class="card-sub">Pending Partner Approvals</div>
+          <div class="revenue-num" id="ov-pending" style="color:var(--red)">0</div>
+          <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem"><a onclick="showSection('partners')" style="color:var(--gold);cursor:pointer">View pending →</a></div>
         </div>
-      </div>
-      <div class="grid2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Recent Members</div></div>
-          <table><thead><tr><th>Name</th><th>Tier</th><th>Joined</th></tr></thead><tbody id="ov-recent-members"><tr><td colspan="3"><div class="loader"></div></td></tr></tbody></table>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Recent Redemptions</div></div>
-          <table><thead><tr><th>Member</th><th>Partner</th><th>Date</th></tr></thead><tbody id="ov-recent-redemptions"><tr><td colspan="3"><div class="loader"></div></td></tr></tbody></table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── MEMBERS ── -->
-    <div class="section" id="sec-members">
-      <div class="page-header">
-        <div><div class="page-title">MEMBER <em>MANAGEMENT</em></div><div class="page-sub">View, manage and control member accounts</div></div>
       </div>
       <div class="card">
-        <div class="card-header">
-          <div class="toolbar">
-            <input class="search-input" id="m-search" placeholder="Search name or email…" oninput="filterMembers()">
-            <select class="filter-select" id="m-tier" onchange="filterMembers()">
-              <option value="">All Tiers</option>
-              <option value="free">Free</option>
-              <option value="gold">Gold</option>
-              <option value="platinum">Platinum</option>
-              <option value="dwcpurple">DWC Purple</option>
-            </select>
-            <select class="filter-select" id="m-status" onchange="filterMembers()">
-              <option value="">All Status</option>
-              <option value="active">Active</option>
-              <option value="blocked">Blocked</option>
-            </select>
-          </div>
-          <div id="m-count" style="font-size:.75rem;color:var(--muted)"></div>
-        </div>
-        <div style="overflow-x:auto">
-          <table>
-            <thead><tr><th>Member ID</th><th>Name</th><th>Email</th><th>Tier</th><th>Points</th><th>City</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="m-tbody"><tr><td colspan="9"><div class="loader"></div></td></tr></tbody>
-          </table>
-        </div>
-        <div class="pagination"><div class="page-info" id="m-info"></div><button class="btn-page" id="m-prev" onclick="membersPage(-1)">← Prev</button><button class="btn-page" id="m-next" onclick="membersPage(1)">Next →</button></div>
+        <div class="card-title">Upcoming Events</div>
+        <div class="event-pipeline" id="ov-pipeline"><div class="empty">No upcoming events</div></div>
       </div>
-    </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="card">
+          <div class="card-title">Recent Members</div>
+          <div id="ov-recent-members"><div class="empty">Loading...</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Recent Bookings</div>
+          <div id="ov-recent-bookings"><div class="empty">Loading...</div></div>
+        </div>
+      </div>
+    </section>
 
-    <!-- ── PARTNERS ── -->
-    <div class="section" id="sec-partners">
-      <div class="page-header">
-        <div><div class="page-title">PARTNER <em>MANAGEMENT</em></div><div class="page-sub">Approvals, contracts, performance</div></div>
-      </div>
-      <div class="sub-tabs">
-        <button class="sub-tab active" onclick="switchPartnerTab('pending',this)">⏳ Pending Approval</button>
-        <button class="sub-tab" onclick="switchPartnerTab('active',this)">✅ Active Partners</button>
-        <button class="sub-tab" onclick="switchPartnerTab('all',this)">📋 All Partners</button>
-      </div>
-      <div class="sub-tab-content active" id="pt-pending">
-        <div id="pending-partners-list"><div class="loader"></div></div>
-      </div>
-      <div class="sub-tab-content" id="pt-active">
-        <div class="card">
-          <div class="card-header">
-            <div class="toolbar">
-              <input class="search-input" id="pa-search" placeholder="Search partner…" oninput="filterActivePartners()">
-              <select class="filter-select" id="pa-tier" onchange="filterActivePartners()">
-                <option value="">All Tiers</option>
-                <option value="basic">Basic</option>
-                <option value="growth">Growth</option>
-                <option value="premium">Premium</option>
-              </select>
-            </div>
-          </div>
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Name</th><th>City</th><th>Tier</th><th>Contract End</th><th>Vouchers</th><th>Redemptions</th><th>Actions</th></tr></thead>
-              <tbody id="pa-tbody"><tr><td colspan="7"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
+    <!-- 2. CELEBRITIES -->
+    <section class="sec" id="sec-celebrities">
+      <div class="sec-header">
+        <div><div class="sec-title">⭐ CELEBRITIES</div><div class="sec-sub">Manage celebrity roster, pricing and availability</div></div>
+        <div style="display:flex;gap:.6rem">
+          <button class="btn-secondary" onclick="loadCelebrities()">↻ Refresh</button>
+          <button class="btn-primary" onclick="openCelebModal()">+ Add Celebrity</button>
         </div>
       </div>
-      <div class="sub-tab-content" id="pt-all">
-        <div class="card">
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Status</th><th>Tier</th><th>Applied</th><th>Actions</th></tr></thead>
-              <tbody id="pall-tbody"><tr><td colspan="7"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
-        </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val" id="cel-total">—</div><div class="stat-label">Total</div></div>
+        <div class="stat-card"><div class="stat-val" id="cel-available" style="color:var(--green)">—</div><div class="stat-label">Available</div></div>
+        <div class="stat-card"><div class="stat-val" id="cel-booked" style="color:var(--red)">—</div><div class="stat-label">Booked</div></div>
+        <div class="stat-card"><div class="stat-val" id="cel-s">—</div><div class="stat-label">S-Class</div></div>
+        <div class="stat-card"><div class="stat-val" id="cel-a">—</div><div class="stat-label">A-Class</div></div>
       </div>
-    </div>
+      <div class="filter-row">
+        <input type="text" class="filter-input" id="cel-search" placeholder="Search celebrity name..." oninput="loadCelebrities()"/>
+        <select class="filter-sel" id="cel-tier" onchange="loadCelebrities()">
+          <option value="">All Tiers</option>
+          <option value="S">S-Class</option><option value="A">A-Class</option>
+          <option value="B">B-Class</option><option value="C">C-Class</option>
+        </select>
+        <select class="filter-sel" id="cel-avail" onchange="loadCelebrities()">
+          <option value="">All Status</option>
+          <option value="available">Available</option>
+          <option value="booked">Booked</option>
+          <option value="coming_soon">Coming Soon</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Tier</th><th>Industry</th><th>Base Fee</th><th>Agency</th><th>Availability</th><th>Actions</th></tr></thead>
+          <tbody id="cel-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
 
-    <!-- ── VOUCHERS ── -->
-    <div class="section" id="sec-vouchers">
-      <div class="page-header">
-        <div><div class="page-title">VOUCHER <em>CONTROL</em></div><div class="page-sub">Approve, edit, manage partner vouchers</div></div>
+    <!-- 3. AGENCIES -->
+    <section class="sec" id="sec-agencies">
+      <div class="sec-header">
+        <div><div class="sec-title">🤝 AGENCIES</div><div class="sec-sub">Manage talent agencies and commission structures</div></div>
+        <button class="btn-primary" onclick="openAgencyModal()">+ Add Agency</button>
       </div>
-      <div class="sub-tabs">
-        <button class="sub-tab active" onclick="switchVoucherTab('pending',this)">⏳ Pending Approval</button>
-        <button class="sub-tab" onclick="switchVoucherTab('active',this)">✅ Live Vouchers</button>
-        <button class="sub-tab" onclick="switchVoucherTab('all',this)">📋 All Vouchers</button>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Agency Name</th><th>Contact</th><th>Email</th><th>Commission %</th><th>Celebrities</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="agency-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+        </table>
       </div>
-      <div class="sub-tab-content active" id="vt-pending">
-        <div id="pending-vouchers-list"><div class="loader"></div></div>
-      </div>
-      <div class="sub-tab-content" id="vt-active">
-        <div class="card">
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Partner</th><th>Title</th><th>Discount</th><th>Min Bill</th><th>Qty</th><th>Redeemed</th><th>Expires</th><th>Actions</th></tr></thead>
-              <tbody id="va-tbody"><tr><td colspan="8"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="sub-tab-content" id="vt-all">
-        <div class="card">
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Partner</th><th>Title</th><th>Status</th><th>Discount</th><th>Qty</th><th>Redeemed</th><th>Created</th><th>Actions</th></tr></thead>
-              <tbody id="vall-tbody"><tr><td colspan="8"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- ── PAYMENTS ── -->
-    <div class="section" id="sec-payments">
-      <div class="page-header">
-        <div><div class="page-title">PAYMENT <em>LEDGER</em></div><div class="page-sub">Member payments + partner fees</div></div>
-      </div>
-      <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-        <div class="stat-card stat-green"><div class="stat-icon">💳</div><div class="stat-label">Total Member Revenue</div><div class="stat-value" id="pay-member-total">—</div><div class="stat-sub">All time</div></div>
-        <div class="stat-card stat-blue"><div class="stat-icon">🤝</div><div class="stat-label">Partner Fees Owed</div><div class="stat-value" id="pay-partner-fees">—</div><div class="stat-sub">This month</div></div>
-        <div class="stat-card stat-gold"><div class="stat-icon">📊</div><div class="stat-label">This Month Revenue</div><div class="stat-value" id="pay-this-month">—</div><div class="stat-sub">Members only</div></div>
-      </div>
-      <div class="sub-tabs">
-        <button class="sub-tab active" onclick="switchPaymentTab('members',this)">💳 Member Payments</button>
-        <button class="sub-tab" onclick="switchPaymentTab('partners',this)">🤝 Partner Fees</button>
-      </div>
-      <div class="sub-tab-content active" id="payt-members">
-        <div class="card">
-          <div class="card-header">
-            <div class="toolbar">
-              <input class="search-input" id="pay-search" placeholder="Search by email or payment ID…" oninput="filterPayments()">
-              <select class="filter-select" id="pay-status" onchange="filterPayments()">
-                <option value="">All Status</option>
-                <option value="paid">Paid</option>
-                <option value="pending">Pending</option>
-                <option value="failed">Failed</option>
-              </select>
-            </div>
-          </div>
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Member</th><th>Plan</th><th>Amount</th><th>Payment ID</th><th>Status</th><th>Date</th></tr></thead>
-              <tbody id="pay-tbody"><tr><td colspan="6"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
-          <div class="pagination"><div class="page-info" id="pay-info"></div><button class="btn-page" id="pay-prev" onclick="paymentsPage(-1)">← Prev</button><button class="btn-page" id="pay-next" onclick="paymentsPage(1)">Next →</button></div>
+    <!-- 4. EVENTS -->
+    <section class="sec" id="sec-events">
+      <div class="sec-header">
+        <div><div class="sec-title">🎟️ EVENTS</div><div class="sec-sub">Create and manage all celebrity events</div></div>
+        <div style="display:flex;gap:.6rem">
+          <button class="btn-secondary" onclick="loadEvents()">↻ Refresh</button>
+          <button class="btn-primary" onclick="openEventModal()">+ Create Event</button>
         </div>
       </div>
-      <div class="sub-tab-content" id="payt-partners">
-        <div class="card">
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Partner</th><th>Tier</th><th>Redemptions This Month</th><th>Fee/Redemption</th><th>Total Owed</th><th>Deposit Balance</th></tr></thead>
-              <tbody id="pfees-tbody"><tr><td colspan="6"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
-        </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val" id="ev-total">—</div><div class="stat-label">Total Events</div></div>
+        <div class="stat-card"><div class="stat-val" id="ev-live" style="color:var(--green)">—</div><div class="stat-label">Live</div></div>
+        <div class="stat-card"><div class="stat-val" id="ev-seats-avail" style="color:var(--gold)">—</div><div class="stat-label">Seats Available</div></div>
+        <div class="stat-card"><div class="stat-val" id="ev-confirmed">—</div><div class="stat-label">Confirmed Bookings</div></div>
       </div>
-    </div>
+      <div class="filter-row">
+        <select class="filter-sel" id="ev-filter-tier" onchange="loadEvents()">
+          <option value="">All Tiers</option>
+          <option value="S">S-Class</option><option value="A">A-Class</option>
+          <option value="B">B-Class</option><option value="C">C-Class</option>
+        </select>
+        <select class="filter-sel" id="ev-filter-status" onchange="loadEvents()">
+          <option value="">All Status</option>
+          <option value="live">Live</option><option value="draft">Draft</option>
+          <option value="sold_out">Sold Out</option><option value="completed">Completed</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Celebrity</th><th>Event Title</th><th>Tier</th><th>Date</th><th>City</th><th>Price</th><th>Seats</th><th>Confirmed</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="ev-tbody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
 
-    <!-- ── ANALYTICS ── -->
-    <div class="section" id="sec-analytics">
-      <div class="page-header">
-        <div><div class="page-title">ANALYTICS <em>ENGINE</em></div><div class="page-sub">Conversion, city demand, partner performance</div></div>
+    <!-- 5. BOOKINGS -->
+    <section class="sec" id="sec-bookings">
+      <div class="sec-header">
+        <div><div class="sec-title">📋 BOOKINGS</div><div class="sec-sub">All event bookings — no refunds policy applies</div></div>
+        <button class="btn-secondary" onclick="loadBookings()">↻ Refresh</button>
       </div>
-      <div class="grid2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Tier Distribution</div></div>
-          <div class="card-body" id="ana-tiers"><div class="loader"></div></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Top Cities by Members</div></div>
-          <div class="card-body" id="ana-cities"><div class="loader"></div></div>
-        </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val" id="bk-total">—</div><div class="stat-label">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-val" id="bk-confirmed" style="color:var(--green)">—</div><div class="stat-label">Confirmed</div></div>
+        <div class="stat-card"><div class="stat-val" id="bk-pending" style="color:var(--gold)">—</div><div class="stat-label">Pending</div></div>
+        <div class="stat-card"><div class="stat-val" id="bk-revenue" style="color:var(--green)">—</div><div class="stat-label">Revenue Collected</div></div>
       </div>
-      <div class="grid2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Top Partners by Redemptions</div></div>
-          <div class="card-body" id="ana-top-partners"><div class="loader"></div></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Celebrity Ticket Pipeline</div></div>
-          <div class="card-body" id="ana-pipeline"><div class="loader"></div></div>
-        </div>
+      <div class="filter-row">
+        <input type="text" class="filter-input" id="bk-search" placeholder="Search member ID or event..." oninput="loadBookings()"/>
+        <select class="filter-sel" id="bk-status" onchange="loadBookings()">
+          <option value="">All Status</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="pending">Pending</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
       </div>
-    </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Booking ID</th><th>Member</th><th>Event</th><th>Base Price</th><th>Pts Used</th><th>Discount</th><th>Paid</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="bk-tbody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
 
-    <!-- ── LOGS ── -->
-    <div class="section" id="sec-logs">
-      <div class="page-header">
-        <div><div class="page-title">AUDIT <em>LOGS</em></div><div class="page-sub">Every admin action tracked</div></div>
+    <!-- 6. MEMBERS -->
+    <section class="sec" id="sec-members">
+      <div class="sec-header">
+        <div><div class="sec-title">👥 MEMBERS</div><div class="sec-sub">View, manage and adjust all member accounts</div></div>
+        <button class="btn-secondary" onclick="loadMembers()">↻ Refresh</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val" id="mb-total">—</div><div class="stat-label">Total Members</div></div>
+        <div class="stat-card"><div class="stat-val" id="mb-free" style="color:var(--sub)">—</div><div class="stat-label">Free</div></div>
+        <div class="stat-card"><div class="stat-val" id="mb-gold" style="color:var(--gold)">—</div><div class="stat-label">Gold</div></div>
+        <div class="stat-card"><div class="stat-val" id="mb-platinum" style="color:#e8e8e8">—</div><div class="stat-label">Platinum</div></div>
+        <div class="stat-card"><div class="stat-val" id="mb-pts-total" style="color:var(--gold)">—</div><div class="stat-label">Total Points Issued</div></div>
+      </div>
+      <div class="filter-row">
+        <input type="text" class="filter-input" id="mb-search" placeholder="Search name, email or member ID..." oninput="loadMembers()"/>
+        <select class="filter-sel" id="mb-tier" onchange="loadMembers()">
+          <option value="">All Tiers</option>
+          <option value="free">Free</option><option value="gold">Gold</option>
+          <option value="platinum">Platinum</option><option value="dwcpurple">DWC Purple</option>
+        </select>
+        <select class="filter-sel" id="mb-city" onchange="loadMembers()">
+          <option value="">All Cities</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Member ID</th><th>Name</th><th>Email</th><th>City</th><th>Tier</th><th>Points</th><th>Monthly Earned</th><th>Joined</th><th>Actions</th></tr></thead>
+          <tbody id="mb-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="mb-pagination"></div>
+    </section>
+
+    <!-- 7. PARTNERS -->
+    <section class="sec" id="sec-partners">
+      <div class="sec-header">
+        <div><div class="sec-title">🏪 PARTNERS</div><div class="sec-sub">Approve, manage and monitor restaurant and brand partners</div></div>
+        <button class="btn-secondary" onclick="loadPartners()">↻ Refresh</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val" id="pt-total">—</div><div class="stat-label">Total Partners</div></div>
+        <div class="stat-card"><div class="stat-val" id="pt-active" style="color:var(--green)">—</div><div class="stat-label">Active</div></div>
+        <div class="stat-card"><div class="stat-val" id="pt-pending" style="color:var(--gold)">—</div><div class="stat-label">Pending Approval</div></div>
+        <div class="stat-card"><div class="stat-val" id="pt-vouchers">—</div><div class="stat-label">Total Vouchers</div></div>
+        <div class="stat-card"><div class="stat-val" id="pt-fees" style="color:var(--green)">—</div><div class="stat-label">Fees Earned (12%)</div></div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
+        <button class="btn-secondary" id="pt-tab-pending" onclick="switchPartnerTab('pending')">⏳ Pending</button>
+        <button class="btn-secondary" id="pt-tab-active" onclick="switchPartnerTab('active')">✅ Active</button>
+        <button class="btn-secondary" id="pt-tab-all" onclick="switchPartnerTab('all')">All</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Partner Name</th><th>Type</th><th>City</th><th>Contact</th><th>Vouchers</th><th>Redemptions</th><th>Fees (12%)</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="pt-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8. SPONSORS -->
+    <section class="sec" id="sec-sponsors">
+      <div class="sec-header">
+        <div><div class="sec-title">💼 SPONSORS</div><div class="sec-sub">Manage event sponsors and sponsorship deals</div></div>
+        <button class="btn-primary" onclick="openSponsorModal()">+ Add Sponsor</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sponsor</th><th>Event</th><th>Deal Value</th><th>Seats Allocated</th><th>Branding</th><th>Stage Time</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="sp-tbody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 9. VOUCHERS -->
+    <section class="sec" id="sec-vouchers">
+      <div class="sec-header">
+        <div><div class="sec-title">🎁 VOUCHERS</div><div class="sec-sub">All vouchers across all partners — fees at 12% of face value</div></div>
+        <button class="btn-secondary" onclick="loadVouchers()">↻ Refresh</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val" id="vc-total">—</div><div class="stat-label">Total Vouchers</div></div>
+        <div class="stat-card"><div class="stat-val" id="vc-available" style="color:var(--gold)">—</div><div class="stat-label">Available</div></div>
+        <div class="stat-card"><div class="stat-val" id="vc-issued" style="color:var(--blue)">—</div><div class="stat-label">Issued to Members</div></div>
+        <div class="stat-card"><div class="stat-val" id="vc-redeemed" style="color:var(--green)">—</div><div class="stat-label">Redeemed</div></div>
+        <div class="stat-card"><div class="stat-val" id="vc-fees" style="color:var(--green)">—</div><div class="stat-label">DWC Fees Earned</div></div>
+      </div>
+      <div class="filter-row">
+        <select class="filter-sel" id="vc-partner" onchange="loadVouchers()"><option value="">All Partners</option></select>
+        <select class="filter-sel" id="vc-status" onchange="loadVouchers()">
+          <option value="">All Status</option>
+          <option value="available">Available</option>
+          <option value="issued">Issued</option>
+          <option value="redeemed">Redeemed</option>
+        </select>
+        <select class="filter-sel" id="vc-tier" onchange="loadVouchers()">
+          <option value="">All Tiers</option>
+          <option value="gold">Gold</option><option value="platinum">Platinum</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Code</th><th>Partner</th><th>Tier</th><th>Face Value</th><th>DWC Fee (12%)</th><th>Status</th><th>Issued To</th><th>Redeemed</th><th>Actions</th></tr></thead>
+          <tbody id="vc-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="vc-pagination"></div>
+    </section>
+
+    <!-- 10. CMS -->
+    <section class="sec" id="sec-cms">
+      <div class="sec-header">
+        <div><div class="sec-title">📝 CMS</div><div class="sec-sub">Control all public-facing numbers and text — no developer needed</div></div>
+        <button class="btn-primary" onclick="saveAllCMS()">Save All Changes</button>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">Homepage & Landing Page Numbers</div>
+        <div class="card-sub">These numbers appear live on your website immediately after saving</div>
+        <div class="cms-grid" id="cms-numbers"></div>
       </div>
       <div class="card">
-        <div class="card-header">
-          <div class="toolbar">
-            <input class="search-input" id="log-search" placeholder="Search action or target…" oninput="filterLogs()">
-            <select class="filter-select" id="log-type" onchange="filterLogs()">
-              <option value="">All Types</option>
-              <option value="partner">Partner</option>
-              <option value="member">Member</option>
-              <option value="voucher">Voucher</option>
-              <option value="payment">Payment</option>
-              <option value="system">System</option>
-            </select>
-          </div>
-        </div>
-        <div class="card-body" id="logs-list"><div class="loader"></div></div>
-        <div class="pagination"><div class="page-info" id="log-info"></div><button class="btn-page" id="log-prev" onclick="logsPage(-1)">← Prev</button><button class="btn-page" id="log-next" onclick="logsPage(1)">Next →</button></div>
+        <div class="card-title">Text Content</div>
+        <div class="card-sub">Headlines, banners and announcement text</div>
+        <div class="cms-grid" id="cms-text"></div>
       </div>
-    </div>
+    </section>
 
-    <!-- ── SETTINGS ── -->
-    <div class="section" id="sec-settings">
-      <div class="page-header">
-        <div><div class="page-title">SYSTEM <em>SETTINGS</em></div><div class="page-sub">Team access, platform controls</div></div>
+    <!-- 11. CONFIG -->
+    <section class="sec" id="sec-config">
+      <div class="sec-header">
+        <div><div class="sec-title">⚙️ CONFIG</div><div class="sec-sub">Platform settings — nothing is hardcoded</div></div>
       </div>
-      <div class="grid2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Admin Team</div><button class="btn btn-primary btn-sm" onclick="openAddAdmin()">+ Add Member</button></div>
-          <div style="overflow-x:auto">
-            <table>
-              <thead><tr><th>Email</th><th>Role</th><th>Added</th><th>Actions</th></tr></thead>
-              <tbody id="admin-roles-tbody"><tr><td colspan="4"><div class="loader"></div></td></tr></tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Platform Config</div></div>
-          <div class="card-body">
-            <div class="mf"><label>Free Member Points</label><input type="number" id="cfg-free-pts" value="300" class="editable"></div>
-            <div class="mf"><label>Points per Referral</label><input type="number" id="cfg-ref-pts" value="500" class="editable"></div>
-            <div class="mf"><label>Celebrity Ticket Base Price (₹)</label><input type="number" id="cfg-ticket" value="70000" class="editable"></div>
-            <div class="mf"><label>Contract Duration (days)</label><input type="number" id="cfg-contract" value="180" class="editable"></div>
-            <button class="btn btn-primary" style="margin-top:8px" onclick="toast('Config saved (UI only — connect to DB to persist)','warning')">Save Config</button>
-          </div>
-        </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">Platform Commission</div>
+        <div class="card-sub">DWC's cut from ticket sales and voucher fees</div>
+        <div class="config-grid" id="cfg-platform"></div>
       </div>
-    </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">Points Economy</div>
+        <div class="card-sub">How members earn and spend points</div>
+        <div class="config-grid" id="cfg-points"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Feature Flags 🚦</div>
+        <div class="card-sub">Enable or disable platform features instantly</div>
+        <div style="display:grid;gap:.75rem;margin-top:.5rem" id="cfg-flags"></div>
+      </div>
+    </section>
+
+    <!-- 12. ADMINS -->
+    <section class="sec" id="sec-admins">
+      <div class="sec-header">
+        <div><div class="sec-title">🔐 TEAM ADMINS</div><div class="sec-sub">Manage admin team members and their access rights</div></div>
+        <button class="btn-primary" onclick="openAdminModal()">+ Add Admin</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Permissions</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead>
+          <tbody id="adm-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 13. AUDIT LOGS -->
+    <section class="sec" id="sec-logs">
+      <div class="sec-header">
+        <div><div class="sec-title">🔍 AUDIT LOGS</div><div class="sec-sub">Every admin action tracked — who did what, when</div></div>
+        <button class="btn-secondary" onclick="loadLogs()">↻ Refresh</button>
+      </div>
+      <div class="filter-row">
+        <input type="text" class="filter-input" id="log-search" placeholder="Search action, admin email..." oninput="loadLogs()"/>
+        <select class="filter-sel" id="log-type" onchange="loadLogs()">
+          <option value="">All Actions</option>
+          <option value="approve_partner">Approve Partner</option>
+          <option value="reject_partner">Reject Partner</option>
+          <option value="credit_points">Credit Points</option>
+          <option value="debit_points">Debit Points</option>
+          <option value="update_config">Update Config</option>
+          <option value="update_cms">Update CMS</option>
+          <option value="create_event">Create Event</option>
+          <option value="edit_event">Edit Event</option>
+          <option value="cancel_booking">Cancel Booking</option>
+          <option value="suspend_member">Suspend Member</option>
+          <option value="exception_refund">Exception Refund</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Admin</th><th>Action</th><th>Target</th><th>Old Value</th><th>New Value</th><th>Timestamp</th></tr></thead>
+          <tbody id="log-tbody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="log-pagination"></div>
+    </section>
 
   </main>
 </div>
-</div>
 
-<!-- ── MODALS ── -->
-
-<!-- Partner Approve Modal -->
-<div class="modal-overlay" id="modalApprove">
-  <div class="modal">
-    <div class="modal-title">APPROVE PARTNER</div>
-    <div class="modal-sub" id="ma-name">Reviewing partner application</div>
-    <div class="mf"><label>Partner Tier</label>
-      <select id="ma-tier"><option value="basic">Basic (Free)</option><option value="growth">Growth (₹2,999/mo)</option><option value="premium">Premium (₹7,999/mo)</option></select>
-    </div>
-    <div class="mf"><label>Contract Duration (days)</label><input type="number" id="ma-contract" value="180"></div>
-    <div class="mf"><label>Monthly Redemption Quota</label><input type="number" id="ma-quota" value="20"></div>
-    <div class="mf"><label>Redemption Fee (₹/redemption)</label><input type="number" id="ma-fee" value="50"></div>
-    <div class="mf"><label>Admin Notes (optional)</label><textarea id="ma-notes" placeholder="Internal notes about this partner…"></textarea></div>
-    <div class="modal-err" id="ma-err"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalApprove')">Cancel</button>
-      <button class="btn btn-success" id="btnApprove" onclick="confirmApprove()">✓ Approve & Send Email</button>
-    </div>
-  </div>
-</div>
-
-<!-- Partner Reject Modal -->
-<div class="modal-overlay" id="modalReject">
-  <div class="modal">
-    <div class="modal-title">REJECT APPLICATION</div>
-    <div class="modal-sub" id="mr-name">This will notify the partner via email.</div>
-    <div class="mf"><label>Reason for Rejection</label><textarea id="mr-reason" placeholder="e.g. Business category not currently supported in your city…" rows="4"></textarea></div>
-    <div class="modal-err" id="mr-err"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalReject')">Cancel</button>
-      <button class="btn btn-danger" id="btnReject" onclick="confirmReject()">Reject & Notify</button>
-    </div>
-  </div>
-</div>
-
-<!-- Voucher Edit Modal -->
-<div class="modal-overlay" id="modalVoucher">
-  <div class="modal">
-    <div class="modal-title">EDIT & APPROVE VOUCHER</div>
-    <div class="modal-sub" id="mv-partner-name">Review and edit before approving</div>
-    <div class="mf"><label>Voucher Title</label><input type="text" id="mv-title"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="mf"><label>Discount (₹)</label><input type="number" id="mv-discount"></div>
-      <div class="mf"><label>Min Billing (₹)</label><input type="number" id="mv-minbill"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="mf"><label>Quantity</label><input type="number" id="mv-qty"></div>
-      <div class="mf"><label>Expires</label><input type="date" id="mv-expiry"></div>
-    </div>
-    <div class="mf"><label>Admin Notes</label><textarea id="mv-notes" placeholder="Internal notes…" rows="2"></textarea></div>
-    <div class="modal-err" id="mv-err"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalVoucher')">Cancel</button>
-      <button class="btn btn-danger btn-sm" id="btnVoucherReject" onclick="rejectVoucher()">Reject</button>
-      <button class="btn btn-success" id="btnVoucherApprove" onclick="approveVoucher()">✓ Approve</button>
-    </div>
-  </div>
-</div>
-
-<!-- Member Action Modal -->
-<div class="modal-overlay" id="modalMember">
-  <div class="modal">
-    <div class="modal-title" id="mm-title">MEMBER ACTION</div>
-    <div class="modal-sub" id="mm-name"></div>
-    <div class="mf"><label>Change Tier</label>
-      <select id="mm-tier"><option value="free">Free</option><option value="gold">Gold</option><option value="platinum">Platinum</option><option value="dwcpurple">DWC Purple</option></select>
-    </div>
-    <div class="mf"><label>Extend Membership (days)</label><input type="number" id="mm-extend" placeholder="e.g. 30" min="0"></div>
-    <div class="mf"><label>Add/Remove Points</label><input type="number" id="mm-points" placeholder="e.g. 500 or -100"></div>
-    <div class="mf"><label>Admin Notes</label><textarea id="mm-notes" placeholder="Reason for change…" rows="2"></textarea></div>
-    <div class="modal-err" id="mm-err"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalMember')">Cancel</button>
-      <button class="btn btn-danger btn-sm" id="btnBlockMember" onclick="toggleBlockMember()">Block</button>
-      <button class="btn btn-primary" onclick="saveMemberAction()">Save Changes</button>
-    </div>
-  </div>
-</div>
-
-<!-- Add Admin Modal -->
-<div class="modal-overlay" id="modalAdmin">
-  <div class="modal">
-    <div class="modal-title">ADD TEAM MEMBER</div>
-    <div class="modal-sub">They must already have a DWC account to log in.</div>
-    <div class="mf"><label>Email</label><input type="email" id="admin-email" placeholder="team@dinewithcelebrity.com"></div>
-    <div class="mf"><label>Role</label>
-      <select id="admin-role"><option value="ops_admin">Ops Admin (approve partners, manage vouchers)</option><option value="support_admin">Support Admin (view only + help members)</option></select>
-    </div>
-    <div class="modal-err" id="admin-err"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalAdmin')">Cancel</button>
-      <button class="btn btn-primary" onclick="addAdminMember()">Add Team Member</button>
-    </div>
-  </div>
-</div>
-
-<!-- Toast -->
+<!-- TOAST -->
 <div id="toast"></div>
 
+<!-- CELEBRITY MODAL -->
+<div class="modal-backdrop" id="celebModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('celebModal')">✕</button>
+    <div class="modal-title" id="celebModalTitle">Add Celebrity</div>
+    <div class="form-grid">
+      <div class="form-field"><label>Celebrity Name</label><input type="text" id="cel-name" placeholder="e.g. Prabhas"/></div>
+      <div class="form-field"><label>Tier</label>
+        <select id="cel-tier-input">
+          <option value="S">S-Class (₹1.5Cr+)</option>
+          <option value="A">A-Class (₹25L–₹1Cr)</option>
+          <option value="B" selected>B-Class (₹5L–₹25L)</option>
+          <option value="C">C-Class (₹1L–₹5L)</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Base Fee (₹ DWC pays)</label><input type="number" id="cel-fee" placeholder="e.g. 2500000"/></div>
+      <div class="form-field"><label>Industry</label><input type="text" id="cel-industry" placeholder="Bollywood / Tollywood / Cricket..."/></div>
+      <div class="form-field"><label>Agency</label><select id="cel-agency"><option value="">No Agency</option></select></div>
+      <div class="form-field"><label>Availability</label>
+        <select id="cel-availability">
+          <option value="available">Available</option>
+          <option value="booked">Booked</option>
+          <option value="coming_soon">Coming Soon</option>
+        </select>
+      </div>
+      <div class="form-field full"><label>Bio</label><textarea id="cel-bio" placeholder="Brief celebrity bio..."></textarea></div>
+      <div class="form-field"><label>Image URL (optional)</label><input type="text" id="cel-image" placeholder="https://..."/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveCelebrity()">Save Celebrity</button>
+      <button class="btn-secondary" onclick="closeModal('celebModal')">Cancel</button>
+    </div>
+    <div class="modal-msg" id="cel-msg"></div>
+  </div>
+</div>
+
+<!-- AGENCY MODAL -->
+<div class="modal-backdrop" id="agencyModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('agencyModal')">✕</button>
+    <div class="modal-title" id="agencyModalTitle">Add Agency</div>
+    <div class="form-grid">
+      <div class="form-field full"><label>Agency Name</label><input type="text" id="ag-name" placeholder="e.g. CAA India"/></div>
+      <div class="form-field"><label>Contact Name</label><input type="text" id="ag-contact" placeholder="Contact person"/></div>
+      <div class="form-field"><label>Contact Email</label><input type="email" id="ag-email" placeholder="contact@agency.com"/></div>
+      <div class="form-field"><label>Phone</label><input type="tel" id="ag-phone" placeholder="+91 ..."/></div>
+      <div class="form-field"><label>Commission % (DWC pays agency)</label><input type="number" id="ag-commission" placeholder="10" min="0" max="50" step="0.5"/></div>
+      <div class="form-field full"><label>Notes</label><textarea id="ag-notes" placeholder="Agreement details, special conditions..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveAgency()">Save Agency</button>
+      <button class="btn-secondary" onclick="closeModal('agencyModal')">Cancel</button>
+    </div>
+    <div class="modal-msg" id="ag-msg"></div>
+  </div>
+</div>
+
+<!-- EVENT MODAL -->
+<div class="modal-backdrop" id="eventModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('eventModal')">✕</button>
+    <div class="modal-title" id="eventModalTitle">Create Event</div>
+    <div class="form-grid">
+      <div class="form-field"><label>Celebrity</label><select id="ev-celebrity"><option value="">Select celebrity...</option></select></div>
+      <div class="form-field"><label>Tier</label>
+        <select id="ev-tier-input" onchange="autoSetEventDefaults()">
+          <option value="S">S-Class</option><option value="A">A-Class</option>
+          <option value="B" selected>B-Class</option><option value="C">C-Class</option>
+        </select>
+      </div>
+      <div class="form-field full"><label>Event Title</label><input type="text" id="ev-title" placeholder="e.g. Prabhas Fan Dinner — Hyderabad"/></div>
+      <div class="form-field"><label>Ticket Price (₹)</label><input type="number" id="ev-price" placeholder="20000" oninput="updateDynamicPreview()"/></div>
+      <div class="form-field"><label>Total Seats</label><input type="number" id="ev-seats-total" placeholder="50"/></div>
+      <div class="form-field"><label>Points Value per 100</label>
+        <select id="ev-pts-val">
+          <option value="500">500 — S/A Class (₹5/pt)</option>
+          <option value="400" selected>400 — B Class (₹4/pt)</option>
+          <option value="300">300 — C Class (₹3/pt)</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Max Discount Cap (₹)</label><input type="number" id="ev-max-abs" placeholder="10000"/></div>
+      <div class="form-field"><label>Event Date & Time</label><input type="datetime-local" id="ev-datetime"/></div>
+      <div class="form-field"><label>Location / Venue</label><input type="text" id="ev-location" placeholder="e.g. Park Hyatt Hyderabad"/></div>
+      <div class="form-field"><label>City</label><input type="text" id="ev-city" placeholder="Hyderabad"/></div>
+      <div class="form-field"><label>Status</label>
+        <select id="ev-status-input">
+          <option value="draft">Draft</option>
+          <option value="live" selected>Live</option>
+          <option value="sold_out">Sold Out</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div class="form-field full"><label>Description</label><textarea id="ev-desc" rows="2" placeholder="Brief event description..."></textarea></div>
+      <!-- Dynamic Pricing -->
+      <div class="form-field full">
+        <label style="display:flex;align-items:center;gap:.5rem">
+          <input type="checkbox" id="ev-dynamic" onchange="toggleDynamicPricing()" style="accent-color:var(--gold);width:14px;height:14px"/>
+          Enable Dynamic Pricing (airline model — price rises as seats fill)
+        </label>
+      </div>
+      <div id="ev-dynamic-fields" style="display:none;grid-column:1/-1">
+        <div class="form-grid">
+          <div class="form-field"><label>Tier 2 Price (₹)</label><input type="number" id="ev-price2" placeholder="25000" oninput="updateDynamicPreview()"/></div>
+          <div class="form-field"><label>Tier 2 starts at seat #</label><input type="number" id="ev-from2" placeholder="20" oninput="updateDynamicPreview()"/></div>
+          <div class="form-field"><label>Tier 3 Price (₹)</label><input type="number" id="ev-price3" placeholder="35000" oninput="updateDynamicPreview()"/></div>
+          <div class="form-field"><label>Tier 3 starts at seat #</label><input type="number" id="ev-from3" placeholder="40" oninput="updateDynamicPreview()"/></div>
+        </div>
+        <div class="dp-preview" id="dp-preview"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveEvent()">Save Event</button>
+      <button class="btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
+    </div>
+    <div class="modal-msg" id="ev-msg"></div>
+  </div>
+</div>
+
+<!-- SPONSOR MODAL -->
+<div class="modal-backdrop" id="sponsorModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('sponsorModal')">✕</button>
+    <div class="modal-title" id="sponsorModalTitle">Add Sponsor</div>
+    <div class="form-grid">
+      <div class="form-field full"><label>Sponsor / Brand Name</label><input type="text" id="sp-name" placeholder="e.g. HDFC Bank"/></div>
+      <div class="form-field"><label>Attach to Event</label><select id="sp-event"><option value="">Select event...</option></select></div>
+      <div class="form-field"><label>Deal Value (₹)</label><input type="number" id="sp-value" placeholder="500000"/></div>
+      <div class="form-field"><label>Seats Allocated</label><input type="number" id="sp-seats" placeholder="5" min="0"/></div>
+      <div class="form-field"><label>Contact Name</label><input type="text" id="sp-contact" placeholder="Contact person"/></div>
+      <div class="form-field"><label>Contact Email</label><input type="email" id="sp-email" placeholder="sponsor@brand.com"/></div>
+      <div class="form-field full" style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--sub)"><input type="checkbox" id="sp-branding" style="accent-color:var(--gold);width:14px;height:14px"/> Branding Rights</label>
+        <label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--sub)"><input type="checkbox" id="sp-stage" style="accent-color:var(--gold);width:14px;height:14px"/> Stage Time</label>
+      </div>
+      <div class="form-field full"><label>Notes / Benefits</label><textarea id="sp-notes" placeholder="Additional sponsor benefits and agreement details..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveSponsor()">Save Sponsor</button>
+      <button class="btn-secondary" onclick="closeModal('sponsorModal')">Cancel</button>
+    </div>
+    <div class="modal-msg" id="sp-msg"></div>
+  </div>
+</div>
+
+<!-- MEMBER EDIT MODAL -->
+<div class="modal-backdrop" id="memberModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('memberModal')">✕</button>
+    <div class="modal-title">Edit Member</div>
+    <input type="hidden" id="mb-edit-id"/>
+    <div class="form-grid">
+      <div class="form-field"><label>Points Balance</label><input type="number" id="mb-edit-points" placeholder="0"/></div>
+      <div class="form-field"><label>Tier</label>
+        <select id="mb-edit-tier">
+          <option value="free">Free</option>
+          <option value="gold">Gold</option>
+          <option value="platinum">Platinum</option>
+          <option value="dwcpurple">DWC Purple</option>
+        </select>
+      </div>
+      <div class="form-field full"><label>Adjustment Reason (logged)</label><input type="text" id="mb-edit-reason" placeholder="Reason for manual adjustment..."/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveMemberEdit()">Save Changes</button>
+      <button class="btn-danger btn-sm" onclick="suspendMember()">Suspend Member</button>
+      <button class="btn-secondary" onclick="closeModal('memberModal')">Cancel</button>
+    </div>
+    <div class="modal-msg" id="mb-msg"></div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="modal-backdrop" id="adminModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
+    <div class="modal-title" id="adminModalTitle">Add Team Admin</div>
+    <div class="form-grid">
+      <div class="form-field"><label>Name</label><input type="text" id="adm-name" placeholder="Team member name"/></div>
+      <div class="form-field"><label>Email</label><input type="email" id="adm-email" placeholder="team@dinewithcelebrity.com"/></div>
+      <div class="form-field full"><label>Role</label>
+        <select id="adm-role" onchange="setRolePermissions()">
+          <option value="event_manager">Event Manager — Events + Bookings</option>
+          <option value="partner_manager">Partner Manager — Partners + Vouchers</option>
+          <option value="content_editor">Content Editor — CMS only</option>
+          <option value="finance_viewer">Finance Viewer — Overview + Logs (read only)</option>
+          <option value="super_admin">Super Admin — Full Access</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label style="margin-bottom:.6rem;display:block">Custom Permissions</label>
+        <div class="role-grid" id="adm-perms">
+          <label class="role-perm"><input type="checkbox" id="perm-celebrities"/> Celebrities</label>
+          <label class="role-perm"><input type="checkbox" id="perm-agencies"/> Agencies</label>
+          <label class="role-perm"><input type="checkbox" id="perm-events"/> Events</label>
+          <label class="role-perm"><input type="checkbox" id="perm-bookings"/> Bookings</label>
+          <label class="role-perm"><input type="checkbox" id="perm-members"/> Members</label>
+          <label class="role-perm"><input type="checkbox" id="perm-partners"/> Partners</label>
+          <label class="role-perm"><input type="checkbox" id="perm-sponsors"/> Sponsors</label>
+          <label class="role-perm"><input type="checkbox" id="perm-vouchers"/> Vouchers</label>
+          <label class="role-perm"><input type="checkbox" id="perm-cms"/> CMS</label>
+          <label class="role-perm"><input type="checkbox" id="perm-config"/> Config</label>
+          <label class="role-perm"><input type="checkbox" id="perm-logs"/> Audit Logs</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveAdmin()">Save Admin</button>
+      <button class="btn-secondary" onclick="closeModal('adminModal')">Cancel</button>
+    </div>
+    <div class="modal-msg" id="adm-msg"></div>
+  </div>
+</div>
+
 <script>
-// ── SUPABASE ──
-const sbClient = supabase.createClient(
-  'https://blwqqqzhnovsveeryjlm.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
-);
+const SB_URL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+const sbClient = supabase.createClient(SB_URL, SB_ANON);
+const SUPER_ADMIN_EMAIL = 'rupesh@dinewithcelebrity.com';
+const PAGE_SIZE = 25;
 
-// ── GLOBALS ──
-let _session = null, _adminRole = null;
-let _members = [], _mPage = 0, _mFiltered = [];
-let _payments = [], _payPage = 0, _payFiltered = [];
-let _logs = [], _logPage = 0, _logFiltered = [];
-let _currentPartnerId = null, _currentVoucherId = null, _currentMemberId = null;
-let _currentMemberBlocked = false;
-const PER_PAGE = 20;
+let currentUser = null;
+let currentAdmin = null;
+let editingId = null;
+let mbPage = 0, vcPage = 0, logPage = 0;
 
-// ── STARS ──
+// ── HELPERS ──────────────────────────────────────────────────────
+const mn = n => '₹' + (n||0).toLocaleString('en-IN');
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—';
+const fmtDT = d => d ? new Date(d).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+const tierBadge = t => {
+  const m = {S:'badge-red',A:'badge-gold',B:'badge-blue',C:'badge-gray'};
+  return `<span class="badge ${m[t]||'badge-gray'}">${t}-Class</span>`;
+};
+const statusBadge = s => {
+  const m = {live:'badge-green',draft:'badge-gray',sold_out:'badge-red',completed:'badge-purple',
+             available:'badge-green',booked:'badge-red',coming_soon:'badge-gold',
+             active:'badge-green',inactive:'badge-red',pending:'badge-gold',
+             confirmed:'badge-green',cancelled:'badge-red'};
+  return `<span class="badge ${m[s]||'badge-gray'}">${s}</span>`;
+};
+const tierMemberBadge = t => {
+  const m = {free:'badge-gray',gold:'badge-gold',platinum:'badge-gray',dwcpurple:'badge-purple'};
+  return `<span class="badge ${m[t]||'badge-gray'}">${t}</span>`;
+};
+
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = type==='error' ? 'rgba(212,0,42,.5)' : type==='success' ? 'rgba(0,200,83,.5)' : 'var(--border)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+function showMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = msg; el.className = 'modal-msg ' + type; el.style.display='block';
+  setTimeout(() => el.style.display='none', 4000);
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); editingId = null; }
+function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal-backdrop')) closeModal(e.target.id); }
+document.querySelectorAll('.modal-backdrop').forEach(m => m.addEventListener('click', closeModalOnBackdrop));
+
+// ── STARS ────────────────────────────────────────────────────────
 (function(){
-  const se = document.getElementById('stars');
+  const s = document.getElementById('stars');
   for(let i=0;i<50;i++){
-    const s = document.createElement('i');
-    s.textContent = '★';
-    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;font-size:${5+Math.random()*8}px;animation-delay:${Math.random()*4}s;animation-duration:${2.5+Math.random()*3}s`;
-    se.appendChild(s);
+    const el=document.createElement('i');el.textContent='★';
+    el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;font-size:${5+Math.random()*7}px;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`;
+    s.appendChild(el);
   }
 })();
 
-// ── UTILS ──
-function mn(n){ return '₹'+(Number(n)||0).toLocaleString('en-IN'); }
-function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
-function fmtDateTime(d){ if(!d) return '—'; return new Date(d).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function toast(msg, type='success'){
-  const t = document.createElement('div');
-  t.className = 'toast-item' + (type==='error'?' error':type==='warning'?' warning':'');
-  t.textContent = (type==='error'?'❌ ':type==='warning'?'⚠️ ':'✅ ') + msg;
-  document.getElementById('toast').appendChild(t);
-  setTimeout(() => t.remove(), 4000);
-}
-
-function tierBadge(tier){
-  const map = {free:'badge-free',gold:'badge-gold',platinum:'badge-platinum',dwcpurple:'badge-purple'};
-  const labels = {free:'Free',gold:'★ Gold',platinum:'⭑ Platinum',dwcpurple:'🟣 Purple'};
-  return `<span class="badge ${map[tier]||'badge-free'}">${labels[tier]||tier}</span>`;
-}
-function statusBadge(s){
-  const map = {active:'badge-active',pending:'badge-pending',rejected:'badge-rejected',blocked:'badge-blocked',approved:'badge-active',paid:'badge-active',failed:'badge-rejected'};
-  return `<span class="badge ${map[s]||'badge-pending'}">${s}</span>`;
-}
-function partnerTierBadge(t){
-  const map = {basic:'badge-basic',growth:'badge-growth',premium:'badge-premium'};
-  return `<span class="badge ${map[t]||'badge-basic'}">${t||'basic'}</span>`;
-}
-
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-function openModal(id){ document.getElementById(id).classList.add('open'); }
-
-// ── AUDIT LOG ──
-async function auditLog(action, targetType, targetId, targetLabel, metadata={}){
-  try {
-    await sbClient.from('admin_logs').insert({
-      admin_id: _session?.user?.id,
-      admin_email: _session?.user?.email,
-      action, target_type: targetType,
-      target_id: String(targetId), target_label: targetLabel,
-      metadata
-    });
-  } catch(e){ console.error('Audit log failed:', e); }
-}
-
-// ── AUTH ──
-(async function init(){
-  const { data: { session } } = await sbClient.auth.getSession();
-  if(session){
-    _session = session;
-    await checkAdminAccess();
+// ── AUTH ─────────────────────────────────────────────────────────
+async function init() {
+  const {data:{session}} = await sbClient.auth.getSession();
+  if(session) {
+    await loadAdmin(session.user.email);
   } else {
-    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginScreen').style.display='flex';
   }
-})();
+}
 
-async function checkAdminAccess(){
-  const email = _session.user.email;
-  const { data: role } = await sbClient.from('admin_roles').select('role,is_active').eq('email', email).single();
-  if(!role || !role.is_active){
+async function loadAdmin(email) {
+  const {data:admin} = await sbClient.from('admin_users').select('*').eq('email',email).eq('is_active',true).maybeSingle();
+  if(!admin) {
     await sbClient.auth.signOut();
-    document.getElementById('loginScreen').style.display = 'flex';
-    toast('Access denied. Not an admin account.', 'error');
+    document.getElementById('lErr').textContent = 'Not authorised as admin.';
+    document.getElementById('lErr').style.display='block';
     return;
   }
-  _adminRole = role.role;
-  document.getElementById('sbEmail').textContent = email;
-  document.getElementById('sbRole').textContent = {super_admin:'Super Admin',ops_admin:'Ops Admin',support_admin:'Support Admin'}[role.role]||role.role;
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appShell').style.display = 'block';
-  initOverview();
-  loadSidebarBadges();
+  currentAdmin = admin;
+  document.getElementById('sbName').textContent = admin.name;
+  document.getElementById('sbRole').textContent = admin.role === 'super_admin' ? '⭐ Super Admin' : admin.role.replace(/_/g,' ');
+  // Hide sections admin can't access
+  if(admin.role !== 'super_admin') {
+    const perms = {celebrities:admin.can_celebrities,agencies:admin.can_agencies,events:admin.can_events,bookings:admin.can_bookings,members:admin.can_members,partners:admin.can_partners,sponsors:admin.can_sponsors,vouchers:admin.can_vouchers,cms:admin.can_cms,config:admin.can_config,logs:admin.can_logs,admins:false};
+    Object.entries(perms).forEach(([k,v]) => {
+      const nav = document.getElementById('nav-'+k);
+      if(nav && !v) nav.style.display='none';
+    });
+  }
+  // Update last login
+  await sbClient.from('admin_users').update({last_login:new Date().toISOString()}).eq('email',email);
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+  showSection('overview');
 }
 
-document.getElementById('btnLogin').onclick = async function(){
+document.getElementById('btnLogin').onclick = async function() {
   const email = document.getElementById('lEmail').value.trim();
-  const pass = document.getElementById('lPass').value;
-  const err = document.getElementById('lErr');
-  err.style.display = 'none';
-  if(!email||!pass){ err.textContent='Enter email and password.'; err.style.display='block'; return; }
-  this.disabled=true; this.textContent='Signing in…';
-  const { data, error } = await sbClient.auth.signInWithPassword({email, password: pass});
-  if(error){ err.textContent=error.message.includes('Invalid')?'Incorrect credentials.':error.message; err.style.display='block'; this.disabled=false; this.textContent='Sign In'; return; }
-  _session = data.session;
-  await checkAdminAccess();
-  this.disabled=false; this.textContent='Sign In';
+  const pass  = document.getElementById('lPass').value;
+  const err   = document.getElementById('lErr');
+  err.style.display='none';
+  if(!email||!pass){err.textContent='Enter email and password.';err.style.display='block';return;}
+  this.disabled=true;this.textContent='Signing in...';
+  const {data,error} = await sbClient.auth.signInWithPassword({email,password:pass});
+  if(error||!data.user){
+    err.textContent='Invalid credentials.';err.style.display='block';
+    this.disabled=false;this.textContent='Sign In';return;
+  }
+  await loadAdmin(data.user.email);
+  this.disabled=false;this.textContent='Sign In';
 };
-document.getElementById('lPass').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('btnLogin').click(); });
+document.getElementById('lPass').onkeydown = e => { if(e.key==='Enter') document.getElementById('btnLogin').click(); };
 
-async function doLogout(){
+async function signOut() {
   await sbClient.auth.signOut();
   location.reload();
 }
 
-// ── SIDEBAR BADGES ──
-async function loadSidebarBadges(){
-  const { count: pending } = await sbClient.from('partners').select('id',{count:'exact',head:true}).eq('is_active',false).neq('contact_email','');
-  const { count: vPending } = await sbClient.from('partner_vouchers').select('id',{count:'exact',head:true}).eq('status','pending_approval');
-  const pb = document.getElementById('pendingBadge');
-  const vb = document.getElementById('voucherBadge');
-  if(pending>0){ pb.textContent=pending; pb.style.display='inline'; } else pb.style.display='none';
-  if(vPending>0){ vb.textContent=vPending; vb.style.display='inline'; } else vb.style.display='none';
-}
+// ── SECTION NAVIGATION ────────────────────────────────────────────
+const SECTION_LOADERS = {
+  overview:'loadOverview',celebrities:'loadCelebrities',agencies:'loadAgencies',
+  events:'loadEvents',bookings:'loadBookings',sponsors:'loadSponsors',
+  members:'loadMembers',partners:'loadPartners',vouchers:'loadVouchers',
+  cms:'loadCMS',config:'loadConfig',admins:'loadAdmins',logs:'loadLogs'
+};
 
-// ── SECTION NAV ──
-function showSection(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+function showSection(name) {
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec-'+id).classList.add('active');
-  document.querySelector(`[data-sec="${id}"]`).classList.add('active');
-  const loaders = {
-    overview: initOverview, members: initMembers, partners: initPartners,
-    vouchers: initVouchers, payments: initPayments, analytics: initAnalytics,
-    logs: initLogs, settings: initSettings
-  };
-  if(loaders[id]) loaders[id]();
+  const sec = document.getElementById('sec-'+name);
+  const nav = document.getElementById('nav-'+name);
+  if(sec) sec.classList.add('active');
+  if(nav) nav.classList.add('active');
+  const loader = SECTION_LOADERS[name];
+  if(loader && window[loader]) window[loader]();
 }
 
-function switchPartnerTab(tab, el){
-  document.querySelectorAll('#sec-partners .sub-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#sec-partners .sub-tab-content').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('pt-'+tab).classList.add('active');
-  if(tab==='active') loadActivePartners();
-  if(tab==='all') loadAllPartners();
-}
-function switchVoucherTab(tab, el){
-  document.querySelectorAll('#sec-vouchers .sub-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#sec-vouchers .sub-tab-content').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('vt-'+tab).classList.add('active');
-  if(tab==='active') loadActiveVouchers();
-  if(tab==='all') loadAllVouchers();
-}
-function switchPaymentTab(tab, el){
-  document.querySelectorAll('#sec-payments .sub-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#sec-payments .sub-tab-content').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('payt-'+tab).classList.add('active');
-  if(tab==='partners') loadPartnerFees();
+// ── AUDIT LOGGING ─────────────────────────────────────────────────
+async function auditLog(action, targetType, targetId, targetLabel, metadata={}, oldVal='', newVal='') {
+  if(!currentAdmin) return;
+  await sbClient.from('admin_logs').insert({
+    admin_id: currentUser?.id,
+    admin_email: currentAdmin.email,
+    action, target_type: targetType,
+    target_id: targetId, target_label: targetLabel,
+    metadata: JSON.stringify(metadata),
+    old_value: oldVal, new_value: newVal,
+    section: action.split('_')[0]
+  });
 }
 
-// ── MODULE: OVERVIEW ──
-async function initOverview(){
-  const [
-    { count: members }, { count: paid }, { count: partners },
-    { count: redemptions }, { count: expiring }, { count: pendingP },
-    { count: pendingV }
-  ] = await Promise.all([
-    sbClient.from('members').select('id',{count:'exact',head:true}),
-    sbClient.from('members').select('id',{count:'exact',head:true}).in('tier',['gold','platinum','dwcpurple']),
-    sbClient.from('partners').select('id',{count:'exact',head:true}).eq('is_active',true),
-    sbClient.from('partner_redemptions').select('id',{count:'exact',head:true}),
-    sbClient.from('members').select('id',{count:'exact',head:true}).lte('expires_at', new Date(Date.now()+7*864e5).toISOString()).gt('expires_at', new Date().toISOString()),
-    sbClient.from('partners').select('id',{count:'exact',head:true}).eq('is_active',false),
-    sbClient.from('partner_vouchers').select('id',{count:'exact',head:true}).eq('status','pending_approval')
+// ── 1. OVERVIEW ───────────────────────────────────────────────────
+async function loadOverview() {
+  const [members, partners, events, bookings, celebrities, vouchers] = await Promise.all([
+    sbClient.from('members').select('id,tier', {count:'exact',head:false}),
+    sbClient.from('partners').select('id,is_active,approved_at', {count:'exact'}),
+    sbClient.from('celebrity_events').select('id,celebrity_name,event_date,available_seats,reserved_seats,confirmed_seats,ticket_price,status', {count:'exact'}),
+    sbClient.from('event_bookings').select('id,final_price,status', {count:'exact'}),
+    sbClient.from('celebrities').select('id', {count:'exact'}),
+    sbClient.from('vouchers').select('id,is_redeemed,face_value,issued_to'),
   ]);
-  document.getElementById('ov-members').textContent = members||0;
-  document.getElementById('ov-members-sub').textContent = `${(members||0)-(paid||0)} free · ${paid||0} paid`;
-  document.getElementById('ov-paid').textContent = paid||0;
-  document.getElementById('ov-partners').textContent = partners||0;
-  document.getElementById('ov-partners-sub').textContent = `${pendingP||0} pending approval`;
-  document.getElementById('ov-redemptions').textContent = redemptions||0;
-  document.getElementById('ov-expiring').textContent = expiring||0;
-  document.getElementById('ov-pending').textContent = (pendingP||0)+(pendingV||0);
-  document.getElementById('ov-pending-sub').textContent = `${pendingP||0} partners · ${pendingV||0} vouchers`;
 
-  // Pending partners widget
-  const { data: pp } = await sbClient.from('partners').select('id,name,contact_email,category,city,created_at').eq('is_active',false).order('created_at',{ascending:false}).limit(5);
-  const ppEl = document.getElementById('ov-pending-partners');
-  if(!pp||!pp.length){ ppEl.innerHTML='<div style="color:var(--green);font-size:.8rem;padding:8px 0">✓ No pending approvals</div>'; }
-  else { ppEl.innerHTML = pp.map(p=>`<div class="aw-item"><span class="aw-label">${esc(p.name||p.contact_email)}</span><button class="btn btn-success btn-sm" onclick="showSection('partners')">Review →</button></div>`).join(''); }
+  const allMembers = members.data || [];
+  const paid = allMembers.filter(m=>m.tier&&m.tier!=='free').length;
+  document.getElementById('ov-members').textContent = allMembers.length;
+  document.getElementById('ov-members-sub').textContent = `${paid} paid`;
+  document.getElementById('ov-paid').textContent = paid;
 
-  // Pending vouchers widget
-  const { data: pv } = await sbClient.from('partner_vouchers').select('id,title,partner_id,created_at').eq('status','pending_approval').order('created_at',{ascending:false}).limit(5);
-  const pvEl = document.getElementById('ov-pending-vouchers');
-  if(!pv||!pv.length){ pvEl.innerHTML='<div style="color:var(--green);font-size:.8rem;padding:8px 0">✓ No pending vouchers</div>'; }
-  else { pvEl.innerHTML = pv.map(v=>`<div class="aw-item"><span class="aw-label">${esc(v.title)}</span><button class="btn btn-ghost btn-sm" onclick="showSection('vouchers')">Review →</button></div>`).join(''); }
+  const allPartners = partners.data || [];
+  const activeP = allPartners.filter(p=>p.is_active&&p.approved_at).length;
+  const pendingP = allPartners.filter(p=>!p.approved_at&&!p.is_active).length;
+  document.getElementById('ov-partners').textContent = activeP;
+  document.getElementById('ov-pending').textContent = pendingP;
+
+  const allEvents = events.data || [];
+  const liveEvents = allEvents.filter(e=>e.status==='live').length;
+  document.getElementById('ov-events').textContent = liveEvents;
+
+  const allBookings = bookings.data || [];
+  const confirmedBk = allBookings.filter(b=>b.status==='confirmed');
+  document.getElementById('ov-bookings-count').textContent = confirmedBk.length;
+
+  document.getElementById('ov-celebrities').textContent = celebrities.count || 0;
+
+  // Revenue from vouchers (12% of redeemed face values)
+  const redeemedV = (vouchers.data||[]).filter(v=>v.is_redeemed);
+  const feeTotal = redeemedV.reduce((s,v)=>s+Math.max(50,Math.round(v.face_value*0.12)),0);
+  document.getElementById('ov-revenue').textContent = mn(feeTotal);
+
+  // Upcoming events pipeline
+  const upcoming = allEvents.filter(e=>e.status==='live'&&e.event_date>new Date().toISOString()).sort((a,b)=>new Date(a.event_date)-new Date(b.event_date)).slice(0,5);
+  const pipeline = document.getElementById('ov-pipeline');
+  if(!upcoming.length) { pipeline.innerHTML='<div class="empty">No upcoming events</div>'; }
+  else {
+    pipeline.innerHTML = upcoming.map(e=>{
+      const seatsLeft = e.available_seats - e.reserved_seats - e.confirmed_seats;
+      const pct = Math.round((e.confirmed_seats/e.available_seats)*100);
+      return `<div class="pipeline-item">
+        <div><div class="pi-celeb">${e.celebrity_name}</div><div class="pi-date">${fmtDate(e.event_date)} · ${e.ticket_price?mn(e.ticket_price):''}</div></div>
+        <div style="text-align:right"><div class="pi-seats">${seatsLeft} seats left</div><div style="font-size:.65rem;color:var(--muted)">${pct}% sold</div></div>
+      </div>`;
+    }).join('');
+  }
 
   // Recent members
-  const { data: rm } = await sbClient.from('members').select('full_name,tier,created_at').order('created_at',{ascending:false}).limit(8);
-  document.getElementById('ov-recent-members').innerHTML = (rm||[]).map(m=>`<tr><td style="color:var(--text);font-weight:600">${esc(m.full_name||'—')}</td><td>${tierBadge(m.tier)}</td><td>${fmtDate(m.created_at)}</td></tr>`).join('');
+  const {data:recentM} = await sbClient.from('members').select('member_id,first_name,last_name,tier,created_at').order('created_at',{ascending:false}).limit(5);
+  const rmEl = document.getElementById('ov-recent-members');
+  rmEl.innerHTML = (recentM||[]).map(m=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem">
+    <span>${m.member_id||'—'} · ${m.first_name||''} ${m.last_name||''}</span>
+    ${tierMemberBadge(m.tier)}
+  </div>`).join('') || '<div class="empty">No members yet</div>';
 
-  // Recent redemptions
-  const { data: rr } = await sbClient.from('partner_redemptions').select('member_display_id,partner_id,redeemed_at').order('redeemed_at',{ascending:false}).limit(8);
-  document.getElementById('ov-recent-redemptions').innerHTML = (rr||[]).map(r=>`<tr><td style="color:var(--gold)">${esc(r.member_display_id||'—')}</td><td style="color:var(--sub)">${esc(r.partner_id?.substring(0,8)||'—')}</td><td>${fmtDate(r.redeemed_at)}</td></tr>`).join('');
-}
-
-// ── MODULE: MEMBERS ──
-async function initMembers(){
-  const { data } = await sbClient.from('members').select('id,full_name,email,phone,tier,points,city,member_id,created_at,expires_at').order('created_at',{ascending:false});
-  _members = data||[];
-  _mFiltered = [..._members];
-  _mPage = 0;
-  renderMembers();
-}
-function filterMembers(){
-  const q = document.getElementById('m-search').value.toLowerCase();
-  const tier = document.getElementById('m-tier').value;
-  const status = document.getElementById('m-status').value;
-  _mFiltered = _members.filter(m=>{
-    const match = !q || (m.full_name||'').toLowerCase().includes(q) || (m.email||'').toLowerCase().includes(q) || (m.member_id||'').toLowerCase().includes(q);
-    const tierOk = !tier || m.tier===tier;
-    const expired = m.expires_at && new Date(m.expires_at) < new Date();
-    const statusOk = !status || (status==='active'&&!expired) || (status==='blocked'&&expired);
-    return match && tierOk && statusOk;
-  });
-  _mPage = 0;
-  renderMembers();
-}
-function membersPage(dir){ _mPage = Math.max(0, Math.min(_mPage+dir, Math.ceil(_mFiltered.length/PER_PAGE)-1)); renderMembers(); }
-function renderMembers(){
-  const start = _mPage*PER_PAGE, end = start+PER_PAGE;
-  const slice = _mFiltered.slice(start, end);
-  document.getElementById('m-count').textContent = `${_mFiltered.length} members`;
-  document.getElementById('m-info').textContent = `${start+1}–${Math.min(end,_mFiltered.length)} of ${_mFiltered.length}`;
-  document.getElementById('m-prev').disabled = _mPage===0;
-  document.getElementById('m-next').disabled = end>=_mFiltered.length;
-  document.getElementById('m-tbody').innerHTML = slice.length ? slice.map(m=>{
-    const expired = m.expires_at && new Date(m.expires_at) < new Date();
-    return `<tr>
-      <td style="color:var(--gold);font-size:.72rem">${esc(m.member_id||'—')}</td>
-      <td style="color:var(--text);font-weight:600">${esc(m.full_name||'—')}</td>
-      <td>${esc(m.email||'—')}</td>
-      <td>${tierBadge(m.tier)}</td>
-      <td>${(m.points||0).toLocaleString()}</td>
-      <td>${esc(m.city||'—')}</td>
-      <td>${fmtDate(m.created_at)}</td>
-      <td>${expired?statusBadge('blocked'):statusBadge('active')}</td>
-      <td><button class="btn btn-ghost btn-sm" onclick="openMemberAction('${m.id}','${esc(m.full_name)}','${m.tier}',${m.points||0},${expired})">Manage</button></td>
-    </tr>`;
-  }).join('') : '<tr><td colspan="9"><div class="empty"><div class="empty-icon">👥</div><div class="empty-text">No members found</div></div></td></tr>';
-}
-function openMemberAction(id, name, tier, points, blocked){
-  _currentMemberId = id; _currentMemberBlocked = blocked;
-  document.getElementById('mm-title').textContent = blocked ? 'UNBLOCK MEMBER' : 'MANAGE MEMBER';
-  document.getElementById('mm-name').textContent = name;
-  document.getElementById('mm-tier').value = tier;
-  document.getElementById('mm-points').value = '';
-  document.getElementById('mm-extend').value = '';
-  document.getElementById('mm-notes').value = '';
-  document.getElementById('btnBlockMember').textContent = blocked ? 'Unblock' : 'Block';
-  document.getElementById('btnBlockMember').className = blocked ? 'btn btn-success btn-sm' : 'btn btn-danger btn-sm';
-  document.getElementById('mm-err').style.display='none';
-  openModal('modalMember');
-}
-async function saveMemberAction(){
-  const tier = document.getElementById('mm-tier').value;
-  const pointsDelta = parseInt(document.getElementById('mm-points').value)||0;
-  const extendDays = parseInt(document.getElementById('mm-extend').value)||0;
-  const notes = document.getElementById('mm-notes').value.trim();
-  const btn = document.getElementById('mm-err');
-  btn.style.display='none';
-  try {
-    const m = _members.find(x=>x.id===_currentMemberId);
-    const updates = { tier };
-    if(pointsDelta) updates.points = (m.points||0) + pointsDelta;
-    if(extendDays && m.expires_at){
-      const newExp = new Date(m.expires_at);
-      newExp.setDate(newExp.getDate()+extendDays);
-      updates.expires_at = newExp.toISOString();
-    }
-    await sbClient.from('members').update(updates).eq('id',_currentMemberId);
-    await auditLog('update_member', 'member', _currentMemberId, m.full_name||m.email, {tier, pointsDelta, extendDays, notes});
-    closeModal('modalMember');
-    toast(`Member updated — ${m.full_name||m.email}`);
-    initMembers();
-  } catch(e){ document.getElementById('mm-err').textContent=e.message; document.getElementById('mm-err').style.display='block'; }
-}
-async function toggleBlockMember(){
-  const m = _members.find(x=>x.id===_currentMemberId);
-  if(!m) return;
-  if(_currentMemberBlocked){
-    const newExp = new Date(); newExp.setFullYear(newExp.getFullYear()+1);
-    await sbClient.from('members').update({expires_at:newExp.toISOString()}).eq('id',_currentMemberId);
-    await auditLog('unblock_member','member',_currentMemberId,m.full_name||m.email);
-    toast('Member unblocked');
-  } else {
-    await sbClient.from('members').update({expires_at:new Date(2000,1,1).toISOString()}).eq('id',_currentMemberId);
-    await auditLog('block_member','member',_currentMemberId,m.full_name||m.email);
-    toast('Member blocked','warning');
-  }
-  closeModal('modalMember');
-  initMembers();
+  // Recent bookings
+  const {data:recentBk} = await sbClient.from('event_bookings').select('id,final_price,status,created_at,event_id,member_id').order('created_at',{ascending:false}).limit(5);
+  const rbEl = document.getElementById('ov-recent-bookings');
+  rbEl.innerHTML = (recentBk||[]).map(b=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem">
+    <span>${mn(b.final_price)} · ${fmtDate(b.created_at)}</span>
+    ${statusBadge(b.status)}
+  </div>`).join('') || '<div class="empty">No bookings yet</div>';
 }
 
-// ── MODULE: PARTNERS ──
-async function initPartners(){
-  await loadPendingPartners();
-}
-async function loadPendingPartners(){
-  const { data } = await sbClient.from('partners').select('*').eq('is_active',false).is('rejected_at',null).is('approved_at',null).order('created_at',{ascending:false});
-  const el = document.getElementById('pending-partners-list');
-  if(!data||!data.length){
-    el.innerHTML='<div class="empty"><div class="empty-icon">✅</div><div class="empty-text">No pending partner applications</div></div>';
-    return;
-  }
-  el.innerHTML = data.map(p=>`
-    <div class="partner-card" id="pc-${p.id}">
-      <div class="partner-card-header">
-        <div>
-          <div class="partner-name">${esc(p.name||'Unnamed')}</div>
-          <div class="partner-meta">${esc(p.contact_email||'—')} · ${esc(p.city||'—')} · ${esc(p.category||p.type||'—')}</div>
-          <div class="partner-meta" style="margin-top:2px">Applied: ${fmtDateTime(p.created_at)}</div>
-        </div>
-        <div>${statusBadge('pending')}</div>
-      </div>
-      ${p.description?`<div style="font-size:.78rem;color:var(--muted);margin-bottom:12px;background:rgba(255,255,255,.03);padding:8px 12px;border-radius:8px">${esc(p.description)}</div>`:''}
-      <div class="partner-actions">
-        <button class="btn btn-success" onclick="openApproveModal('${p.id}','${esc(p.name||p.contact_email)}','${esc(p.contact_email)}')">✓ Approve</button>
-        <button class="btn btn-danger" onclick="openRejectModal('${p.id}','${esc(p.name||p.contact_email)}','${esc(p.contact_email)}')">✗ Reject</button>
-      </div>
-    </div>`).join('');
-}
-async function loadActivePartners(){
-  const { data } = await sbClient.from('partners').select('*').eq('is_active',true).order('created_at',{ascending:false});
-  const tbody = document.getElementById('pa-tbody');
-  if(!data||!data.length){ tbody.innerHTML='<tr><td colspan="7"><div class="empty"><div class="empty-icon">🤝</div><div class="empty-text">No active partners yet</div></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(p=>`<tr>
-    <td style="color:var(--text);font-weight:600">${esc(p.name||'—')}</td>
-    <td>${esc(p.city||'—')}</td>
-    <td>${partnerTierBadge(p.partner_tier)}</td>
-    <td>${p.contract_expires_at?fmtDate(p.contract_expires_at):'—'}</td>
-    <td>—</td><td>—</td>
-    <td><button class="btn btn-danger btn-sm" onclick="disablePartner('${p.id}','${esc(p.name)}')">Disable</button></td>
-  </tr>`).join('');
-}
-async function loadAllPartners(){
-  const { data } = await sbClient.from('partners').select('*').order('created_at',{ascending:false});
-  const tbody = document.getElementById('pall-tbody');
-  if(!data||!data.length){ tbody.innerHTML='<tr><td colspan="7"><div class="empty"><div class="empty-text">No partners</div></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(p=>`<tr>
-    <td style="color:var(--text);font-weight:600">${esc(p.name||'—')}</td>
-    <td>${esc(p.contact_email||'—')}</td>
-    <td>${esc(p.city||'—')}</td>
-    <td>${p.is_active?statusBadge('active'):statusBadge('pending')}</td>
-    <td>${partnerTierBadge(p.partner_tier)}</td>
-    <td>${fmtDate(p.created_at)}</td>
-    <td>${p.is_active?`<button class="btn btn-danger btn-sm" onclick="disablePartner('${p.id}','${esc(p.name)}')">Disable</button>`:`<button class="btn btn-success btn-sm" onclick="openApproveModal('${p.id}','${esc(p.name)}','${esc(p.contact_email)}')">Approve</button>`}</td>
-  </tr>`).join('');
-}
-function filterActivePartners(){ loadActivePartners(); }
-
-function openApproveModal(id, name, email){
-  _currentPartnerId = id;
-  _currentPartnerEmail = email;
-  _currentPartnerName = name;
-  document.getElementById('ma-name').textContent = `Approving: ${name}`;
-  document.getElementById('ma-err').style.display='none';
-  openModal('modalApprove');
-}
-function openRejectModal(id, name, email){
-  _currentPartnerId = id;
-  _currentPartnerEmail = email;
-  _currentPartnerName = name;
-  document.getElementById('mr-name').textContent = `Rejecting: ${name}`;
-  document.getElementById('mr-reason').value = '';
-  document.getElementById('mr-err').style.display='none';
-  openModal('modalReject');
-}
-
-async function confirmApprove(){
-  const tier = document.getElementById('ma-tier').value;
-  const contractDays = parseInt(document.getElementById('ma-contract').value)||180;
-  const quota = parseInt(document.getElementById('ma-quota').value)||20;
-  const fee = parseInt(document.getElementById('ma-fee').value)||50;
-  const notes = document.getElementById('ma-notes').value.trim();
-  const btn = document.getElementById('btnApprove');
-  btn.disabled=true; btn.textContent='Approving…';
-  document.getElementById('ma-err').style.display='none';
-  try {
-    const contractStart = new Date();
-    const contractEnd = new Date(contractStart);
-    contractEnd.setDate(contractEnd.getDate()+contractDays);
-    await sbClient.from('partners').update({
-      is_active: true,
-      partner_tier: tier,
-      contract_starts_at: contractStart.toISOString(),
-      contract_expires_at: contractEnd.toISOString(),
-      total_redemption_quota: quota,
-      redemption_fee: fee,
-      admin_notes: notes,
-      approved_by: _session.user.email,
-      approved_at: new Date().toISOString()
-    }).eq('id', _currentPartnerId);
-
-    // Send approval email via Resend API
-    await fetch('/api/send-partner-email', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        type: 'approval',
-        partnerEmail: _currentPartnerEmail,
-        partnerName: _currentPartnerName,
-        tier, contractDays
-      })
-    }).catch(()=>{}); // Non-blocking
-
-    await auditLog('approve_partner','partner',_currentPartnerId,_currentPartnerName,{tier,contractDays,quota,fee});
-    closeModal('modalApprove');
-    const aCard = document.getElementById('pc-'+_currentPartnerId);
-    if(aCard) aCard.remove();
-    toast(`Partner approved — ${_currentPartnerName} 🎉`);
-    loadSidebarBadges();
-    initPartners();
-    initOverview();
-  } catch(e){
-    document.getElementById('ma-err').textContent=e.message;
-    document.getElementById('ma-err').style.display='block';
-  }
-  btn.disabled=false; btn.textContent='✓ Approve & Send Email';
-}
-
-async function confirmReject(){
-  const reason = document.getElementById('mr-reason').value.trim();
-  const btn = document.getElementById('btnReject');
-  if(!reason){ document.getElementById('mr-err').textContent='Please provide a rejection reason.'; document.getElementById('mr-err').style.display='block'; return; }
-  btn.disabled=true; btn.textContent='Rejecting…';
-  try {
-    await sbClient.from('partners').update({
-      is_active: false,
-      rejection_reason: reason,
-      rejected_at: new Date().toISOString()
-    }).eq('id', _currentPartnerId);
-
-    await fetch('/api/send-partner-email', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ type:'rejection', partnerEmail:_currentPartnerEmail, partnerName:_currentPartnerName, reason })
-    }).catch(()=>{});
-
-    await auditLog('reject_partner','partner',_currentPartnerId,_currentPartnerName,{reason});
-    closeModal('modalReject');
-    toast(`Partner rejected — ${_currentPartnerName}`,'warning');
-    const card = document.getElementById('pc-'+_currentPartnerId);
-    if(card) card.remove();
-    loadSidebarBadges();
-    initPartners();
-  } catch(e){
-    document.getElementById('mr-err').textContent=e.message;
-    document.getElementById('mr-err').style.display='block';
-  }
-  btn.disabled=false; btn.textContent='Reject & Notify';
-}
-
-async function disablePartner(id, name){
-  if(!confirm(`Disable ${name}? Their vouchers will be hidden from members.`)) return;
-  await sbClient.from('partners').update({is_active:false}).eq('id',id);
-  await auditLog('disable_partner','partner',id,name);
-  toast(`Partner disabled — ${name}`,'warning');
-  loadActivePartners(); loadSidebarBadges();
-}
-
-// ── MODULE: VOUCHERS ──
-async function initVouchers(){
-  await loadPendingVouchers();
-}
-async function loadPendingVouchers(){
-  const { data } = await sbClient.from('partner_vouchers').select('*').eq('status','pending_approval').order('created_at',{ascending:false});
-  const el = document.getElementById('pending-vouchers-list');
-  if(!data||!data.length){ el.innerHTML='<div class="empty"><div class="empty-icon">✅</div><div class="empty-text">No pending vouchers</div></div>'; return; }
-  el.innerHTML = data.map(v=>`
-    <div class="partner-card" id="vc-${v.id}">
-      <div class="partner-card-header">
-        <div>
-          <div class="partner-name">${esc(v.title||'Untitled Voucher')}</div>
-          <div class="partner-meta">Partner ID: ${v.partner_id?.substring(0,8)} · ${mn(v.discount_value)} off · Min ₹${v.min_billing||0}</div>
-          <div class="partner-meta">Qty: ${v.quantity||0} · Tiers: ${(v.valid_for_tiers||[]).join(', ')} · Submitted: ${fmtDateTime(v.created_at)}</div>
-        </div>
-        <div>
-          ${((v.discount_value/v.min_billing)*100).toFixed(0) > 30
-            ? '<span class="badge badge-rejected">⚠ High Discount</span>'
-            : '<span class="badge badge-active">✓ Healthy Margin</span>'}
-        </div>
-      </div>
-      <div class="partner-actions">
-        <button class="btn btn-primary btn-sm" onclick="openVoucherModal('${v.id}','${esc(v.title)}','${v.partner_id}',${v.discount_value},${v.min_billing||0},${v.quantity||0},'${v.expires_at?.split('T')[0]||''}')">Edit & Review</button>
-        <button class="btn btn-success btn-sm" onclick="quickApproveVoucher('${v.id}','${esc(v.title)}')">✓ Quick Approve</button>
-        <button class="btn btn-danger btn-sm" onclick="quickRejectVoucher('${v.id}','${esc(v.title)}')">✗ Reject</button>
-      </div>
-    </div>`).join('');
-}
-async function loadActiveVouchers(){
-  const { data } = await sbClient.from('partner_vouchers').select('*').eq('status','active').order('created_at',{ascending:false});
-  const tbody = document.getElementById('va-tbody');
-  if(!data||!data.length){ tbody.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-text">No active vouchers</div></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(v=>`<tr>
-    <td style="color:var(--gold);font-size:.72rem">${v.partner_id?.substring(0,8)||'—'}</td>
-    <td style="color:var(--text);font-weight:600">${esc(v.title||'—')}</td>
-    <td>${mn(v.discount_value)}</td>
-    <td>${mn(v.min_billing)}</td>
-    <td>${v.quantity||0}</td>
-    <td>${v.redeemed_count||0}</td>
-    <td>${fmtDate(v.expires_at)}</td>
-    <td>
-      <button class="btn btn-danger btn-sm" onclick="forceExpireVoucher('${v.id}','${esc(v.title)}')">Force Expire</button>
-      <button class="btn btn-ghost btn-sm" onclick="openVoucherModal('${v.id}','${esc(v.title)}','${v.partner_id}',${v.discount_value},${v.min_billing||0},${v.quantity||0},'${v.expires_at?.split('T')[0]||''}')">Edit</button>
+// ── 2. CELEBRITIES ────────────────────────────────────────────────
+async function loadCelebrities() {
+  let q = sbClient.from('celebrities').select('*,agencies(name)').order('tier').order('name');
+  const search = document.getElementById('cel-search')?.value;
+  const tier   = document.getElementById('cel-tier')?.value;
+  const avail  = document.getElementById('cel-avail')?.value;
+  if(search) q = q.ilike('name','%'+search+'%');
+  if(tier)   q = q.eq('tier',tier);
+  if(avail)  q = q.eq('availability',avail);
+  const {data} = await q;
+  const all = data||[];
+  document.getElementById('cel-total').textContent = all.length;
+  document.getElementById('cel-available').textContent = all.filter(c=>c.availability==='available').length;
+  document.getElementById('cel-booked').textContent = all.filter(c=>c.availability==='booked').length;
+  document.getElementById('cel-s').textContent = all.filter(c=>c.tier==='S').length;
+  document.getElementById('cel-a').textContent = all.filter(c=>c.tier==='A').length;
+  const tb = document.getElementById('cel-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="7" class="empty">No celebrities found</td></tr>';return;}
+  tb.innerHTML = all.map(c=>`<tr>
+    <td style="font-weight:600">${c.name}</td>
+    <td>${tierBadge(c.tier)}</td>
+    <td style="color:var(--muted)">${c.industry||'—'}</td>
+    <td style="color:var(--gold)">${c.base_fee?mn(c.base_fee):'Not set'}</td>
+    <td>${c.agencies?.name||'<span style="color:var(--muted)">No agency</span>'}</td>
+    <td>${statusBadge(c.availability)}</td>
+    <td class="td-actions">
+      <button class="btn-secondary btn-sm" onclick="editCelebrity('${c.id}')">Edit</button>
+      <button class="btn-danger btn-sm" onclick="deleteCelebrity('${c.id}','${c.name}')">Delete</button>
     </td>
   </tr>`).join('');
 }
-async function loadAllVouchers(){
-  const { data } = await sbClient.from('partner_vouchers').select('*').order('created_at',{ascending:false}).limit(100);
-  const tbody = document.getElementById('vall-tbody');
-  if(!data||!data.length){ tbody.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-text">No vouchers</div></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(v=>`<tr>
-    <td style="color:var(--gold);font-size:.72rem">${v.partner_id?.substring(0,8)||'—'}</td>
-    <td style="color:var(--text)">${esc(v.title||'—')}</td>
-    <td>${statusBadge(v.status)}</td>
-    <td>${mn(v.discount_value)}</td>
-    <td>${v.quantity||0}</td>
-    <td>${v.redeemed_count||0}</td>
-    <td>${fmtDate(v.created_at)}</td>
-    <td><button class="btn btn-ghost btn-sm" onclick="openVoucherModal('${v.id}','${esc(v.title)}','${v.partner_id}',${v.discount_value},${v.min_billing||0},${v.quantity||0},'${v.expires_at?.split('T')[0]||''}')">Edit</button></td>
+
+function openCelebModal(id) {
+  editingId = id||null;
+  document.getElementById('celebModalTitle').textContent = id?'Edit Celebrity':'Add Celebrity';
+  if(!id){['cel-name','cel-fee','cel-industry','cel-bio','cel-image'].forEach(f=>{const el=document.getElementById(f);if(el)el.value=''});}
+  loadAgencyDropdown('cel-agency');
+  openModal('celebModal');
+}
+
+async function editCelebrity(id) {
+  const {data} = await sbClient.from('celebrities').select('*').eq('id',id).single();
+  if(!data) return;
+  editingId = id;
+  document.getElementById('celebModalTitle').textContent = 'Edit Celebrity';
+  document.getElementById('cel-name').value = data.name||'';
+  document.getElementById('cel-tier-input').value = data.tier||'B';
+  document.getElementById('cel-fee').value = data.base_fee||'';
+  document.getElementById('cel-industry').value = data.industry||'';
+  document.getElementById('cel-bio').value = data.bio||'';
+  document.getElementById('cel-image').value = data.image_url||'';
+  document.getElementById('cel-availability').value = data.availability||'available';
+  await loadAgencyDropdown('cel-agency', data.agency_id);
+  openModal('celebModal');
+}
+
+async function saveCelebrity() {
+  const name = document.getElementById('cel-name').value.trim();
+  if(!name){showMsg('cel-msg','Celebrity name required','error');return;}
+  const payload = {
+    name, tier: document.getElementById('cel-tier-input').value,
+    base_fee: parseInt(document.getElementById('cel-fee').value)||0,
+    industry: document.getElementById('cel-industry').value.trim(),
+    bio: document.getElementById('cel-bio').value.trim(),
+    image_url: document.getElementById('cel-image').value.trim(),
+    availability: document.getElementById('cel-availability').value,
+    agency_id: document.getElementById('cel-agency').value||null
+  };
+  const {error} = editingId
+    ? await sbClient.from('celebrities').update(payload).eq('id',editingId)
+    : await sbClient.from('celebrities').insert(payload);
+  if(error){showMsg('cel-msg',error.message,'error');return;}
+  await auditLog(editingId?'edit_celebrity':'create_celebrity','celebrity',editingId||'new',name,payload);
+  showMsg('cel-msg','Celebrity saved!','success');
+  setTimeout(()=>{closeModal('celebModal');loadCelebrities();},900);
+}
+
+async function deleteCelebrity(id, name) {
+  if(!confirm(`Delete ${name}? This cannot be undone.`)) return;
+  const {error} = await sbClient.from('celebrities').delete().eq('id',id);
+  if(error){showToast('Delete failed: '+error.message,'error');return;}
+  await auditLog('delete_celebrity','celebrity',id,name);
+  showToast(`${name} deleted`,'success');
+  loadCelebrities();
+}
+
+// ── 3. AGENCIES ────────────────────────────────────────────────────
+async function loadAgencies() {
+  const {data} = await sbClient.from('agencies').select('*').order('name');
+  const all = data||[];
+  const tb = document.getElementById('agency-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="7" class="empty">No agencies yet</td></tr>';return;}
+  // Get celebrity counts per agency
+  const {data:celebs} = await sbClient.from('celebrities').select('agency_id');
+  const agCounts = {};
+  (celebs||[]).forEach(c=>{if(c.agency_id)agCounts[c.agency_id]=(agCounts[c.agency_id]||0)+1;});
+  tb.innerHTML = all.map(a=>`<tr>
+    <td style="font-weight:600">${a.name}</td>
+    <td>${a.contact_name||'—'}</td>
+    <td style="color:var(--muted)">${a.contact_email||'—'}</td>
+    <td><span class="badge badge-gold">${a.commission_pct}%</span></td>
+    <td>${agCounts[a.id]||0} celebrities</td>
+    <td>${statusBadge(a.is_active?'active':'inactive')}</td>
+    <td class="td-actions">
+      <button class="btn-secondary btn-sm" onclick="editAgency('${a.id}')">Edit</button>
+      <button class="btn-danger btn-sm" onclick="deleteAgency('${a.id}','${a.name}')">Delete</button>
+    </td>
   </tr>`).join('');
 }
 
-function openVoucherModal(id, title, partnerId, discount, minBill, qty, expiry){
-  _currentVoucherId = id;
-  document.getElementById('mv-partner-name').textContent = `Partner: ${partnerId?.substring(0,12)}`;
-  document.getElementById('mv-title').value = title;
-  document.getElementById('mv-discount').value = discount;
-  document.getElementById('mv-minbill').value = minBill;
-  document.getElementById('mv-qty').value = qty;
-  document.getElementById('mv-expiry').value = expiry;
-  document.getElementById('mv-notes').value = '';
-  document.getElementById('mv-err').style.display='none';
-  openModal('modalVoucher');
+function openAgencyModal(){editingId=null;['ag-name','ag-contact','ag-email','ag-phone','ag-notes'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});document.getElementById('ag-commission').value='10';document.getElementById('agencyModalTitle').textContent='Add Agency';openModal('agencyModal');}
+
+async function editAgency(id){
+  const {data}=await sbClient.from('agencies').select('*').eq('id',id).single();
+  if(!data) return; editingId=id;
+  document.getElementById('agencyModalTitle').textContent='Edit Agency';
+  document.getElementById('ag-name').value=data.name||'';
+  document.getElementById('ag-contact').value=data.contact_name||'';
+  document.getElementById('ag-email').value=data.contact_email||'';
+  document.getElementById('ag-phone').value=data.contact_phone||'';
+  document.getElementById('ag-commission').value=data.commission_pct||10;
+  document.getElementById('ag-notes').value=data.notes||'';
+  openModal('agencyModal');
 }
 
-// ── EMAIL HELPER: Send partner notification ──
-async function sendVoucherEmail(type, voucherId, extraData = {}) {
-  try {
-    const {data: v} = await sbClient.from('partner_vouchers')
-      .select('title, partner_id, partners(business_name, email)')
-      .eq('id', voucherId).single();
-    if(!v || !v.partners?.email) return;
-    await fetch('/api/send-partner-email', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        type,
-        partnerEmail: v.partners.email,
-        partnerName: v.partners.business_name || 'Partner',
-        voucherTitle: v.title,
-        ...extraData
-      })
-    });
-  } catch(e) { console.warn('Email notification failed:', e.message); }
-}
-async function approveVoucher(){
-  const btn = document.getElementById('btnVoucherApprove');
-  btn.disabled=true; btn.textContent='Approving…';
-  try {
-    const updates = {
-      title: document.getElementById('mv-title').value,
-      discount_value: parseInt(document.getElementById('mv-discount').value),
-      min_billing: parseInt(document.getElementById('mv-minbill').value),
-      quantity: parseInt(document.getElementById('mv-qty').value),
-      expires_at: document.getElementById('mv-expiry').value ? new Date(document.getElementById('mv-expiry').value).toISOString() : null,
-      status: 'active',
-      updated_at: new Date().toISOString()
-    };
-    await sbClient.from('partner_vouchers').update(updates).eq('id',_currentVoucherId);
-    await auditLog('approve_voucher','voucher',_currentVoucherId,updates.title,{updates});
-    closeModal('modalVoucher');
-    toast('Voucher approved and live 🎟️')
-  sendVoucherEmail('voucher_approved', _currentVoucherId); // notify partner;
-    loadSidebarBadges();
-    initVouchers();
-  } catch(e){ document.getElementById('mv-err').textContent=e.message; document.getElementById('mv-err').style.display='block'; }
-  btn.disabled=false; btn.textContent='✓ Approve';
-}
-async function rejectVoucher(){
-  if(!confirm('Reject this voucher?')) return;
-  await sbClient.from('partner_vouchers').update({status:'rejected'}).eq('id',_currentVoucherId);
-  await auditLog('reject_voucher','voucher',_currentVoucherId,'');
-  closeModal('modalVoucher');
-  toast('Voucher rejected','warning')
-  sendVoucherEmail('voucher_rejected', _currentVoucherId, {reason: document.getElementById('voucherRejectReason')?.value || ''}); // notify partner;
-  loadSidebarBadges();
-  initVouchers();
-}
-async function quickApproveVoucher(id, title){
-  await sbClient.from('partner_vouchers').update({status:'active',updated_at:new Date().toISOString()}).eq('id',id);
-  await auditLog('approve_voucher','voucher',id,title);
-  toast(`Voucher approved — ${title}`)
-  sendVoucherEmail('voucher_approved', id);;
-  loadSidebarBadges();
-  loadPendingVouchers();
-}
-async function quickRejectVoucher(id, title){
-  if(!confirm(`Reject "${title}"?`)) return;
-  await sbClient.from('partner_vouchers').update({status:'rejected'}).eq('id',id);
-  await auditLog('reject_voucher','voucher',id,title);
-  toast(`Voucher rejected — ${title}`,'warning')
-  sendVoucherEmail('voucher_rejected', id);;
-  loadSidebarBadges();
-  loadPendingVouchers();
-}
-async function forceExpireVoucher(id, title){
-  if(!confirm(`Force expire "${title}"? It will be immediately hidden from members.`)) return;
-  await sbClient.from('partner_vouchers').update({status:'expired',expires_at:new Date().toISOString()}).eq('id',id);
-  await auditLog('force_expire_voucher','voucher',id,title);
-  toast(`Voucher force-expired — ${title}`,'warning');
-  loadActiveVouchers();
+async function saveAgency(){
+  const name=document.getElementById('ag-name').value.trim();
+  if(!name){showMsg('ag-msg','Agency name required','error');return;}
+  const payload={name,contact_name:document.getElementById('ag-contact').value.trim(),contact_email:document.getElementById('ag-email').value.trim(),contact_phone:document.getElementById('ag-phone').value.trim(),commission_pct:parseFloat(document.getElementById('ag-commission').value)||10,notes:document.getElementById('ag-notes').value.trim()};
+  const {error}=editingId?await sbClient.from('agencies').update(payload).eq('id',editingId):await sbClient.from('agencies').insert(payload);
+  if(error){showMsg('ag-msg',error.message,'error');return;}
+  await auditLog(editingId?'edit_agency':'create_agency','agency',editingId||'new',name,payload);
+  showMsg('ag-msg','Agency saved!','success');
+  setTimeout(()=>{closeModal('agencyModal');loadAgencies();},900);
 }
 
-// ── MODULE: PAYMENTS ──
-async function initPayments(){
-  const { data: membPays } = await sbClient.from('payment_logs').select('*').order('created_at',{ascending:false}).limit(200);
-  _payments = membPays||[];
-  _payFiltered = [..._payments];
-  _payPage = 0;
-  renderPayments();
+async function deleteAgency(id,name){if(!confirm(`Delete ${name}?`))return;await sbClient.from('agencies').delete().eq('id',id);showToast(name+' deleted');loadAgencies();}
 
+async function loadAgencyDropdown(selId, selectedId=null){
+  const {data}=await sbClient.from('agencies').select('id,name').eq('is_active',true).order('name');
+  const sel=document.getElementById(selId);
+  if(!sel)return;
+  sel.innerHTML='<option value="">No Agency</option>'+(data||[]).map(a=>`<option value="${a.id}"${a.id===selectedId?' selected':''}>${a.name}</option>`).join('');
+}
+
+// ── 4. EVENTS ─────────────────────────────────────────────────────
+async function loadEvents(){
+  let q=sbClient.from('celebrity_events').select('*').order('event_date',{ascending:true});
+  const tier=document.getElementById('ev-filter-tier')?.value;
+  const status=document.getElementById('ev-filter-status')?.value;
+  if(tier) q=q.eq('tier',tier);
+  if(status) q=q.eq('status',status);
+  const {data}=await q;
+  const all=data||[];
+  document.getElementById('ev-total').textContent=all.length;
+  document.getElementById('ev-live').textContent=all.filter(e=>e.status==='live').length;
+  document.getElementById('ev-seats-avail').textContent=all.reduce((s,e)=>s+(e.available_seats-e.reserved_seats-e.confirmed_seats),0);
+  document.getElementById('ev-confirmed').textContent=all.reduce((s,e)=>s+e.confirmed_seats,0);
+  const tb=document.getElementById('ev-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="10" class="empty">No events found</td></tr>';return;}
+  tb.innerHTML=all.map(e=>`<tr>
+    <td style="font-weight:600">${e.celebrity_name}</td>
+    <td style="color:var(--muted);font-size:.72rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.event_title}</td>
+    <td>${tierBadge(e.tier)}</td>
+    <td>${fmtDate(e.event_date)}</td>
+    <td>${e.city||'—'}</td>
+    <td style="color:var(--gold)">${mn(e.ticket_price)}</td>
+    <td>${e.available_seats-e.reserved_seats-e.confirmed_seats} / ${e.available_seats}</td>
+    <td style="color:var(--green)">${e.confirmed_seats}</td>
+    <td>${statusBadge(e.status)}</td>
+    <td class="td-actions">
+      <button class="btn-secondary btn-sm" onclick="editEvent('${e.id}')">Edit</button>
+      <button class="btn-danger btn-sm" onclick="deleteEvent('${e.id}','${e.celebrity_name}')">Delete</button>
+    </td>
+  </tr>`).join('');
+}
+
+async function openEventModal(){
+  editingId=null;
+  document.getElementById('eventModalTitle').textContent='Create Event';
+  ['ev-title','ev-location','ev-city','ev-desc','ev-price','ev-seats-total','ev-max-abs','ev-datetime','ev-price2','ev-from2','ev-price3','ev-from3'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});
+  document.getElementById('ev-dynamic').checked=false;
+  document.getElementById('ev-dynamic-fields').style.display='none';
+  // Load celebrities dropdown
+  const {data:celebs}=await sbClient.from('celebrities').select('id,name,tier').eq('availability','available').order('name');
+  const sel=document.getElementById('ev-celebrity');
+  sel.innerHTML='<option value="">Select celebrity...</option>'+(celebs||[]).map(c=>`<option value="${c.id}">${c.name} (${c.tier}-Class)</option>`).join('');
+  openModal('eventModal');
+}
+
+async function editEvent(id){
+  const {data}=await sbClient.from('celebrity_events').select('*').eq('id',id).single();
+  if(!data) return; editingId=id;
+  document.getElementById('eventModalTitle').textContent='Edit Event';
+  document.getElementById('ev-title').value=data.event_title||'';
+  document.getElementById('ev-tier-input').value=data.tier||'B';
+  document.getElementById('ev-price').value=data.ticket_price||'';
+  document.getElementById('ev-seats-total').value=data.total_seats||'';
+  document.getElementById('ev-pts-val').value=data.points_value_per_100||400;
+  document.getElementById('ev-max-abs').value=data.max_discount_abs||10000;
+  document.getElementById('ev-datetime').value=data.event_date?data.event_date.slice(0,16):'';
+  document.getElementById('ev-location').value=data.location||'';
+  document.getElementById('ev-city').value=data.city||'';
+  document.getElementById('ev-desc').value=data.description||'';
+  document.getElementById('ev-status-input').value=data.status||'live';
+  document.getElementById('ev-dynamic').checked=data.dynamic_pricing||false;
+  document.getElementById('ev-dynamic-fields').style.display=data.dynamic_pricing?'grid':'none';
+  if(data.dynamic_pricing){
+    document.getElementById('ev-price2').value=data.price_tier2||'';
+    document.getElementById('ev-from2').value=data.price_tier2_from||'';
+    document.getElementById('ev-price3').value=data.price_tier3||'';
+    document.getElementById('ev-from3').value=data.price_tier3_from||'';
+  }
+  const {data:celebs}=await sbClient.from('celebrities').select('id,name,tier').order('name');
+  const sel=document.getElementById('ev-celebrity');
+  sel.innerHTML='<option value="">Select celebrity...</option>'+(celebs||[]).map(c=>`<option value="${c.id}"${c.id===data.celebrity_id?' selected':''}>${c.name} (${c.tier}-Class)</option>`).join('');
+  openModal('eventModal');
+}
+
+async function saveEvent(){
+  const title=document.getElementById('ev-title').value.trim();
+  const price=parseInt(document.getElementById('ev-price').value);
+  const seats=parseInt(document.getElementById('ev-seats-total').value);
+  if(!title||!price||!seats){showMsg('ev-msg','Title, price and seats required','error');return;}
+  // Get celebrity name from dropdown
+  const celSel=document.getElementById('ev-celebrity');
+  const celName=celSel.options[celSel.selectedIndex]?.text.split(' (')[0]||'';
+  const dynamic=document.getElementById('ev-dynamic').checked;
+  const payload={
+    celebrity_name:celName, event_title:title,
+    tier:document.getElementById('ev-tier-input').value,
+    ticket_price:price, total_seats:seats,
+    available_seats:editingId?undefined:seats,
+    points_value_per_100:parseInt(document.getElementById('ev-pts-val').value)||400,
+    max_discount_abs:parseInt(document.getElementById('ev-max-abs').value)||10000,
+    max_discount_pct:20,
+    event_date:document.getElementById('ev-datetime').value||null,
+    location:document.getElementById('ev-location').value.trim(),
+    city:document.getElementById('ev-city').value.trim(),
+    description:document.getElementById('ev-desc').value.trim(),
+    status:document.getElementById('ev-status-input').value,
+    celebrity_id:document.getElementById('ev-celebrity').value||null,
+    dynamic_pricing:dynamic,
+    price_tier2:dynamic?parseInt(document.getElementById('ev-price2').value)||null:null,
+    price_tier2_from:dynamic?parseInt(document.getElementById('ev-from2').value)||null:null,
+    price_tier3:dynamic?parseInt(document.getElementById('ev-price3').value)||null:null,
+    price_tier3_from:dynamic?parseInt(document.getElementById('ev-from3').value)||null:null,
+  };
+  if(editingId) delete payload.available_seats;
+  const {error}=editingId?await sbClient.from('celebrity_events').update(payload).eq('id',editingId):await sbClient.from('celebrity_events').insert(payload);
+  if(error){showMsg('ev-msg',error.message,'error');return;}
+  await auditLog(editingId?'edit_event':'create_event','event',editingId||'new',title,{price,seats,tier:payload.tier});
+  showMsg('ev-msg','Event saved!','success');
+  setTimeout(()=>{closeModal('eventModal');loadEvents();},900);
+}
+
+async function deleteEvent(id,name){if(!confirm(`Delete "${name}" event?`))return;await sbClient.from('celebrity_events').delete().eq('id',id);await auditLog('delete_event','event',id,name);showToast('Event deleted');loadEvents();}
+
+function toggleDynamicPricing(){document.getElementById('ev-dynamic-fields').style.display=document.getElementById('ev-dynamic').checked?'grid':'none';updateDynamicPreview();}
+
+function autoSetEventDefaults(){
+  const t=document.getElementById('ev-tier-input').value;
+  const pts={S:500,A:500,B:400,C:300};
+  const maxAbs={S:10000,A:10000,B:4000,C:1500};
+  document.getElementById('ev-pts-val').value=pts[t]||400;
+  document.getElementById('ev-max-abs').value=maxAbs[t]||10000;
+}
+
+function updateDynamicPreview(){
+  const p1=parseInt(document.getElementById('ev-price')?.value)||0;
+  const p2=parseInt(document.getElementById('ev-price2')?.value)||0;
+  const f2=parseInt(document.getElementById('ev-from2')?.value)||0;
+  const p3=parseInt(document.getElementById('ev-price3')?.value)||0;
+  const f3=parseInt(document.getElementById('ev-from3')?.value)||0;
+  const preview=document.getElementById('dp-preview');
+  if(!preview||!document.getElementById('ev-dynamic')?.checked) return;
+  preview.innerHTML=`<div style="font-size:.72rem;color:var(--gold);margin-bottom:.4rem;font-weight:700">Pricing Preview (Airline Model)</div>`+
+    (p1?`<div class="dp-row"><span>Seats 1 – ${f2?f2-1:'end'}</span><span style="color:var(--text);font-weight:600">${mn(p1)}</span></div>`:'') +
+    (p2&&f2?`<div class="dp-row"><span>Seats ${f2} – ${f3?f3-1:'end'}</span><span style="color:var(--gold);font-weight:600">${mn(p2)}</span></div>`:'') +
+    (p3&&f3?`<div class="dp-row"><span>Seats ${f3} – end</span><span style="color:var(--red);font-weight:600">${mn(p3)} (Last seats)</span></div>`:'');
+}
+
+// ── 5. BOOKINGS ────────────────────────────────────────────────────
+async function loadBookings(){
+  let q=sbClient.from('event_bookings').select('*').order('created_at',{ascending:false});
+  const status=document.getElementById('bk-status')?.value;
+  if(status) q=q.eq('status',status);
+  const {data}=await q.limit(100);
+  const all=data||[];
+  document.getElementById('bk-total').textContent=all.length;
+  document.getElementById('bk-confirmed').textContent=all.filter(b=>b.status==='confirmed').length;
+  document.getElementById('bk-pending').textContent=all.filter(b=>b.status==='pending').length;
+  const revenue=all.filter(b=>b.status==='confirmed').reduce((s,b)=>s+(b.final_price||0),0);
+  document.getElementById('bk-revenue').textContent=mn(revenue);
+  const tb=document.getElementById('bk-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="10" class="empty">No bookings</td></tr>';return;}
+  tb.innerHTML=all.map(b=>`<tr>
+    <td style="font-family:monospace;font-size:.7rem">${b.id.slice(0,8)}</td>
+    <td style="font-size:.72rem">${b.member_id_text||b.member_id?.slice(0,8)||'—'}</td>
+    <td style="font-size:.72rem">${b.event_id?.slice(0,8)||'—'}</td>
+    <td>${mn(b.base_price)}</td>
+    <td style="color:var(--gold)">${b.points_used||0} pts</td>
+    <td style="color:var(--green)">${mn(b.discount_given)}</td>
+    <td style="font-weight:700">${mn(b.final_price)}</td>
+    <td>${statusBadge(b.status)}</td>
+    <td style="font-size:.7rem">${fmtDate(b.created_at)}</td>
+    <td class="td-actions">${b.status==='confirmed'?`<button class="btn-danger btn-sm" onclick="cancelBooking('${b.id}')">Cancel</button>`:''}</td>
+  </tr>`).join('');
+}
+
+async function cancelBooking(id){
+  if(!confirm('Cancel this booking? No refund will be issued per DWC policy.')) return;
+  const {error}=await sbClient.from('event_bookings').update({status:'cancelled'}).eq('id',id);
+  if(error){showToast('Failed: '+error.message,'error');return;}
+  await auditLog('cancel_booking','booking',id,'Booking',{note:'No refund — DWC policy'});
+  showToast('Booking cancelled (no refund issued)');
+  loadBookings();
+}
+
+// ── 6. MEMBERS ────────────────────────────────────────────────────
+async function loadMembers(){
+  const search=document.getElementById('mb-search')?.value;
+  const tier=document.getElementById('mb-tier')?.value;
+  let q=sbClient.from('members').select('id,member_id,first_name,last_name,email,tier,points,monthly_points_earned,city,created_at',{count:'exact'}).order('created_at',{ascending:false}).range(mbPage*PAGE_SIZE,(mbPage+1)*PAGE_SIZE-1);
+  if(tier) q=q.eq('tier',tier);
+  if(search) q=q.or(`member_id.ilike.%${search}%,email.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%`);
+  const {data,count}=await q;
+  document.getElementById('mb-total').textContent=count||0;
+  // Tier counts
+  const {data:tiers}=await sbClient.from('members').select('tier');
+  const tc={free:0,gold:0,platinum:0,dwcpurple:0};
+  (tiers||[]).forEach(m=>{if(tc[m.tier]!==undefined)tc[m.tier]++;});
+  document.getElementById('mb-free').textContent=tc.free;
+  document.getElementById('mb-gold').textContent=tc.gold;
+  document.getElementById('mb-platinum').textContent=tc.platinum;
+  const {data:pts}=await sbClient.from('members').select('points');
+  document.getElementById('mb-pts-total').textContent=((pts||[]).reduce((s,m)=>s+(m.points||0),0)).toLocaleString('en-IN');
+  const tb=document.getElementById('mb-tbody');
+  if(!data?.length){tb.innerHTML='<tr><td colspan="9" class="empty">No members found</td></tr>';renderPagination('mb-pagination',count,mbPage,PAGE_SIZE,p=>{mbPage=p;loadMembers();});return;}
+  tb.innerHTML=data.map(m=>`<tr>
+    <td style="font-family:monospace;font-size:.72rem">${m.member_id||'—'}</td>
+    <td>${m.first_name||''} ${m.last_name||''}</td>
+    <td style="color:var(--muted);font-size:.72rem">${m.email||'—'}</td>
+    <td style="font-size:.72rem">${m.city||'—'}</td>
+    <td>${tierMemberBadge(m.tier)}</td>
+    <td style="color:var(--gold);font-weight:700">${(m.points||0).toLocaleString()}</td>
+    <td style="color:var(--sub)">${m.monthly_points_earned||0}/2000</td>
+    <td style="font-size:.7rem">${fmtDate(m.created_at)}</td>
+    <td class="td-actions">
+      <button class="btn-secondary btn-sm" onclick="editMember('${m.id}','${m.points}','${m.tier}')">Edit</button>
+      <button class="btn-danger btn-sm" onclick="suspendMemberDirect('${m.id}','${m.first_name}')">Suspend</button>
+    </td>
+  </tr>`).join('');
+  renderPagination('mb-pagination',count,mbPage,PAGE_SIZE,p=>{mbPage=p;loadMembers();});
+}
+
+function editMember(id,points,tier){
+  document.getElementById('mb-edit-id').value=id;
+  document.getElementById('mb-edit-points').value=points||0;
+  document.getElementById('mb-edit-tier').value=tier||'free';
+  document.getElementById('mb-edit-reason').value='';
+  openModal('memberModal');
+}
+
+async function saveMemberEdit(){
+  const id=document.getElementById('mb-edit-id').value;
+  const points=parseInt(document.getElementById('mb-edit-points').value)||0;
+  const tier=document.getElementById('mb-edit-tier').value;
+  const reason=document.getElementById('mb-edit-reason').value.trim()||'Admin adjustment';
+  const {error}=await sbClient.from('members').update({points,tier}).eq('id',id);
+  if(error){showMsg('mb-msg',error.message,'error');return;}
+  await auditLog('adjust_member','member',id,'Member',{points,tier,reason});
+  showMsg('mb-msg','Member updated!','success');
+  setTimeout(()=>{closeModal('memberModal');loadMembers();},900);
+}
+
+async function suspendMemberDirect(id,name){
+  if(!confirm(`Suspend ${name||'this member'}?`)) return;
+  await sbClient.from('members').update({is_active:false}).eq('id',id);
+  await auditLog('suspend_member','member',id,name||'Member');
+  showToast('Member suspended');
+  loadMembers();
+}
+
+// ── 7. PARTNERS ────────────────────────────────────────────────────
+let partnerTab = 'pending';
+function switchPartnerTab(tab){partnerTab=tab;['pending','active','all'].forEach(t=>{const el=document.getElementById('pt-tab-'+t);if(el)el.className=t===tab?'btn-primary':'btn-secondary';});loadPartners();}
+
+async function loadPartners(){
+  let q=sbClient.from('partners').select('id,name,type,city,contact_email,contact_name,is_active,approved_at,rejected_at,contract_expires_at').order('created_at',{ascending:false});
+  if(partnerTab==='pending') q=q.is('approved_at',null).is('rejected_at',null);
+  else if(partnerTab==='active') q=q.eq('is_active',true).not('approved_at',null);
+  const {data}=await q;
+  const all=data||[];
   // Stats
-  const total = _payments.filter(p=>p.status==='paid').reduce((s,p)=>s+(p.amount||0),0);
-  const now = new Date(); const monthStart = new Date(now.getFullYear(),now.getMonth(),1);
-  const thisMonth = _payments.filter(p=>p.status==='paid'&&new Date(p.created_at)>=monthStart).reduce((s,p)=>s+(p.amount||0),0);
-  document.getElementById('pay-member-total').textContent = mn(total/100);
-  document.getElementById('pay-this-month').textContent = mn(thisMonth/100);
-  document.getElementById('pay-partner-fees').textContent = '—';
-}
-function filterPayments(){
-  const q = document.getElementById('pay-search').value.toLowerCase();
-  const status = document.getElementById('pay-status').value;
-  _payFiltered = _payments.filter(p=>{
-    const match = !q || (p.user_email||'').toLowerCase().includes(q) || (p.razorpay_payment_id||'').toLowerCase().includes(q);
-    const statusOk = !status || p.status===status;
-    return match && statusOk;
-  });
-  _payPage=0; renderPayments();
-}
-function paymentsPage(dir){ _payPage=Math.max(0,Math.min(_payPage+dir,Math.ceil(_payFiltered.length/PER_PAGE)-1)); renderPayments(); }
-function renderPayments(){
-  const start=_payPage*PER_PAGE, end=start+PER_PAGE;
-  const slice=_payFiltered.slice(start,end);
-  document.getElementById('pay-info').textContent=`${start+1}–${Math.min(end,_payFiltered.length)} of ${_payFiltered.length}`;
-  document.getElementById('pay-prev').disabled=_payPage===0;
-  document.getElementById('pay-next').disabled=end>=_payFiltered.length;
-  document.getElementById('pay-tbody').innerHTML = slice.length ? slice.map(p=>`<tr>
-    <td style="color:var(--text)">${esc(p.user_email||p.member_id||'—')}</td>
-    <td>${esc(p.tier||p.plan||'—')}</td>
-    <td style="color:var(--green);font-weight:600">${mn((p.amount||0)/100)}</td>
-    <td style="font-size:.7rem;color:var(--muted)">${esc(p.razorpay_payment_id||p.payment_id||'—')}</td>
-    <td>${statusBadge(p.status)}</td>
-    <td>${fmtDateTime(p.created_at)}</td>
-  </tr>`).join('') : '<tr><td colspan="6"><div class="empty"><div class="empty-text">No payments found</div></div></td></tr>';
-}
-async function loadPartnerFees(){
-  const { data: partners } = await sbClient.from('partners').select('id,name,partner_tier,redemption_fee,security_deposit').eq('is_active',true);
-  const now = new Date(); const monthStart = new Date(now.getFullYear(),now.getMonth(),1);
-  const { data: redemptions } = await sbClient.from('partner_redemptions').select('partner_id').gte('redeemed_at',monthStart.toISOString());
-  const redemptionMap = {};
-  (redemptions||[]).forEach(r=>{ redemptionMap[r.partner_id]=(redemptionMap[r.partner_id]||0)+1; });
-  const tbody = document.getElementById('pfees-tbody');
-  if(!partners||!partners.length){ tbody.innerHTML='<tr><td colspan="6"><div class="empty"><div class="empty-text">No active partners</div></div></td></tr>'; return; }
-  tbody.innerHTML = partners.map(p=>{
-    const count = redemptionMap[p.id]||0;
-    const fee = p.redemption_fee||50;
-    const owed = count*fee;
+  const {data:allP}=await sbClient.from('partners').select('id,is_active,approved_at,rejected_at');
+  const allPAll=allP||[];
+  document.getElementById('pt-total').textContent=allPAll.length;
+  document.getElementById('pt-active').textContent=allPAll.filter(p=>p.is_active&&p.approved_at).length;
+  document.getElementById('pt-pending').textContent=allPAll.filter(p=>!p.approved_at&&!p.rejected_at).length;
+  // Voucher/fee stats
+  const {data:vouchers}=await sbClient.from('vouchers').select('id,is_redeemed,face_value');
+  const vAll=vouchers||[];
+  document.getElementById('pt-vouchers').textContent=vAll.length;
+  const fees=vAll.filter(v=>v.is_redeemed).reduce((s,v)=>s+Math.max(50,Math.round(v.face_value*0.12)),0);
+  document.getElementById('pt-fees').textContent=mn(fees);
+  const tb=document.getElementById('pt-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="9" class="empty">No partners in this view</td></tr>';return;}
+  // Group vouchers by partner
+  const {data:vByP}=await sbClient.from('vouchers').select('partner_id,is_redeemed,face_value');
+  const vMap={};
+  (vByP||[]).forEach(v=>{if(!vMap[v.partner_id])vMap[v.partner_id]={total:0,redeemed:0,fees:0};vMap[v.partner_id].total++;if(v.is_redeemed){vMap[v.partner_id].redeemed++;vMap[v.partner_id].fees+=Math.max(50,Math.round(v.face_value*0.12));}});
+  tb.innerHTML=all.map(p=>{
+    const pm=vMap[p.id]||{total:0,redeemed:0,fees:0};
+    const status=p.is_active&&p.approved_at?'active':p.rejected_at?'rejected':'pending';
     return `<tr>
-      <td style="color:var(--text);font-weight:600">${esc(p.name||'—')}</td>
-      <td>${partnerTierBadge(p.partner_tier)}</td>
-      <td style="text-align:center">${count}</td>
-      <td>${mn(fee)}</td>
-      <td style="color:var(--gold);font-weight:700">${mn(owed)}</td>
-      <td>${mn(p.security_deposit||0)}</td>
+      <td style="font-weight:600">${p.name}</td>
+      <td><span class="badge badge-gray">${p.type||'—'}</span></td>
+      <td>${p.city||'—'}</td>
+      <td style="font-size:.7rem">${p.contact_name||'—'}<br><span style="color:var(--muted)">${p.contact_email||''}</span></td>
+      <td>${pm.total}</td>
+      <td>${pm.redeemed}</td>
+      <td style="color:var(--green)">${mn(pm.fees)}</td>
+      <td>${statusBadge(status)}</td>
+      <td class="td-actions">
+        ${status==='pending'?`<button class="btn-green btn-sm" onclick="approvePartner('${p.id}','${p.name}')">Approve</button><button class="btn-danger btn-sm" onclick="rejectPartner('${p.id}','${p.name}')">Reject</button>`:''}
+        ${status==='active'?`<button class="btn-danger btn-sm" onclick="suspendPartner('${p.id}','${p.name}')">Suspend</button>`:''}
+      </td>
     </tr>`;
   }).join('');
-  const totalOwed = (partners||[]).reduce((s,p)=>{
-    const count=redemptionMap[p.id]||0; return s+count*(p.redemption_fee||50);
-  },0);
-  document.getElementById('pay-partner-fees').textContent = mn(totalOwed);
 }
 
-// ── MODULE: ANALYTICS ──
-async function initAnalytics(){
-  const { data: members } = await sbClient.from('members').select('tier,city,points');
-  const tiers={free:0,gold:0,platinum:0,dwcpurple:0};
-  const cities={};
-  let pipeline=0;
-  (members||[]).forEach(m=>{
-    tiers[m.tier]=(tiers[m.tier]||0)+1;
-    if(m.city) cities[m.city]=(cities[m.city]||0)+1;
-    if((m.points||0)>=60000) pipeline++;
-  });
-  const total=members?.length||1;
-  document.getElementById('ana-tiers').innerHTML=`<div class="chart-bar-wrap">
-    ${[['★ Gold',tiers.gold,'#F2B705'],['⭑ Platinum',tiers.platinum,'#E8E8E8'],['🟣 Purple',tiers.dwcpurple,'#c39bd3'],['Free',tiers.free,'rgba(255,255,255,.3)']].map(([label,count,color])=>`
-    <div class="chart-bar-row"><span class="chart-bar-label">${label} (${count})</span><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${(count/total*100).toFixed(0)}%;background:${color}"></div></div><span class="chart-bar-val">${(count/total*100).toFixed(0)}%</span></div>`).join('')}
-  </div>`;
-  const topCities=Object.entries(cities).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  const maxCity=topCities[0]?.[1]||1;
-  document.getElementById('ana-cities').innerHTML=`<div class="chart-bar-wrap">${topCities.map(([city,count])=>`<div class="chart-bar-row"><span class="chart-bar-label">${city} (${count})</span><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${(count/maxCity*100).toFixed(0)}%;background:var(--purple)"></div></div><span class="chart-bar-val">${count}</span></div>`).join('')}</div>`;
-
-  const { data: partners } = await sbClient.from('partners').select('id,name').eq('is_active',true);
-  const { data: redemptions } = await sbClient.from('partner_redemptions').select('partner_id');
-  const pMap={};
-  (redemptions||[]).forEach(r=>{ pMap[r.partner_id]=(pMap[r.partner_id]||0)+1; });
-  const topP=Object.entries(pMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const maxR=topP[0]?.[1]||1;
-  const pNameMap={}; (partners||[]).forEach(p=>pNameMap[p.id]=p.name);
-  document.getElementById('ana-top-partners').innerHTML = topP.length ? `<div class="chart-bar-wrap">${topP.map(([id,count])=>`<div class="chart-bar-row"><span class="chart-bar-label">${pNameMap[id]||id.substring(0,8)} (${count})</span><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${(count/maxR*100).toFixed(0)}%;background:var(--green)"></div></div><span class="chart-bar-val">${count}</span></div>`).join('')}</div>` : '<div class="empty"><div class="empty-text">No redemption data yet</div></div>';
-
-  document.getElementById('ana-pipeline').innerHTML=`
-    <div style="text-align:center;padding:20px">
-      <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold)">${pipeline}</div>
-      <div style="font-size:.82rem;color:var(--muted);margin-top:4px">members within reach of a celebrity dinner<br>(60,000+ points)</div>
-    </div>
-    <div style="background:rgba(242,183,5,.05);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.8rem;color:var(--sub)">
-      💡 These members are prime candidates for the next celebrity event invitation.
-    </div>`;
+async function approvePartner(id,name){
+  const {error}=await sbClient.from('partners').update({is_active:true,approved_at:new Date().toISOString()}).eq('id',id);
+  if(error){showToast('Error: '+error.message,'error');return;}
+  await auditLog('approve_partner','partner',id,name);
+  showToast(`${name} approved!`,'success');
+  loadPartners();
 }
 
-// ── MODULE: LOGS ──
-async function initLogs(){
-  const { data } = await sbClient.from('admin_logs').select('*').order('created_at',{ascending:false}).limit(200);
-  _logs = data||[];
-  _logFiltered = [..._logs];
-  _logPage = 0;
-  renderLogs();
-}
-function filterLogs(){
-  const q=document.getElementById('log-search').value.toLowerCase();
-  const type=document.getElementById('log-type').value;
-  _logFiltered=_logs.filter(l=>{
-    const match=!q||(l.action||'').toLowerCase().includes(q)||(l.target_label||'').toLowerCase().includes(q)||(l.admin_email||'').toLowerCase().includes(q);
-    const typeOk=!type||l.target_type===type;
-    return match&&typeOk;
-  });
-  _logPage=0; renderLogs();
-}
-function logsPage(dir){ _logPage=Math.max(0,Math.min(_logPage+dir,Math.ceil(_logFiltered.length/PER_PAGE)-1)); renderLogs(); }
-function renderLogs(){
-  const start=_logPage*PER_PAGE, end=start+PER_PAGE;
-  const slice=_logFiltered.slice(start,end);
-  document.getElementById('log-info').textContent=`${start+1}–${Math.min(end,_logFiltered.length)} of ${_logFiltered.length}`;
-  document.getElementById('log-prev').disabled=_logPage===0;
-  document.getElementById('log-next').disabled=end>=_logFiltered.length;
-  const dotClass={partner:'log-dot-partner',member:'log-dot-member',voucher:'log-dot-voucher',payment:'log-dot-payment',system:'log-dot-system'};
-  document.getElementById('logs-list').innerHTML = slice.length ? slice.map(l=>`
-    <div class="log-item">
-      <div class="log-dot ${dotClass[l.target_type]||'log-dot-system'}"></div>
-      <div style="flex:1">
-        <div class="log-action">${esc(l.action||'—')}</div>
-        <div class="log-detail">${esc(l.admin_email||'—')} · ${esc(l.target_label||l.target_id||'—')}</div>
-      </div>
-      <div class="log-time">${fmtDateTime(l.created_at)}</div>
-    </div>`).join('') : '<div class="empty"><div class="empty-icon">🛡️</div><div class="empty-text">No audit logs yet</div></div>';
+async function rejectPartner(id,name){
+  const reason=prompt('Rejection reason (will be sent to partner):');
+  if(!reason) return;
+  await sbClient.from('partners').update({rejected_at:new Date().toISOString(),rejection_reason:reason}).eq('id',id);
+  await auditLog('reject_partner','partner',id,name,{reason});
+  showToast(`${name} rejected`);
+  loadPartners();
 }
 
-// ── MODULE: SETTINGS ──
-async function initSettings(){
-  const { data } = await sbClient.from('admin_roles').select('*').order('created_at',{ascending:false});
-  const tbody = document.getElementById('admin-roles-tbody');
-  tbody.innerHTML = (data||[]).map(r=>`<tr>
-    <td style="color:var(--text)">${esc(r.email)}</td>
-    <td><span class="badge ${r.role==='super_admin'?'badge-gold':r.role==='ops_admin'?'badge-active':'badge-free'}">${r.role.replace('_',' ')}</span></td>
-    <td>${fmtDate(r.created_at)}</td>
-    <td>${r.email!==_session.user.email?`<button class="btn btn-danger btn-sm" onclick="removeAdmin('${r.id}','${esc(r.email)}')">Remove</button>`:'<span style="color:var(--muted);font-size:.72rem">You</span>'}</td>
+async function suspendPartner(id,name){
+  if(!confirm(`Suspend ${name}?`)) return;
+  await sbClient.from('partners').update({is_active:false,suspended:true}).eq('id',id);
+  await auditLog('suspend_partner','partner',id,name);
+  showToast(`${name} suspended`);
+  loadPartners();
+}
+
+// ── 8. SPONSORS ────────────────────────────────────────────────────
+async function loadSponsors(){
+  const {data}=await sbClient.from('sponsors').select('*,celebrity_events(celebrity_name,event_title)').order('created_at',{ascending:false});
+  const all=data||[];
+  const tb=document.getElementById('sp-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="8" class="empty">No sponsors yet</td></tr>';return;}
+  tb.innerHTML=all.map(s=>`<tr>
+    <td style="font-weight:600">${s.name}</td>
+    <td style="font-size:.72rem">${s.celebrity_events?.celebrity_name||'—'}<br><span style="color:var(--muted)">${s.celebrity_events?.event_title||''}</span></td>
+    <td style="color:var(--gold)">${mn(s.deal_value)}</td>
+    <td>${s.seat_allocation||0} seats</td>
+    <td>${s.branding?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td>
+    <td>${s.stage_time?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td>
+    <td>${statusBadge(s.status)}</td>
+    <td class="td-actions">
+      <button class="btn-secondary btn-sm" onclick="editSponsor('${s.id}')">Edit</button>
+      <button class="btn-danger btn-sm" onclick="deleteSponsor('${s.id}','${s.name}')">Delete</button>
+    </td>
   </tr>`).join('');
 }
-function openAddAdmin(){ document.getElementById('admin-email').value=''; document.getElementById('admin-role').value='ops_admin'; document.getElementById('admin-err').style.display='none'; openModal('modalAdmin'); }
-async function addAdminMember(){
-  const email=document.getElementById('admin-email').value.trim();
-  const role=document.getElementById('admin-role').value;
-  if(!email){ document.getElementById('admin-err').textContent='Enter email.'; document.getElementById('admin-err').style.display='block'; return; }
-  const {error}=await sbClient.from('admin_roles').insert({email,role,created_by:_session.user.email});
-  if(error){ document.getElementById('admin-err').textContent=error.message; document.getElementById('admin-err').style.display='block'; return; }
-  await auditLog('add_admin','system',email,email,{role});
-  closeModal('modalAdmin');
-  toast(`Admin added — ${email}`);
-  initSettings();
+
+async function openSponsorModal(){
+  editingId=null;
+  ['sp-name','sp-contact','sp-email','sp-notes'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});
+  document.getElementById('sp-value').value='';document.getElementById('sp-seats').value='0';
+  document.getElementById('sp-branding').checked=false;document.getElementById('sp-stage').checked=false;
+  document.getElementById('sponsorModalTitle').textContent='Add Sponsor';
+  // Load events dropdown
+  const {data:evs}=await sbClient.from('celebrity_events').select('id,celebrity_name,event_title').eq('status','live').order('event_date');
+  const sel=document.getElementById('sp-event');
+  sel.innerHTML='<option value="">Select event...</option>'+(evs||[]).map(e=>`<option value="${e.id}">${e.celebrity_name} — ${e.event_title}</option>`).join('');
+  openModal('sponsorModal');
 }
-async function removeAdmin(id, email){
-  if(!confirm(`Remove ${email} from admin access?`)) return;
-  await sbClient.from('admin_roles').delete().eq('id',id);
-  await auditLog('remove_admin','system',email,email);
-  toast(`Admin removed — ${email}`,'warning');
-  initSettings();
+
+async function saveSponsor(){
+  const name=document.getElementById('sp-name').value.trim();
+  if(!name){showMsg('sp-msg','Sponsor name required','error');return;}
+  const payload={name,event_id:document.getElementById('sp-event').value||null,deal_value:parseInt(document.getElementById('sp-value').value)||0,seat_allocation:parseInt(document.getElementById('sp-seats').value)||0,contact_name:document.getElementById('sp-contact').value.trim(),contact_email:document.getElementById('sp-email').value.trim(),branding:document.getElementById('sp-branding').checked,stage_time:document.getElementById('sp-stage').checked,notes:document.getElementById('sp-notes').value.trim()};
+  const {error}=editingId?await sbClient.from('sponsors').update(payload).eq('id',editingId):await sbClient.from('sponsors').insert(payload);
+  if(error){showMsg('sp-msg',error.message,'error');return;}
+  await auditLog(editingId?'edit_sponsor':'create_sponsor','sponsor',editingId||'new',name,payload);
+  showMsg('sp-msg','Sponsor saved!','success');
+  setTimeout(()=>{closeModal('sponsorModal');loadSponsors();},900);
 }
+
+async function deleteSponsor(id,name){if(!confirm(`Delete ${name}?`))return;await sbClient.from('sponsors').delete().eq('id',id);showToast(name+' deleted');loadSponsors();}
+
+// ── 9. VOUCHERS ────────────────────────────────────────────────────
+async function loadVouchers(){
+  let q=sbClient.from('vouchers').select('*,partners(name)',{count:'exact'}).order('created_at',{ascending:false});
+  const pid=document.getElementById('vc-partner')?.value;
+  const status=document.getElementById('vc-status')?.value;
+  const tier=document.getElementById('vc-tier')?.value;
+  if(pid) q=q.eq('partner_id',pid);
+  if(tier) q=q.eq('min_tier',tier);
+  if(status==='available') q=q.is('issued_to',null).eq('is_redeemed',false);
+  else if(status==='issued') q=q.not('issued_to',null).eq('is_redeemed',false);
+  else if(status==='redeemed') q=q.eq('is_redeemed',true);
+  const {data,count}=await q.range(vcPage*PAGE_SIZE,(vcPage+1)*PAGE_SIZE-1);
+  const all=data||[];
+  // Stats - always full count
+  const {data:allV}=await sbClient.from('vouchers').select('id,is_redeemed,issued_to,face_value');
+  const aV=allV||[];
+  document.getElementById('vc-total').textContent=aV.length;
+  document.getElementById('vc-available').textContent=aV.filter(v=>!v.issued_to&&!v.is_redeemed).length;
+  document.getElementById('vc-issued').textContent=aV.filter(v=>v.issued_to&&!v.is_redeemed).length;
+  document.getElementById('vc-redeemed').textContent=aV.filter(v=>v.is_redeemed).length;
+  const fees=aV.filter(v=>v.is_redeemed).reduce((s,v)=>s+Math.max(50,Math.round(v.face_value*0.12)),0);
+  document.getElementById('vc-fees').textContent=mn(fees);
+  // Load partner dropdown
+  const {data:pts}=await sbClient.from('partners').select('id,name').eq('is_active',true).order('name');
+  const pSel=document.getElementById('vc-partner');
+  if(pSel&&pSel.options.length<=1) pSel.innerHTML='<option value="">All Partners</option>'+(pts||[]).map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  const tb=document.getElementById('vc-tbody');
+  if(!all.length){tb.innerHTML='<tr><td colspan="9" class="empty">No vouchers found</td></tr>';renderPagination('vc-pagination',count,vcPage,PAGE_SIZE,p=>{vcPage=p;loadVouchers();});return;}
+  tb.innerHTML=all.map(v=>{
+    const fee=Math.max(50,Math.round(v.face_value*0.12));
+    const status=v.is_redeemed?'redeemed':v.issued_to?'issued':'available';
+    return `<tr>
+      <td style="font-family:monospace;font-size:.7rem">${v.code}</td>
+      <td style="font-size:.72rem">${v.partners?.name||'—'}</td>
+      <td><span class="badge ${v.min_tier==='gold'?'badge-gold':'badge-purple'}">${v.min_tier}</span></td>
+      <td style="color:var(--text);font-weight:600">${mn(v.face_value)}</td>
+      <td style="color:var(--green)">${mn(fee)}</td>
+      <td>${statusBadge(status)}</td>
+      <td style="font-size:.7rem">${v.issued_to?v.issued_to.slice(0,8)+'...':'—'}</td>
+      <td style="font-size:.7rem">${v.redeemed_at?fmtDate(v.redeemed_at):'—'}</td>
+      <td class="td-actions">${!v.is_redeemed?`<button class="btn-green btn-sm" onclick="markRedeemed('${v.id}','${v.code}')">Mark Redeemed</button>`:'<span style="color:var(--muted);font-size:.7rem">Done</span>'}</td>
+    </tr>`;
+  }).join('');
+  renderPagination('vc-pagination',count,vcPage,PAGE_SIZE,p=>{vcPage=p;loadVouchers();});
+}
+
+async function markRedeemed(id,code){
+  if(!confirm(`Mark voucher ${code} as redeemed manually?`)) return;
+  await sbClient.from('vouchers').update({is_redeemed:true,redeemed_at:new Date().toISOString()}).eq('id',id);
+  await auditLog('manual_redeem_voucher','voucher',id,code);
+  showToast('Voucher marked redeemed');
+  loadVouchers();
+}
+
+// ── 10. CMS ────────────────────────────────────────────────────────
+let cmsCache = {};
+
+async function loadCMS(){
+  const {data}=await sbClient.from('site_config').select('*').in('category',['cms']);
+  const all=data||[];
+  cmsCache={};
+  all.forEach(item=>{cmsCache[item.key]=item;});
+  const numbersEl=document.getElementById('cms-numbers');
+  const textEl=document.getElementById('cms-text');
+  const numberKeys=['member_count','cities_count','partners_count','events_held'];
+  const textKeys=['homepage_hero_text','homepage_sub_text','announcement_text'];
+  numbersEl.innerHTML=numberKeys.map(k=>{const item=cmsCache[k]||{key:k,value:'',label:k,description:''};return `<div class="cms-item">
+    <div class="cms-label">${item.label||k}</div>
+    <div class="cms-desc">${item.description||''}</div>
+    <input class="cms-input" type="text" id="cms-${k}" value="${item.value||''}" placeholder="Enter value..."/>
+    <div style="margin-top:.5rem"><button class="btn-primary btn-sm" onclick="saveCMSItem('${k}')">Save</button></div>
+  </div>`;}).join('');
+  textEl.innerHTML=textKeys.map(k=>{const item=cmsCache[k]||{key:k,value:'',label:k,description:''};return `<div class="cms-item">
+    <div class="cms-label">${item.label||k}</div>
+    <div class="cms-desc">${item.description||''}</div>
+    <input class="cms-input" type="text" id="cms-${k}" value="${item.value||''}" placeholder="${k==='announcement_text'?'Leave blank to hide...':'Enter text...'}"/>
+    <div style="margin-top:.5rem"><button class="btn-primary btn-sm" onclick="saveCMSItem('${k}')">Save</button></div>
+  </div>`;}).join('');
+}
+
+async function saveCMSItem(key){
+  const val=document.getElementById('cms-'+key)?.value.trim();
+  if(val===undefined) return;
+  const {error}=await sbClient.from('site_config').upsert({key,value:val,category:'cms',updated_at:new Date().toISOString(),updated_by:currentAdmin?.email||'admin'});
+  if(error){showToast('Save failed: '+error.message,'error');return;}
+  await auditLog('update_cms','config',key,key,{},cmsCache[key]?.value||'',val);
+  showToast('✅ '+key+' updated → '+val,'success');
+}
+
+async function saveAllCMS(){
+  const allKeys=['member_count','cities_count','partners_count','events_held','homepage_hero_text','homepage_sub_text','announcement_text'];
+  for(const k of allKeys){await saveCMSItem(k);}
+  showToast('All CMS values saved!','success');
+}
+
+// ── 11. CONFIG ─────────────────────────────────────────────────────
+let configCache = {};
+
+async function loadConfig(){
+  const {data}=await sbClient.from('site_config').select('*').in('category',['platform','points','flags']);
+  configCache={};
+  (data||[]).forEach(item=>{configCache[item.key]=item;});
+  // Platform
+  const platKeys=['platform_commission_pct','voucher_fee_pct','max_redemption_pct','max_redemption_abs'];
+  document.getElementById('cfg-platform').innerHTML=platKeys.map(k=>renderConfigItem(k)).join('');
+  // Points
+  const ptsKeys=['points_signup','points_profile','points_referral_sent','points_referral_received','points_voucher_claim','points_voucher_redeemed','points_shopping','points_travel','monthly_points_cap','points_expiry_days'];
+  document.getElementById('cfg-points').innerHTML=ptsKeys.map(k=>renderConfigItem(k)).join('');
+  // Flags
+  const flagKeys=['flag_vip_dining','flag_group_bookings','flag_auction_pricing','flag_dynamic_pricing','flag_referrals'];
+  document.getElementById('cfg-flags').innerHTML=flagKeys.map(k=>{
+    const item=configCache[k]||{key:k,value:'false',label:k,description:''};
+    const on=item.value==='true';
+    return `<div class="flag-item">
+      <div class="flag-info"><div class="flag-label">${item.label||k}</div><div class="flag-desc">${item.description||''}</div></div>
+      <label class="toggle"><input type="checkbox" ${on?'checked':''} onchange="saveFlag('${k}',this.checked)"/><span class="toggle-slider"></span></label>
+    </div>`;
+  }).join('');
+}
+
+function renderConfigItem(k){
+  const item=configCache[k]||{key:k,value:'',label:k,description:''};
+  return `<div class="config-item">
+    <div class="config-label">${item.label||k}</div>
+    <div class="config-desc">${item.description||''}</div>
+    <input class="config-val" type="text" id="cfg-${k}" value="${item.value||''}"/>
+    <div class="config-save"><button class="btn-primary btn-sm" onclick="saveConfigItem('${k}')">Save</button></div>
+  </div>`;
+}
+
+async function saveConfigItem(key){
+  const val=document.getElementById('cfg-'+key)?.value.trim();
+  if(val===undefined) return;
+  const old=configCache[key]?.value||'';
+  await sbClient.from('site_config').upsert({key,value:val,category:configCache[key]?.category||'platform',updated_at:new Date().toISOString(),updated_by:currentAdmin?.email||'admin'});
+  await auditLog('update_config','config',key,configCache[key]?.label||key,{},old,val);
+  showToast('✅ '+key+' → '+val,'success');
+  configCache[key]={...configCache[key],value:val};
+}
+
+async function saveFlag(key,checked){
+  const val=checked?'true':'false';
+  const old=configCache[key]?.value||'false';
+  await sbClient.from('site_config').upsert({key,value:val,category:'flags',updated_at:new Date().toISOString(),updated_by:currentAdmin?.email||'admin'});
+  await auditLog('update_flag','config',key,key,{},old,val);
+  showToast((checked?'✅ Enabled: ':'❌ Disabled: ')+(configCache[key]?.label||key));
+  configCache[key]={...configCache[key],value:val};
+}
+
+// ── 12. ADMINS ─────────────────────────────────────────────────────
+async function loadAdmins(){
+  if(currentAdmin?.role!=='super_admin'){document.getElementById('adm-tbody').innerHTML='<tr><td colspan="7" class="empty">Super Admin only</td></tr>';return;}
+  const {data}=await sbClient.from('admin_users').select('*').order('created_at');
+  const all=data||[];
+  const tb=document.getElementById('adm-tbody');
+  const perms=a=>[a.can_celebrities&&'⭐',a.can_events&&'🎟️',a.can_members&&'👥',a.can_partners&&'🏪',a.can_cms&&'📝',a.can_config&&'⚙️'].filter(Boolean).join(' ');
+  tb.innerHTML=all.map(a=>`<tr>
+    <td style="font-weight:600">${a.name}</td>
+    <td style="font-size:.72rem">${a.email}</td>
+    <td><span class="badge ${a.role==='super_admin'?'badge-gold':'badge-blue'}">${a.role.replace(/_/g,' ')}</span></td>
+    <td style="font-size:.72rem">${a.role==='super_admin'?'Full Access':perms(a)||'Custom'}</td>
+    <td>${statusBadge(a.is_active?'active':'inactive')}</td>
+    <td style="font-size:.7rem">${fmtDT(a.last_login)}</td>
+    <td class="td-actions">
+      ${a.email!==SUPER_ADMIN_EMAIL?`
+        <button class="btn-secondary btn-sm" onclick="editAdmin('${a.id}')">Edit</button>
+        <button class="btn-danger btn-sm" onclick="toggleAdmin('${a.id}','${a.name}',${a.is_active})">${a.is_active?'Deactivate':'Activate'}</button>
+      `:'<span style="color:var(--gold);font-size:.7rem">Owner</span>'}
+    </td>
+  </tr>`).join('');
+}
+
+function openAdminModal(){editingId=null;document.getElementById('adminModalTitle').textContent='Add Team Admin';['adm-name','adm-email'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});document.getElementById('adm-role').value='event_manager';setRolePermissions();openModal('adminModal');}
+
+function setRolePermissions(){
+  const role=document.getElementById('adm-role').value;
+  const presets={
+    super_admin:[1,1,1,1,1,1,1,1,1,1,1],
+    event_manager:[0,0,1,1,0,0,0,0,0,0,0],
+    partner_manager:[0,0,0,0,0,1,0,1,0,0,0],
+    content_editor:[0,0,0,0,0,0,0,0,1,0,0],
+    finance_viewer:[0,0,0,0,0,0,0,0,0,0,1],
+  };
+  const perms=['celebrities','agencies','events','bookings','members','partners','sponsors','vouchers','cms','config','logs'];
+  const vals=presets[role]||[0,0,0,0,0,0,0,0,0,0,0];
+  perms.forEach((p,i)=>{const el=document.getElementById('perm-'+p);if(el)el.checked=!!vals[i];});
+}
+
+async function saveAdmin(){
+  const name=document.getElementById('adm-name').value.trim();
+  const email=document.getElementById('adm-email').value.trim();
+  if(!name||!email){showMsg('adm-msg','Name and email required','error');return;}
+  const perms=['celebrities','agencies','events','bookings','members','partners','sponsors','vouchers','cms','config','logs'];
+  const payload={name,email,role:document.getElementById('adm-role').value,is_active:true,created_by:currentAdmin?.email||'admin'};
+  perms.forEach(p=>{payload['can_'+p]=document.getElementById('perm-'+p)?.checked||false;});
+  const {error}=editingId?await sbClient.from('admin_users').update(payload).eq('id',editingId):await sbClient.from('admin_users').insert(payload);
+  if(error){showMsg('adm-msg',error.message,'error');return;}
+  await auditLog(editingId?'edit_admin':'create_admin','admin',editingId||'new',name,payload);
+  showMsg('adm-msg','Admin saved!','success');
+  setTimeout(()=>{closeModal('adminModal');loadAdmins();},900);
+}
+
+async function editAdmin(id){
+  const {data}=await sbClient.from('admin_users').select('*').eq('id',id).single();
+  if(!data) return; editingId=id;
+  document.getElementById('adminModalTitle').textContent='Edit Admin';
+  document.getElementById('adm-name').value=data.name||'';
+  document.getElementById('adm-email').value=data.email||'';
+  document.getElementById('adm-role').value=data.role||'event_manager';
+  const perms=['celebrities','agencies','events','bookings','members','partners','sponsors','vouchers','cms','config','logs'];
+  perms.forEach(p=>{const el=document.getElementById('perm-'+p);if(el)el.checked=data['can_'+p]||false;});
+  openModal('adminModal');
+}
+
+async function toggleAdmin(id,name,active){
+  await sbClient.from('admin_users').update({is_active:!active}).eq('id',id);
+  await auditLog(active?'deactivate_admin':'activate_admin','admin',id,name);
+  showToast(`${name} ${active?'deactivated':'activated'}`);
+  loadAdmins();
+}
+
+// ── 13. AUDIT LOGS ─────────────────────────────────────────────────
+async function loadLogs(){
+  const search=document.getElementById('log-search')?.value;
+  const type=document.getElementById('log-type')?.value;
+  let q=sbClient.from('admin_logs').select('*',{count:'exact'}).order('created_at',{ascending:false}).range(logPage*PAGE_SIZE,(logPage+1)*PAGE_SIZE-1);
+  if(type) q=q.eq('action',type);
+  if(search) q=q.or(`action.ilike.%${search}%,admin_email.ilike.%${search}%,target_label.ilike.%${search}%`);
+  const {data,count}=await q;
+  const tb=document.getElementById('log-tbody');
+  if(!data?.length){tb.innerHTML='<tr><td colspan="6" class="empty">No logs found</td></tr>';renderPagination('log-pagination',count,logPage,PAGE_SIZE,p=>{logPage=p;loadLogs();});return;}
+  tb.innerHTML=data.map(l=>`<tr>
+    <td style="font-size:.72rem;color:var(--gold)">${l.admin_email||'—'}</td>
+    <td><span class="badge badge-gray">${l.action||'—'}</span></td>
+    <td style="font-size:.72rem">${l.target_label||l.target_id?.slice(0,10)||'—'}</td>
+    <td style="font-size:.7rem;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.old_value||'—'}</td>
+    <td style="font-size:.7rem;color:var(--green);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.new_value||'—'}</td>
+    <td style="font-size:.7rem">${fmtDT(l.created_at)}</td>
+  </tr>`).join('');
+  renderPagination('log-pagination',count,logPage,PAGE_SIZE,p=>{logPage=p;loadLogs();});
+}
+
+// ── PAGINATION ────────────────────────────────────────────────────
+function renderPagination(containerId,total,page,pageSize,onPage){
+  const el=document.getElementById(containerId);
+  if(!el) return;
+  const totalPages=Math.ceil((total||0)/pageSize);
+  if(totalPages<=1){el.innerHTML='';return;}
+  el.innerHTML=`<button class="page-btn" ${page===0?'disabled':''} onclick="(${onPage.toString()})(${page-1})">← Prev</button><span class="page-info">Page ${page+1} of ${totalPages} (${total} total)</span><button class="page-btn" ${page>=totalPages-1?'disabled':''} onclick="(${onPage.toString()})(${page+1})">Next →</button>`;
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────
+init();
 </script>
 </body>
 </html>
