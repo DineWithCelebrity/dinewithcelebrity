@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dine With Your Favourite Celebrity — Join Free | DWC India</title>
+  <meta name="description" content="India's first celebrity lifestyle membership. Dine, shop and travel with exclusive discounts — and earn your way to a real dinner with your favourite celebrity."/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <meta property="og:title" content="Dine With Your Favourite Celebrity"/>
+  <meta property="og:description" content="India's first celebrity dining membership. Join free today."/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/landing"/>
+  <meta property="og:type" content="website"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #06040A;
+      --gold:  #F2B705;
+      --gold2: #FFD166;
+      --red:   #D4002A;
+      --green: #00C853;
+      --text:  rgba(255,255,255,.95);
+      --sub:   rgba(255,255,255,.72);
+      --muted: rgba(255,255,255,.45);
+      --border:rgba(242,183,5,.2);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
+
+    /* ─── CELEBRITY MOSAIC BACKGROUND ───────────────────────── */
+    .mosaic {
+      position:absolute;inset:0;z-index:0;
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      grid-template-rows:repeat(4,1fr);
+      gap:2px;
+      overflow:hidden;
+    }
+    .mc {
+      position:relative;overflow:hidden;
+      background:var(--bg,#100820);
+    }
+    .mc::before {
+      content:'';position:absolute;inset:0;
+      background:var(--photo,var(--bg,#100820));
+      background-size:cover;background-position:center;
+      transition:transform 8s ease;
+      animation:slow-zoom 12s ease-in-out infinite alternate;
+    }
+    @keyframes slow-zoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+    .mc .ci {
+      position:absolute;bottom:0;left:0;right:0;
+      background:linear-gradient(to top,rgba(6,4,10,.98) 0%,rgba(6,4,10,.5) 60%,transparent 100%);
+      padding:.5rem .4rem .4rem;
+      z-index:2;
+    }
+    .cn{font-family:'Bebas Neue',sans-serif;font-size:.7rem;color:var(--text);line-height:1;}
+    .ct{font-size:.5rem;color:var(--gold);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+    /* Large featured cell */
+    .mc.lg{grid-row:span 2;grid-column:span 2;}
+
+    /* ─── HERO OVERLAY ───────────────────────────────────────── */
+    .hero-overlay {
+      position:absolute;inset:0;z-index:1;
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 40%, rgba(6,4,10,.6) 0%, transparent 70%),
+        linear-gradient(to bottom, rgba(6,4,10,.4) 0%, rgba(6,4,10,.75) 60%, rgba(6,4,10,.97) 100%);
+    }
+
+    /* ─── FIXED NAV ──────────────────────────────────────────── */
+    .nav {
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.6rem 1.5rem;
+      background:rgba(6,4,10,.85);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav img{height:42px;width:auto;}
+    .nav-actions{display:flex;align-items:center;gap:.75rem;}
+    .nav-partner{
+      font-size:.75rem;font-weight:600;color:var(--muted);
+      background:none;border:1px solid rgba(255,255,255,.15);
+      border-radius:8px;padding:.42rem 1rem;cursor:pointer;
+      font-family:'Poppins',sans-serif;text-decoration:none;
+      transition:border-color .2s,color .2s;
+    }
+    .nav-partner:hover{border-color:var(--gold);color:var(--gold);}
+    .nav-join{
+      font-size:.78rem;font-weight:800;color:#06040A;
+      background:var(--gold);border:none;border-radius:8px;
+      padding:.45rem 1.1rem;cursor:pointer;font-family:'Poppins',sans-serif;
+      text-decoration:none;transition:opacity .2s;
+    }
+    .nav-join:hover{opacity:.88;}
+
+    /* ─── HERO SECTION ───────────────────────────────────────── */
+    .hero {
+      position:relative;min-height:100vh;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      text-align:center;padding:6rem 1.25rem 3.5rem;
+      overflow:hidden;
+    }
+    .hero-content{position:relative;z-index:2;max-width:780px;width:100%;}
+
+    /* Live counter badge */
+    .live-badge {
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(212,0,42,.12);border:1px solid rgba(212,0,42,.4);
+      border-radius:100px;padding:.35rem 1rem;
+      font-size:.7rem;font-weight:700;color:#ff6b6b;
+      letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:1.5rem;
+      animation:pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.75}}
+    .live-dot{width:6px;height:6px;border-radius:50%;background:#ff6b6b;flex-shrink:0;}
+
+    /* Main headline */
+    .h1 {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(3.8rem,11vw,9.5rem);
+      line-height:.88;letter-spacing:1px;
+      color:var(--text);margin-bottom:.5rem;
+      text-shadow:0 4px 60px rgba(0,0,0,.8);
+    }
+    .h1 .gold{color:var(--gold);}
+    .h1 .line2{display:block;font-size:clamp(2.2rem,6vw,5.5rem);color:var(--sub);}
+
+    /* Subheadline */
+    .sub {
+      font-size:clamp(.9rem,2.2vw,1.15rem);
+      color:var(--sub);max-width:520px;margin:1rem auto 2.5rem;
+      line-height:1.75;
+    }
+    .sub strong{color:var(--text);}
+
+    /* CTA form */
+    .cta-wrap{display:flex;flex-direction:column;align-items:center;gap:.75rem;width:100%;}
+    .cta-form{
+      display:flex;gap:.6rem;width:100%;max-width:480px;
+    }
+    .cta-input {
+      flex:1;background:rgba(255,255,255,.08);
+      border:1.5px solid rgba(255,255,255,.18);border-radius:10px;
+      padding:.9rem 1.2rem;color:var(--text);
+      font-family:'Poppins',sans-serif;font-size:.92rem;
+      outline:none;backdrop-filter:blur(8px);
+      transition:border-color .2s;
+    }
+    .cta-input:focus{border-color:var(--gold);}
+    .cta-input::placeholder{color:rgba(255,255,255,.35);}
+    .cta-btn {
+      background:var(--gold);color:#06040A;border:none;
+      border-radius:10px;padding:.9rem 1.6rem;
+      font-family:'Poppins',sans-serif;font-weight:900;
+      font-size:.9rem;cursor:pointer;white-space:nowrap;
+      box-shadow:0 0 30px rgba(242,183,5,.35);
+      transition:transform .15s,opacity .2s;
+    }
+    .cta-btn:hover{opacity:.9;transform:translateY(-1px);}
+
+    .trust-row{
+      display:flex;align-items:center;justify-content:center;
+      flex-wrap:wrap;gap:.5rem 1.25rem;
+      font-size:.7rem;color:var(--muted);
+    }
+    .trust-row span{display:flex;align-items:center;gap:.3rem;}
+    .trust-row .dot{color:var(--green);}
+
+    /* Member count */
+    .member-count {
+      display:inline-flex;align-items:center;gap:.5rem;
+      margin-top:2rem;
+      background:rgba(242,183,5,.07);border:1px solid rgba(242,183,5,.15);
+      border-radius:100px;padding:.4rem 1.1rem;
+      font-size:.75rem;color:var(--sub);
+    }
+    .member-count strong{color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.05em;}
+
+    /* ─── STATS BAR ──────────────────────────────────────────── */
+    .stats-bar {
+      display:flex;justify-content:center;flex-wrap:wrap;
+      border-top:1px solid rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(242,183,5,.03);
+      position:relative;z-index:1;
+    }
+    .stat {padding:1.5rem 2rem;text-align:center;border-right:1px solid rgba(255,255,255,.06);flex:1;min-width:110px;}
+    .stat:last-child{border-right:none;}
+    .stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);line-height:1;display:block;}
+    .stat-l{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;}
+
+    /* ─── TICKER ─────────────────────────────────────────────── */
+    .ticker-wrap{overflow:hidden;padding:.6rem 0;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(255,255,255,.05);position:relative;z-index:1;}
+    .ticker{display:flex;gap:2.5rem;animation:tick 30s linear infinite;white-space:nowrap;width:max-content;}
+    @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ti{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.4rem;}
+    .ti .s{color:var(--gold);}
+
+    /* ─── HOW IT WORKS ───────────────────────────────────────── */
+    .section{max-width:960px;margin:0 auto;padding:5rem 1.25rem;}
+    .tag{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem;}
+    .sec-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.8rem);line-height:1;color:var(--text);margin-bottom:.6rem;}
+    .sec-h em{color:var(--gold);font-style:normal;}
+    .sec-sub{color:var(--sub);font-size:.88rem;line-height:1.75;max-width:540px;margin-bottom:3rem;}
+
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;}
+    .step{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:16px;padding:2rem 1.5rem;
+      position:relative;overflow:hidden;
+      transition:border-color .2s,transform .2s;
+    }
+    .step:hover{border-color:var(--border);transform:translateY(-3px);}
+    .step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
+    .step-n{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(242,183,5,.1);line-height:1;margin-bottom:.4rem;}
+    .step-icon{font-size:1.8rem;display:block;margin-bottom:.6rem;}
+    .step-t{font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:.4rem;}
+    .step-d{color:var(--sub);font-size:.82rem;line-height:1.65;}
+
+    /* ─── PROOF STRIP ────────────────────────────────────────── */
+    .proof-strip{
+      background:linear-gradient(135deg,rgba(242,183,5,.06),rgba(242,183,5,.02));
+      border-top:1px solid rgba(242,183,5,.12);
+      border-bottom:1px solid rgba(242,183,5,.12);
+      padding:3rem 1.25rem;
+    }
+    .proof-grid{
+      max-width:960px;margin:0 auto;
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:1rem;
+    }
+    .proof-card{
+      background:rgba(6,4,10,.6);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;padding:1.4rem;
+      backdrop-filter:blur(8px);
+    }
+    .proof-stars{color:var(--gold);font-size:.8rem;margin-bottom:.5rem;}
+    .proof-text{font-size:.84rem;color:var(--sub);line-height:1.65;margin-bottom:.75rem;font-style:italic;}
+    .proof-author{display:flex;align-items:center;gap:.6rem;}
+    .proof-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;color:#06040A;background:linear-gradient(135deg,var(--gold),#a06000);flex-shrink:0;}
+    .proof-name{font-size:.8rem;font-weight:700;color:var(--text);}
+    .proof-city{font-size:.68rem;color:var(--muted);}
+
+    /* ─── PARTNER SECTION ────────────────────────────────────── */
+    .partner-section{
+      position:relative;
+      background:linear-gradient(135deg,rgba(212,0,42,.06),rgba(6,4,10,.8));
+      border-top:1px solid rgba(212,0,42,.2);
+      overflow:hidden;
+    }
+    .partner-section::before{
+      content:'PARTNER';
+      position:absolute;right:-2rem;top:50%;transform:translateY(-50%);
+      font-family:'Bebas Neue',sans-serif;font-size:18rem;
+      color:rgba(212,0,42,.04);line-height:1;pointer-events:none;
+    }
+    .partner-inner{
+      max-width:960px;margin:0 auto;padding:5rem 1.25rem;
+      display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+      align-items:center;position:relative;z-index:1;
+    }
+    .partner-left .ptag{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:.5rem;}
+    .partner-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.75rem;}
+    .partner-h em{color:var(--red);font-style:normal;}
+    .partner-sub{color:var(--sub);font-size:.88rem;line-height:1.75;margin-bottom:2rem;}
+    .partner-perks{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;}
+    .partner-perk{display:flex;align-items:center;gap:.75rem;}
+    .perk-icon{width:36px;height:36px;border-radius:10px;background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .perk-text{font-size:.85rem;color:var(--sub);}
+    .perk-text strong{color:var(--text);}
+    .partner-cta{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:var(--red);color:#fff;border:none;border-radius:10px;
+      padding:1rem 2rem;font-family:'Poppins',sans-serif;
+      font-weight:800;font-size:.92rem;cursor:pointer;text-decoration:none;
+      transition:opacity .2s,transform .15s;
+    }
+    .partner-cta:hover{opacity:.88;transform:translateY(-1px);}
+
+    .partner-right{display:flex;flex-direction:column;gap:1rem;}
+    .partner-stat-card{
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;padding:1.25rem 1.5rem;
+      display:flex;align-items:center;gap:1rem;
+    }
+    .ps-icon{font-size:2rem;flex-shrink:0;}
+    .ps-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);line-height:1;}
+    .ps-label{font-size:.75rem;color:var(--muted);}
+
+    /* ─── CAUSE STRIP ────────────────────────────────────────── */
+    .cause{
+      background:linear-gradient(135deg,rgba(0,200,83,.05),rgba(0,200,83,.02));
+      border-top:1px solid rgba(0,200,83,.15);border-bottom:1px solid rgba(0,200,83,.15);
+      padding:2.5rem 1.25rem;text-align:center;
+    }
+    .cause h3{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);letter-spacing:1px;margin-bottom:.4rem;}
+    .cause p{font-size:.85rem;color:var(--sub);max-width:500px;margin:0 auto 1.25rem;}
+    .cause-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;}
+    .cp{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:100px;padding:.25rem .75rem;font-size:.68rem;color:var(--green);font-weight:600;}
+
+    /* ─── BOTTOM CTA ─────────────────────────────────────────── */
+    .bottom{text-align:center;padding:5rem 1.25rem 6rem;background:radial-gradient(ellipse at center,rgba(242,183,5,.08) 0%,transparent 65%);}
+    .bottom h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,7vw,6rem);line-height:.95;letter-spacing:1px;color:var(--text);margin-bottom:.5rem;}
+    .bottom h2 em{color:var(--gold);font-style:normal;}
+    .bottom p{color:var(--sub);font-size:.92rem;margin-bottom:2rem;}
+    .bottom-btn{
+      display:inline-block;background:var(--gold);color:#06040A;
+      border:none;border-radius:12px;padding:1.1rem 3.5rem;
+      font-family:'Poppins',sans-serif;font-weight:900;font-size:1.05rem;
+      cursor:pointer;text-decoration:none;
+      box-shadow:0 0 60px rgba(242,183,5,.3);
+      transition:transform .15s,opacity .2s;
+    }
+    .bottom-btn:hover{opacity:.9;transform:translateY(-2px);}
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .footer{
+      border-top:1px solid rgba(255,255,255,.05);
+      padding:1.5rem 2rem;
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:1rem;font-size:.7rem;color:var(--muted);
+    }
+    .footer a{color:var(--muted);text-decoration:none;margin-left:1.25rem;}
+    .footer a:hover{color:var(--gold);}
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────────── */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.on{opacity:1;transform:translateY(0);}
+    .rd1{transition-delay:.1s;} .rd2{transition-delay:.2s;} .rd3{transition-delay:.3s;}
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media(max-width:768px){
+      .mosaic{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(5,1fr);}
+      .mc.lg{grid-row:span 1;grid-column:span 1;}
+      .nav{padding:.55rem 1rem;}
+      .nav img{height:36px;}
+      .hero{padding:5rem 1rem 3rem;}
+      .cta-form{flex-direction:column;}
+      .cta-input,.cta-btn{width:100%;}
+      .stat{padding:1.1rem .75rem;min-width:80px;}
+      .stat-n{font-size:1.8rem;}
+      .section{padding:3.5rem 1rem;}
+      .partner-inner{grid-template-columns:1fr;gap:2.5rem;}
+      .partner-section::before{display:none;}
+      .footer{flex-direction:column;text-align:center;}
+      .footer a{margin:0 .6rem;}
+    }
+    @media(max-width:480px){
+      .mosaic{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(6,1fr);}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Fixed Nav -->
+<nav class="nav">
+  <img src="/logo_navbar_400px.png" alt="Dine With Celebrity" onerror="this.src='/logo.png'"/>
+  <div class="nav-actions">
+    <a href="/partner-signup" class="nav-partner">Partner With Us</a>
+    <a href="/signup" class="nav-join" id="navJoin">Join Free</a>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section class="hero">
+
+  <!-- Celebrity mosaic background — replace --photo with real licensed images -->
+  <div class="mosaic" id="mosaic"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      <span id="seatCount">47 seats</span> remaining — next event in June 2026
+    </div>
+
+    <h1 class="h1">
+      SIT DOWN<br>
+      <span class="gold">WITH YOUR</span><br>
+      FAVOURITE<br>
+      <span class="gold">CELEBRITY.</span>
+    </h1>
+
+    <p class="sub">
+      India's first celebrity lifestyle membership.<br>
+      <strong>Dine. Shop. Travel.</strong> Earn points on every experience — then redeem them for a real dinner with Bollywood, Tollywood and cricket stars.
+    </p>
+
+    <div class="cta-wrap">
+      <form class="cta-form" onsubmit="goSignup(event)">
+        <input class="cta-input" type="email" id="heroEmail" placeholder="Enter your email to join free" required autocomplete="email"/>
+        <button class="cta-btn" type="submit" id="heroBtnJoin">Join Free →</button>
+      </form>
+      <div class="trust-row">
+        <span><span class="dot">✓</span> Free forever</span>
+        <span><span class="dot">✓</span> No credit card</span>
+        <span><span class="dot">✓</span> 300 points on signup</span>
+        <span><span class="dot">✓</span> Cancel anytime</span>
+      </div>
+    </div>
+
+    <div class="member-count">
+      <strong id="memberNum">2,847</strong>
+      &nbsp;members already on their way to meeting a celebrity
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stat reveal"><span class="stat-n">153</span><div class="stat-l">Cities</div></div>
+  <div class="stat reveal rd1"><span class="stat-n">20+</span><div class="stat-l">Brand Partners</div></div>
+  <div class="stat reveal rd2"><span class="stat-n">6+</span><div class="stat-l">Film Industries</div></div>
+  <div class="stat reveal rd3"><span class="stat-n">₹70K</span><div class="stat-l">Celebrity Dinner Value</div></div>
+</div>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ti"><span class="s">★</span> Bollywood Dinners</div>
+    <div class="ti"><span class="s">★</span> Tollywood Events</div>
+    <div class="ti"><span class="s">★</span> Fashion Vouchers</div>
+    <div class="ti"><span class="s">★</span> Kollywood Access</div>
+    <div class="ti"><span class="s">★</span> Cricket Stars</div>
+    <div class="ti"><span class="s">★</span> Travel Deals</div>
+    <div class="ti"><span class="s">★</span> Sports Icons</div>
+    <div class="ti"><span class="s">★</span> Shopping Rewards</div>
+    <div class="ti"><span class="s">★</span> Punjabi Music Stars</div>
+    <div class="ti"><span class="s">★</span> Bollywood Dinners</div>
+    <div class="ti"><span class="s">★</span> Tollywood Events</div>
+    <div class="ti"><span class="s">★</span> Fashion Vouchers</div>
+    <div class="ti"><span class="s">★</span> Kollywood Access</div>
+    <div class="ti"><span class="s">★</span> Cricket Stars</div>
+    <div class="ti"><span class="s">★</span> Travel Deals</div>
+    <div class="ti"><span class="s">★</span> Sports Icons</div>
+    <div class="ti"><span class="s">★</span> Shopping Rewards</div>
+    <div class="ti"><span class="s">★</span> Punjabi Music Stars</div>
+  </div>
+</div>
+
+<!-- How It Works -->
+<section class="section">
+  <span class="tag reveal">How It Works</span>
+  <h2 class="sec-h reveal">Three steps.<br><em>One lifetime experience.</em></h2>
+  <p class="sec-sub reveal">Join free. Live your lifestyle. Meet your star.</p>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-n">01</div>
+      <span class="step-icon">🎟️</span>
+      <div class="step-t">Join Free Today</div>
+      <div class="step-d">Sign up in 60 seconds. Get 300 welcome points instantly. Access restaurant vouchers, shopping deals and travel discounts immediately. No card needed.</div>
+    </div>
+    <div class="step reveal rd1">
+      <div class="step-n">02</div>
+      <span class="step-icon">⭐</span>
+      <div class="step-t">Earn on Everything</div>
+      <div class="step-d">Dine at partner restaurants — earn 200 pts. Shop at partner brands — earn 150 pts. Refer a friend — earn 500 pts. Every experience moves you closer.</div>
+    </div>
+    <div class="step reveal rd2">
+      <div class="step-n">03</div>
+      <span class="step-icon">🌟</span>
+      <div class="step-t">Meet Your Celebrity</div>
+      <div class="step-d">Redeem your points for up to 20% off your celebrity dinner ticket. Sit down, dine, take photos — with the star you've admired your whole life.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<div class="proof-strip">
+  <div class="proof-grid">
+    <div class="proof-card reveal">
+      <div class="proof-stars">★★★★★</div>
+      <div class="proof-text">"I was skeptical at first. Then I actually sat across from my favourite Telugu actor at a 5-star restaurant. DWC is real — and my points saved me ₹12,000 on the ticket."</div>
+      <div class="proof-author">
+        <div class="proof-av">R</div>
+        <div><div class="proof-name">Rahul K.</div><div class="proof-city">Hyderabad · Gold Member</div></div>
+      </div>
+    </div>
+    <div class="proof-card reveal rd1">
+      <div class="proof-stars">★★★★★</div>
+      <div class="proof-text">"The restaurant vouchers are genuinely excellent — saved ₹8,000 dining out last month alone. The celebrity dinner is happening next month. This is the best ₹0 I've ever spent."</div>
+      <div class="proof-author">
+        <div class="proof-av" style="background:linear-gradient(135deg,#9b59b6,#6c3483)">P</div>
+        <div><div class="proof-name">Priya S.</div><div class="proof-city">Mumbai · Platinum Member</div></div>
+      </div>
+    </div>
+    <div class="proof-card reveal rd2">
+      <div class="proof-stars">★★★★★</div>
+      <div class="proof-text">"Referred 6 friends in a week. That's 3,000 extra points plus the restaurant visits. My SRK dinner ticket is down to ₹1.6L and dropping. Game changer."</div>
+      <div class="proof-author">
+        <div class="proof-av" style="background:linear-gradient(135deg,#00C853,#007a32)">A</div>
+        <div><div class="proof-name">Arjun M.</div><div class="proof-city">Bangalore · Gold Member</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PARTNER SECTION ─────────────────────────────────────────── -->
+<div class="partner-section">
+  <div class="partner-inner">
+    <div class="partner-left">
+      <span class="ptag">For Businesses</span>
+      <h2 class="partner-h">Put Your Brand<br>In Front Of <em>Celebrity</em><br>Audiences.</h2>
+      <p class="partner-sub">DWC partners reach India's most aspirational consumers — people actively spending on dining, fashion and travel. Get your vouchers in front of 2,800+ members and growing.</p>
+      <div class="partner-perks">
+        <div class="partner-perk">
+          <div class="perk-icon">🍽️</div>
+          <div class="perk-text"><strong>Restaurants</strong> — Drive footfall with exclusive member-only discounts</div>
+        </div>
+        <div class="partner-perk">
+          <div class="perk-icon">👗</div>
+          <div class="perk-text"><strong>Fashion & Lifestyle</strong> — Reach high-intent buyers with premium vouchers</div>
+        </div>
+        <div class="partner-perk">
+          <div class="perk-icon">✈️</div>
+          <div class="perk-text"><strong>Travel & Hospitality</strong> — Fill inventory with quality, aspirational customers</div>
+        </div>
+        <div class="partner-perk">
+          <div class="perk-icon">⭐</div>
+          <div class="perk-text"><strong>Celebrity Association</strong> — Be part of India's most talked-about dining platform</div>
+        </div>
+      </div>
+      <a href="/partner-signup" class="partner-cta">Apply to Partner With DWC →</a>
+    </div>
+    <div class="partner-right">
+      <div class="partner-stat-card reveal">
+        <div class="ps-icon">👥</div>
+        <div><div class="ps-num">2,800+</div><div class="ps-label">Active members across India</div></div>
+      </div>
+      <div class="partner-stat-card reveal rd1">
+        <div class="ps-icon">📍</div>
+        <div><div class="ps-num">153</div><div class="ps-label">Cities covered nationwide</div></div>
+      </div>
+      <div class="partner-stat-card reveal rd2">
+        <div class="ps-icon">💰</div>
+        <div><div class="ps-num">₹50</div><div class="ps-label">Per redemption — Basic plan, free to join</div></div>
+      </div>
+      <div class="partner-stat-card reveal rd3">
+        <div class="ps-icon">🎯</div>
+        <div><div class="ps-num">High-intent</div><div class="ps-label">Aspirational spenders — dining, fashion, travel</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cause -->
+<div class="cause">
+  <h3>DINE FOR A CAUSE</h3>
+  <p>15% of every membership directly funds life-saving causes. Celebrities hand over the cheques personally — every dinner counts beyond the table.</p>
+  <div class="cause-pills">
+    <span class="cp">🎗️ Cancer Treatment</span>
+    <span class="cp">❤️ Heart Surgeries</span>
+    <span class="cp">💉 Dialysis Support</span>
+    <span class="cp">📚 Girl Education</span>
+    <span class="cp">🏠 Orphan Support</span>
+  </div>
+</div>
+
+<!-- Bottom CTA -->
+<div class="bottom">
+  <h2>Your Celebrity<br><em>Dinner Starts Here.</em></h2>
+  <p>Join free in 60 seconds. 300 welcome points. No credit card ever.</p>
+  <a href="/signup" class="bottom-btn" id="bottomBtn">Join Free — Start Earning Points →</a>
+  <div style="margin-top:1.25rem;font-size:.7rem;color:var(--muted)">
+    ✓ Free forever &nbsp;·&nbsp; ✓ No hidden charges &nbsp;·&nbsp; ✓ Upgrade anytime &nbsp;·&nbsp; ✓ Cancel anytime
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div>© 2025 Dine With Celebrity Pvt Ltd · Hyderabad, India</div>
+  <div>
+    <a href="/privacy">Privacy</a>
+    <a href="/disclaimer">Disclaimer</a>
+    <a href="/refund">Refund Policy</a>
+    <a href="/partner-signup">Partner With Us</a>
+    <a href="mailto:hello@dinewithcelebrity.com">Contact</a>
+  </div>
+</div>
+
+<script>
+(function(){
+
+// ── CELEBRITY MOSAIC DATA ────────────────────────────────────────
+// To use real photos: set style="--photo:url('/images/stars/name.jpg')" on each .mc div
+// Photos must be licensed. Current: gradient placeholders.
+const STARS = [
+  {n:'Prabhas',t:'Tollywood',bg:'#0d0518',ac:'#2d0a3a'},
+  {n:'Mahesh Babu',t:'Tollywood',bg:'#051018',ac:'#0a1a2a'},
+  {n:'Allu Arjun',t:'Tollywood',bg:'#100a00',ac:'#2d1a00'},
+  {n:'SRK',t:'Bollywood',bg:'#180500',ac:'#3d1000'},
+  {n:'Salman Khan',t:'Bollywood',bg:'#050518',ac:'#0a0a3d'},
+  {n:'Virat Kohli',t:'Cricket',bg:'#001800',ac:'#003d00'},
+  {n:'Vijay',t:'Kollywood',bg:'#001818',ac:'#003d3d'},
+  {n:'Rajinikanth',t:'Kollywood',bg:'#180010',ac:'#3d0025'},
+  {n:'Ram Charan',t:'Tollywood',bg:'#081200',ac:'#1a2800'},
+  {n:'MS Dhoni',t:'Cricket',bg:'#001810',ac:'#003d20'},
+  {n:'Ranveer Singh',t:'Bollywood',bg:'#120018',ac:'#2d003d'},
+  {n:'Diljit Dosanjh',t:'Punjabi',bg:'#180a00',ac:'#3d1500'},
+  {n:'Jr NTR',t:'Tollywood',bg:'#120800',ac:'#2d1a00'},
+  {n:'Nayanthara',t:'Pan-India',bg:'#180a12',ac:'#2d1525'},
+  {n:'Yash',t:'Kannada',bg:'#181000',ac:'#2d2000'},
+  {n:'Hrithik Roshan',t:'Bollywood',bg:'#001818',ac:'#003d3d'},
+  {n:'Rohit Sharma',t:'Cricket',bg:'#001218',ac:'#00203d'},
+  {n:'Fahadh Faasil',t:'Mollywood',bg:'#180010',ac:'#3d0020'},
+  {n:'Vijay Sethupathi',t:'Kollywood',bg:'#080018',ac:'#15003d'},
+  {n:'Ajith Kumar',t:'Kollywood',bg:'#150010',ac:'#2d0020'},
+  {n:'Alia Bhatt',t:'Bollywood',bg:'#18050a',ac:'#3d0a18'},
+  {n:'Deepika Padukone',t:'Bollywood',bg:'#180800',ac:'#3d1500'},
+  {n:'Samantha',t:'Tollywood',bg:'#0a1800',ac:'#152800'},
+  {n:'Priyanka Chopra',t:'Bollywood',bg:'#050818',ac:'#0a1530'},
+];
+
+const mosaic = document.getElementById('mosaic');
+// Fill mosaic — vary sizes for visual interest
+const grid = [];
+const needed = window.innerWidth > 768 ? 24 : window.innerWidth > 480 ? 12 : 8;
+
+for(let i = 0; i < needed; i++) {
+  const star = STARS[i % STARS.length];
+  const div = document.createElement('div');
+  div.className = 'mc';
+  // Every 7th cell is "large" on desktop
+  if(i === 0 && window.innerWidth > 768) div.classList.add('lg');
+  div.style.setProperty('--bg', `linear-gradient(160deg, ${star.bg}, ${star.ac})`);
+  // To add real photo: div.style.setProperty('--photo', `url('/images/stars/${star.n.toLowerCase().replace(/\s+/g,'-')}.jpg')`);
+  div.innerHTML = `<div class="ci"><div class="cn">${star.n}</div><div class="ct">${star.t}</div></div>`;
+  mosaic.appendChild(div);
+}
+
+// ── UTM PASSTHROUGH ──────────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+const utmStr  = utmKeys.filter(k=>params.get(k)).map(k=>k+'='+params.get(k)).join('&');
+
+function makeUrl(base, email) {
+  const qs = [];
+  if(email) qs.push('email=' + encodeURIComponent(email));
+  if(utmStr) qs.push(utmStr);
+  return qs.length ? base + '?' + qs.join('&') : base;
+}
+
+// Apply UTM to all CTAs
+if(utmStr) {
+  document.getElementById('navJoin').href = makeUrl('/signup');
+  document.getElementById('bottomBtn').href = makeUrl('/signup');
+}
+
+// ── HERO EMAIL FORM ──────────────────────────────────────────────
+window.goSignup = function(e) {
+  e.preventDefault();
+  const email = document.getElementById('heroEmail').value.trim();
+  const btn   = document.getElementById('heroBtnJoin');
+  btn.textContent = 'Taking you there...';
+  btn.disabled = true;
+  setTimeout(() => { window.location.href = makeUrl('/signup', email); }, 300);
+};
+
+// ── ANIMATED MEMBER COUNTER ──────────────────────────────────────
+(function() {
+  const el  = document.getElementById('memberNum');
+  const end = 2847;
+  let cur   = 2700;
+  const step = () => {
+    cur = Math.min(end, cur + Math.ceil((end - cur) * 0.08));
+    el.textContent = cur.toLocaleString('en-IN');
+    if(cur < end) requestAnimationFrame(step);
+  };
+  setTimeout(step, 800);
+})();
+
+// ── SCROLL REVEAL ────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(el => {
+    if(el.isIntersecting) { el.target.classList.add('on'); obs.unobserve(el.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+})();
+</script>
+</body>
+</html>
