@@ -1,297 +1,325 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Welcome to Dine With Celebrity</title><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
-:root{--black:#06040A;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--white:rgba(255,255,255,.92);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.5);--border:rgba(242,183,5,.2);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--black);color:var(--white);font-family:Poppins,sans-serif;min-height:100vh;overflow:hidden;}
-.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.star{position:absolute;color:var(--gold);opacity:0;animation:twinkle var(--dur,3s) var(--delay,0s) infinite;}
-@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.3);transform:scale(1)}}
-.celeb-bg{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
-.celeb{position:absolute;bottom:0;opacity:0;animation:celebRise var(--cd,8s) var(--cdelay,0s) ease-in-out infinite alternate;}
-.celeb svg{width:100%;height:auto;filter:drop-shadow(0 0 28px rgba(242,183,5,.25));}
-@keyframes celebRise{0%{opacity:0;transform:translateY(40px) scale(.95)}35%{opacity:var(--cop,.1)}65%{opacity:var(--cop,.1)}100%{opacity:0;transform:translateY(-10px) scale(1.02)}}
-.app{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
-.progress{display:flex;gap:.5rem;margin-bottom:2.5rem;}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;}
-.dot.active{background:var(--gold);width:24px;border-radius:4px;}
-.dot.done{background:rgba(242,183,5,.5);}
-.card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:520px;text-align:center;backdrop-filter:blur(10px);animation:cardIn .4s ease;}
-@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.welcome-logo{font-family:"Bebas Neue",sans-serif;font-size:1rem;color:var(--gold);letter-spacing:4px;margin-bottom:1.5rem;opacity:.7;}
-.welcome-name{font-family:"Bebas Neue",sans-serif;font-size:clamp(2rem,6vw,3.2rem);color:var(--white);line-height:1.1;margin-bottom:.75rem;letter-spacing:1px;}
-.welcome-name em{color:var(--gold);font-style:normal;}
-.welcome-sub{color:var(--sub);font-size:.95rem;line-height:1.7;margin-bottom:2rem;max-width:380px;margin-left:auto;margin-right:auto;}
-.welcome-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:30px;padding:.5rem 1.2rem;font-size:.82rem;color:var(--gold);margin-bottom:2rem;}
-.step-label{font-family:"Bebas Neue",sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:3px;margin-bottom:.5rem;}
-.step-title{font-family:"Bebas Neue",sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);color:var(--white);line-height:1.1;margin-bottom:.5rem;letter-spacing:1px;}
-.step-sub{color:var(--sub);font-size:.88rem;margin-bottom:1.75rem;line-height:1.6;}
-.state-toggle{display:flex;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:1.25rem;gap:4px;}
-.state-btn{flex:1;padding:.6rem;border:none;border-radius:7px;background:transparent;color:var(--sub);font-family:Poppins,sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;}
-.state-btn.active{background:var(--gold);color:#06040A;font-weight:700;}
-.city-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;max-height:260px;overflow-y:auto;margin-bottom:1.5rem;padding-right:2px;}
-.city-grid::-webkit-scrollbar{width:4px;}
-.city-grid::-webkit-scrollbar-thumb{background:rgba(242,183,5,.3);border-radius:4px;}
-.city-chip{padding:.55rem .4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:.78rem;color:var(--sub);cursor:pointer;transition:all .2s;text-align:center;line-height:1.3;user-select:none;}
-.city-chip:hover{border-color:rgba(242,183,5,.4);color:var(--white);}
-.city-chip.selected{background:rgba(242,183,5,.12);border-color:var(--gold);color:var(--gold);font-weight:600;}
-.interest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.75rem;}
-.interest-card{padding:1.1rem 1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;cursor:pointer;transition:all .2s;text-align:left;}
-.interest-card:hover{border-color:rgba(242,183,5,.4);background:rgba(242,183,5,.05);}
-.interest-card.selected{background:rgba(242,183,5,.1);border-color:var(--gold);}
-.int-icon{font-size:1.6rem;margin-bottom:.4rem;}
-.int-name{font-size:.85rem;font-weight:600;color:var(--white);}
-.int-desc{font-size:.72rem;color:var(--muted);margin-top:.2rem;}
-.interest-card.selected .int-name{color:var(--gold);}
-.btn-primary{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.95rem;font-family:Poppins,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:.5px;transition:opacity .2s;margin-top:.25rem;}
-.btn-primary:hover{opacity:.88;}
-.btn-primary:disabled{opacity:.35;cursor:default;}
-.btn-skip{background:transparent;border:none;color:var(--muted);font-family:Poppins,sans-serif;font-size:.8rem;cursor:pointer;margin-top:.75rem;text-decoration:underline;}
-.btn-skip:hover{color:var(--sub);}
-.btn-back{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--sub);font-family:Poppins,sans-serif;font-size:.82rem;cursor:pointer;padding:.5rem 1.1rem;border-radius:8px;transition:all .2s;margin-right:auto;}
-.btn-back:hover{border-color:var(--gold);color:var(--gold);}
-.step-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
-.ready-icon{font-size:3.5rem;margin-bottom:1rem;animation:popIn .5s ease;}
-@keyframes popIn{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
-.ready-title{font-family:"Bebas Neue",sans-serif;font-size:clamp(2rem,6vw,3rem);color:var(--gold);letter-spacing:1px;margin-bottom:.5rem;}
-.ready-sub{color:var(--sub);font-size:.95rem;line-height:1.7;margin-bottom:2rem;}
-.ready-city{display:inline-block;background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);border-radius:20px;padding:.3rem 1rem;font-size:.85rem;color:var(--gold);margin-bottom:.75rem;}
-@media(max-width:480px){.card{padding:1.75rem 1.25rem}.city-grid{grid-template-columns:repeat(2,1fr)}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Complete Your Profile — Dine With Celebrity</title>
+<meta name="description" content="Complete your DWC profile and start earning points toward your celebrity dinner."/>
+<meta property="og:title" content="Complete Your Profile — Dine With Celebrity"/>
+<meta property="og:description" content="One step away from earning your first celebrity dinner points."/>
+<meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+<meta property="og:url" content="https://www.dinewithcelebrity.com/onboarding"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="canonical" href="https://www.dinewithcelebrity.com/onboarding"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Onboarding","url":"https://www.dinewithcelebrity.com/onboarding","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd"}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#06040A;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.45);--border:rgba(242,183,5,.2);--border2:rgba(255,255,255,.08);--card:#0f0d14;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3s ease-in-out infinite alternate}
+@keyframes tw{0%{opacity:.04}100%{opacity:.2}}
+.wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem}
+.logo-bar{margin-bottom:1.5rem;text-align:center}
+.logo-bar img{height:44px;width:auto}
+/* Steps */
+.steps-bar{display:flex;align-items:center;gap:.4rem;margin-bottom:2rem}
+.step{width:28px;height:4px;border-radius:100px;background:var(--border2);transition:background .3s}
+.step.done{background:var(--green)}
+.step.active{background:var(--gold)}
+/* Card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:460px}
+.card-title{font-family:'Bebas Neue',cursive;font-size:2rem;letter-spacing:1px;color:var(--text);margin-bottom:.2rem}
+.card-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.6}
+/* Fields */
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text);padding:.72rem 1rem;border-radius:9px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.25)}
+.field select option{background:#0f0d14;color:var(--text)}
+.field textarea{resize:vertical;min-height:80px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+/* Interests */
+.interests-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
+.int-btn{background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--sub);font-family:'Poppins',sans-serif;font-size:.75rem;padding:.4rem .85rem;border-radius:100px;cursor:pointer;transition:all .2s}
+.int-btn.sel{background:rgba(242,183,5,.12);border-color:var(--gold);color:var(--gold)}
+/* Points preview */
+.pts-preview{background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.15);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+.pts-preview-title{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem}
+.pts-row{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.25rem}
+.pts-row:last-child{margin-bottom:0;padding-top:.4rem;border-top:1px solid rgba(242,183,5,.1)}
+.pts-label{color:var(--muted)}
+.pts-val{font-family:'Bebas Neue',cursive;font-size:1rem;color:var(--gold)}
+.pts-val.total{font-size:1.25rem;color:var(--gold2)}
+/* Buttons */
+.btn{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.85rem;font-family:'Poppins',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;transition:opacity .2s;margin-top:.5rem}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-back{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border2);border-radius:10px;padding:.75rem;font-family:'Poppins',sans-serif;font-size:.85rem;cursor:pointer;margin-top:.5rem;transition:all .2s}
+.btn-back:hover{border-color:var(--gold);color:var(--gold)}
+.err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.78rem;padding:.6rem .9rem;border-radius:8px;margin-top:.75rem;display:none}
+/* Welcome screen */
+.welcome-icon{font-size:3.5rem;text-align:center;margin-bottom:1rem}
+.welcome-title{font-family:'Bebas Neue',cursive;font-size:2.5rem;text-align:center;color:var(--gold);letter-spacing:1px;margin-bottom:.5rem}
+.welcome-sub{font-size:.85rem;color:var(--sub);text-align:center;line-height:1.75;margin-bottom:1.5rem}
+.confetti{font-size:1.5rem;text-align:center;margin-bottom:.5rem;animation:bounce .6s ease-in-out infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
 </style>
-  <meta property="og:title" content="Welcome — Dine With Celebrity"/>
-  <meta property="og:description" content="Complete your profile to start earning points."/>
-  <meta property="og:url" content="https://www.dinewithcelebrity.com/onboarding"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
-  <meta property="og:site_name" content="Dine With Celebrity"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Welcome — Dine With Celebrity"/>
-  <meta name="twitter:description" content="Complete your profile to start earning points."/>
-  <link rel="canonical" href="https://www.dinewithcelebrity.com/onboarding"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Member Onboarding","url":"https://www.dinewithcelebrity.com/onboarding","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
-</head><body>
-<div class="stars-bg" id="starsBg"></div>
-<div class="celeb-bg" id="celebBg"></div>
-<div class="app">
-  <div class="progress">
-    <div class="dot active" id="dot1"></div>
-    <div class="dot" id="dot2"></div>
-    <div class="dot" id="dot3"></div>
-    <div class="dot" id="dot4"></div>
+</head>
+<body>
+<div id="stars"></div>
+<div class="wrap">
+  <div class="logo-bar"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" onerror="this.src='/logo.png'"/></div>
+  <div class="steps-bar" id="stepsBar">
+    <div class="step active" id="step1"></div>
+    <div class="step" id="step2"></div>
+    <div class="step" id="step3"></div>
   </div>
-  <div class="card" id="step1">
-    <div class="welcome-logo"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:120px;width:auto;display:inline-block;filter:drop-shadow(0 0 10px rgba(242,183,5,0.6));"></div>
-    <div class="welcome-name">Welcome,<br><em id="member-name">Star!</em></div>
-    <p class="welcome-sub">Your celebrity dinner journey starts right here. Let us personalise your experience so you see only what matters to you.</p>
-    <div class="welcome-badge">&#127916; Your dashboard is getting ready</div>
-    <button class="btn-primary" id="btn-step1">Let's Go &#8594;</button>
-    <button class="btn-skip" id="btn-signout">Not you? Sign out</button>
+  <div class="card" id="cardContent">
+    <div style="text-align:center;padding:2rem 0"><div style="font-size:2rem">⏳</div><div style="color:var(--muted);margin-top:.5rem;font-size:.85rem">Loading your profile...</div></div>
   </div>
-  <div class="card" id="step2" style="display:none">
-    <div class="step-nav"><button class="btn-back" id="back-step2">&#8592; Back</button><div class="step-label" style="margin:0">Step 1 of 2</div></div>
-    <div class="step-title">Your City?</div>
-    <p class="step-sub">We will show you partner restaurants, events and vouchers near you.</p>
-    <div class="state-toggle">
-      <button class="state-btn active" id="btn-ts">Telangana</button>
-      <button class="state-btn" id="btn-ap">Andhra Pradesh</button>
-    </div>
-    <div class="city-grid" id="cityGrid"></div>
-    <button class="btn-primary" id="cityNext" disabled>Continue &#8594;</button>
-    <button class="btn-skip" id="skipCity">Skip for now</button>
-  </div>
-  <div class="card" id="step3" style="display:none">
-    <div class="step-nav"><button class="btn-back" id="back-step3">&#8592; Back</button><div class="step-label" style="margin:0">Step 2 of 2</div></div>
-    <div class="step-title">What Are You Into?</div>
-    <p class="step-sub">Pick your interests — we will match your vouchers and events to what you love.</p>
-    <div class="interest-grid" id="interestGrid">
-      <div class="interest-card" data-interest="Telugu Cinema"><div class="int-icon">&#127916;</div><div class="int-name">Telugu Cinema</div><div class="int-desc">Tollywood stars, events and premiers</div></div>
-      <div class="interest-card" data-interest="Bollywood"><div class="int-icon">&#127917;</div><div class="int-name">Bollywood</div><div class="int-desc">Hindi film celebrities and shows</div></div>
-      <div class="interest-card" data-interest="Sports"><div class="int-icon">&#127955;</div><div class="int-name">Sports</div><div class="int-desc">Cricket, kabaddi and sports stars</div></div>
-      <div class="interest-card" data-interest="Music"><div class="int-icon">&#127925;</div><div class="int-name">Music</div><div class="int-desc">Singers, composers and concerts</div></div>
-      <div class="interest-card" data-interest="Food &amp; Dining"><div class="int-icon">&#127374;</div><div class="int-name">Food and Dining</div><div class="int-desc">Premium restaurants and culinary events</div></div>
-      <div class="interest-card" data-interest="Business"><div class="int-icon">&#128188;</div><div class="int-name">Business</div><div class="int-desc">Networking and entrepreneur circles</div></div>
-    </div>
-    <button class="btn-primary" id="intNext" disabled>Show My Dashboard &#8594;</button>
-    <button class="btn-skip" id="skipInt">Skip, take me to dashboard</button>
-  </div>
-  <div class="card" id="step4" style="display:none">
-    <div class="ready-icon">&#127881;</div>
-    <div class="ready-title">You are In!</div>
-    <div class="ready-city" id="readyCity"></div>
-    <p class="ready-sub">Your personalised dashboard is ready. Your city best vouchers and your next celebrity dinner seat are waiting.</p>
-    <button class="btn-primary" id="goDb">Open My Dashboard &#10022;</button>
-  </div>
-</div><script>
-var SUPABASE_URL='https://blwqqqzhnovsveeryjlm.supabase.co';
-var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
-var sbClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-var CITIES_TS=['Hyderabad','Warangal','Hanamkonda','Karimnagar','Nizamabad','Khammam','Siddipet','Nalgonda','Sangareddy','Medak','Kamareddy','Adilabad','Nirmal','Mancherial','Peddapalli','Jagtial','Sircilla','Jangaon','Mulugu','Kothagudem','Mahabubabad','Suryapet','Bhongir','Mahabubnagar','Nagarkurnool','Wanaparthy','Gadwal','Narayanpet','Medchal','Vikarabad','Asifabad','Rangareddy'];
-var CITIES_AP=['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur','Chittoor','Eluru','Machilipatnam','Vizianagaram','Srikakulam','Ongole','Nandyal','Anakapalli','Paderu','Amalapuram','Narasaraopet','Bapatla','Rajampet','Puttaparthi','Other'];
-var selectedCity='',selectedState='TS',selectedInterests=[],currentUser=null;
+</div>
 
-function initStars(){
-  var bg=document.getElementById('starsBg');
-  for(var i=0;i<55;i++){
-    var s=document.createElement('span');
-    s.className='star';
-    s.textContent='&#9733;'.replace('&#9733;','★');
-    s.style.left=Math.random()*100+'%';
-    s.style.top=Math.random()*100+'%';
-    s.style.setProperty('--dur',(2+Math.random()*4)+'s');
-    s.style.setProperty('--delay',Math.random()*5+'s');
-    s.style.setProperty('--op',(0.1+Math.random()*0.3)+'');
-    s.style.fontSize=(7+Math.random()*9)+'px';
-    bg.appendChild(s);
+<script>
+const SB_URL  = 'https://blwqqqzhnovsveeryjlm.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+const sbClient = supabase.createClient(SB_URL, SB_ANON);
+
+let currentUser = null;
+let currentStep = 1;
+const urlParams = new URLSearchParams(window.location.search);
+
+// ── STARS ──────────────────────────────────────────────────────
+(function(){
+  const s=document.getElementById('stars');
+  for(let i=0;i<50;i++){const el=document.createElement('i');el.textContent='★';el.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2+Math.random()*3)+'s';s.appendChild(el);}
+})();
+
+// ── UPDATE STEP BAR ────────────────────────────────────────────
+function setStep(n) {
+  currentStep = n;
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('step'+i);
+    if(!el) return;
+    el.className = 'step' + (i<n?' done':i===n?' active':'');
+  });
+}
+
+// ── RENDER STEP 1 — INTERESTS + BIO ───────────────────────────
+function renderStep1() {
+  setStep(1);
+  const interests = ['Bollywood','Tollywood','Kollywood','Cricket','Punjabi Music','Mollywood','Sports','Web Series','Reality TV'];
+  document.getElementById('cardContent').innerHTML = `
+    <div class="card-title">Your Interests</div>
+    <p class="card-sub">Tell us what you love so we can match you with the right celebrities.</p>
+    <div class="field">
+      <label>Favourite Celebrities & Genres</label>
+      <div class="interests-grid" id="interestsGrid">
+        ${interests.map(i=>`<button class="int-btn" onclick="toggleInterest(this,'${i}')">${i}</button>`).join('')}
+      </div>
+    </div>
+    <div class="field">
+      <label>About You (optional)</label>
+      <textarea id="inp-bio" placeholder="Tell us about yourself — favourite movies, celebrity encounters, bucket list..."></textarea>
+    </div>
+    <button class="btn" onclick="goStep2()">Continue →</button>
+    <div class="err" id="errMsg"></div>`;
+}
+
+const selectedInterests = [];
+function toggleInterest(btn, val) {
+  const idx = selectedInterests.indexOf(val);
+  if(idx > -1) { selectedInterests.splice(idx,1); btn.classList.remove('sel'); }
+  else { selectedInterests.push(val); btn.classList.add('sel'); }
+}
+
+function goStep2() { renderStep2(); }
+
+// ── RENDER STEP 2 — PREFERENCES ────────────────────────────────
+function renderStep2() {
+  setStep(2);
+  document.getElementById('cardContent').innerHTML = `
+    <div class="card-title">Your Preferences</div>
+    <p class="card-sub">Help us personalise your DWC experience.</p>
+    <div class="field">
+      <label>How did you hear about us?</label>
+      <select id="inp-source">
+        <option value="">Select...</option>
+        <option value="instagram">Instagram</option>
+        <option value="facebook">Facebook</option>
+        <option value="youtube">YouTube</option>
+        <option value="friend">Friend / Family</option>
+        <option value="google">Google Search</option>
+        <option value="whatsapp">WhatsApp</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>What would you most love to do?</label>
+      <select id="inp-goal">
+        <option value="">Select...</option>
+        <option value="dinner">Dine with a Bollywood star</option>
+        <option value="cricket">Meet a cricket legend</option>
+        <option value="tollywood">Dinner with a Telugu star</option>
+        <option value="music">Meet a music artist</option>
+        <option value="sports">Meet a sports icon</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Birthday (optional — we'll surprise you)</label>
+      <input type="date" id="inp-dob"/>
+    </div>
+    <button class="btn" onclick="goStep3()">Continue →</button>
+    <button class="btn-back" onclick="renderStep1()">← Back</button>
+    <div class="err" id="errMsg"></div>`;
+}
+
+function goStep3() { renderStep3(); }
+
+// ── RENDER STEP 3 — POINTS PREVIEW + FINISH ────────────────────
+function renderStep3() {
+  setStep(3);
+  const refCode = urlParams.get('ref') || sessionStorage.getItem('dwc_ref') || '';
+  const signupPts = 300;
+  const refPts    = refCode ? 300 : 0;
+  const totalPts  = signupPts + refPts;
+
+  document.getElementById('cardContent').innerHTML = `
+    <div class="card-title">You're Almost In!</div>
+    <p class="card-sub">Here's what you're getting right now — for free.</p>
+    <div class="pts-preview">
+      <div class="pts-preview-title">⭐ Your Welcome Points</div>
+      <div class="pts-row"><span class="pts-label">Signup bonus</span><span class="pts-val">+300 pts</span></div>
+      ${refCode?`<div class="pts-row"><span class="pts-label">Referral bonus</span><span class="pts-val" style="color:var(--green)">+300 pts</span></div>`:''}
+      <div class="pts-row"><span class="pts-label">Total starting balance</span><span class="pts-val total">${totalPts} pts</span></div>
+    </div>
+    <div class="pts-preview" style="margin-top:-.25rem">
+      <div class="pts-preview-title">🎁 What Points Get You</div>
+      <div class="pts-row"><span class="pts-label">Restaurant discount</span><span class="pts-val">Up to ₹500 off</span></div>
+      <div class="pts-row"><span class="pts-label">Celebrity dinner discount</span><span class="pts-val">Up to ₹10,000 off</span></div>
+    </div>
+    <button class="btn" id="btnFinish" onclick="saveAndFinish()">🚀 Enter DWC — Claim My Points</button>
+    <button class="btn-back" onclick="renderStep2()">← Back</button>
+    <div class="err" id="errMsg"></div>`;
+}
+
+// ── SAVE AND FINISH ────────────────────────────────────────────
+async function saveAndFinish() {
+  const btn = document.getElementById('btnFinish');
+  const err = document.getElementById('errMsg');
+  if(btn) { btn.disabled=true; btn.textContent='Saving...'; }
+  if(err) err.style.display='none';
+
+  try {
+    // ── REFERRAL HANDLING ──────────────────────────────────────
+    const _refCode    = urlParams.get('ref') || sessionStorage.getItem('dwc_ref') || '';
+    let   _referrerId = null;
+    if (_refCode) {
+      const { data: _referrer } = await sbClient
+        .from('members')
+        .select('id')
+        .eq('referral_code', _refCode)
+        .maybeSingle();
+      if (_referrer && _referrer.id !== currentUser.id) {
+        _referrerId = _referrer.id;
+      }
+    }
+
+    // ── BUILD UPDATE PAYLOAD ───────────────────────────────────
+    const source = document.getElementById('inp-source')?.value || '';
+    const goal   = document.getElementById('inp-goal')?.value   || '';
+    const dob    = document.getElementById('inp-dob')?.value    || null;
+    const bio    = document.getElementById('inp-bio')?.value    || '';
+
+    var u = {
+      onboarded:   true,
+      interests:   selectedInterests,
+      bio:         bio,
+      how_heard:   source,
+      dream_goal:  goal,
+      date_of_birth: dob || null,
+      referred_by: _referrerId,
+    };
+
+    const { error: upErr } = await sbClient
+      .from('members')
+      .update(u)
+      .eq('id', currentUser.id);
+
+    if (upErr) throw upErr;
+
+    // ── AWARD SIGNUP POINTS ─────────────────────────────────────
+    await sbClient.rpc('award_points', {
+      p_member_id:    currentUser.id,
+      p_reason:       'signup',
+      p_points:       300,
+      p_idempotency:  'signup_' + currentUser.id,
+      p_note:         'Welcome bonus'
+    });
+
+    // ── AWARD REFERRAL POINTS ───────────────────────────────────
+    if (_referrerId) {
+      try {
+        await sbClient.rpc('award_points', {
+          p_member_id:   currentUser.id,
+          p_reason:      'referral_received',
+          p_points:      300,
+          p_idempotency: 'ref_rcv_' + currentUser.id,
+          p_note:        'Joined via referral code ' + _refCode
+        });
+        await sbClient.rpc('award_points', {
+          p_member_id:   _referrerId,
+          p_reason:      'referral_sent',
+          p_points:      500,
+          p_idempotency: 'ref_snt_' + _referrerId + '_' + currentUser.id,
+          p_note:        'Referred a new member'
+        });
+        sessionStorage.removeItem('dwc_ref');
+      } catch(refErr) {
+        console.warn('[referral points]', refErr);
+      }
+    }
+
+    // ── SHOW WELCOME SCREEN ─────────────────────────────────────
+    document.getElementById('stepsBar').style.display='none';
+    document.getElementById('cardContent').innerHTML = `
+      <div class="confetti">🎉</div>
+      <div class="welcome-icon">⭐</div>
+      <div class="welcome-title">Welcome to DWC!</div>
+      <p class="welcome-sub">You now have <strong style="color:var(--gold)">${_referrerId?600:300} points</strong> in your account.<br>
+        Start dining and shopping at partner brands to earn more — every experience brings you closer to your celebrity dinner.</p>
+      <button class="btn" onclick="window.location.href='/dashboard'">Go to My Dashboard →</button>`;
+
+  } catch(e) {
+    const err2 = document.getElementById('errMsg');
+    if(err2){ err2.textContent = e.message||'Something went wrong.'; err2.style.display='block'; }
+    if(btn){ btn.disabled=false; btn.textContent='🚀 Enter DWC — Claim My Points'; }
   }
 }
 
-function initCelebs(){
-  var bg=document.getElementById('celebBg');
-  var positions=[
-    {l:'2%',d:'0s',dur:'9s',op:'0.1',w:'140px'},
-    {l:'14%',d:'2s',dur:'11s',op:'0.08',w:'165px'},
-    {l:'28%',d:'1s',dur:'8s',op:'0.07',w:'150px'},
-    {l:'46%',d:'3s',dur:'10s',op:'0.09',w:'155px'},
-    {l:'64%',d:'0.5s',dur:'12s',op:'0.08',w:'145px'},
-    {l:'80%',d:'2.5s',dur:'9s',op:'0.1',w:'170px'},
-    {l:'92%',d:'1.5s',dur:'11s',op:'0.07',w:'130px'}
-  ];
-  var svgStr='<svg viewBox="0 0 100 220" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="30" rx="22" ry="26" fill="#F2B705"/><path d="M12 220 Q12 130 30 108 Q40 95 50 93 Q60 95 70 108 Q88 130 88 220Z" fill="#F2B705"/><line x1="30" y1="112" x2="8" y2="170" stroke="#F2B705" stroke-width="15" stroke-linecap="round"/><line x1="70" y1="112" x2="92" y2="170" stroke="#F2B705" stroke-width="15" stroke-linecap="round"/></svg>';
-  positions.forEach(function(p){
-    var div=document.createElement('div');
-    div.className='celeb';
-    div.style.left=p.l;
-    div.style.width=p.w;
-    div.style.setProperty('--cd',p.dur);
-    div.style.setProperty('--cdelay',p.d);
-    div.style.setProperty('--cop',p.op);
-    div.innerHTML=svgStr;
-    bg.appendChild(div);
-  });
-}
+// ── INIT ───────────────────────────────────────────────────────
+(async function(){
+  const { data: { session } } = await sbClient.auth.getSession();
+  if(!session) { window.location.href='/signin?redirect=onboarding'; return; }
+  currentUser = session.user;
 
-function goStep(n, pushState){
-  [1,2,3,4].forEach(function(i){
-    document.getElementById('step'+i).style.display=(i===n)?'block':'none';
-    var dot=document.getElementById('dot'+i);
-    if(i===n) dot.className='dot active';
-    else if(i<n) dot.className='dot done';
-    else dot.className='dot';
-  });
-  if(n===2) renderCities();
-  if(pushState!==false) history.pushState({step:n},'','#step'+n);
-}
-window.addEventListener('popstate',function(e){
-  if(e.state&&e.state.step){ goStep(e.state.step,false); }
-  else { goStep(1,false); }
-});
+  // Check if already onboarded
+  const { data: member } = await sbClient
+    .from('members')
+    .select('onboarded, first_name')
+    .eq('id', currentUser.id)
+    .maybeSingle();
 
-function renderCities(){
-  var list=selectedState==='TS'?CITIES_TS:CITIES_AP;
-  var grid=document.getElementById('cityGrid');
-  var html='';
-  for(var i=0;i<list.length;i++){
-    var city=list[i];
-    var sel=(city===selectedCity)?' selected':'';
-    html+='<div class="city-chip'+sel+'" data-city="'+city+'">'+city+'</div>';
+  if(member?.onboarded) {
+    window.location.href = '/dashboard';
+    return;
   }
-  grid.innerHTML=html;
-}
 
-function showState(state){
-  selectedState=state;
-  selectedCity='';
-  document.getElementById('btn-ts').className='state-btn'+(state==='TS'?' active':'');
-  document.getElementById('btn-ap').className='state-btn'+(state==='AP'?' active':'');
-  renderCities();
-  document.getElementById('cityNext').disabled=true;
-}
-
-async function saveAndFinish(){
-  var btn=document.getElementById('intNext');
-  btn.disabled=true;
-  btn.textContent='Saving...';
-  try{
-    var u={onboarded:true};
-    if(selectedCity) u.city=selectedCity;
-    if(selectedInterests.length>0) u.interests=selectedInterests;
-    else u.interests=[];
-    if(currentUser){
-      var upErr=await sbClient.from('members').update(u).eq('id',currentUser.id);
-      if(upErr.error) console.error('save error:',upErr.error.message);
-    }
-  }catch(e){console.error(e);}
-  goStep(4);
-  var rc=document.getElementById('readyCity');
-  rc.textContent=selectedCity?'>> '+selectedCity:'Welcome to DWC';
-  setTimeout(function(){ window.location.href='/dashboard.html'; },2500);
-}
-
-// Event listeners — all delegation, no inline onclick
-document.addEventListener('DOMContentLoaded',function(){
-  initStars();
-  initCelebs();
-
-  document.getElementById('btn-step1').addEventListener('click',function(){ goStep(2); });
-  document.getElementById('btn-signout').addEventListener('click',async function(){
-    await sbClient.auth.signOut();
-    window.location.href='/signup.html';
-  });
-  document.getElementById('back-step2').addEventListener('click',function(){ goStep(1); });
-  document.getElementById('back-step3').addEventListener('click',function(){ goStep(2); });
-  document.getElementById('btn-ts').addEventListener('click',function(){ showState('TS'); });
-  document.getElementById('btn-ap').addEventListener('click',function(){ showState('AP'); });
-  document.getElementById('skipCity').addEventListener('click',function(){ selectedCity=''; goStep(3); });
-  document.getElementById('cityNext').addEventListener('click',function(){ goStep(3); });
-  document.getElementById('intNext').addEventListener('click',function(){ saveAndFinish(); });
-  document.getElementById('skipInt').addEventListener('click',function(){ saveAndFinish(); });
-  document.getElementById('goDb').addEventListener('click',function(){ window.location.href='/dashboard.html'; });
-
-  document.getElementById('cityGrid').addEventListener('click',function(e){
-    var chip=e.target.closest('.city-chip');
-    if(!chip) return;
-    selectedCity=chip.dataset.city;
-    renderCities();
-    document.getElementById('cityNext').disabled=false;
-  });
-
-  document.getElementById('interestGrid').addEventListener('click',function(e){
-    var card=e.target.closest('.interest-card');
-    if(!card) return;
-    var name=card.dataset.interest;
-    card.classList.toggle('selected');
-    if(card.classList.contains('selected')){
-      selectedInterests.push(name);
-    } else {
-      selectedInterests=selectedInterests.filter(function(i){ return i!==name; });
-    }
-    document.getElementById('intNext').disabled=(selectedInterests.length===0);
-  });
-
-  sbClient.auth.getSession().then(async function(res){
-    var session=res.data.session;
-    if(!session){ window.location.href='/signup.html'; return; }
-    currentUser=session.user;
-    
-    // ?reset=1 clears onboarding so you can retest without new email
-    var isReset=new URLSearchParams(window.location.search).get('reset')==='1';
-    if(isReset){
-      await sbClient.from('members').update({city:null,interests:null,onboarded:false}).eq('id',currentUser.id);
-      window.history.replaceState({},'','/onboarding.html');
-    }
-    
-    var r=await sbClient.from('members').select('full_name,city,interests,onboarded').eq('id',currentUser.id).single();
-    var member=r.data;
-    
-    // Already fully onboarded — go to dashboard
-    if(!isReset && member && member.onboarded && member.city){
-      window.location.href='/dashboard.html'; return;
-    }
-    
-    // Show their name
-    var name=(member&&member.full_name)||currentUser.user_metadata&&currentUser.user_metadata.full_name||'Star';
-    document.getElementById('member-name').textContent=name.split(' ')[0]+'!';
-  });
-
-  showState('TS');
-  history.replaceState({step:1},'','#step1');
-});
-</script></body></html>
+  renderStep1();
+})();
+</script>
+</body>
+</html>
