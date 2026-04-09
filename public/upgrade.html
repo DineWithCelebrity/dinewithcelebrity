@@ -1,551 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Upgrade Membership — Dine With Celebrity Pvt Ltd</title>
-<meta name="robots" content="noindex">
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Upgrade Your Membership — Dine With Celebrity</title>
+<meta name="description" content="Upgrade to Gold, Platinum or DWC Purple membership. More vouchers, celebrity events, concierge service and priority access."/>
+<meta name="keywords" content="dine with celebrity upgrade, premium membership, celebrity dining India"/>
+<meta property="og:title" content="Upgrade — Dine With Celebrity"/>
+<meta property="og:description" content="Unlock more vouchers, more points and celebrity event access with a premium plan."/>
+<meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+<meta property="og:url" content="https://www.dinewithcelebrity.com/upgrade"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="canonical" href="https://www.dinewithcelebrity.com/upgrade"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Upgrade","url":"https://www.dinewithcelebrity.com/upgrade","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd"}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#06040A;--card:#110916;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--purple:#9b59b6;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.55);--border:rgba(242,183,5,.18);--border2:rgba(255,255,255,.08)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow-x:hidden}
+:root{--bg:#06040A;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.45);--border:rgba(242,183,5,.2);--border2:rgba(255,255,255,.08);--card:#0f0d14;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;}
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3.2s ease-in-out infinite alternate}
-@keyframes tw{0%{opacity:.05;transform:scale(.85)}100%{opacity:.4;transform:scale(1.1)}}
-.brand-bg{position:fixed;bottom:-60px;right:-60px;font-family:'Bebas Neue',cursive;font-size:22rem;color:rgba(242,183,5,.022);pointer-events:none;z-index:0;line-height:1;user-select:none}
-nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
-.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:.08em;text-decoration:none}
-.nav-logo span{color:var(--text)}
-.nav-back{font-size:.85rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
-.nav-back:hover{color:var(--gold)}
-.page{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 58px);position:relative;z-index:1}
-.left{background:linear-gradient(180deg,#0d0612 0%,#080410 100%);border-right:1px solid var(--border2);padding:36px 28px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;display:flex;flex-direction:column;gap:20px}
-.fomo-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:8px}
-.fomo-label::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1.5s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.fomo-heading{font-family:'Bebas Neue',cursive;font-size:2rem;line-height:1.05;color:var(--text)}
-.fomo-heading em{color:var(--gold);font-style:normal}
-.price-card{background:linear-gradient(135deg,#1a0a22,#0f0618);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden}
-.price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.pc-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
-.pc-price{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--red);line-height:1}
-.pc-sub{font-size:.85rem;color:var(--sub);margin-top:6px}
-.missing-title{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--text);margin-bottom:12px}
-.missing-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(212,0,42,.05);border:1px solid rgba(212,0,42,.15);border-radius:10px;margin-bottom:8px}
-.mi-icon{font-size:1.1rem;flex-shrink:0}
-.mi-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.mi-desc{font-size:.78rem;color:var(--muted);line-height:1.4}
-.savings-preview{background:rgba(0,200,83,.07);border:1px solid rgba(0,200,83,.2);border-radius:12px;padding:16px;margin-top:4px}
-.sp-label{font-size:.72rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
-.sp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.sp-tier{font-size:.88rem;color:var(--sub)}
-.sp-price{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--green)}
-.right{padding:36px 32px;overflow-y:auto}
-.right-heading{font-family:'Bebas Neue',cursive;font-size:2.2rem;color:var(--text);margin-bottom:6px}
-.right-heading em{color:var(--gold);font-style:normal}
-.right-sub{font-size:.92rem;color:var(--sub);margin-bottom:28px}
-.tiers{display:flex;flex-direction:column;gap:16px}
-.tier-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:border-color .3s,transform .2s}
-.tier-card.upgradeable{cursor:pointer}
-.tier-card.upgradeable:hover{transform:translateY(-2px)}
-.tier-card.gold-card{border-color:rgba(242,183,5,.3)}
-.tier-card.upgradeable.gold-card:hover{border-color:var(--gold)}
-.tier-card.platinum-card{border-color:rgba(255,255,255,.15)}
-.tier-card.upgradeable.platinum-card:hover{border-color:rgba(255,255,255,.4)}
-.tier-card.purple-card{border-color:rgba(155,89,182,.3)}
-.tier-card.upgradeable.purple-card:hover{border-color:var(--purple)}
-/* Locked/current plan cards */
-.tier-card.tier-locked{opacity:.45;cursor:not-allowed}
-.tier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.gold-card::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.platinum-card::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
-.purple-card::before{background:linear-gradient(90deg,transparent,var(--purple),transparent)}
-.tc-badge{position:absolute;top:16px;right:16px;font-size:.68rem;font-weight:800;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em}
-.badge-gold{background:rgba(242,183,5,.15);border:1px solid var(--border);color:var(--gold)}
-.badge-purple{background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);color:#c39bd3}
-.badge-current{background:rgba(0,200,83,.15);border:1px solid rgba(0,200,83,.3);color:var(--green)}
-.badge-locked{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--muted)}
-.tc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px}
-.tc-name{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--text);line-height:1}
-.tc-price{font-family:'Bebas Neue',cursive;font-size:2.2rem;line-height:1}
-.gold-price{color:var(--gold)}
-.platinum-price{color:rgba(255,255,255,.85)}
-.purple-price{color:#c39bd3}
-.tc-per{font-size:.78rem;color:var(--muted)}
-.tc-saving{display:inline-block;background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.25);color:var(--green);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:100px;margin-top:4px}
-.tc-perks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
-.tc-perk{display:flex;align-items:flex-start;gap:8px;font-size:.82rem;color:var(--sub)}
-.tc-perk::before{content:'\2713';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
-.tc-perk.highlight{color:var(--text);font-weight:600}
-.btn-pay{width:100%;padding:15px;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-pay:hover:not(:disabled){opacity:.88}
-.btn-pay:disabled{opacity:.5;cursor:not-allowed}
-.btn-gold{background:var(--gold);color:#06040A}
-.btn-platinum{background:linear-gradient(135deg,#c0c0c0,#808080);color:#06040A}
-.btn-purple{background:linear-gradient(135deg,#9b59b6,#6c3483);color:#fff}
-.btn-locked{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
-#loadingState{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-.loader{width:44px;height:44px;border:3px solid rgba(242,183,5,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3s ease-in-out infinite alternate}
+@keyframes tw{/* twinkle */0%{opacity:.04}100%{opacity:.2}}
+.page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:5rem 1.25rem 4rem}
+.logo-bar{text-align:center;margin-bottom:2.5rem}
+.logo-bar img{height:48px;width:auto}
+.page-title{font-family:'Bebas Neue',cursive;font-size:clamp(2.5rem,6vw,4.5rem);text-align:center;letter-spacing:1px;color:var(--text);margin-bottom:.4rem}
+.page-title em{color:var(--gold);font-style:normal}
+.page-sub{text-align:center;color:var(--sub);font-size:.9rem;margin-bottom:.75rem}
+.current-tier{text-align:center;margin-bottom:2.5rem}
+.tier-badge{display:inline-block;background:rgba(242,183,5,.1);border:1px solid var(--border);border-radius:100px;padding:.4rem 1.25rem;font-size:.78rem;color:var(--gold);font-weight:700}
+/* Plans grid */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:3rem}
+.plan{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:2rem 1.5rem;position:relative;transition:border-color .2s,transform .2s;cursor:pointer}
+.plan:hover{border-color:var(--border);transform:translateY(-3px)}
+.plan.popular{border-color:rgba(242,183,5,.5);box-shadow:0 0 40px rgba(242,183,5,.08)}
+.plan.current-plan{border-color:rgba(0,200,83,.4);opacity:.65;cursor:not-allowed}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#06040A;font-size:.65rem;font-weight:900;padding:.25rem .9rem;border-radius:100px;white-space:nowrap}
+.plan-name{font-family:'Bebas Neue',cursive;font-size:1.75rem;letter-spacing:1px;color:var(--text);margin-bottom:.2rem}
+.plan-price{margin-bottom:1.25rem}
+.plan-amount{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--gold);line-height:1}
+.plan-period{font-size:.75rem;color:var(--muted);margin-left:.25rem}
+.plan-features{list-style:none;margin-bottom:1.75rem}
+.plan-features li{font-size:.8rem;color:var(--sub);padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:.5rem}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.plan-btn{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.8rem;font-family:'Poppins',sans-serif;font-weight:900;font-size:.88rem;cursor:pointer;transition:opacity .2s}
+.plan-btn:hover{opacity:.88}
+.plan-btn:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.08);color:var(--muted)}
+/* Comparison table */
+.compare{background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden;margin-bottom:2rem}
+.compare table{width:100%;border-collapse:collapse}
+.compare th{background:rgba(255,255,255,.03);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.85rem 1rem;text-align:center;border-bottom:1px solid var(--border2)}
+.compare th:first-child{text-align:left}
+.compare td{font-size:.8rem;color:var(--sub);padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);text-align:center}
+.compare td:first-child{text-align:left;color:var(--text);font-weight:500}
+.compare tr:last-child td{border-bottom:none}
+.chk{color:var(--green);font-weight:700}
+.cross{color:rgba(255,255,255,.2)}
+/* Toast */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:#13111a;border:1px solid var(--border);border-radius:10px;padding:.85rem 1.25rem;font-size:.82rem;color:var(--text);max-width:300px;transform:translateY(120%);transition:transform .3s}
+#toast.show{transform:translateY(0)}
+/* Loading overlay */
+#loadingOverlay{position:fixed;inset:0;background:rgba(6,4,10,.85);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
+#loadingOverlay.on{display:flex}
+.spinner{width:40px;height:40px;border:3px solid rgba(242,183,5,.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* Success overlay */
-#successOverlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px}
-.success-icon{font-size:4rem}
-.success-title{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--green)}
-.success-sub{font-size:1rem;color:var(--sub);max-width:380px;line-height:1.6}
-.btn-dashboard{background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;padding:14px 32px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
-/* Failure overlay */
-#failureOverlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px}
-@media(max-width:900px){.page{grid-template-columns:1fr}.left{position:relative;height:auto;top:0}.tiers{gap:14px}.tc-perks{grid-template-columns:1fr}}
-.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
-
-  <meta property="og:title" content="Upgrade Membership — Dine With Celebrity"/>
-  <meta property="og:description" content="Upgrade to Gold, Platinum or DWC Purple for exclusive celebrity dining vouchers."/>
-  <meta property="og:url" content="https://www.dinewithcelebrity.com/upgrade"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
-  <meta property="og:site_name" content="Dine With Celebrity"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Upgrade Membership — Dine With Celebrity"/>
-  <meta name="twitter:description" content="Upgrade to Gold, Platinum or DWC Purple for exclusive celebrity dining vouchers."/>
-  <link rel="canonical" href="https://www.dinewithcelebrity.com/upgrade"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Upgrade DWC Membership","url":"https://www.dinewithcelebrity.com/upgrade","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
+.load-text{color:var(--sub);font-size:.85rem}
+@media(max-width:600px){.plans{grid-template-columns:1fr}.compare{display:none}}
+</style>
 </head>
 <body>
 <div id="stars"></div>
-<div class="brand-bg">DWC</div>
-<div id="loadingState"><div class="loader"></div><div style="font-size:.8rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase">Loading your upgrade options</div></div>
-
-<!-- SUCCESS OVERLAY -->
-<div id="successOverlay">
-  <div class="success-icon">&#x2B50;</div>
-  <div class="success-title">WELCOME TO <span id="successTier">DWC GOLD</span>!</div>
-  <div class="success-sub" id="successMsg">Your membership has been upgraded. Your new benefits are active immediately.</div>
-  <div id="successMemberId" style="background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.2);border-radius:10px;padding:10px 20px;margin-top:8px;font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.1em"></div>
-  <button class="btn-dashboard" onclick="window.location.href='/dashboard.html'">Go to My Dashboard &rarr;</button>
-</div>
-
-<!-- FAILURE OVERLAY -->
-<div id="failureOverlay">
-  <div style="font-size:3rem">&#x274C;</div>
-  <div style="font-family:'Bebas Neue',cursive;font-size:2.4rem;color:#ff6b6b">PAYMENT FAILED</div>
-  <div id="failureMsg" style="font-size:.95rem;color:rgba(255,255,255,.7);max-width:380px;line-height:1.7"></div>
-  <div style="background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.2);border-radius:12px;padding:14px 24px;margin-top:4px;font-size:.82rem;color:rgba(255,255,255,.55);max-width:380px">
-    If your money was deducted, it will be <strong style="color:rgba(255,255,255,.8)">auto-refunded within 5-7 business days</strong> by your bank. Contact us at <a href="mailto:payments@dinewithcelebrity.com" style="color:#F2B705">payments@dinewithcelebrity.com</a>
-  </div>
-  <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center">
-    <button onclick="closeFailure()" style="background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:800;padding:12px 28px;border-radius:10px;border:none;cursor:pointer">Try Again</button>
-    <a href="mailto:payments@dinewithcelebrity.com" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.75);font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;padding:12px 28px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center">Contact Support</a>
-  </div>
-</div>
-
-<nav>
-  <a class="nav-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:120px;width:auto;display:block" onerror="this.src='/logo.png'"/>&#9733; DINE <span>WITH CELEBRITY</span></a>
-  <a class="nav-back" href="/dashboard.html">&#x2190; Back to Dashboard</a>
-</nav>
+<div id="loadingOverlay"><div class="spinner"></div><div class="load-text">Processing payment...</div></div>
+<div id="toast"></div>
 
 <div class="page">
-  <div class="left">
-    <div>
-      <div class="fomo-label">Your current status</div>
-      <div class="fomo-heading">YOU'RE LEAVING<br><em>MONEY ON THE TABLE</em></div>
-    </div>
-    <div class="price-card">
-      <div class="pc-label">Your celebrity dinner price right now</div>
-      <div class="pc-price" id="currentPrice">&#x20B9;70,000</div>
-      <div class="pc-sub" id="currentSub">You've saved &#x20B9;0 so far. Upgrade instantly cuts this further.</div>
-    </div>
-    <div>
-      <div class="missing-title">What Free Members Miss Out On</div>
-      <div class="missing-item"><div class="mi-icon">&#x1F37D;&#xFE0F;</div><div><div class="mi-title">Restaurant &amp; Brand Discounts</div><div class="mi-desc">Gold+ members get 10–20% off at partner restaurants and exclusive sponsor brand offers.</div></div></div>
-      <div class="missing-item"><div class="mi-icon">&#x1F3AB;</div><div><div class="mi-title">Film Event Tickets</div><div class="mi-desc">Audio launches, pre-release events, success meets — Gold+ members get access.</div></div></div>
-      <div class="missing-item"><div class="mi-icon">&#x1F455;</div><div><div class="mi-title">DWC T-Shirt</div><div class="mi-desc">Every paid member wears the DWC T-shirt to events. It's how celebrities know who you are.</div></div></div>
-    </div>
-    <div class="savings-preview">
-      <div class="sp-label">&#x26A1; Your price after upgrade</div>
-      <div class="sp-row"><span class="sp-tier">After Gold upgrade</span><span class="sp-price" id="goldPrice">&#x20B9;65,000</span></div>
-      <div class="sp-row"><span class="sp-tier">After Platinum upgrade</span><span class="sp-price" id="platPrice">&#x20B9;60,000</span></div>
-      <div class="sp-row"><span class="sp-tier">After Purple upgrade</span><span class="sp-price" id="purpPrice">&#x20B9;55,000</span></div>
-    </div>
+  <div class="logo-bar"><a href="/dashboard"><img src="/logo_navbar_400px.png" alt="DWC" onerror="this.src='/logo.png'"/></a></div>
+  <h1 class="page-title">Unlock Your Full <em>Celebrity</em> Experience</h1>
+  <p class="page-sub">Upgrade your plan and get closer to your favourite star</p>
+  <div class="current-tier"><span class="tier-badge" id="currentTierBadge">Loading...</span></div>
+
+  <div class="plans" id="plansGrid"></div>
+
+  <div class="compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th>Gold ₹4,999</th>
+          <th>Platinum ₹9,999</th>
+          <th>Purple ₹19,999</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Monthly Vouchers</td><td>2</td><td>5</td><td>10</td><td>Unlimited</td></tr>
+        <tr><td>Points on dining</td><td class="cross">—</td><td class="chk">100 pts/visit</td><td class="chk">200 pts/visit</td><td class="chk">300 pts/visit</td></tr>
+        <tr><td>Celebrity events</td><td class="cross">—</td><td class="chk">✓</td><td class="chk">✓ Priority</td><td class="chk">✓ VIP</td></tr>
+        <tr><td>Multi-city vouchers</td><td class="cross">—</td><td class="chk">✓</td><td class="chk">✓</td><td class="chk">✓</td></tr>
+        <tr><td>Table reservation</td><td class="cross">—</td><td class="cross">—</td><td class="chk">✓</td><td class="chk">✓</td></tr>
+        <tr><td>Personal concierge</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="chk">✓</td></tr>
+        <tr><td>Voucher discount</td><td class="cross">—</td><td>₹150 off ₹1,500+</td><td>₹250 off ₹2,000+</td><td>₹500 off ₹3,000+</td></tr>
+        <tr><td>Referral bonus</td><td>500 pts</td><td>750 pts</td><td>1000 pts</td><td>1500 pts</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="right">
-    <div class="right-heading">CHOOSE YOUR<br><em>MEMBERSHIP TIER</em></div>
-    <p class="right-sub">One payment. Active immediately. All prices per year.</p>
-    <div class="tiers">
-
-      <!-- GOLD -->
-      <div class="tier-card gold-card" id="card-gold">
-        <span class="tc-badge badge-gold" id="badge-gold">Best Value</span>
-        <div class="tc-top">
-          <div><div class="tc-name">DWC GOLD</div><div class="tc-saving" id="goldSaving">Saves &#x20B9;5,000 on your dinner seat</div></div>
-          <div><div class="tc-price gold-price">&#x20B9;2,499</div><div class="tc-per">per year &middot; &#x20B9;208/mo</div></div>
-        </div>
-        <div class="tc-perks">
-          <div class="tc-perk highlight">DWC T-Shirt (one-time)</div>
-          <div class="tc-perk highlight">Restaurant discounts 10%</div>
-          <div class="tc-perk highlight">Sponsor brand offers</div>
-          <div class="tc-perk highlight">Film event tickets (General)</div>
-          <div class="tc-perk">Audio launch access</div>
-          <div class="tc-perk">Pre-release event access</div>
-          <div class="tc-perk">Movie success meet tickets</div>
-          <div class="tc-perk">&#x2212;&#x20B9;5,000 dinner seat</div>
-        </div>
-        <button class="btn-pay btn-gold" id="btn-gold" onclick="startPayment('gold','DWC Gold')">Upgrade to Gold &mdash; &#x20B9;2,499/yr</button>
-      </div>
-
-      <!-- PLATINUM -->
-      <div class="tier-card platinum-card" id="card-platinum">
-        <span class="tc-badge" id="badge-platinum" style="display:none"></span>
-        <div class="tc-top">
-          <div><div class="tc-name">DWC PLATINUM</div><div class="tc-saving" id="platSaving">Saves &#x20B9;10,000 on your dinner seat</div></div>
-          <div><div class="tc-price platinum-price">&#x20B9;6,999</div><div class="tc-per">per year &middot; &#x20B9;583/mo</div></div>
-        </div>
-        <div class="tc-perks">
-          <div class="tc-perk highlight">Everything in Gold</div>
-          <div class="tc-perk highlight">Restaurant discounts 15%</div>
-          <div class="tc-perk highlight">Film event tickets (Premium)</div>
-          <div class="tc-perk highlight">Priority event booking</div>
-          <div class="tc-perk">Sponsor brand premium offers</div>
-          <div class="tc-perk">&#x2212;&#x20B9;10,000 dinner seat</div>
-        </div>
-        <button class="btn-pay btn-platinum" id="btn-platinum" onclick="startPayment('platinum','DWC Platinum')">Upgrade to Platinum &mdash; &#x20B9;6,999/yr</button>
-      </div>
-
-      <!-- PURPLE -->
-      <div class="tier-card purple-card" id="card-purple">
-        <span class="tc-badge badge-purple" id="badge-purple">VIP</span>
-        <div class="tc-top">
-          <div><div class="tc-name">DWC PURPLE</div><div class="tc-saving" style="background:rgba(155,89,182,.15);border-color:rgba(155,89,182,.3);color:#c39bd3" id="purpSaving">Saves &#x20B9;15,000 on your dinner seat</div></div>
-          <div><div class="tc-price purple-price">&#x20B9;14,999</div><div class="tc-per">per year &middot; &#x20B9;1,250/mo</div></div>
-        </div>
-        <div class="tc-perks">
-          <div class="tc-perk highlight">Everything in Platinum</div>
-          <div class="tc-perk highlight">Restaurant discounts 20%</div>
-          <div class="tc-perk highlight">VIP block film event tickets</div>
-          <div class="tc-perk highlight">3rd row celebrity seating</div>
-          <div class="tc-perk highlight">1st day 1st show (Top 50 spenders)</div>
-          <div class="tc-perk highlight">Dedicated relationship manager</div>
-          <div class="tc-perk">Sponsor brand VIP offers</div>
-          <div class="tc-perk">&#x2212;&#x20B9;15,000 dinner seat</div>
-        </div>
-        <button class="btn-pay btn-purple" id="btn-purple" onclick="startPayment('dwcpurple','DWC Purple')">Upgrade to Purple &mdash; &#x20B9;14,999/yr</button>
-      </div>
-
-    </div>
+  <div style="text-align:center;font-size:.75rem;color:var(--muted);line-height:1.7">
+    ✓ Secure payment via Razorpay &nbsp;·&nbsp; ✓ No hidden fees &nbsp;·&nbsp; ✓ 1 year from payment date &nbsp;·&nbsp; ✓ Mid-cycle upgrades preserve your expiry
   </div>
 </div>
-
-
-
-<!-- DEV PANEL (rupeshking@gmail.com only) -->
-<div id="devPanel" style="display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#0e0c14;border:2px solid #F2B705;border-radius:12px;padding:1rem 1.2rem;font-family:Poppins,sans-serif;">
-  <div style="color:#F2B705;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem;">&#x26A1; Dev Test Panel</div>
-  <div style="display:flex;flex-direction:column;gap:.5rem;">
-    <button onclick="devUpgrade('gold')"      style="background:#F2B705;color:#06040A;border:none;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Test Gold</button>
-    <button onclick="devUpgrade('platinum')"  style="background:rgba(192,192,192,.15);color:#C0C0C0;border:1px solid #C0C0C0;border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Test Platinum</button>
-    <button onclick="devUpgrade('dwcpurple')" style="background:rgba(155,89,182,.15);color:#c39bd3;border:1px solid rgba(155,89,182,.4);border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;">Test Purple</button>
-    <button onclick="devUpgrade('free')"      style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem 1rem;font-family:Poppins,sans-serif;font-weight:600;font-size:.75rem;cursor:pointer;">Reset Free</button>
-  </div>
-</div>
-
-
 
 <script>
-// ── Stars ──
+const SB_URL  = 'https://blwqqqzhnovsveeryjlm.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+const sbClient = supabase.createClient(SB_URL, SB_ANON);
+
+let currentUser = null;
+let currentMember = null;
+
+const PLANS = [
+  {
+    tier: 'gold',
+    name: 'GOLD',
+    price: 4999,
+    paise: 499900,
+    popular: false,
+    features: ['5 vouchers/month','Multi-city vouchers','Celebrity events access','100 pts per dining visit','₹150 off bills ₹1,500+','750 pts referral bonus'],
+  },
+  {
+    tier: 'platinum',
+    name: 'PLATINUM',
+    price: 9999,
+    paise: 999900,
+    popular: true,
+    features: ['10 vouchers/month','Multi-city vouchers','Priority celebrity access','200 pts per dining visit','₹250 off bills ₹2,000+','Table reservation','1000 pts referral bonus'],
+  },
+  {
+    tier: 'dwcpurple',
+    name: 'DWC PURPLE',
+    price: 19999,
+    paise: 1999900,
+    popular: false,
+    features: ['Unlimited vouchers','All-city access','VIP celebrity events','300 pts per dining visit','₹500 off bills ₹3,000+','Personal concierge','1500 pts referral bonus'],
+  },
+];
+
+const TIER_RANK = { free:0, gold:1, platinum:2, dwcpurple:3 };
+
+// ── STARS ──────────────────────────────────────────────────────
 (function(){
-  var se = document.getElementById('stars');
-  for(var i = 0; i < 70; i++){
-    var s = document.createElement('i');
-    s.textContent = '\u2605';
-    s.style.cssText = 'left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';
-    se.appendChild(s);
-  }
+  const s=document.getElementById('stars');
+  for(let i=0;i<50;i++){const el=document.createElement('i');el.textContent='★';el.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2+Math.random()*3)+'s';s.appendChild(el);}
 })();
 
-// ── Supabase ──
-var sbClient = supabase.createClient(
-  'https://blwqqqzhnovsveeryjlm.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
-);
-
-// ── Tier rank — higher = better. No downgrade allowed ──
-var TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
-
-var currentUser   = null;
-var currentMember = null;
-
-// ── Apply tier state to cards ──
-function applyTierState(currentTier) {
-  var rank = TIER_RANK[currentTier] || 0;
-
-  var cards = [
-    { id: 'card-gold',     btn: 'btn-gold',     badge: 'badge-gold',     tier: 'gold',      rank: 1, label: 'DWC Gold',     btnText: 'Upgrade to Gold \u2014 \u20B92,499/yr',     badgeDefault: 'Best Value', badgeClass: 'badge-gold' },
-    { id: 'card-platinum', btn: 'btn-platinum', badge: 'badge-platinum', tier: 'platinum',  rank: 2, label: 'DWC Platinum', btnText: 'Upgrade to Platinum \u2014 \u20B96,999/yr', badgeDefault: '',           badgeClass: '' },
-    { id: 'card-purple',   btn: 'btn-purple',   badge: 'badge-purple',   tier: 'dwcpurple', rank: 3, label: 'DWC Purple',   btnText: 'Upgrade to Purple \u2014 \u20B914,999/yr',  badgeDefault: 'VIP',        badgeClass: 'badge-purple' }
-  ];
-
-  cards.forEach(function(c) {
-    var card  = document.getElementById(c.id);
-    var btn   = document.getElementById(c.btn);
-    var badge = document.getElementById(c.badge);
-
-    if (c.rank === rank) {
-      // Current plan — dim, disable, show "Current Plan"
-      card.classList.add('tier-locked');
-      card.classList.remove('upgradeable');
-      btn.disabled = true;
-      btn.textContent = 'Current Plan';
-      btn.className = 'btn-pay btn-locked';
-      if (badge) { badge.textContent = 'Current Plan'; badge.className = 'tc-badge badge-current'; badge.style.display = ''; }
-    } else if (c.rank < rank) {
-      // Lower than current — no downgrade. Dim and block
-      card.classList.add('tier-locked');
-      card.classList.remove('upgradeable');
-      btn.disabled = true;
-      btn.textContent = 'Not Available';
-      btn.className = 'btn-pay btn-locked';
-      if (badge) { badge.textContent = 'Already Included'; badge.className = 'tc-badge badge-locked'; badge.style.display = ''; }
-    } else {
-      // Higher than current — available to upgrade
-      card.classList.add('upgradeable');
-      card.classList.remove('tier-locked');
-      btn.disabled = false;
-      btn.textContent = c.btnText;
-      if (badge && c.badgeDefault) { badge.textContent = c.badgeDefault; badge.className = 'tc-badge ' + c.badgeClass; badge.style.display = ''; }
-    }
-  });
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = type==='error' ? 'rgba(212,0,42,.5)' : type==='success' ? 'rgba(0,200,83,.5)' : 'var(--border)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3500);
 }
 
-// ── Init ──
-(async function(){
-  var sess = await sbClient.auth.getSession();
-  if (!sess.data.session) { window.location.href = '/signin'; return; }
-  currentUser = sess.data.session.user;
+// ── RENDER PLANS ───────────────────────────────────────────────
+function renderPlans() {
+  const grid = document.getElementById('plansGrid');
+  const currentRank = TIER_RANK[(currentMember?.tier||'free').toLowerCase()] || 0;
+  const badge = document.getElementById('currentTierBadge');
+  badge.textContent = 'Current plan: ' + (currentMember?.tier||'Free').toUpperCase();
 
-  // FIX: fetch member by id not email
-  var res = await sbClient.from('members').select('*').eq('id', currentUser.id).single();
-  currentMember = res.data;
+  grid.innerHTML = PLANS.map(p => {
+    const rank = TIER_RANK[p.tier] || 0;
+    const isCurrent  = currentMember?.tier?.toLowerCase() === p.tier;
+    const isUpgrade  = rank > currentRank;
+    const isDowngrade= rank < currentRank;
 
-  if (currentMember) {
-    var tier = (currentMember.tier || 'free').toLowerCase();
+    return `<div class="plan${p.popular?' popular':''}${isCurrent?' current-plan':''}">
+      ${p.popular ? '<div class="plan-badge">MOST POPULAR</div>' : ''}
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-price">
+        <span class="plan-amount">₹${p.price.toLocaleString('en-IN')}</span>
+        <span class="plan-period">/year</span>
+      </div>
+      <ul class="plan-features">
+        ${p.features.map(f=>`<li>${f}</li>`).join('')}
+      </ul>
+      <button class="plan-btn"
+        ${isCurrent || isDowngrade ? 'disabled' : ''}
+        onclick="startPayment('${p.tier}',${p.paise},'${p.name}',${p.price})">
+        ${isCurrent ? 'Current Plan' : isDowngrade ? 'Cannot Downgrade' : 'Upgrade to '+p.name}
+      </button>
+    </div>`;
+  }).join('');
+}
 
-    // Apply no-downgrade tier state
-    applyTierState(tier);
+// ── START PAYMENT ──────────────────────────────────────────────
+async function startPayment(tier, paise, name, price) {
+  if (!currentUser || !currentMember) { showToast('Please sign in first', 'error'); return; }
 
-    // Personalise prices
-    var dv       = currentMember.dining_visits || 0;
-    var existing = dv * 500;
-    var base     = 70000 - existing;
-    document.getElementById('currentPrice').textContent = '\u20B9' + Math.max(0, base).toLocaleString('en-IN');
-    document.getElementById('currentSub').textContent   = "You've saved \u20B9" + existing.toLocaleString('en-IN') + " so far. Upgrade cuts this further instantly.";
-    document.getElementById('goldPrice').textContent    = '\u20B9' + Math.max(0, base - 5000).toLocaleString('en-IN');
-    document.getElementById('platPrice').textContent    = '\u20B9' + Math.max(0, base - 10000).toLocaleString('en-IN');
-    document.getElementById('purpPrice').textContent    = '\u20B9' + Math.max(0, base - 15000).toLocaleString('en-IN');
-    document.getElementById('goldSaving').textContent   = 'Instantly drops your dinner price to \u20B9' + Math.max(0, base - 5000).toLocaleString('en-IN');
-    document.getElementById('platSaving').textContent   = 'Instantly drops your dinner price to \u20B9' + Math.max(0, base - 10000).toLocaleString('en-IN');
-    document.getElementById('purpSaving').textContent   = 'Instantly drops your dinner price to \u20B9' + Math.max(0, base - 15000).toLocaleString('en-IN');
-  }
-
-  document.getElementById('loadingState').style.display = 'none';
-
-  // Auto-scroll to plan from URL ?plan=gold/platinum/dwcpurple
-  var plan = new URLSearchParams(location.search).get('plan');
-  if (plan) {
-    var map  = { gold: 'card-gold', platinum: 'card-platinum', dwcpurple: 'card-purple' };
-    var card = document.getElementById(map[plan]);
-    if (card) { setTimeout(function(){ card.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400); }
-  }
-})();
-
-// ── SECURE startPayment ──
-async function startPayment(tier, tierLabel) {
-  if (!currentUser) { window.location.href = '/signin'; return; }
-
-  // Double-check no downgrade server-side guard (frontend)
-  var currentRank = TIER_RANK[(currentMember && currentMember.tier || 'free').toLowerCase()] || 0;
-  if (TIER_RANK[tier] <= currentRank) {
-    alert('You cannot downgrade your membership. Please choose a higher tier.');
-    return;
-  }
-
-  // FIX: get fresh session token for Authorization header
-  var sess  = await sbClient.auth.getSession();
-  var token = sess.data && sess.data.session && sess.data.session.access_token;
-  if (!token) { window.location.href = '/signin'; return; }
-
-  var btnId = tier === 'gold' ? 'btn-gold' : tier === 'platinum' ? 'btn-platinum' : 'btn-purple';
-  var btn   = document.getElementById(btnId);
-  if (btn) { btn.disabled = true; btn.textContent = 'Creating order...'; }
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.classList.add('on');
 
   try {
-    // STEP 1: Create order server-side — with Authorization header
-    var orderRes = await fetch('/api/create-order', {
-      method:  'POST',
-      headers: {
-        'Content-Type':  'application/json',
-        'Authorization': 'Bearer ' + token   // FIX: was missing before
-      },
-      body: JSON.stringify({ tier: tier })
+    const sess = await sbClient.auth.getSession();
+    const jwt  = sess.data.session?.access_token;
+    if (!jwt) throw new Error('Not signed in');
+
+    // Create Razorpay order via API — FIX: include user_id in notes
+    const orderRes = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + jwt },
+      body: JSON.stringify({ tier: tier, user_id: currentUser.id }),
     });
-    var orderData = await orderRes.json();
 
-    if (!orderRes.ok || !orderData.order_id) {
-      alert('Could not initiate payment: ' + (orderData.error || 'Please try again.'));
-      if (btn) { btn.disabled = false; btn.textContent = 'Upgrade to ' + tierLabel; }
-      return;
-    }
+    const order = await orderRes.json();
+    if (!orderRes.ok || order.error) throw new Error(order.error || 'Order creation failed');
 
-    // STEP 2: Open Razorpay — FIX: use key_id from server, never hardcode
-    var options = {
-      key:         orderData.key_id,
-      amount:      orderData.amount,
-      currency:    orderData.currency,
-      order_id:    orderData.order_id,
-      name:        'Dine With Celebrity Pvt Ltd',
-      description: tierLabel + ' Membership \u2014 1 Year',
-      image:       '/logo.png',
+    overlay.classList.remove('on');
+
+    // Open Razorpay checkout
+    const rzp = new Razorpay({
+      key:         order.key_id || 'rzp_live_STyvlctN0h9cmG',
+      amount:      order.amount || paise,
+      currency:    'INR',
+      order_id:    order.order_id,
+      name:        'Dine With Celebrity',
+      description: name + ' Membership — 1 Year',
+      image:       '/logo_navbar_400px.png',
       prefill: {
-        email: currentUser.email,
-        name:  currentMember ? (currentMember.full_name || '') : ''
+        email: currentUser.email || '',
+        name:  currentMember.first_name ? currentMember.first_name + ' ' + (currentMember.last_name||'') : '',
       },
-      theme:  { color: '#F2B705' },
-      modal:  { backdropclose: false },
+      notes: {
+        tier:      tier,
+        user_id:   currentUser.id,
+        member_id: currentMember.id,
+      },
+      theme: { color: '#F2B705' },
       handler: async function(response) {
-        // STEP 3: Verify payment server-side
-        var sess2  = await sbClient.auth.getSession();
-        var token2 = sess2.data && sess2.data.session && sess2.data.session.access_token;
-        if (!token2) {
-          alert('Session expired. Please sign in again \u2014 your payment is safe.');
-          window.location.href = '/signin';
-          return;
-        }
-
-        var verifyRes = await fetch('/api/verify-payment', {
-          method:  'POST',
-          headers: {
-            'Content-Type':  'application/json',
-            'Authorization': 'Bearer ' + token2
-          },
-          body: JSON.stringify({
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id:   response.razorpay_order_id,
-            razorpay_signature:  response.razorpay_signature,
-            tier:                tier
-          })
-        });
-        var verifyData = await verifyRes.json();
-
-        if (!verifyRes.ok || !verifyData.success) {
-          alert('Payment received but verification failed. Contact payments@dinewithcelebrity.com with Payment ID: ' + response.razorpay_payment_id);
-          return;
-        }
-
-        // STEP 4: Send confirmation emails
+        overlay.classList.add('on');
         try {
-          var tierPrices = { gold: '\u20B92,499', platinum: '\u20B96,999', dwcpurple: '\u20B914,999' };
-          var tierPrice  = tierPrices[tier] || '';
-
-          var memberEmail = new FormData();
-          memberEmail.append('access_key',  'd1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9');
-          memberEmail.append('subject',     'Welcome to DWC ' + tierLabel + ' \u2014 Your Membership is Active!');
-          memberEmail.append('from_name',   'Dine With Celebrity');
-          memberEmail.append('to',          currentUser.email);
-          memberEmail.append('message',
-            'Congratulations! Your DWC ' + tierLabel + ' membership is now active.\n\n' +
-            'Membership: ' + tierLabel + '\n' +
-            'Amount Paid: ' + tierPrice + '/year\n' +
-            'Payment ID: ' + response.razorpay_payment_id + '\n' +
-            'Member ID: ' + (currentMember && currentMember.member_id ? currentMember.member_id : 'Assigned shortly') + '\n' +
-            'Valid For: 1 Year\n\n' +
-            'Your vouchers, event access, and member benefits are active immediately.\n' +
-            'Dashboard: https://www.dinewithcelebrity.com/dashboard.html\n\n' +
-            'For payment queries: payments@dinewithcelebrity.com\n\n' +
-            'Thank you for joining DWC \u2014 the only club where dinner changes lives.\n\n' +
-            '\u2605 Dine With Celebrity Pvt Ltd'
-          );
-          fetch('https://api.web3forms.com/submit', { method: 'POST', body: memberEmail });
-
-          var adminEmail = new FormData();
-          adminEmail.append('access_key', 'd1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9');
-          adminEmail.append('subject',    '\u{1F4B0} New Upgrade \u2014 ' + tierLabel + ' \u2014 ' + currentUser.email);
-          adminEmail.append('message',
-            'New membership upgrade:\n\n' +
-            'Member: ' + currentUser.email + '\n' +
-            'Member ID: ' + (currentMember && currentMember.member_id ? currentMember.member_id : 'N/A') + '\n' +
-            'Tier: ' + tierLabel + '\n' +
-            'Amount: ' + tierPrice + '\n' +
-            'Payment ID: ' + response.razorpay_payment_id + '\n' +
-            'Order ID: ' + response.razorpay_order_id + '\n' +
-            'Time: ' + new Date().toISOString()
-          );
-          fetch('https://api.web3forms.com/submit', { method: 'POST', body: adminEmail });
-        } catch(emailErr) {
-          console.error('Email notification failed:', emailErr);
+          // Verify payment server-side
+          const verRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + jwt },
+            body: JSON.stringify({
+              razorpay_order_id:  response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              tier: tier,
+            }),
+          });
+          const vr = await verRes.json();
+          overlay.classList.remove('on');
+          if (vr.success || vr.tier_updated) {
+            showToast('🎉 Welcome to ' + name + '! Redirecting...', 'success');
+            setTimeout(() => window.location.href = '/dashboard', 2000);
+          } else {
+            showToast(vr.error || 'Payment verified but upgrade pending. Contact support.', 'error');
+          }
+        } catch(e) {
+          overlay.classList.remove('on');
+          showToast('Payment done — upgrade processing. Check dashboard in 2 mins.', 'success');
+          setTimeout(() => window.location.href = '/dashboard', 3000);
         }
-
-        // STEP 5: Show success + redirect
-        var overlay  = document.getElementById('successOverlay');
-        var tierEl   = document.getElementById('successTier');
-        var memberEl = document.getElementById('successMemberId');
-        if (tierEl) tierEl.textContent = tierLabel.toUpperCase();
-        if (memberEl && currentMember && currentMember.member_id) {
-          memberEl.textContent = 'Your Member ID: ' + currentMember.member_id;
-        }
-        if (overlay) overlay.style.display = 'flex';
-        setTimeout(function(){
-          window.location.href = '/dashboard.html?upgraded=1&tier=' + tier;
-        }, 3500);
+      },
+      modal: {
+        ondismiss: () => { overlay.classList.remove('on'); }
       }
-    };
-
-    var rzp = new Razorpay(options);
-
-    rzp.on('payment.failed', function(r) {
-      var msg  = r.error && r.error.description ? r.error.description : 'Payment could not be completed.';
-      var code = r.error && r.error.code ? ' (Code: ' + r.error.code + ')' : '';
-      document.getElementById('failureMsg').textContent = msg + code;
-      document.getElementById('failureOverlay').style.display = 'flex';
-      if (btn) { btn.disabled = false; btn.textContent = 'Upgrade to ' + tierLabel; }
     });
-
     rzp.open();
 
   } catch(err) {
-    console.error('startPayment error:', err);
-    alert('Something went wrong. Please try again.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Upgrade to ' + tierLabel; }
+    overlay.classList.remove('on');
+    showToast(err.message || 'Something went wrong. Try again.', 'error');
   }
 }
 
-function closeFailure() {
-  document.getElementById('failureOverlay').style.display = 'none';
-}
-
-(async function initDevPanel(){
-  var DEV_EMAIL = 'rupeshking@gmail.com';
-  var sess = await sbClient.auth.getSession();
-  var user = sess.data && sess.data.session && sess.data.session.user;
-  if (user && user.email === DEV_EMAIL) {
-    document.getElementById('devPanel').style.display = 'block';
-    window._devUser = user;
+// ── INIT ───────────────────────────────────────────────────────
+(async function() {
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (!session) {
+    window.location.href = '/signin?redirect=upgrade';
+    return;
   }
+  currentUser = session.user;
+
+  const { data: member } = await sbClient
+    .from('members')
+    .select('id, tier, first_name, last_name, points, expires_at')
+    .eq('auth_user_id', currentUser.id)
+    .maybeSingle();
+
+  currentMember = member;
+  renderPlans();
 })();
-
-async function devUpgrade(tier) {
-  if (!window._devUser) return alert('Not signed in as dev');
-  var expiry = new Date(); expiry.setFullYear(expiry.getFullYear() + 1);
-  var updates = tier === 'free'
-    ? { tier: 'free', expires_at: null }
-    : { tier: tier, expires_at: expiry.toISOString(), upgraded_at: new Date().toISOString() };
-  await sbClient.from('members').update(updates).eq('id', window._devUser.id);
-  alert('Dev: tier set to ' + tier + '. Reloading...');
-  location.reload();
-}
-
-(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
 </script>
 </body>
 </html>
