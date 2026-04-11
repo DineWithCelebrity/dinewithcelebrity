@@ -148,7 +148,7 @@
 <canvas id="stars-canvas"></canvas>
 
 <nav>
-  <a href="/"><img src="/logo.png" alt="Dine With Celebrity"/></a>
+  <a href="/" class="nav-logo"><img src="/logo.png" alt="Dine With Celebrity"/></a>
   <div class="nav-links">
     <a href="/">Home</a>
     <a href="/events.html" class="active">Events</a>
@@ -207,8 +207,9 @@
   <div class="events-grid" id="events-grid" style="display:none"></div>
   <div class="empty-state" id="empty-state" style="display:none">
     <div class="empty-icon">🎬</div>
-    <h3>More Events Coming Soon</h3>
-    <p>We're curating extraordinary experiences.<br/>Follow @dinewithcelebrity for announcements.</p>
+    <h3>Events Dropping Soon</h3>
+    <p>We're finalising our first celebrity experiences.<br/>Follow <a href="https://instagram.com/dinewithcelebrity" target="_blank" style="color:var(--gold);text-decoration:none">@dinewithcelebrity</a> to be the first to know.</p>
+    <a href="https://dinewithcelebrity.com" style="display:inline-block;margin-top:24px;background:var(--gold);color:var(--black);font-weight:700;font-size:.88rem;padding:12px 28px;border-radius:50px;text-decoration:none">Join Free — Get Early Access</a>
   </div>
 </div>
 
@@ -218,7 +219,7 @@
     <a href="/">Home</a><a href="/stars.html">Celebrities</a>
     <a href="/dashboard.html">Dashboard</a>
     <a href="https://instagram.com/dinewithcelebrity" target="_blank">Instagram</a>
-    <a href="mailto:hello@dinewithcelebrity.com">Contact</a>
+    <a href="/cdn-cgi/l/email-protection#eb838e878784ab8f82858e9c829f83888e878e8999829f92c5888486">Contact</a>
   </div>
   <p class="footer-copy">© 2026 Dine With Celebrity Pvt Ltd · Hyderabad</p>
 </footer>
@@ -243,7 +244,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
 const sbClient=supabase.createClient(SURL,SKEY);
@@ -333,7 +334,24 @@ async function loadEvents(){
     .gte('event_date',new Date().toISOString())
     .order('featured',{ascending:false})
     .order('event_date',{ascending:true});
-  allEvents=data||[];
+
+  // Admin fallback — if no published events, check if admin and load all
+  let events = data || [];
+  if(!events.length && me?.email === 'rupeshking@gmail.com'){
+    const {data:allData} = await sbClient.from('celebrity_events').select('*')
+      .gte('event_date',new Date().toISOString())
+      .order('featured',{ascending:false})
+      .order('event_date',{ascending:true});
+    events = allData || [];
+    if(events.length){
+      const adminNote = document.createElement('div');
+      adminNote.style.cssText='background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.2);border-radius:12px;padding:12px 20px;margin-bottom:20px;font-size:.82rem;color:#F2B705;text-align:center';
+      adminNote.innerHTML='⚠ Admin view — showing unpublished events. <a href="/admin-events.html" style="color:#F2B705;font-weight:700">Go to Admin Events to publish →</a>';
+      document.querySelector('.main').prepend(adminNote);
+    }
+  }
+
+  allEvents = events;
   document.getElementById('loading-state').style.display='none';
   renderEvents();
 }
@@ -444,11 +462,4 @@ document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click'
   b.classList.add('active');typeF=b.dataset.filter;renderEvents();
 }));
 document.querySelectorAll('[data-city]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('[data-city]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');cityF=b.dataset.city;renderEvents();
-}));
-
-boot();
-</script>
-</body>
-</html>
+  document.querySelectorAll('[da

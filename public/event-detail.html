@@ -205,7 +205,7 @@
 <canvas id="stars-canvas"></canvas>
 
 <nav>
-  <a href="/"><img src="/logo.png" alt="Dine With Celebrity"/></a>
+  <a href="/" class="nav-logo"><img src="/logo.png" alt="Dine With Celebrity"/></a>
   <div class="nav-links">
     <a href="/">Home</a>
     <a href="/events.html">Events</a>
@@ -383,7 +383,7 @@
   <div class="footer-links">
     <a href="/">Home</a><a href="/events.html">Events</a>
     <a href="/dashboard.html">Dashboard</a>
-    <a href="mailto:hello@dinewithcelebrity.com">Contact</a>
+    <a href="/cdn-cgi/l/email-protection#2b434e4747446b4f42454e5c425f43484e474e4959425f5205484446">Contact</a>
   </div>
   <p class="footer-copy">© 2026 Dine With Celebrity Pvt Ltd · Hyderabad</p>
 </footer>
@@ -408,7 +408,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
 const sbClient=supabase.createClient(SURL,SKEY);
@@ -434,9 +434,15 @@ async function boot(){
   const slug = new URLSearchParams(window.location.search).get('id');
   if(!slug){showError();return}
 
+  // Auth MUST resolve before loadEvent so admin bypass works
   const {data:{session}}=await sbClient.auth.getSession();
-  if(session){me=session.user;await getProfile();renderNav(true)}
-  else renderNav(false);
+  if(session){
+    me=session.user;
+    await getProfile();
+    renderNav(true);
+  } else {
+    renderNav(false);
+  }
 
   await loadEvent(slug);
 }
@@ -459,9 +465,24 @@ async function doLogout(){await sbClient.auth.signOut();location.reload()}
 
 /* LOAD EVENT */
 async function loadEvent(slug){
-  const {data,error}=await sbClient.from('celebrity_events').select('*').eq('slug',slug).eq('is_published',true).single();
+  const isAdmin = me?.email === 'rupeshking@gmail.com';
+
+  // Admin can preview any event regardless of published status
+  let q = sbClient.from('celebrity_events').select('*').eq('slug',slug);
+  if(!isAdmin) q = q.eq('is_published',true);
+
+  const {data,error} = await q.single();
   document.getElementById('loading-state').style.display='none';
   if(error||!data){showError();return}
+
+  // Show draft banner for admin
+  if(isAdmin && !data.is_published){
+    const banner = document.createElement('div');
+    banner.style.cssText='position:fixed;top:76px;left:0;right:0;z-index:200;background:rgba(212,183,5,.15);border-bottom:1px solid rgba(242,183,5,.3);padding:10px;text-align:center;font-size:.82rem;color:#F2B705;font-family:Poppins,sans-serif';
+    banner.innerHTML='⚠ ADMIN PREVIEW — This event is not yet published. Set prices and publish from <a href="/admin-events.html" style="color:#F2B705;font-weight:700">Admin Events</a>';
+    document.body.prepend(banner);
+  }
+
   eventData=data;
   renderEvent(data);
   startCountdown(data.event_date);
@@ -793,13 +814,3 @@ async function handleAuth(){
   }catch(e){
     err.textContent=e.message||'Error. Try again.';err.style.display='block';
     btn.textContent=authMode==='login'?'Login':'Create Free Account';btn.disabled=false;
-  }
-}
-
-function pad(n){return String(n).padStart(2,'0')}
-function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s}
-
-boot();
-</script>
-</body>
-</html>
