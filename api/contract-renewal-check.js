@@ -3,9 +3,10 @@
 // Does:
 //   1. Partner contract renewals
 //   2. Points expiry — deduct expired points
-//   3. Seat release — cancel abandoned pending bookings (>15 min)
-//   4. Ledger audit — log drift where cached balance ≠ SUM(ledger)
-//   5. Token cleanup — delete expired used_tokens
+//   3. Seat holds release — release expired seat_reservations (>10 min)
+//   4. Seat release — cancel abandoned pending bookings (>15 min)
+//   5. Ledger audit — log drift where cached balance ≠ SUM(ledger)
+//   6. Token cleanup — delete expired used_tokens
 
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
   if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`)
     return res.status(401).json({ error: 'Unauthorized' });
 
-  const results = { renewals_sent:0, points_expired:0, members_affected:0, seats_released:0, ledger_drifts:0, tokens_cleaned:0, errors:[] };
+  const results = { renewals_sent:0, points_expired:0, members_affected:0, seat_holds_released:0, seats_released:0, ledger_drifts:0, tokens_cleaned:0, errors:[] };
 
   // ── 1. Partner Contract Renewals ─────────────────────────────
   try {
@@ -85,7 +86,17 @@ export default async function handler(req, res) {
     }
   } catch(e){ results.errors.push('points_expiry:'+e.message); }
 
-  // ── 3. Release Abandoned Seats (> 15 min old pending bookings) ──
+  // ── 3. Release Expired Seat Holds (seat_reservations > 10 min) ──
+  try {
+    const { data: holdData, error: holdErr } = await sbAdmin.rpc('release_expired_reservations');
+    if (holdErr) {
+      results.errors.push('seat_holds:' + holdErr.message);
+    } else {
+      results.seat_holds_released = holdData || 0;
+    }
+  } catch(e){ results.errors.push('seat_holds:'+e.message); }
+
+  // ── 4. Release Abandoned Pending Bookings (> 15 min old pending bookings) ──
   try {
     const ago15 = new Date(Date.now()-15*60*1000).toISOString();
     const { data: stale } = await sbAdmin.from('event_bookings')
@@ -100,7 +111,7 @@ export default async function handler(req, res) {
     }
   } catch(e){ results.errors.push('seat_release:'+e.message); }
 
-  // ── 4. Ledger Audit ──────────────────────────────────────────
+  // ── 5. Ledger Audit ──────────────────────────────────────────
   try {
     const { data: drifts } = await sbAdmin.from('member_points_audit').select('*').neq('drift',0);
     if (drifts?.length) {
@@ -109,7 +120,7 @@ export default async function handler(req, res) {
     }
   } catch(e){ results.errors.push('ledger_audit:'+e.message); }
 
-  // ── 5. Clean Expired Tokens ───────────────────────────────────
+  // ── 6. Clean Expired Tokens ───────────────────────────────────
   try {
     const { data: deleted } = await sbAdmin.from('used_tokens')
       .delete().lt('expires_at',new Date().toISOString()).select('token_hash');
