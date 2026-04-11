@@ -352,6 +352,22 @@
 
     /* ── CELEBRITY EVENTS ── */
     .events-section { margin-bottom: 2.5rem; }
+
+    /* My Bookings */
+    .bookings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; margin-top:1rem; }
+    .booking-card  { background:var(--card2); border:1px solid rgba(242,183,5,.15); border-radius:14px; padding:1.2rem; position:relative; overflow:hidden; }
+    .booking-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold2)); }
+    .booking-celeb { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:var(--gold); letter-spacing:1px; margin-bottom:.3rem; }
+    .booking-event { font-size:.95rem; color:var(--white); font-weight:600; margin-bottom:.5rem; }
+    .booking-meta  { font-size:.82rem; color:var(--sub); margin-bottom:.25rem; display:flex; align-items:center; gap:.4rem; }
+    .booking-meta span { color:var(--muted); }
+    .booking-amount{ font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--white); margin:.6rem 0 .4rem; }
+    .booking-badge { display:inline-flex; align-items:center; gap:.3rem; padding:.25rem .75rem; border-radius:20px; font-size:.78rem; font-weight:600; }
+    .booking-badge.confirmed { background:rgba(0,200,83,.15); color:var(--green); border:1px solid rgba(0,200,83,.3); }
+    .booking-badge.pending   { background:rgba(242,183,5,.12); color:var(--gold);  border:1px solid rgba(242,183,5,.25); }
+    .booking-badge.cancelled { background:rgba(212,0,42,.12);  color:var(--red);   border:1px solid rgba(212,0,42,.25); }
+    .booking-pts   { font-size:.78rem; color:var(--muted); margin-top:.5rem; }
+    .booking-id    { font-size:.72rem; color:var(--muted); margin-top:.4rem; font-family:monospace; }
     .events-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -733,6 +749,17 @@
         <div class="events-grid" id="eventsGrid"><div class="empty">Loading events...</div></div>
       </div>
 
+      <!-- MY BOOKINGS SECTION -->
+      <div class="card" id="myBookingsCard" style="display:none">
+        <div class="card-header">
+          <div class="card-title">🎟️ My Bookings</div>
+          <div class="card-subtitle">Your confirmed celebrity event tickets</div>
+        </div>
+        <div class="bookings-grid" id="bookingsGrid">
+          <div class="empty">Loading bookings…</div>
+        </div>
+      </div>
+
       <!-- POINTS HISTORY SECTION -->
       <div class="card" id="ptsHistCard">
         <div class="card-header">
@@ -1007,6 +1034,8 @@
     // Async: load vouchers + events + referral stats
     await Promise.all([ loadVouchers(), loadReferralStats() ]);
     renderEvents();
+    loadBookings();
+    loadPointsHistory();
 
   }).catch(err => {
     console.error('Dashboard init error:', err);
@@ -1491,6 +1520,7 @@
     btn.textContent = 'Save and Earn 25 Points';
     loadVouchers();
     loadEvents();
+    loadBookings();
     loadPointsHistory();
     updateMonthlyBar(md.monthly_points_earned || 0); // Reload with new city filter
   }
@@ -1658,7 +1688,7 @@
           const vr = await verRes.json();
           if (vr.success) {
             showToast('\uD83C\uDF89 Booking confirmed! Check your email.');
-            setTimeout(() => { loadEvents(); loadPointsHistory(); loadDashboard(); }, 1500);
+            setTimeout(() => { loadEvents(); loadBookings(); loadPointsHistory(); loadDashboard(); }, 1500);
           } else {
             showToast('Payment verified but booking had an issue. Contact support.');
           }
@@ -1728,6 +1758,59 @@
     const lbl = document.getElementById('monthlyEarned');
     if (el)  el.style.width = pct + '%';
     if (lbl) lbl.textContent = earned || 0;
+  }
+
+  // ── MY BOOKINGS ───────────────────────────────────────────────
+  async function loadBookings() {
+    const card = document.getElementById('myBookingsCard');
+    const grid = document.getElementById('bookingsGrid');
+    if (!card || !grid) return;
+
+    const { data: bookings, error } = await sbClient
+      .from('event_bookings')
+      .select(`
+        id, status, amount_paid, points_used, points_discount,
+        razorpay_payment_id, created_at, tier,
+        celebrity_events ( event_title, celebrity_name, event_date, location, city, slug )
+      `)
+      .eq('member_id', cu.id)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error || !bookings || !bookings.length) {
+      card.style.display = 'none';
+      return;
+    }
+
+    card.style.display = 'block';
+
+    grid.innerHTML = bookings.map(b => {
+      const ev   = b.celebrity_events || {};
+      const date = ev.event_date
+        ? new Date(ev.event_date).toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short', year:'numeric' })
+        : 'Date TBA';
+      const booked = new Date(b.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      const badgeCls = b.status === 'confirmed' ? 'confirmed' : b.status === 'pending' ? 'pending' : 'cancelled';
+      const badgeTxt = b.status === 'confirmed' ? '✅ Confirmed' : b.status === 'pending' ? '⏳ Pending' : '❌ Cancelled';
+      const ptsLine  = b.points_used > 0
+        ? `<div class="booking-pts">🌟 ${b.points_used} points used — saved ₹${b.points_discount || 0}</div>`
+        : '';
+      const link = ev.slug ? `href="/event-detail.html?id=${ev.slug}"` : '';
+
+      return `
+        <div class="booking-card">
+          <div class="booking-celeb">${ev.celebrity_name || 'DWC Event'}</div>
+          <div class="booking-event">${ev.event_title || 'Celebrity Dining Experience'}</div>
+          <div class="booking-meta">📅 <span>${date}</span></div>
+          <div class="booking-meta">📍 <span>${ev.city || ev.location || 'Hyderabad'}</span></div>
+          <div class="booking-meta">🎫 <span>Booked on ${booked}</span></div>
+          <div class="booking-amount">₹${(b.amount_paid||0).toLocaleString('en-IN')}</div>
+          <span class="booking-badge ${badgeCls}">${badgeTxt}</span>
+          ${ptsLine}
+          <div class="booking-id">ID: ${b.razorpay_payment_id || b.id}</div>
+          ${link ? `<a ${link} style="display:block;margin-top:.8rem;text-align:center;background:rgba(242,183,5,.12);color:var(--gold);padding:.5rem;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;border:1px solid rgba(242,183,5,.25)">View Event →</a>` : ''}
+        </div>`;
+    }).join('');
   }
 
 </script>
