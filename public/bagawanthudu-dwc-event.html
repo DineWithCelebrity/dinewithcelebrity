@@ -46,7 +46,14 @@
     .seats-pill{background:rgba(212,0,42,.15);border:1px solid rgba(212,0,42,.35);color:#ff6b6b;padding:.3rem .9rem;border-radius:20px;font-size:.82rem;font-weight:600;display:inline-block;margin-bottom:2rem}
     .hero-cta{display:inline-block;background:var(--gold);color:#000;font-family:'Poppins',sans-serif;font-weight:700;font-size:1.1rem;padding:1rem 2.5rem;border-radius:12px;text-decoration:none;letter-spacing:.5px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(242,183,5,.35)}
     .hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(242,183,5,.5)}
-    .hero-note{font-size:.78rem;color:var(--muted);margin-top:1rem}
+    .hero-note{font-size:.78rem;color:var(--muted);margin-top:.6rem;margin-bottom:1.2rem}
+
+    /* Signup offer box */
+    .signup-offer{background:rgba(242,183,5,.07);border:1px solid rgba(242,183,5,.25);border-radius:14px;padding:1.2rem 1.8rem;margin-top:1.5rem;display:inline-block;text-align:center;max-width:380px}
+    .signup-offer-badge{font-size:.68rem;font-weight:800;letter-spacing:2px;color:var(--gold);margin-bottom:.4rem}
+    .signup-offer-text{font-size:.92rem;color:var(--sub);margin-bottom:.9rem;line-height:1.5}
+    .signup-offer-btn{display:inline-block;background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;padding:.6rem 1.6rem;border-radius:8px;text-decoration:none;transition:background .2s,color .2s}
+    .signup-offer-btn:hover{background:var(--gold);color:#000}
 
     /* ── SECTION ── */
     section{position:relative;z-index:1;padding:80px 5%}
@@ -150,7 +157,12 @@
     <div class="seats-pill">🔥 Limited Seats — Don't Miss Out</div>
     <br/>
     <a href="/event-detail.html?id=bagawanthudu" class="hero-cta">Book My Seat →</a>
-    <p class="hero-note">Silver, Gold &amp; Platinum members eligible. Points redemption available.</p>
+    <p class="hero-note">Already a member? Book directly above.</p>
+    <div class="signup-offer">
+      <div class="signup-offer-badge">🎁 NEW MEMBER OFFER</div>
+      <div class="signup-offer-text">Sign up today &amp; get <strong style="color:var(--gold)">₹500 off</strong> your first celebrity event ticket</div>
+      <a href="/signup?ref=bagawanthudu&offer=500off" class="signup-offer-btn">Create Free Account →</a>
+    </div>
   </div>
 </section>
 
@@ -278,41 +290,20 @@
     <div class="section-title">Choose Your <span>Tier</span></div>
     <p class="section-body">Ticket prices are tier-based for DWC members. Log in to see your personalised price and book your seat.</p>
     <div class="tier-grid">
-      <div class="tier-card">
-        <div class="tier-name silver">Silver</div>
-        <div class="tier-price"><sup>₹</sup><span id="pricesilver">—</span></div>
-        <ul class="tier-perks">
+      <div class="tier-card popular" style="max-width:380px;margin:0 auto;grid-column:1/-1">
+        <div class="tier-name gold" style="font-size:1rem;letter-spacing:2px;margin-bottom:.75rem">TICKET PRICE</div>
+        <div class="tier-price"><sup>₹</sup><span id="ticketprice">—</span></div>
+        <ul class="tier-perks" style="margin-top:1rem">
           <li>Dinner seat confirmed</li>
           <li>Welcome drinks included</li>
-          <li>Group photo with cast</li>
-          <li>Co-branded T-shirt gift</li>
-        </ul>
-        <a href="/event-detail.html?id=bagawanthudu" class="tier-cta">Book Now →</a>
-      </div>
-      <div class="tier-card popular">
-        <div class="tier-name gold">Gold</div>
-        <div class="tier-price"><sup>₹</sup><span id="pricegold">—</span></div>
-        <ul class="tier-perks">
-          <li>Everything in Silver</li>
-          <li>Priority seating near cast</li>
           <li>Personal photo with cast</li>
-          <li>Points redemption up to 20%</li>
+          <li>Co-branded T-shirt gift</li>
+          <li>Up to 20% off using DWC points</li>
         </ul>
-        <a href="/event-detail.html?id=bagawanthudu" class="tier-cta">Book Now →</a>
-      </div>
-      <div class="tier-card">
-        <div class="tier-name platinum">Platinum</div>
-        <div class="tier-price"><sup>₹</sup><span id="priceplatinum">—</span></div>
-        <ul class="tier-perks">
-          <li>Everything in Gold</li>
-          <li>Reserved front-row seat</li>
-          <li>Dedicated concierge</li>
-          <li>Autographed memorabilia</li>
-        </ul>
-        <a href="/event-detail.html?id=bagawanthudu" class="tier-cta">Book Now →</a>
+        <a href="/event-detail.html?id=bagawanthudu" class="tier-cta" style="margin-top:1.2rem;display:block;text-align:center">Book My Seat →</a>
       </div>
     </div>
-    <p class="tier-note">Not a member yet? <a href="/signup" style="color:var(--gold)">Join DWC</a> to unlock access. Free members are not eligible for celebrity events.</p>
+    <p class="tier-note">Available for Silver, Gold &amp; Platinum members. <a href="/signup?ref=bagawanthudu&offer=500off" style="color:var(--gold);font-weight:600">Sign up &amp; get ₹500 off your first ticket →</a></p>
   </div>
 </section>
 
@@ -338,6 +329,9 @@
   <h2>70 SEATS.<br/><span>ONE NIGHT.</span></h2>
   <p>Don't wait — seats are filling fast. Book yours now.</p>
   <a href="/event-detail.html?id=bagawanthudu">Secure My Seat →</a>
+  <div style="margin-top:1.5rem;font-size:.88rem;color:var(--sub)">
+    Not a member yet? <a href="/signup?ref=bagawanthudu&offer=500off" style="color:var(--gold);font-weight:700">Sign up &amp; get ₹500 off your first ticket →</a>
+  </div>
 </div>
 
 <div class="footer-bottom">
@@ -389,15 +383,12 @@
   (async () => {
     const { data } = await sbClient
       .from('celebrity_events')
-      .select('price_silver,price_gold,price_platinum')
+      .select('ticket_price')
       .eq('slug','bagawanthudu')
       .single();
 
-    if (data) {
-      const fmt = n => n ? Number(n).toLocaleString('en-IN') : 'TBA';
-      document.getElementById('pricesilver').textContent   = fmt(data.price_silver);
-      document.getElementById('pricegold').textContent     = fmt(data.price_gold);
-      document.getElementById('priceplatinum').textContent = fmt(data.price_platinum);
+    if (data?.ticket_price) {
+      document.getElementById('ticketprice').textContent = Number(data.ticket_price).toLocaleString('en-IN');
     }
   })();
 </script>

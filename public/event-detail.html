@@ -329,10 +329,13 @@
             <!-- Not Logged In -->
             <div id="login-prompt-state">
               <div class="login-prompt">
-                <div class="lock-icon">🔐</div>
-                <p>Login or join free to see your member price and book your seat.</p>
+                <div style="background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem;text-align:center">
+                  <div style="font-size:.68rem;font-weight:800;letter-spacing:2px;color:var(--gold);margin-bottom:.25rem">🎁 NEW MEMBER OFFER</div>
+                  <div style="font-size:.88rem;color:rgba(255,255,255,.85)">Sign up today &amp; get <strong style="color:var(--gold)">₹500 off</strong> your first ticket</div>
+                </div>
+                <p>Login or join free to see your price and book your seat.</p>
                 <button class="btn-primary-full" onclick="openAuth()">Login to Book</button>
-                <button class="btn-outline-full" onclick="openAuth('signup')">Join Free — It's Quick</button>
+                <button class="btn-outline-full" onclick="openAuth('signup')" style="border-color:var(--gold);color:var(--gold)">Sign Up &amp; Get ₹500 Off →</button>
               </div>
             </div>
 
@@ -572,42 +575,32 @@ function updateSeats(ev){
 
 function renderPricing(ev){
   const myTier=(profile?.membership_tier||'free').toLowerCase();
-  const rows=[
-    {key:'platinum',label:'Platinum',dot:'dot-platinum',price:ev.price_platinum,access:'Inner Circle · 2 Free Seats'},
-    {key:'gold',label:'Gold',dot:'dot-gold',price:ev.price_gold,access:'Priority Dining'},
-    {key:'silver',label:'Silver',dot:'dot-silver',price:ev.price_silver,access:'Full Dinner Access'},
-    {key:'free',label:'Free Member',dot:'dot-free',price:ev.price_free,access:'Entry + Chit Chat'}
-  ];
+  const ticketPrice = ev.ticket_price || ev.price_silver || ev.price_gold || ev.price_platinum || null;
 
+  // Hide pricing table — single price for all paid tiers
   const tbody=document.getElementById('pricing-tbody');
-  tbody.innerHTML=rows.map(r=>{
-    const isMine=r.key===myTier;
-    const priceStr=r.key==='platinum'&&r.price===0?'Free':r.price?'₹'+Number(r.price).toLocaleString('en-IN'):'—';
-    const priceClass=r.key==='platinum'&&r.price===0?'price-cell free-price':'price-cell';
-    return `<tr class="${isMine?'my-row':''}">
-      <td><span class="tier-dot ${r.dot}"></span>${r.label}${isMine?'<span class="my-tier-tag">YOU</span>':''}</td>
-      <td class="${priceClass}">${priceStr}</td>
-      <td>${r.access}</td>
-    </tr>`;
-  }).join('');
-
-  // My price
-  const myPriceMap={free:ev.price_free,silver:ev.price_silver,gold:ev.price_gold,platinum:ev.price_platinum};
-  const myPrice=myPriceMap[myTier];
+  if(tbody){
+    tbody.closest('table')?.closest('.pricing-section')?.style && (tbody.closest('table').closest('.pricing-section').style.display='none');
+    tbody.innerHTML='';
+  }
 
   if(me){
     document.getElementById('login-prompt-state').style.display='none';
     document.getElementById('logged-in-state').style.display='block';
 
     const pd=document.getElementById('book-price-display');
-    if(myTier==='platinum'&&(myPrice===0||myPrice===null)){
-      pd.textContent='FREE';pd.className='book-price-amount free-amt';
-      document.getElementById('book-price-sub').textContent='2 complimentary seats with your Platinum membership';
-      document.getElementById('btn-book-now').textContent='Confirm My Attendance';
-    } else if(myPrice){
-      pd.textContent='₹'+Number(myPrice).toLocaleString('en-IN');
+
+    if(myTier==='free'){
+      // Free members cannot book
+      pd.textContent='Members Only';pd.className='book-price-amount';pd.style.fontSize='1.3rem';pd.style.color='var(--sub)';
+      document.getElementById('book-price-sub').textContent='Celebrity events are available for Silver, Gold & Platinum members';
+      document.getElementById('btn-book-now').disabled=true;
+      document.getElementById('btn-book-now').textContent='Upgrade to Book';
+    } else if(ticketPrice){
+      pd.textContent='₹'+Number(ticketPrice).toLocaleString('en-IN');
       pd.className='book-price-amount';
-      document.getElementById('btn-book-now').textContent='Confirm & Pay ₹'+Number(myPrice).toLocaleString('en-IN');
+      document.getElementById('book-price-sub').textContent='Use your points to save up to 20% on this ticket';
+      document.getElementById('btn-book-now').textContent='Confirm & Pay ₹'+Number(ticketPrice).toLocaleString('en-IN');
     } else {
       pd.textContent='Price TBA';pd.className='book-price-amount';pd.style.fontSize='1.5rem';pd.style.color='var(--sub)';
       document.getElementById('btn-book-now').disabled=true;
@@ -615,23 +608,17 @@ function renderPricing(ev){
     }
 
     // Mobile bar
-    document.getElementById('mobile-price').textContent=myTier==='platinum'&&(myPrice===0||myPrice===null)?'FREE':myPrice?'₹'+Number(myPrice).toLocaleString('en-IN'):'TBA';
+    document.getElementById('mobile-price').textContent=myTier==='free'?'Members Only':ticketPrice?'₹'+Number(ticketPrice).toLocaleString('en-IN'):'TBA';
 
-    // Upgrade hook
-    showUpgradeHook(myTier, ev);
+    // Upgrade hook for free members only
+    showUpgradeHook(myTier, ev, ticketPrice);
   }
 }
 
-function showUpgradeHook(tier, ev){
+function showUpgradeHook(tier, ev, ticketPrice){
   const hook=document.getElementById('upgrade-hook');
-  const upgrades={
-    free:{to:'Silver',toKey:'silver',save:ev.price_free&&ev.price_silver?ev.price_free-ev.price_silver:null},
-    silver:{to:'Gold',toKey:'gold',save:ev.price_silver&&ev.price_gold?ev.price_silver-ev.price_gold:null},
-    gold:{to:'Platinum',toKey:'platinum',save:ev.price_gold&&ev.price_platinum!==null?ev.price_gold-(ev.price_platinum||0):null},
-  };
-  const u=upgrades[tier];
-  if(!u||u.save===null||u.save<=0){hook.style.display='none';return}
-  hook.innerHTML=`<strong>💡 Save ₹${Number(u.save).toLocaleString('en-IN')} on this event</strong>Upgrade to ${u.to} and pay less for every DWC event you attend. <a href="/upgrade.html">Upgrade now →</a>`;
+  if(tier!=='free'){hook.style.display='none';return}
+  hook.innerHTML=`<strong>🎟️ Upgrade to access this event</strong>Celebrity events are exclusively for Silver, Gold &amp; Platinum members.${ticketPrice?' Ticket price: ₹'+Number(ticketPrice).toLocaleString('en-IN')+'.':''} <a href="/upgrade.html">Upgrade now →</a>`;
   hook.style.display='block';
   document.getElementById('btn-upgrade').style.display='block';
 }
@@ -669,8 +656,12 @@ async function initiateBooking(){
   if(!me){openAuth();return}
   const ev=eventData;
   const myTier=(profile?.membership_tier||'free').toLowerCase();
-  const priceMap={free:ev.price_free,silver:ev.price_silver,gold:ev.price_gold,platinum:ev.price_platinum};
-  const price=priceMap[myTier];
+  const price = ev.ticket_price || ev.price_silver || ev.price_gold || ev.price_platinum || null;
+
+  if(myTier==='free'){
+    window.location.href='/upgrade.html';
+    return;
+  }
 
   const btn=document.getElementById('btn-book-now');
   btn.textContent='Reserving seat...';btn.disabled=true;
@@ -686,13 +677,8 @@ async function initiateBooking(){
   // Start 10-min timer
   startReservationTimer(600);
 
-  // Free / Platinum
-  if(myTier==='platinum'&&(!price||price===0)){
-    await confirmFreeBooking(ev,lockData.reservation_id);
-    return;
-  }
-
-  if(!price){btn.textContent='Confirm & Pay';btn.disabled=false;alert('Ticket price not set yet.');return}
+  // Free / Platinum complimentary removed — single price for all paid tiers
+  if(!price){btn.textContent='Confirm & Pay';btn.disabled=false;alert('Ticket price not set yet. Please check back soon.');return}
 
   // Razorpay
   try{
