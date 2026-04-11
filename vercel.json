@@ -18,7 +18,8 @@
     { "source": "/partner-signup",     "destination": "/partner-signup.html" },
     { "source": "/partner-dashboard",  "destination": "/partner-dashboard.html" },
     { "source": "/partner-login",      "destination": "/partner-login.html" },
-    { "source": "/partner-sponsor",    "destination": "/partner-login.html" }
+    { "source": "/partner-sponsor",    "destination": "/partner-login.html" },
+    { "source": "/bagawanthudu",         "destination": "/bagawanthudu-dwc-event.html" }
   ],
   "crons": [
     {
