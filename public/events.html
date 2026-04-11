@@ -1,762 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Celebrity Events | Dine With Celebrity</title>
-<meta name="description" content="Book exclusive celebrity dining events on Dine With Celebrity. Dine with Bollywood stars, world-class chefs, and icons at premium venues across India."/>
-<meta name="keywords" content="celebrity dining events India, Bollywood dinner events, celebrity events Hyderabad, VIP dining experiences, exclusive celebrity dinner booking"/>
-<link rel="canonical" href="https://dinewithcelebrity.com/events"/>
-<meta property="og:title" content="Celebrity Events | Dine With Celebrity"/>
-<meta property="og:description" content="Book exclusive celebrity dining events. Limited seats, unforgettable experiences."/>
-<meta property="og:url" content="https://dinewithcelebrity.com/events"/>
-<meta name="twitter:card" content="summary_large_image"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Celebrity Events","url":"https://dinewithcelebrity.com/events","description":"Exclusive celebrity dining events across India","isPartOf":{"@type":"WebSite","name":"Dine With Celebrity","url":"https://dinewithcelebrity.com"}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --black:#0B0B0B;--black2:#111111;--black3:#181818;
-  --gold:#D4AF37;--gold2:#F5CC50;
-  --gold-dim:rgba(212,175,55,0.12);--gold-border:rgba(212,175,55,0.25);
-  --white:#FFFFFF;--accent:#FF4D4D;--green:#00C853;
-  --text:rgba(255,255,255,0.95);--subtext:rgba(255,255,255,0.72);
-  --label:rgba(255,255,255,0.5);
-  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
-  --header-h:64px;--footer-h:64px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--black);font-family:'Poppins',sans-serif;
-  color:var(--text);font-size:1rem;padding-bottom:var(--footer-h);
-}
-h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:0.04em;}
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:var(--black);}
-::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:10px;}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Celebrity Events | Dine With Celebrity</title>
+  <meta name="description" content="Browse exclusive celebrity dining experiences across India. Bollywood, Tollywood, Cricket and more. Book your seat now."/>
+  <meta property="og:title" content="Celebrity Events | Dine With Celebrity"/>
+  <meta property="og:description" content="Exclusive celebrity dining experiences. Limited seats. Book now."/>
+  <meta property="og:image" content="/logo.png"/>
+  <link rel="canonical" href="https://dinewithcelebrity.com/events.html"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{
+      --black:#06040A;--gold:#F2B705;--gold2:#FFD166;
+      --red:#D4002A;--green:#00C853;
+      --white:rgba(255,255,255,0.92);--sub:rgba(255,255,255,0.75);
+      --dim:rgba(255,255,255,0.45);--card:rgba(255,255,255,0.04);
+      --border:rgba(255,255,255,0.08);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif;font-size:1rem;overflow-x:hidden;min-height:100vh}
+    #stars-canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
 
-/* ── HEADER ── */
-.header{
-  position:sticky;top:0;z-index:100;
-  height:var(--header-h);
-  background:rgba(11,11,11,0.94);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--glass-border);
-  display:flex;align-items:center;padding:0 20px;gap:14px;
-}
-.header-back{
-  width:38px;height:38px;background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:10px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:var(--subtext);font-size:1.1rem;text-decoration:none;transition:all 0.2s;
-}
-.header-back:hover{border-color:var(--gold-border);color:var(--gold);}
-.header-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;}
-.header-spacer{flex:1;}
-.header-location{
-  display:flex;align-items:center;gap:5px;
-  background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:20px;padding:5px 12px;font-size:0.78rem;color:var(--subtext);cursor:pointer;
-}
-.header-location:hover{border-color:var(--gold-border);color:var(--text);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(6,4,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .nav-logo img{height:42px;display:block}
+    .nav-links{display:flex;gap:28px}
+    .nav-links a{color:var(--sub);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .btn-login{padding:9px 20px;border:1px solid var(--border);border-radius:50px;color:var(--white);font-size:.85rem;font-weight:500;cursor:pointer;background:transparent;font-family:'Poppins',sans-serif;transition:all .2s}
+    .btn-login:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-join{padding:9px 22px;background:var(--gold);color:var(--black);border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;font-family:'Poppins',sans-serif;transition:transform .2s,box-shadow .2s}
+    .btn-join:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(242,183,5,.4)}
+    .nav-tier-badge{padding:5px 14px;border-radius:50px;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+    .tier-free{background:rgba(255,255,255,.1);color:var(--white)}
+    .tier-silver{background:rgba(192,192,192,.2);color:#C0C0C0}
+    .tier-gold{background:rgba(242,183,5,.2);color:var(--gold)}
+    .tier-platinum{background:rgba(100,100,255,.2);color:#818CF8}
+    .nav-user-name{font-size:.85rem;color:var(--sub)}
+    .btn-logout{background:none;border:none;color:var(--dim);font-size:.8rem;cursor:pointer;padding:4px 8px;font-family:'Poppins',sans-serif}
+    .btn-logout:hover{color:var(--red)}
+    @media(max-width:768px){.nav-links{display:none}.nav-logo img{height:36px}}
 
-/* ── PAGE ── */
-.page{max-width:1200px;margin:0 auto;padding:24px 16px;}
+    .page-header{position:relative;z-index:1;padding:100px 32px 48px;text-align:center}
+    .page-eyebrow{font-size:.72rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,7vw,5.5rem);letter-spacing:3px;line-height:1;margin-bottom:16px}
+    .page-sub{color:var(--sub);font-size:1rem;max-width:480px;margin:0 auto;line-height:1.7}
 
-/* ── FEATURED EVENT (HERO CARD) ── */
-.featured-event{
-  background:linear-gradient(160deg,#1a0a00 0%,#110800 40%,#0B0B0B 100%);
-  border:1px solid var(--gold-border);
-  border-radius:20px;overflow:hidden;margin-bottom:28px;
-  display:grid;grid-template-columns:1fr 1.2fr;
-  min-height:280px;position:relative;
-}
-.featured-event::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent 40%,rgba(11,11,11,0.6) 100%);
-  pointer-events:none;z-index:1;
-}
-.featured-left{
-  padding:32px 28px;
-  display:flex;flex-direction:column;justify-content:center;
-  position:relative;z-index:2;
-}
-.featured-tag{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,77,77,0.15);border:1px solid rgba(255,77,77,0.35);
-  border-radius:20px;padding:4px 12px;
-  font-size:0.7rem;font-weight:700;color:var(--accent);
-  letter-spacing:0.1em;text-transform:uppercase;
-  margin-bottom:14px;width:fit-content;
-}
-.featured-celeb{
-  font-size:0.78rem;color:var(--gold);font-weight:600;
-  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
-}
-.featured-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:2.4rem;color:var(--white);line-height:1.05;margin-bottom:14px;
-}
-.featured-meta{
-  display:flex;flex-wrap:wrap;gap:12px;
-  font-size:0.8rem;color:var(--subtext);margin-bottom:20px;
-}
-.featured-meta-item{display:flex;align-items:center;gap:5px;}
-.featured-btns{display:flex;gap:10px;flex-wrap:wrap;}
-.btn-gold{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:var(--black);font-family:'Bebas Neue',sans-serif;
-  font-size:1rem;letter-spacing:0.08em;
-  padding:12px 22px;border-radius:10px;border:none;
-  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;
-}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,0.35);}
-.btn-outline{
-  background:transparent;color:var(--text);
-  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;
-  padding:12px 22px;border-radius:10px;border:1px solid var(--glass-border);
-  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;
-}
-.btn-outline:hover{border-color:var(--gold-border);color:var(--gold);}
-.featured-right{
-  position:relative;z-index:2;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#1a1200,#0f0900);
-  font-size:8rem;
-}
-.seats-counter{
-  position:absolute;bottom:16px;right:16px;
-  background:rgba(255,77,77,0.9);color:#fff;
-  border-radius:10px;padding:8px 14px;text-align:center;
-}
-.seats-num{
-  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1;
-}
-.seats-label{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;}
+    .filters-bar{position:relative;z-index:1;padding:0 32px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
+    .filter-btn{padding:9px 20px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--sub);font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .filter-btn.active{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:700}
+    .filter-sep{width:1px;height:20px;background:var(--border);margin:0 4px}
 
-/* ── FILTERS ── */
-.filters-row{
-  display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px;
-  scrollbar-width:none;
-}
-.filters-row::-webkit-scrollbar{display:none;}
-.filter-chip{
-  background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:20px;padding:6px 16px;
-  font-size:0.78rem;color:var(--subtext);cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;
-}
-.filter-chip:hover,.filter-chip.active{
-  background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold);
-}
+    .main{position:relative;z-index:1;padding:0 32px 80px;max-width:1200px;margin:0 auto}
+    @media(max-width:600px){.main{padding:0 16px 60px}.filters-bar{padding:0 16px 28px}.filter-sep{display:none}}
 
-/* ── EVENTS GRID ── */
-.events-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;
-}
-.event-card{
-  background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:16px;overflow:hidden;cursor:pointer;
-  transition:all 0.25s;display:flex;flex-direction:column;
-}
-.event-card:hover{
-  border-color:var(--gold-border);
-  transform:translateY(-4px);
-  box-shadow:0 12px 40px rgba(0,0,0,0.5);
-}
-.event-img{
-  height:180px;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#1a1a1a,#262626);
-  display:flex;align-items:center;justify-content:center;font-size:5rem;
-}
-.event-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-.event-img-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(11,11,11,0.85) 0%,transparent 55%);
-}
-.badge-urgency{
-  position:absolute;top:10px;right:10px;
-  background:var(--accent);color:#fff;
-  font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-  padding:3px 8px;border-radius:6px;
-  animation:pulse 1.5s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.7;}}
-.badge-vip{
-  position:absolute;top:10px;left:10px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:var(--black);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  padding:3px 8px;border-radius:6px;
-}
-.badge-sold-out{
-  position:absolute;top:10px;right:10px;
-  background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
-  border:1px solid rgba(255,255,255,0.2);
-  color:var(--label);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;
-  padding:3px 8px;border-radius:6px;
-}
-.event-body{padding:14px;flex:1;display:flex;flex-direction:column;}
-.event-celeb{font-size:0.7rem;color:var(--gold);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
-.event-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--text);line-height:1.15;margin-bottom:10px;}
-.event-details{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-.event-detail-item{display:flex;align-items:center;gap:7px;font-size:0.77rem;color:var(--subtext);}
-.event-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:12px;flex-wrap:wrap;gap:6px;margin-top:auto;
-}
-.event-price{
-  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);line-height:1;
-}
-.event-price span{font-size:0.75rem;color:var(--subtext);font-family:'Poppins',sans-serif;font-weight:400;}
-.seats-pill{
-  font-size:0.68rem;font-weight:600;border-radius:20px;padding:3px 10px;
-}
-.seats-urgent{background:rgba(255,77,77,0.12);border:1px solid rgba(255,77,77,0.3);color:var(--accent);}
-.seats-ok{background:rgba(0,200,83,0.1);border:1px solid rgba(0,200,83,0.25);color:var(--green);}
-.seats-locked{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);}
-.event-cta{
-  display:block;width:100%;
-  background:var(--gold-dim);border:1px solid var(--gold-border);
-  border-radius:10px;padding:10px;text-align:center;
-  font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;
-  color:var(--gold);cursor:pointer;transition:all 0.2s;
-}
-.event-cta:hover{background:var(--gold);color:var(--black);}
-.event-cta.locked{color:var(--accent);background:rgba(255,77,77,0.06);border-color:rgba(255,77,77,0.2);}
-.event-cta.locked:hover{background:var(--accent);color:#fff;}
-.event-cta.sold-out{color:var(--label);background:rgba(255,255,255,0.03);border-color:var(--glass-border);cursor:not-allowed;}
+    .member-lock-banner{background:rgba(242,183,5,.07);border:1px solid rgba(242,183,5,.2);border-radius:16px;padding:20px 24px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .lock-text strong{color:var(--gold);display:block;font-size:.95rem;margin-bottom:4px}
+    .lock-text p{color:var(--sub);font-size:.85rem}
+    .btn-join-banner{background:var(--gold);color:var(--black);font-weight:700;font-size:.85rem;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:transform .2s;white-space:nowrap}
+    .btn-join-banner:hover{transform:translateY(-1px)}
 
-/* ── COUNTDOWN TIMER ── */
-.countdown-wrap{
-  display:flex;gap:6px;margin-bottom:12px;
-}
-.count-box{
-  background:rgba(212,175,55,0.1);border:1px solid var(--gold-border);
-  border-radius:8px;padding:6px 10px;text-align:center;min-width:44px;
-}
-.count-num{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);line-height:1;}
-.count-label{font-size:0.55rem;color:var(--label);letter-spacing:0.1em;text-transform:uppercase;}
+    .featured-label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .featured-card{background:var(--card);border:1px solid rgba(242,183,5,.25);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;margin-bottom:56px;cursor:pointer;transition:transform .3s,box-shadow .3s}
+    .featured-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(242,183,5,.12)}
+    @media(max-width:768px){.featured-card{grid-template-columns:1fr}}
+    .featured-visual{background:linear-gradient(135deg,rgba(242,183,5,.1) 0%,rgba(212,0,42,.06) 60%,transparent 100%);padding:48px 40px;display:flex;flex-direction:column;justify-content:center;min-height:320px;position:relative}
+    .featured-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--black);font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:20px;width:fit-content}
+    .live-dot{width:6px;height:6px;background:var(--black);border-radius:50%;animation:pulse 1.5s infinite}
+    .featured-movie{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,4.5vw,3.6rem);letter-spacing:3px;color:var(--gold);line-height:1;margin-bottom:8px}
+    .featured-cast{font-size:1rem;color:var(--white);font-weight:500;margin-bottom:20px}
+    .featured-meta{display:flex;flex-wrap:wrap;gap:10px}
+    .meta-tag{font-size:.8rem;color:var(--sub);background:rgba(255,255,255,.06);padding:6px 14px;border-radius:50px}
+    .featured-info{padding:40px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+    .featured-desc{color:var(--sub);font-size:.92rem;line-height:1.7}
+    .seats-bar-label{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:8px}
+    .seats-bar-label span:first-child{color:var(--sub)}
+    .seats-remaining{color:var(--red);font-weight:600}
+    .seats-bar{height:6px;background:rgba(255,255,255,.1);border-radius:50px;overflow:hidden}
+    .seats-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--red));border-radius:50px}
+    .featured-price-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:8px}
+    .price-from{font-size:.78rem;color:var(--dim);line-height:1.5}
+    .price-from strong{font-size:1.3rem;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;display:block}
+    .btn-book{background:var(--gold);color:var(--black);font-weight:700;font-size:.92rem;padding:13px 28px;border-radius:50px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:transform .2s,box-shadow .2s}
+    .btn-book:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(242,183,5,.4)}
+    .btn-book-outline{background:transparent;color:var(--gold);border:1px solid rgba(242,183,5,.4);font-weight:600;font-size:.92rem;padding:13px 28px;border-radius:50px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+    .btn-book-outline:hover{background:rgba(242,183,5,.1)}
 
-/* ── LOCKED OVERLAY ── */
-.event-card.locked .event-img::after{
-  content:'🔒 UPGRADE TO ACCESS';
-  position:absolute;inset:0;
-  background:rgba(11,11,11,0.82);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--gold);
-}
+    .section-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:28px}
+    .events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+    .event-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s}
+    .event-card:hover{transform:translateY(-4px);border-color:rgba(242,183,5,.3);box-shadow:0 12px 36px rgba(242,183,5,.08)}
+    .card-header{padding:28px 24px 20px;background:linear-gradient(135deg,rgba(255,255,255,.03),transparent)}
+    .card-type-badge{display:inline-block;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:50px;margin-bottom:14px;font-weight:600}
+    .type-movie{background:rgba(212,0,42,.12);color:#FF6B6B;border:1px solid rgba(212,0,42,.2)}
+    .type-sports{background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.2)}
+    .type-music{background:rgba(139,92,246,.1);color:#A78BFA;border:1px solid rgba(139,92,246,.2)}
+    .type-other{background:rgba(255,255,255,.06);color:var(--sub);border:1px solid var(--border)}
+    .card-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1.5px;color:var(--white);margin-bottom:4px;line-height:1.1}
+    .card-cast{font-size:.88rem;color:var(--gold);font-weight:500;margin-bottom:14px}
+    .card-meta{display:flex;flex-wrap:wrap;gap:8px}
+    .card-meta-item{font-size:.78rem;color:var(--sub)}
+    .card-footer{padding:18px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .card-price{font-size:.78rem;color:var(--dim)}
+    .card-price strong{font-size:1.05rem;color:var(--white);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;display:block}
+    .card-seats-low{font-size:.75rem;color:var(--red);font-weight:600}
+    .card-seats-ok{font-size:.75rem;color:var(--sub)}
+    .card-cta{font-size:.85rem;font-weight:600;color:var(--gold);text-decoration:none;transition:gap .2s}
+    .card-cta:hover{text-decoration:underline}
 
-/* ── UPGRADE BANNER ── */
-.upgrade-banner{
-  background:linear-gradient(135deg,#1a0800 0%,#0f0600 50%,#0B0B0B 100%);
-  border:1px solid rgba(255,77,77,0.2);
-  border-radius:16px;padding:24px;margin-bottom:28px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
-  position:relative;overflow:hidden;
-}
-.upgrade-banner::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:240px;height:240px;
-  background:radial-gradient(circle,rgba(255,77,77,0.08) 0%,transparent 65%);
-}
-.upgrade-text h2{
-  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--text);margin-bottom:6px;
-}
-.upgrade-text p{font-size:0.85rem;color:var(--subtext);}
-.upgrade-text p strong{color:var(--text);}
-.btn-accent{
-  background:linear-gradient(135deg,var(--accent),#ff6b6b);
-  color:#fff;font-family:'Bebas Neue',sans-serif;
-  font-size:1rem;letter-spacing:0.08em;
-  padding:12px 22px;border-radius:10px;border:none;
-  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;
-  white-space:nowrap;flex-shrink:0;
-}
-.btn-accent:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,77,77,0.35);}
+    .loading-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+    .skeleton{background:rgba(255,255,255,.04);border-radius:20px;height:240px;animation:shimmer 1.5s infinite}
+    @keyframes shimmer{0%,100%{opacity:.4}50%{opacity:.8}}
 
-/* ── BOOKING MODAL ── */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.8);
-  backdrop-filter:blur(8px);z-index:200;
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity 0.3s;
-}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{
-  background:var(--black2);border:1px solid var(--gold-border);
-  border-radius:20px;padding:28px;width:100%;max-width:480px;
-  transform:scale(0.92);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  max-height:90vh;overflow-y:auto;
-}
-.modal-overlay.open .modal{transform:scale(1);}
-.modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:10px;}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--text);line-height:1.1;}
-.modal-close{
-  width:34px;height:34px;background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:8px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:var(--subtext);font-size:1rem;flex-shrink:0;transition:all 0.2s;
-}
-.modal-close:hover{border-color:var(--accent);color:var(--accent);}
-.event-summary-card{
-  background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:12px;padding:14px;margin-bottom:20px;
-  display:flex;align-items:center;gap:12px;
-}
-.event-summary-icon{font-size:2.2rem;flex-shrink:0;}
-.event-summary-name{font-weight:600;font-size:0.9rem;color:var(--text);}
-.event-summary-meta{font-size:0.75rem;color:var(--subtext);}
-.form-field{margin-bottom:16px;}
-.form-label{
-  display:block;font-size:0.78rem;font-weight:600;
-  color:var(--subtext);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;
-}
-.form-input{
-  width:100%;background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:10px;padding:11px 14px;
-  color:var(--text);font-family:'Poppins',sans-serif;font-size:0.9rem;
-  outline:none;transition:border-color 0.2s;
-}
-.form-input:focus{border-color:var(--gold-border);}
-.form-input option{background:var(--black2);}
-.price-summary{
-  background:rgba(212,175,55,0.04);border:1px solid var(--gold-border);
-  border-radius:12px;padding:14px;margin:16px 0;
-}
-.price-row{
-  display:flex;justify-content:space-between;
-  font-size:0.82rem;color:var(--subtext);padding:4px 0;
-}
-.price-row.total{
-  border-top:1px solid var(--glass-border);margin-top:6px;padding-top:10px;
-  font-weight:700;font-size:0.95rem;color:var(--text);
-}
+    .empty-state{text-align:center;padding:80px 20px}
+    .empty-icon{font-size:3rem;margin-bottom:16px}
+    .empty-state h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:var(--sub);margin-bottom:8px}
+    .empty-state p{font-size:.9rem;color:var(--dim);line-height:1.6}
 
-/* ── MOBILE FOOTER NAV ── */
-.mobile-nav{
-  position:fixed;bottom:0;left:0;right:0;height:var(--footer-h);
-  background:rgba(11,11,11,0.96);backdrop-filter:blur(20px);
-  border-top:1px solid var(--glass-border);
-  display:flex;align-items:center;z-index:100;
-}
-.nav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;padding:8px 0;cursor:pointer;transition:all 0.2s;
-  font-size:0.62rem;color:var(--label);font-weight:500;
-}
-.nav-item.active{color:var(--gold);}
-.nav-icon{font-size:1.25rem;line-height:1;}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.featured-event{animation:fadeUp 0.4s ease;}
-.events-grid{animation:fadeUp 0.4s ease 0.08s both;}
+    .auth-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(6,4,10,.92);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}
+    .auth-box{background:#0F0D14;border:1px solid rgba(242,183,5,.2);border-radius:24px;padding:40px;max-width:420px;width:100%;position:relative}
+    .auth-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:1.4rem;cursor:pointer}
+    .auth-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:var(--white);font-family:'Poppins',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s;margin-bottom:14px}
+    .auth-input:focus{border-color:var(--gold)}
+    .auth-input::placeholder{color:rgba(255,255,255,.3)}
+    .auth-btn{width:100%;background:var(--gold);color:var(--black);font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;padding:15px;border-radius:50px;border:none;cursor:pointer;transition:transform .2s;margin-top:4px}
+    .auth-btn:hover{transform:translateY(-1px)}
+    .auth-error{display:none;background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#FF6B6B;padding:12px 16px;border-radius:12px;font-size:.85rem;margin-bottom:14px}
 
-/* ── RESPONSIVE ── */
-@media(max-width:1024px){.events-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){
-  .featured-event{grid-template-columns:1fr;}
-  .featured-right{display:none;}
-  .events-grid{grid-template-columns:1fr;}
-}
-
-
-/* ═══ GOLD STAR FIELD ═══ */
-#star-canvas{position:fixed!important;top:0!important;left:0!important;z-index:0!important;pointer-events:none!important;}
-body>*:not(#star-canvas){position:relative;z-index:1;}
-
-
-/* DWC-STARS-START */
-#star-canvas{position:fixed!important;top:0!important;left:0!important;z-index:0!important;pointer-events:none!important;}
-body>*:not(#star-canvas){position:relative;z-index:1;}
-/* DWC-STARS-END */
-.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
+    footer{position:relative;z-index:1;padding:40px 32px;border-top:1px solid var(--border);text-align:center}
+    .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:3px;margin-bottom:12px}
+    .footer-links{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-bottom:16px}
+    .footer-links a{color:var(--dim);text-decoration:none;font-size:.82rem;transition:color .2s}
+    .footer-links a:hover{color:var(--gold)}
+    .footer-copy{font-size:.75rem;color:rgba(255,255,255,.25)}
+  </style>
 </head>
-<body><script>
-(function(){
-  var sb = supabase.createClient(
-    'https://blwqqqzhnovsveeryjlm.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY'
-  );
-  sb.auth.getSession().then(function(res){
-    if (!res.data.session) window.location.href = '/signin';
-  });
-})();
-</script>
-<div class="stars" id="stars"></div>
-<canvas id="star-canvas"></canvas>
+<body>
+<canvas id="stars-canvas"></canvas>
 
-
-<!-- ── HEADER ── -->
-<header class="header">
-  <a class="header-back" href="dashboard.html" aria-label="Back to dashboard">←</a>
-  <h1 class="header-title">🌟 CELEBRITY EVENTS</h1>
-  <div class="header-spacer"></div>
-  <div class="header-location">📍 All Cities ▾</div>
-</header>
-
-<main class="page">
-
-  <!-- ── FEATURED EVENT ── -->
-  <div class="featured-event" aria-label="Featured event: Bollywood Dinner Night">
-    <div class="featured-left">
-      <div class="featured-tag">🔥 TRENDING EVENT</div>
-      <div class="featured-celeb">⭐ Ranveer Singh</div>
-      <h2 class="featured-title">Bollywood<br>Dinner Night</h2>
-      <div class="featured-meta">
-        <span class="featured-meta-item">📅 Mar 28, 2026</span>
-        <span class="featured-meta-item">📍 Novotel, Hyderabad</span>
-        <span class="featured-meta-item">👥 30 Guests</span>
-        <span class="featured-meta-item">💰 ₹4,999 / person</span>
-      </div>
-      <div class="featured-btns">
-        <button class="btn-gold" onclick="openModal('Bollywood Dinner Night','Ranveer Singh','Mar 28, 2026','Novotel, Hyderabad','4999','🎬')">
-          🎟 RESERVE MY SEAT
-        </button>
-        <button class="btn-outline">LEARN MORE</button>
-      </div>
+<nav>
+  <a href="/"><img src="/logo.png" alt="Dine With Celebrity"/></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/events.html" class="active">Events</a>
+    <a href="/stars.html">Celebrities</a>
+    <a href="/dashboard.html">My Account</a>
+  </div>
+  <div class="nav-right">
+    <div id="nav-guest-area" style="display:flex;align-items:center;gap:10px">
+      <button class="btn-login" onclick="openAuth()">Login</button>
+      <button class="btn-join" onclick="openAuth('signup')">Join Free</button>
     </div>
-    <div class="featured-right">
-      🎬
-      <div class="seats-counter">
-        <div class="seats-num">8</div>
-        <div class="seats-label">Seats Left</div>
-      </div>
+    <div id="nav-user-area" style="display:none;align-items:center;gap:10px">
+      <span class="nav-tier-badge tier-free" id="nav-tier-badge">Free</span>
+      <span class="nav-user-name" id="nav-user-name"></span>
+      <button class="btn-logout" onclick="doLogout()">Sign out</button>
     </div>
   </div>
+</nav>
 
-  <!-- ── FILTERS ── -->
-  <div class="filters-row" role="group" aria-label="Filter events">
-    <button class="filter-chip active" onclick="setFilter(this,'all')">All Events</button>
-    <button class="filter-chip" onclick="setFilter(this,'upcoming')">Upcoming</button>
-    <button class="filter-chip" onclick="setFilter(this,'hyderabad')">Hyderabad</button>
-    <button class="filter-chip" onclick="setFilter(this,'mumbai')">Mumbai</button>
-    <button class="filter-chip" onclick="setFilter(this,'delhi')">Delhi</button>
-    <button class="filter-chip" onclick="setFilter(this,'bollywood')">Bollywood</button>
-    <button class="filter-chip" onclick="setFilter(this,'chef')">Celebrity Chefs</button>
-    <button class="filter-chip" onclick="setFilter(this,'vip')">👑 VIP Only</button>
+<div class="page-header">
+  <p class="page-eyebrow reveal">Dine With Celebrity</p>
+  <h1 class="page-title reveal">Celebrity<br/>Experiences</h1>
+  <p class="page-sub reveal">This isn't a fan meet. This is a dinner table. Intimate access to the stars you love — in cities across India.</p>
+</div>
+
+<div class="filters-bar">
+  <button class="filter-btn active" data-filter="all">All Events</button>
+  <button class="filter-btn" data-filter="movie">🎬 Movie</button>
+  <button class="filter-btn" data-filter="sports">🏏 Sports</button>
+  <button class="filter-btn" data-filter="music">🎵 Music</button>
+  <div class="filter-sep"></div>
+  <button class="filter-btn" data-city="all">All Cities</button>
+  <button class="filter-btn" data-city="Hyderabad">Hyderabad</button>
+  <button class="filter-btn" data-city="Mumbai">Mumbai</button>
+  <button class="filter-btn" data-city="Bangalore">Bangalore</button>
+</div>
+
+<div class="main">
+  <div class="member-lock-banner reveal" id="lock-banner" style="display:none">
+    <div class="lock-text">
+      <strong>🔐 Members get exclusive access to book seats</strong>
+      <p>Join free in 60 seconds. Unlock pricing, book seats, earn points on every event.</p>
+    </div>
+    <button class="btn-join-banner" onclick="openAuth('signup')">Join Free Now →</button>
   </div>
 
-  <!-- ── UPGRADE BANNER (shown to FREE users) ── -->
-  <div class="upgrade-banner" id="upgrade-banner">
-    <div class="upgrade-text">
-      <h2>🔒 3 EVENTS LOCKED FOR YOUR PLAN</h2>
-      <p>Upgrade to <strong>DWC Silver</strong> to access all celebrity events, VIP dinners and exclusive experiences. Starting at just ₹4,999/year.</p>
-    </div>
-    <button class="btn-accent" onclick="window.location.href='dashboard.html'">⚡ UPGRADE NOW →</button>
+  <div id="featured-section" style="display:none">
+    <p class="featured-label reveal">⭐ Featured Event</p>
+    <div class="featured-card reveal" id="featured-card"></div>
   </div>
 
-  <!-- ── EVENTS GRID ── -->
-  <div class="events-grid" id="events-grid">
-
-    <!-- Event 1 — Featured/Accessible -->
-    <article class="event-card" tabindex="0" onclick="openModal('Bollywood Dinner Night','Ranveer Singh','Mar 28, 2026','Novotel, Hyderabad','4999','🎬')">
-      <div class="event-img">
-        🎬
-        <div class="event-img-overlay"></div>
-        <span class="badge-urgency">🔥 8 SEATS LEFT</span>
-      </div>
-      <div class="event-body">
-        <div class="event-celeb">⭐ Ranveer Singh</div>
-        <div class="event-title">Bollywood Dinner Night</div>
-
-        <div class="countdown-wrap" id="countdown-1"></div>
-
-        <div class="event-details">
-          <div class="event-detail-item">📅 Mar 28, 2026 · 7:30 PM</div>
-          <div class="event-detail-item">📍 Novotel, Hyderabad</div>
-          <div class="event-detail-item">👥 30 guests · Intimate setting</div>
-        </div>
-        <div class="event-footer">
-          <div class="event-price">₹4,999 <span>/ person</span></div>
-          <div class="seats-pill seats-urgent">8 seats left</div>
-        </div>
-        <button class="event-cta">RESERVE MY SEAT →</button>
-      </div>
-    </article>
-
-    <!-- Event 2 -->
-    <article class="event-card" tabindex="0" onclick="openModal('Chef\'s Table Experience','Vikas Khanna','Apr 12, 2026','Junoon, Mumbai','6999','👨‍🍳')">
-      <div class="event-img">
-        👨‍🍳
-        <div class="event-img-overlay"></div>
-      </div>
-      <div class="event-body">
-        <div class="event-celeb">⭐ Vikas Khanna</div>
-        <div class="event-title">Chef's Table Experience</div>
-
-        <div class="countdown-wrap" id="countdown-2"></div>
-
-        <div class="event-details">
-          <div class="event-detail-item">📅 Apr 12, 2026 · 8:00 PM</div>
-          <div class="event-detail-item">📍 Junoon, Mumbai</div>
-          <div class="event-detail-item">👥 16 guests · 7-course menu</div>
-        </div>
-        <div class="event-footer">
-          <div class="event-price">₹6,999 <span>/ person</span></div>
-          <div class="seats-pill seats-ok">22 seats left</div>
-        </div>
-        <button class="event-cta">RESERVE MY SEAT →</button>
-      </div>
-    </article>
-
-    <!-- Event 3 — LOCKED (Silver+) -->
-    <article class="event-card locked" tabindex="0" onclick="openUpgrade()">
-      <div class="event-img">
-        🥂
-        <div class="event-img-overlay"></div>
-        <span class="badge-vip">👑 SILVER+</span>
-      </div>
-      <div class="event-body">
-        <div class="event-celeb" style="color:var(--label);">⭐ Surprise Celebrity</div>
-        <div class="event-title" style="color:var(--subtext);">Exclusive Rooftop Gala</div>
-        <div class="event-details">
-          <div class="event-detail-item" style="color:var(--label);">📅 May 5, 2026</div>
-          <div class="event-detail-item" style="color:var(--label);">📍 Taj Hotel, Delhi</div>
-          <div class="event-detail-item" style="color:var(--label);">👥 20 guests only</div>
-        </div>
-        <div class="event-footer">
-          <div class="event-price" style="color:var(--label);">₹9,999 <span>/ person</span></div>
-          <div class="seats-pill seats-locked">SILVER+</div>
-        </div>
-        <button class="event-cta locked">UNLOCK WITH SILVER →</button>
-      </div>
-    </article>
-
-    <!-- Event 4 — LOCKED (Gold+) -->
-    <article class="event-card locked" tabindex="0" onclick="openUpgrade()">
-      <div class="event-img">
-        🏏
-        <div class="event-img-overlay"></div>
-        <span class="badge-vip">👑 GOLD+</span>
-      </div>
-      <div class="event-body">
-        <div class="event-celeb" style="color:var(--label);">⭐ Cricket Legend</div>
-        <div class="event-title" style="color:var(--subtext);">Champions Dinner Night</div>
-        <div class="event-details">
-          <div class="event-detail-item" style="color:var(--label);">📅 May 20, 2026</div>
-          <div class="event-detail-item" style="color:var(--label);">📍 ITC Grand, Mumbai</div>
-          <div class="event-detail-item" style="color:var(--label);">👥 25 guests only</div>
-        </div>
-        <div class="event-footer">
-          <div class="event-price" style="color:var(--label);">₹12,999 <span>/ person</span></div>
-          <div class="seats-pill seats-locked">GOLD+</div>
-        </div>
-        <button class="event-cta locked">UNLOCK WITH GOLD →</button>
-      </div>
-    </article>
-
-    <!-- Event 5 — Sold Out -->
-    <article class="event-card" tabindex="0" style="opacity:0.6;">
-      <div class="event-img">
-        🎵
-        <div class="event-img-overlay"></div>
-        <span class="badge-sold-out">SOLD OUT</span>
-      </div>
-      <div class="event-body">
-        <div class="event-celeb">⭐ AR Rahman</div>
-        <div class="event-title">Music & Masterchef Night</div>
-        <div class="event-details">
-          <div class="event-detail-item">📅 Mar 15, 2026 (Past)</div>
-          <div class="event-detail-item">📍 ITC Royal, Chennai</div>
-          <div class="event-detail-item">👥 Sold out in 48 hours</div>
-        </div>
-        <div class="event-footer">
-          <div class="event-price">₹7,999 <span>/ person</span></div>
-          <div class="seats-pill" style="background:rgba(255,255,255,0.05);color:var(--label);border:1px solid var(--glass-border);">SOLD OUT</div>
-        </div>
-        <button class="event-cta sold-out">JOIN WAITLIST →</button>
-      </div>
-    </article>
-
-    <!-- Event 6 -->
-    <article class="event-card" tabindex="0" onclick="openModal('Sunset Dinner Experience','Bear Grylls','Jun 1, 2026','Burj Al Arab, Dubai','14999','🌅')">
-      <div class="event-img">
-        🌅
-        <div class="event-img-overlay"></div>
-        <span class="badge-vip">🌍 INTERNATIONAL</span>
-      </div>
-      <div class="event-body">
-        <div class="event-celeb">⭐ Bear Grylls</div>
-        <div class="event-title">Sunset Dinner Experience</div>
-        <div class="event-details">
-          <div class="event-detail-item">📅 Jun 1, 2026 · 6:00 PM</div>
-          <div class="event-detail-item">📍 Burj Al Arab, Dubai</div>
-          <div class="event-detail-item">👥 20 guests · International</div>
-        </div>
-        <div class="event-footer">
-          <div class="event-price">₹14,999 <span>/ person</span></div>
-          <div class="seats-pill seats-ok">18 seats left</div>
-        </div>
-        <button class="event-cta">RESERVE MY SEAT →</button>
-      </div>
-    </article>
-
+  <h2 class="section-title reveal" id="upcoming-title">Upcoming Events</h2>
+  <div class="loading-grid" id="loading-state">
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
   </div>
+  <div class="events-grid" id="events-grid" style="display:none"></div>
+  <div class="empty-state" id="empty-state" style="display:none">
+    <div class="empty-icon">🎬</div>
+    <h3>More Events Coming Soon</h3>
+    <p>We're curating extraordinary experiences.<br/>Follow @dinewithcelebrity for announcements.</p>
+  </div>
+</div>
 
-</main>
+<footer>
+  <div class="footer-logo">DINE WITH CELEBRITY</div>
+  <div class="footer-links">
+    <a href="/">Home</a><a href="/stars.html">Celebrities</a>
+    <a href="/dashboard.html">Dashboard</a>
+    <a href="https://instagram.com/dinewithcelebrity" target="_blank">Instagram</a>
+    <a href="mailto:hello@dinewithcelebrity.com">Contact</a>
+  </div>
+  <p class="footer-copy">© 2026 Dine With Celebrity Pvt Ltd · Hyderabad</p>
+</footer>
 
-<!-- ── BOOKING MODAL ── -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal" role="dialog" aria-label="Book event">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">RESERVE YOUR<br>SEAT</div>
-      <button class="modal-close" onclick="closeModalDirect()" aria-label="Close">✕</button>
+<!-- AUTH MODAL -->
+<div class="auth-modal" id="auth-modal">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <div style="text-align:center;margin-bottom:28px">
+      <img src="/logo.png" style="height:38px;margin:0 auto 14px;display:block"/>
+      <h2 id="auth-title" style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--gold)">Welcome Back</h2>
+      <p id="auth-sub" style="color:var(--sub);font-size:.88rem;margin-top:6px">Login to book your seat</p>
     </div>
-
-    <div class="event-summary-card">
-      <div class="event-summary-icon" id="modal-icon">🎬</div>
-      <div>
-        <div class="event-summary-name" id="modal-event-name">Bollywood Dinner Night</div>
-        <div class="event-summary-meta" id="modal-event-meta">Ranveer Singh · Mar 28, 2026 · Hyderabad</div>
-      </div>
-    </div>
-
-    <div class="form-field">
-      <label class="form-label" for="modal-guests">Number of Seats</label>
-      <select id="modal-guests" class="form-input" onchange="updateModalPrice()" aria-label="Number of seats">
-        <option value="1">1 Seat</option>
-        <option value="2" selected>2 Seats</option>
-        <option value="3">3 Seats</option>
-        <option value="4">4 Seats</option>
-      </select>
-    </div>
-
-    <div class="form-field">
-      <label class="form-label" for="modal-special">Special Requests (Optional)</label>
-      <input type="text" id="modal-special" class="form-input" placeholder="Dietary preferences, occasion..." aria-label="Special requests"/>
-    </div>
-
-    <div class="price-summary">
-      <div class="price-row"><span>Ticket Price</span><span id="modal-price-per">₹4,999 × 2</span></div>
-      <div class="price-row"><span>Subtotal</span><span id="modal-subtotal">₹9,998</span></div>
-      <div class="price-row"><span>DWC Member Discount</span><span style="color:var(--green);" id="modal-discount">-₹0</span></div>
-      <div class="price-row total"><span>Total</span><span id="modal-total">₹9,998</span></div>
-    </div>
-
-    <button class="btn-gold" style="width:100%;justify-content:center;" onclick="confirmEvent()">
-      🎟 CONFIRM & PAY →
-    </button>
-    <p style="font-size:0.7rem;color:var(--label);text-align:center;margin-top:10px;">
-      Secured by Razorpay · Seats reserved after payment
+    <div class="auth-error" id="auth-error"></div>
+    <input class="auth-input" id="auth-email" type="email" placeholder="Email address"/>
+    <input class="auth-input" id="auth-pass" type="password" placeholder="Password"/>
+    <button class="auth-btn" id="auth-btn" onclick="handleAuth()">Login</button>
+    <p style="text-align:center;margin-top:18px;font-size:.83rem;color:var(--dim)">
+      <span id="auth-switch-label">No account?</span>
+      <a href="#" id="auth-switch" onclick="toggleAuth();return false" style="color:var(--gold);margin-left:6px">Sign up free</a>
     </p>
   </div>
 </div>
 
-<!-- ── MOBILE FOOTER NAV ── -->
-<nav class="mobile-nav">
-  <a class="nav-logo" href="/" style="text-decoration:none;display:flex;align-items:center"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:120px;width:auto;display:block" onerror="this.src='/logo.png'"/></a>
-  <div class="nav-item" onclick="window.location.href='dashboard.html'">
-    <span class="nav-icon">🏠</span>Home
-  </div>
-  <div class="nav-item" onclick="window.location.href='restaurants.html'">
-    <span class="nav-icon">🍽</span>Restaurants
-  </div>
-  <div class="nav-item active">
-    <span class="nav-icon">🎟</span>Events
-  </div>
-  <div class="nav-item">
-    <span class="nav-icon">👤</span>Profile
-  </div>
-</nav>
-
-
-
-
-
-<!--DWC-STARS-->
-
-<!--/DWC-STARS-->
-
 <script>
-// ── FILTER ──
-function setFilter(el, filter){
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-}
+const SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
+const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+const sbClient=supabase.createClient(SURL,SKEY);
 
-// ── COUNTDOWN TIMER ──
-function buildCountdown(targetDate, containerId){
-  function update(){
-    const diff = new Date(targetDate) - new Date();
-    if(diff <= 0){ document.getElementById(containerId).innerHTML = ''; return; }
-    const d = Math.floor(diff/86400000);
-    const h = Math.floor((diff%86400000)/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    const s = Math.floor((diff%60000)/1000);
-    document.getElementById(containerId).innerHTML = `
-      <div class="count-box"><div class="count-num">${String(d).padStart(2,'0')}</div><div class="count-label">Days</div></div>
-      <div class="count-box"><div class="count-num">${String(h).padStart(2,'0')}</div><div class="count-label">Hrs</div></div>
-      <div class="count-box"><div class="count-num">${String(m).padStart(2,'0')}</div><div class="count-label">Min</div></div>
-      <div class="count-box"><div class="count-num">${String(s).padStart(2,'0')}</div><div class="count-label">Sec</div></div>
-    `;
-  }
-  update();
-  setInterval(update, 1000);
-}
-buildCountdown('2026-03-28T19:30:00', 'countdown-1');
-buildCountdown('2026-04-12T20:00:00', 'countdown-2');
+let me=null,profile=null,allEvents=[],typeF='all',cityF='all',authMode='login';
 
-// ── MODAL ──
-let modalData = {};
-function openModal(name, celeb, date, venue, price, icon){
-  modalData = { name, celeb, date, venue, price: parseInt(price), icon };
-  document.getElementById('modal-icon').textContent = icon;
-  document.getElementById('modal-event-name').textContent = name;
-  document.getElementById('modal-event-meta').textContent = `${celeb} · ${date} · ${venue}`;
-  updateModalPrice();
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(e){
-  if(e.target === document.getElementById('modal-overlay')) closeModalDirect();
-}
-function closeModalDirect(){
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function updateModalPrice(){
-  const guests = parseInt(document.getElementById('modal-guests').value);
-  const total = modalData.price * guests;
-  document.getElementById('modal-price-per').textContent = `₹${modalData.price.toLocaleString('en-IN')} × ${guests}`;
-  document.getElementById('modal-subtotal').textContent = `₹${total.toLocaleString('en-IN')}`;
-  document.getElementById('modal-discount').textContent = '-₹0';
-  document.getElementById('modal-total').textContent = `₹${total.toLocaleString('en-IN')}`;
-}
-function confirmEvent(){
-  closeModalDirect();
-  setTimeout(() => alert(`🎟 Booking initiated for ${modalData.name}!\n\nRazorpay payment window will open.\n(Connect Supabase + Razorpay to activate real payments.)`), 200);
-}
-function openUpgrade(){
-  alert('Upgrade your DWC membership to access this exclusive event!');
-}
+/* STARS */
+const cv=document.getElementById('stars-canvas'),cx=cv.getContext('2d');let st=[];
+function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight}
+function ist(){st=[];for(let i=0;i<100;i++)st.push({x:Math.random()*cv.width,y:Math.random()*cv.height,sz:Math.random()*1.5+.5,ph:Math.random()*Math.PI*2,sp:Math.random()*.5+.2})}
+(function loop(t){cx.clearRect(0,0,cv.width,cv.height);st.forEach(s=>{const tw=.3+.7*Math.abs(Math.sin(s.ph+t*s.sp*.001));cx.globalAlpha=tw*.8;cx.fillStyle='#F2B705';cx.font=(s.sz*7)+'px serif';cx.fillText('★',s.x,s.y)});cx.globalAlpha=1;requestAnimationFrame(loop)})(0);
+rsz();ist();window.addEventListener('resize',()=>{rsz();ist()});
 
-// ── KEYBOARD ──
-document.querySelectorAll('.event-card').forEach(c => {
-  c.addEventListener('keydown', e => { if(e.key==='Enter') c.click(); });
+/* REVEAL */
+new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')}),{threshold:.1})
+  .observe=function(el){el.classList.contains('reveal')&&arguments[0]};
+document.querySelectorAll('.reveal').forEach(r=>{
+  new IntersectionObserver(e=>{if(e[0].isIntersecting)e[0].target.classList.add('visible')},{threshold:.1}).observe(r)
 });
 
-(function(){
-function startStars(){
-var c=document.getElementById('star-canvas');
-if(!c)return;
-c.style.cssText='position:fixed!important;top:0!important;left:0!important;z-index:0!important;pointer-events:none!important;';
-var x=c.getContext('2d'),W=window.innerWidth,H=window.innerHeight,stars=[],N=700;
-c.width=W;c.height=H;
-function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-window.addEventListener('resize',resize);
-function mk(){var t=Math.random(),sh=t<0.38?'d':t<0.72?'s4':'s5';var sz=sh==='d'?Math.random()*3.2+0.7:Math.random()*7+3;var a=Math.random()*0.55+0.4;var g=['rgba(242,183,5,'+a+')','rgba(255,205,0,'+a+')','rgba(255,220,50,'+a+')','rgba(255,195,0,'+a+')','rgba(240,170,0,'+a+')'];return{x:Math.random()*W,y:Math.random()*H,sz:sz,sh:sh,col:g[Math.floor(Math.random()*g.length)],vx:Math.random()*0.6+0.15,vy:-(Math.random()*0.65+0.12),rot:Math.random()*Math.PI*2,rv:(Math.random()-.5)*0.018,al:Math.random()*0.4+0.35,ad:Math.random()>.5?1:-1,as:Math.random()*.012+.004,an:Math.random()*.12+0.25,ax:Math.random()*.45+0.5};}
-for(var i=0;i<N;i++)stars.push(mk());
-function dot(s){x.beginPath();x.arc(s.x,s.y,s.sz,0,Math.PI*2);x.fillStyle=s.col;x.fill();}
-function s4(s){x.save();x.translate(s.x,s.y);x.rotate(s.rot);x.fillStyle=s.col;var r=s.sz,ir=r*.32;x.beginPath();for(var i=0;i<8;i++){var a=(i*Math.PI)/4,rd=i%2===0?r:ir;x.lineTo(Math.cos(a)*rd,Math.sin(a)*rd);}x.closePath();x.fill();x.restore();}
-function s5(s){x.save();x.translate(s.x,s.y);x.rotate(s.rot);x.fillStyle=s.col;var r=s.sz,ir=r*.4;x.beginPath();for(var i=0;i<10;i++){var a=(i*Math.PI)/5-Math.PI/2,rd=i%2===0?r:ir;x.lineTo(Math.cos(a)*rd,Math.sin(a)*rd);}x.closePath();x.fill();x.restore();}
-function anim(){x.clearRect(0,0,W,H);for(var i=0;i<N;i++){var s=stars[i];s.al+=s.as*s.ad;if(s.al>=s.ax)s.ad=-1;if(s.al<=s.an)s.ad=1;s.x+=s.vx;s.y+=s.vy;s.rot+=s.rv;if(s.x>W+20||s.y<-20){var ns=mk();ns.x=s.x>W+20?-10:Math.random()*W;ns.y=s.x>W+20?Math.random()*H:H+10;stars[i]=ns;continue;}x.globalAlpha=s.al;if(s.sh==='d')dot(s);else if(s.sh==='s4')s4(s);else s5(s);}x.globalAlpha=1;requestAnimationFrame(anim);}
-anim();
+/* AUTH */
+async function boot(){
+  const {data:{session}}=await sbClient.auth.getSession();
+  if(session){me=session.user;await getProfile();renderNav(true)}
+  else{renderNav(false)}
+  await loadEvents();
 }
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',startStars);}else{startStars();}
-})();
 
-(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
+async function getProfile(){
+  const {data}=await sbClient.from('profiles').select('full_name,membership_tier').eq('id',me.id).single();
+  if(data)profile=data;
+}
 
-'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sg2plzcpnl508079'},{'dcenter':'sg2'},{'cp_id':'10889043'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+function renderNav(loggedIn){
+  if(loggedIn){
+    document.getElementById('nav-guest-area').style.display='none';
+    const ua=document.getElementById('nav-user-area');ua.style.display='flex';
+    const t=(profile?.membership_tier||'free').toLowerCase();
+    const b=document.getElementById('nav-tier-badge');
+    b.textContent=t.charAt(0).toUpperCase()+t.slice(1);
+    b.className='nav-tier-badge tier-'+t;
+    document.getElementById('nav-user-name').textContent=profile?.full_name||me.email.split('@')[0];
+    document.getElementById('lock-banner').style.display='none';
+  } else {
+    document.getElementById('nav-guest-area').style.display='flex';
+    document.getElementById('nav-user-area').style.display='none';
+    document.getElementById('lock-banner').style.display='flex';
+  }
+}
+
+async function doLogout(){await sbClient.auth.signOut();location.reload()}
+
+function openAuth(m='login'){authMode=m;updAuth();document.getElementById('auth-modal').style.display='flex'}
+function closeAuth(){document.getElementById('auth-modal').style.display='none'}
+function toggleAuth(){authMode=authMode==='login'?'signup':'login';updAuth()}
+function updAuth(){
+  const l=authMode==='login';
+  document.getElementById('auth-title').textContent=l?'Welcome Back':'Join Free';
+  document.getElementById('auth-sub').textContent=l?'Login to book your seat':'Create your account in 60 seconds';
+  document.getElementById('auth-btn').textContent=l?'Login':'Create Free Account';
+  document.getElementById('auth-switch-label').textContent=l?'No account?':'Already a member?';
+  document.getElementById('auth-switch').textContent=l?'Sign up free':'Login';
+}
+
+async function handleAuth(){
+  const email=document.getElementById('auth-email').value.trim();
+  const pass=document.getElementById('auth-pass').value;
+  const btn=document.getElementById('auth-btn');
+  const err=document.getElementById('auth-error');
+  err.style.display='none';
+  if(!email||!pass){err.textContent='Please fill all fields';err.style.display='block';return}
+  btn.textContent='Please wait...';btn.disabled=true;
+  try{
+    const r=authMode==='login'
+      ?await sbClient.auth.signInWithPassword({email,password:pass})
+      :await sbClient.auth.signUp({email,password:pass,options:{data:{full_name:email.split('@')[0]}}});
+    if(r.error)throw r.error;
+    me=r.data.user||r.data.session?.user;
+    await getProfile();renderNav(true);closeAuth();renderEvents();
+  }catch(e){err.textContent=e.message||'Error. Try again.';err.style.display='block';btn.textContent=authMode==='login'?'Login':'Create Free Account';btn.disabled=false}
+}
+
+/* EVENTS */
+async function loadEvents(){
+  const {data}=await sbClient.from('celebrity_events').select('*')
+    .eq('is_published',true)
+    .gte('event_date',new Date().toISOString())
+    .order('featured',{ascending:false})
+    .order('event_date',{ascending:true});
+  allEvents=data||[];
+  document.getElementById('loading-state').style.display='none';
+  renderEvents();
+}
+
+function renderEvents(){
+  const filtered=allEvents.filter(e=>{
+    return(typeF==='all'||e.event_type===typeF)&&(cityF==='all'||e.city===cityF);
+  });
+  const feat=filtered.find(e=>e.featured);
+  const rest=filtered.filter(e=>!e.featured);
+
+  if(feat){
+    document.getElementById('featured-section').style.display='block';
+    buildFeatured(feat);
+  }else document.getElementById('featured-section').style.display='none';
+
+  const grid=document.getElementById('events-grid');
+  const empty=document.getElementById('empty-state');
+  if(rest.length){
+    grid.style.display='grid';empty.style.display='none';
+    grid.innerHTML=rest.map(buildCard).join('');
+  }else if(!feat){
+    grid.style.display='none';empty.style.display='block';
+  }else{
+    grid.style.display='none';empty.style.display='none';
+  }
+}
+
+function minPrice(ev){
+  const tier=(profile?.membership_tier||'free').toLowerCase();
+  const m={free:ev.price_free,silver:ev.price_silver,gold:ev.price_gold,platinum:ev.price_platinum};
+  const p=m[tier]||ev.price_free||ev.price_silver||ev.price_gold||ev.price_platinum;
+  return p?'₹'+Number(p).toLocaleString('en-IN'):null;
+}
+
+function fmtDate(d){return d?new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'TBA'}
+function fmtDateShort(d){return d?new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):'TBA'}
+
+function buildFeatured(ev){
+  const seats=ev.max_seats-ev.reserved_seats;
+  const pct=Math.round((ev.reserved_seats/ev.max_seats)*100);
+  const price=minPrice(ev);
+  const btnText=me?'Book My Seat →':'🔐 Login to Book';
+  const btnClass=me?'btn-book':'btn-book-outline';
+  const fc=document.getElementById('featured-card');
+  fc.onclick=()=>goEvent(ev.slug);
+  fc.innerHTML=`
+    <div class="featured-visual">
+      <span class="featured-badge"><span class="live-dot"></span>Featured Event</span>
+      <div class="featured-movie">${ev.title||'Upcoming Event'}</div>
+      <div class="featured-cast">${(ev.cast_names||[]).join(' & ')}</div>
+      <div class="featured-meta">
+        <span class="meta-tag">📅 ${fmtDate(ev.event_date)}</span>
+        <span class="meta-tag">📍 ${ev.city||'TBA'}</span>
+        <span class="meta-tag">🎬 ${cap(ev.event_type||'event')}</span>
+        ${ev.sponsor_name?`<span class="meta-tag">🤝 ${ev.sponsor_name}</span>`:''}
+      </div>
+    </div>
+    <div class="featured-info">
+      <p class="featured-desc">${ev.event_description||'An exclusive celebrity dining experience with DWC.'}</p>
+      <div>
+        <div class="seats-bar-label">
+          <span>${ev.max_seats} total seats</span>
+          <span class="seats-remaining">${seats<=0?'Sold Out':seats+' remaining'}</span>
+        </div>
+        <div class="seats-bar"><div class="seats-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="featured-price-row">
+        <div class="price-from">
+          Your price<strong>${price||'Set by admin'}</strong>
+        </div>
+        <button class="${btnClass}" onclick="event.stopPropagation();goEvent('${ev.slug}')">${btnText}</button>
+      </div>
+    </div>`;
+}
+
+function buildCard(ev){
+  const seats=ev.max_seats-ev.reserved_seats;
+  const price=minPrice(ev);
+  const tc='type-'+(ev.event_type||'other');
+  const seatsEl=seats<=0?`<span class="card-seats-low">🔴 Sold Out</span>`:seats<=10?`<span class="card-seats-low">🔥 ${seats} left</span>`:`<span class="card-seats-ok">${seats} seats</span>`;
+  return `<div class="event-card" onclick="goEvent('${ev.slug}')">
+    <div class="card-header">
+      <span class="card-type-badge ${tc}">${cap(ev.event_type||'event')}</span>
+      <div class="card-title">${ev.title||'Upcoming Event'}</div>
+      <div class="card-cast">${(ev.cast_names||[]).join(', ')}</div>
+      <div class="card-meta">
+        <span class="card-meta-item">📅 ${fmtDateShort(ev.event_date)}</span>
+        <span class="card-meta-item" style="margin-left:12px">📍 ${ev.city||'TBA'}</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div>
+        <div class="card-price">${price?`From <strong>${price}</strong>`:'<strong style="color:var(--sub)">Price TBA</strong>'}</div>
+        ${seatsEl}
+      </div>
+      <span class="card-cta">View →</span>
+    </div>
+  </div>`;
+}
+
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function goEvent(slug){if(slug)window.location.href='/event-detail.html?id='+slug}
+
+/* FILTERS */
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');typeF=b.dataset.filter;renderEvents();
+}));
+document.querySelectorAll('[data-city]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('[data-city]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');cityF=b.dataset.city;renderEvents();
+}));
+
+boot();
 </script>
 </body>
-<script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>
+</html>
