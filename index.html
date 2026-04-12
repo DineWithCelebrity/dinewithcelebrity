@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dine With Celebrity Pvt Ltd — India's #1 Celebrity Dining Club</title>
+<meta name="description" content="Join Dine With Celebrity and unlock exclusive dining experiences through your everyday spending. India's #1 celebrity dining membership.">
+<link rel="canonical" href="https://www.dinewithcelebrity.com/">
+<meta property="og:title" content="Dine With Celebrity Pvt Ltd"><meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1A0003;--mid:#3D0008;--hi:#7A0015;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--text:rgba(255,255,255,.96);--sub:rgba(255,255,255,.75);--muted:rgba(255,255,255,.50);--border:rgba(242,183,5,.2)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:2;mix-blend-mode:screen;overflow:hidden}#stars i{position:absolute;color:#F2B705;font-style:normal}
+.sA{animation:twA 3.2s ease-in-out infinite alternate}.sB{animation:twB 4.1s ease-in-out infinite alternate}.sC{animation:twC 2.8s ease-in-out infinite alternate}.sD{animation:twD 5s ease-in-out infinite alternate}.sE{animation:twE 3.7s ease-in-out infinite alternate}
+@keyframes twA{0%{opacity:.15;transform:scale(.9)}100%{opacity:.55;transform:scale(1.2)}}@keyframes twB{0%{opacity:.20;transform:scale(1)}100%{opacity:.50;transform:scale(1.15)}}@keyframes twC{0%{opacity:.10;transform:scale(.95)}100%{opacity:.45;transform:scale(1.25)}}@keyframes twD{0%{opacity:.18;transform:scale(1)}100%{opacity:.52;transform:scale(1.1)}}@keyframes twE{0%{opacity:.12;transform:scale(.9)}100%{opacity:.48;transform:scale(1.2)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(15,0,3,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
+.nav-ul{display:flex;align-items:center;gap:28px;list-style:none}.nav-ul a{color:var(--sub);text-decoration:none;font-size:.86rem;font-weight:500;transition:color .2s}.nav-ul a:hover{color:var(--gold)}
+.btn-join{background:var(--gold)!important;color:#1A0003!important;font-weight:700!important;padding:9px 22px;border-radius:4px}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}.hbg span{display:block;width:24px;height:2px;background:var(--gold);border-radius:2px}
+.mob{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(15,0,3,.97);backdrop-filter:blur(16px);padding:24px 28px;flex-direction:column;gap:18px;z-index:199;border-bottom:1px solid var(--border);transform:translateY(-110%);transition:transform .3s}.mob.open{transform:translateY(0);display:flex}.mob a{color:var(--sub);text-decoration:none;font-size:1rem;font-weight:500;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}.mob .btn-join{text-align:center;border-radius:4px;padding:13px;border-bottom:none}.mob-partner-link{color:var(--gold)!important;font-size:.88rem!important;opacity:.9}
+section{position:relative;z-index:1}.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.sec-lbl{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+h2{font-family:'Bebas Neue',cursive;font-size:clamp(2rem,5.5vw,3.6rem);letter-spacing:.05em;text-align:center;line-height:1.05;margin-bottom:10px}
+.sec-sub{text-align:center;color:var(--sub);font-size:.97rem;max-width:500px;margin:0 auto 48px;line-height:1.7}
+.btn-g{background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:1.2rem;letter-spacing:.1em;padding:16px 42px;border:none;border-radius:5px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;box-shadow:0 0 28px rgba(242,183,5,.3)}.btn-g:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-o{background:transparent;color:var(--gold);font-family:'Bebas Neue',cursive;font-size:1.2rem;letter-spacing:.1em;padding:15px 42px;border:2px solid var(--gold);border-radius:5px;text-decoration:none;display:inline-block;transition:all .2s}.btn-o:hover{background:var(--gold);color:#1A0003}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:110px 20px 80px;background:radial-gradient(ellipse 90% 70% at 50% 45%,var(--hi) 0%,var(--mid) 55%,var(--bg) 100%)}
+.kicker{display:inline-flex;align-items:center;gap:8px;background:rgba(212,0,42,.15);border:1px solid rgba(212,0,42,.4);border-radius:100px;padding:7px 20px;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#ff7a90;margin-bottom:22px;animation:up .7s ease both}
+.hero h1{font-family:'Bebas Neue',cursive;font-size:clamp(2.8rem,9vw,7rem);line-height:.9;letter-spacing:.03em;margin-bottom:14px;animation:up .8s ease .1s both}.hero h1 em{color:var(--gold);font-style:normal;display:block}.hero h1 span{font-size:clamp(1.6rem,4.5vw,3.8rem);color:rgba(255,255,255,.55)}
+.hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--sub);max-width:560px;line-height:1.72;margin:14px auto 34px;animation:up .8s ease .2s both}.hero-sub strong{color:var(--text)}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:up .8s ease .3s both;margin-bottom:18px}
+.urgency{display:inline-flex;align-items:center;gap:8px;background:rgba(212,0,42,.12);border:1px solid rgba(212,0,42,.3);border-radius:100px;padding:8px 20px;font-size:.78rem;font-weight:600;color:#ff8fa3;animation:pulse 2s ease-in-out infinite}.urgency::before{content:"⚡"}
+.how{padding:90px 20px 80px;background:linear-gradient(180deg,#1a0003 0%,#2d0007 60%,#1a0003 100%)}
+.how-inner{max-width:1100px;margin:0 auto;text-align:center}
+.how-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;opacity:.85}
+.how-title{font-family:'Bebas Neue',cursive;font-size:clamp(2.2rem,5vw,3.4rem);color:var(--text);line-height:1.05;margin-bottom:12px}
+.how-title em{color:var(--gold);font-style:normal}
+.how-sub{color:var(--sub);font-size:.95rem;margin-bottom:56px;max-width:480px;margin-left:auto;margin-right:auto}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:52px;align-items:start}
+.how-step{position:relative;text-align:left}
+.step-num-bg{position:absolute;top:-24px;left:-10px;font-family:'Bebas Neue',cursive;font-size:8rem;color:rgba(242,183,5,.05);line-height:1;z-index:0;pointer-events:none;user-select:none}
+.step-card{background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px 24px 24px;position:relative;z-index:1;transition:transform .25s,border-color .25s;height:100%}
+.step-card:hover{transform:translateY(-4px)}
+.step-card-1{border-top:3px solid rgba(0,200,83,.5)}
+.step-card-2{border-top:3px solid var(--gold);background:linear-gradient(145deg,rgba(242,183,5,.07),rgba(242,183,5,.01))}
+.step-card-3{border-top:3px solid var(--red)}
+.step-icon-wrap{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.5rem}
+.step-icon-1{background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.2)}
+.step-icon-2{background:rgba(242,183,5,.12);border:1px solid rgba(242,183,5,.25)}
+.step-icon-3{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.2)}
+.step-label{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.step-title{font-family:'Bebas Neue',cursive;font-size:1.45rem;letter-spacing:.05em;color:var(--text);line-height:1.15;margin-bottom:12px}
+.step-desc{color:var(--sub);font-size:.83rem;line-height:1.65;margin-bottom:18px}
+.step-badge{display:inline-block;font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:#00C853}
+.step-badge-gold{background:rgba(242,183,5,.1);border-color:rgba(242,183,5,.3);color:var(--gold)}
+.step-badge-red{background:rgba(212,0,42,.1);border-color:rgba(212,0,42,.25);color:#ff4d6d}
+.how-cta-wrap{text-align:center;margin-top:16px}
+.how-cta-sub{margin-top:16px;color:var(--sub);font-size:.85rem}
+.how-cta-sub strong{color:var(--red)}
+.btn-how-cta{display:inline-flex;align-items:center;gap:14px;background:linear-gradient(135deg,#F2B705 0%,#FFD166 40%,#F2B705 100%);background-size:200% auto;color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.6rem;letter-spacing:.1em;padding:20px 48px;border-radius:100px;text-decoration:none;position:relative;overflow:hidden;transition:background-position .4s,transform .2s,box-shadow .2s;box-shadow:0 0 0 0 rgba(242,183,5,0);animation:ctaPulse 2.5s ease-in-out infinite}
+.btn-how-cta:hover{background-position:right center;transform:scale(1.04);box-shadow:0 0 40px rgba(242,183,5,.45)}
+.btn-how-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 50%,transparent 100%);transform:translateX(-100%);animation:btnShimmer 2.5s ease-in-out infinite}
+@keyframes btnShimmer{0%,100%{transform:translateX(-100%)}60%{transform:translateX(100%)}}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,.5)}50%{box-shadow:0 0 28px 8px rgba(242,183,5,.18)}}
+.btn-how-cta .cta-icon{font-size:1.4rem;animation:ctaIconBounce 1.8s ease-in-out infinite}
+@keyframes ctaIconBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.btn-how-cta .cta-arrow{font-size:1.2rem;transition:transform .2s}
+.btn-how-cta:hover .cta-arrow{transform:translateX(5px)}
+@media(max-width:768px){.how-grid{grid-template-columns:1fr;gap:16px}.step-num-bg{font-size:6rem}}
+.events{padding:80px 20px;background:radial-gradient(ellipse 80% 70% at 50% 50%,#4A000C 0%,#1A0003 100%);text-align:center}
+.event-card{max-width:700px;margin:0 auto;background:rgba(15,0,3,.7);border:1px solid var(--gold);border-radius:14px;padding:44px 36px;position:relative;overflow:hidden}
+.event-badge{display:inline-block;background:var(--red);color:#fff;font-family:'Bebas Neue',cursive;font-size:.8rem;letter-spacing:.14em;padding:5px 18px;border-radius:100px;margin-bottom:18px}
+.event-title{font-family:'Bebas Neue',cursive;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:.06em;color:var(--text);margin-bottom:8px}.event-title span{color:var(--gold)}
+.event-meta{color:var(--sub);font-size:.9rem;margin-bottom:30px}
+.countdown{display:flex;gap:16px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+.cd-item{text-align:center;background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.25);border-radius:8px;padding:14px 20px;min-width:72px}
+.cd-num{font-family:'Bebas Neue',cursive;font-size:2.6rem;color:var(--gold);line-height:1;display:block}
+.cd-lbl{font-size:.65rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:3px}
+.event-seats{font-size:.82rem;color:#ff8fa3;margin-bottom:26px;font-weight:600}
+.pricing{padding:80px 20px;background:linear-gradient(180deg,#250004 0%,#380008 100%)}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;max-width:880px;margin:0 auto}
+.tier{background:rgba(15,0,3,.75);border:1px solid var(--border);border-radius:12px;padding:34px 26px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}.tier:hover{transform:translateY(-5px);border-color:var(--gold)}
+.tier.hot{border-color:var(--gold);background:rgba(50,0,10,.92);transform:scale(1.04)}
+.hot-tag{position:absolute;top:14px;right:-30px;background:var(--gold);color:#1A0003;font-family:'Bebas Neue',cursive;font-size:.68rem;letter-spacing:.1em;padding:4px 42px;transform:rotate(45deg)}
+.t-name{font-family:'Bebas Neue',cursive;font-size:1.6rem;letter-spacing:.08em;color:var(--gold);margin-bottom:2px}
+.t-price{font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--text);line-height:1;margin-bottom:2px}.t-price sub{font-size:1.1rem;color:var(--sub);font-family:'Poppins',sans-serif}
+.t-period{color:var(--muted);font-size:.76rem;margin-bottom:4px}.t-value{color:#69f0ae;font-size:.75rem;font-weight:600;margin-bottom:20px}
+.perks{list-style:none;margin-bottom:26px}.perks li{color:var(--sub);font-size:.85rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:8px;align-items:flex-start}.perks li::before{content:"✦";color:var(--gold);font-size:.6rem;margin-top:4px;flex-shrink:0}
+.btn-t{display:block;text-align:center;background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Bebas Neue',cursive;font-size:1.08rem;letter-spacing:.1em;padding:12px;border-radius:5px;text-decoration:none;transition:all .2s}.btn-t:hover,.tier.hot .btn-t{background:var(--gold);color:#1A0003}
+.partners{padding:64px 20px;background:linear-gradient(180deg,#1E0004 0%,#1A0003 100%);text-align:center}
+.partners-row{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;max-width:880px;margin:0 auto}
+.partner-logo{width:140px;height:66px;background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.72rem;text-align:center;transition:all .3s}
+.partners-note{font-size:.78rem;color:var(--muted);margin-top:16px;font-style:italic}
+.proof{padding:80px 20px;background:radial-gradient(ellipse 70% 60% at 50% 50%,#3A0008 0%,#1A0003 100%)}
+.proof-stats{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;margin-bottom:52px}
+.ps-item{text-align:center}.ps-num{font-family:'Bebas Neue',cursive;font-size:3.2rem;color:var(--gold);line-height:1}.ps-lbl{font-size:.75rem;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:920px;margin:0 auto}
+.tcard{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:28px 24px;transition:border-color .3s,transform .3s}.tcard:hover{border-color:var(--gold);transform:translateY(-4px)}
+.tcard-stars{color:var(--gold);font-size:1rem;margin-bottom:12px;letter-spacing:2px}
+.tcard-text{color:var(--sub);font-size:.9rem;line-height:1.7;margin-bottom:18px;font-style:italic}
+.tcard-author{display:flex;align-items:center;gap:12px}
+.tcard-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--red));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1.1rem;color:#1A0003;flex-shrink:0}
+.tcard-name{font-weight:600;font-size:.88rem;color:var(--text)}.tcard-loc{font-size:.75rem;color:var(--muted)}
+.final{padding:100px 20px;background:radial-gradient(ellipse 85% 90% at 50% 50%,#6A0012 0%,#2A0006 100%);text-align:center}
+.final h2{font-size:clamp(2.6rem,8vw,5.5rem);margin-bottom:12px}.final h2 span{color:var(--gold)}
+.final-sub{color:var(--sub);font-size:1.05rem;max-width:480px;margin:0 auto 36px;line-height:1.68}
+.final-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.trust-row{margin-top:22px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:.78rem;color:var(--muted)}.trust-row span::before{content:"✓ ";color:var(--gold)}
+footer{background:#0A0002;padding:52px 20px 28px;border-top:1px solid var(--border);position:relative;z-index:1}
+.ft{max-width:980px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px}
+.ft-brand .logo-txt{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--gold);letter-spacing:.1em}
+.ft-brand p{color:var(--muted);font-size:.82rem;line-height:1.62;margin-top:10px}
+footer h4{font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:.12em;color:var(--gold);margin-bottom:14px}
+footer ul{list-style:none}footer li{margin-bottom:9px}footer a{color:var(--muted);text-decoration:none;font-size:.82rem;transition:color .2s}footer a:hover{color:var(--gold)}
+.ft-bot{max-width:980px;margin:30px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.74rem;color:var(--muted)}.ft-bot a{color:var(--muted);text-decoration:none}.ft-bot a:hover{color:var(--gold)}
+@media(max-width:768px){nav{padding:0 18px}.nav-ul{display:none}.hbg{display:flex}.how-grid{grid-template-columns:1fr;gap:36px}.how-grid::before{display:none}.ft{grid-template-columns:1fr 1fr}.ft>:first-child{grid-column:1/-1}.proof-stats{gap:32px}}
+@media(max-width:480px){.ft{grid-template-columns:1fr}.hero-ctas,.final-ctas{flex-direction:column;align-items:center}.btn-g,.btn-o{width:100%;max-width:320px;text-align:center}.countdown{gap:10px}.cd-item{min-width:60px;padding:10px 14px}}
+
+.celeb-more-teaser{margin-top:36px;text-align:center;padding:20px 24px;background:rgba(242,183,5,.04);border:1px solid rgba(242,183,5,.12);border-radius:16px;max-width:540px;margin-left:auto;margin-right:auto}
+.more-celeb-text{font-size:1rem;color:var(--sub);letter-spacing:.05em;margin-bottom:8px}
+.more-celeb-sub{font-size:.85rem;color:var(--muted)}
+.more-celeb-sub strong{color:var(--gold)}
+.celeb-reveal{padding:72px 20px;text-align:center;background:linear-gradient(180deg,var(--bg) 0%,#1f0007 50%,var(--bg) 100%)}
+.reveal-badge{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:28px;animation:badge-pulse 2s ease-in-out infinite}
+@keyframes badge-pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,0,42,.5)}50%{box-shadow:0 0 0 8px rgba(212,0,42,0)}}
+.reveal-h2{font-family:'Bebas Neue',cursive;font-size:clamp(2.4rem,7vw,4.6rem);line-height:1;color:var(--text);margin-bottom:8px}
+.reveal-h2 em{color:var(--gold);font-style:normal}
+.reveal-sub{font-size:clamp(.9rem,2vw,1.05rem);color:var(--sub);margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto}
+.celeb-card{display:inline-block;background:linear-gradient(135deg,#1a0010 0%,#0d0006 100%);border:1px solid var(--border);border-radius:20px;padding:36px 40px;max-width:520px;width:100%;position:relative;animation:crd-glow 3s ease-in-out infinite alternate}
+@keyframes crd-glow{from{box-shadow:0 0 30px rgba(242,183,5,.07)}to{box-shadow:0 0 60px rgba(242,183,5,.18)}}
+.celeb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);border-radius:20px 20px 0 0}
+.celeb-emoji{font-size:2.6rem;margin-bottom:10px}
+.celeb-name{font-family:'Bebas Neue',cursive;font-size:clamp(2rem,7vw,3.4rem);color:var(--gold);line-height:1;margin-bottom:8px}
+.celeb-bio{font-size:.85rem;color:var(--sub);line-height:1.6;margin-bottom:18px}
+.celeb-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.celeb-tag{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.22);color:var(--gold2);font-size:.73rem;font-weight:600;padding:4px 12px;border-radius:100px}
+.verified-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.28);color:#00C853;font-size:.74rem;font-weight:600;padding:6px 16px;border-radius:100px}
+.mechanic{padding:110px 20px;text-align:center;background:linear-gradient(180deg,#0d0005 0%,#1a0008 50%,#0d0005 100%);position:relative;overflow:hidden}
+.mechanic::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(212,0,42,.07),transparent);pointer-events:none}
+.mech-inner{max-width:760px;margin:0 auto;position:relative;z-index:1}
+.mech-tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.2);padding:6px 18px;border-radius:100px;margin-bottom:32px}
+.mech-q{font-family:'Bebas Neue',cursive;font-size:clamp(2.8rem,7vw,5.6rem);color:var(--text);line-height:1.0;letter-spacing:.03em;margin-bottom:10px}
+.mech-q em{color:var(--gold);font-style:normal}
+.mech-divider{width:50px;height:3px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:24px auto;border-radius:2px}
+.mech-pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
+.mech-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.82);font-size:.88rem;font-weight:600;padding:10px 20px;border-radius:100px;letter-spacing:.02em}
+.mech-pill span{font-size:1rem}
+.btn-mech-cta{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.1em;padding:18px 48px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 0 0 0 rgba(212,0,42,0);animation:mechPulse 2.8s ease-in-out infinite}
+.btn-mech-cta:hover{background:#b0001f;transform:scale(1.04);box-shadow:0 0 36px rgba(212,0,42,.45);animation:none}
+.btn-mech-cta .mech-arrow{transition:transform .2s}
+.btn-mech-cta:hover .mech-arrow{transform:translateX(6px)}
+@keyframes mechPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,0,42,.45)}55%{box-shadow:0 0 24px 6px rgba(212,0,42,.15)}}
+.mech-trust{margin-top:20px;font-size:.75rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase}
+.mech-trust-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}.mech-trust-pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;letter-spacing:.05em;padding:8px 18px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.82)}.mech-trust-gold{background:rgba(242,183,5,.12);border-color:rgba(242,183,5,.35);color:var(--gold)}
+.proof-cta-wrap{margin-top:40px;text-align:center}
+.proof-limited{font-size:.82rem;font-weight:700;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.proof-cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:.08em;padding:16px 42px;border-radius:100px;text-decoration:none;transition:opacity .2s,transform .2s}
+.proof-cta-btn:hover{opacity:.88;transform:scale(1.03)}
+.fomo-sec{background:linear-gradient(135deg,#1a0005 0%,#0a000a 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:48px 20px;text-align:center}
+.fomo-h2{font-family:'Bebas Neue',cursive;font-size:clamp(1.8rem,5vw,2.7rem);color:var(--text);margin-bottom:22px}
+.fomo-h2 em{color:var(--gold);font-style:normal}
+.fomo-stats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.fomo-stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:14px 22px;min-width:128px}
+.fomo-num{font-family:'Bebas Neue',cursive;font-size:1.9rem;color:var(--gold);line-height:1;display:block}
+.fomo-lbl{font-size:.69rem;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;font-weight:600;display:block;margin-top:4px}
+.live-row{display:inline-flex;align-items:center;gap:8px;font-size:.77rem;color:var(--sub);margin-bottom:22px}
+.live-dot{width:8px;height:8px;background:#00C853;border-radius:50%;animation:ldot 1.5s ease-in-out infinite}
+@keyframes ldot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+@media(max-width:600px){.celeb-card{padding:26px 18px}.price-card{padding:26px 18px}.fomo-stats{gap:10px}.fomo-stat{min-width:105px;padding:12px 14px}}
+
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.plan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px 20px;position:relative;display:flex;flex-direction:column}
+.plan.featured{border-color:var(--gold);background:rgba(242,183,5,.06)}
+.plan.purple{border-color:#9b59b6;background:rgba(155,89,182,.07)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#06040A;font-size:.7rem;font-weight:800;padding:4px 14px;border-radius:100px;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
+.purple-badge{background:linear-gradient(135deg,#9b59b6,#6c3483)!important;color:#fff!important}
+.plan-name{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--text);margin-bottom:8px;letter-spacing:.04em}
+.plan-price{margin-bottom:4px}
+.plan-amt{font-family:'Bebas Neue',cursive;font-size:2.4rem;color:var(--gold);line-height:1}
+.plan-per{font-size:.78rem;color:var(--sub);margin-left:6px}
+.plan-tag{font-size:.75rem;color:var(--muted);margin-bottom:18px}
+.plan-perks{list-style:none;flex:1;margin-bottom:20px}
+.plan-perks li{font-size:.82rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);color:var(--sub);display:flex;align-items:flex-start;gap:8px}
+.plan-perks li.yes::before{content:'\2713';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.plan-perks li.no::before{content:'\2715';color:rgba(255,255,255,.2);flex-shrink:0;margin-top:1px}
+.plan-perks li.no{color:rgba(255,255,255,.3)}
+.plan-btn{display:block;text-align:center;padding:13px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:800;text-decoration:none;text-transform:uppercase;letter-spacing:.06em;margin-top:auto;transition:opacity .2s}
+.plan-btn.outline{border:1px solid rgba(255,255,255,.2);color:var(--sub)}
+.plan-btn.outline:hover{border-color:var(--gold);color:var(--gold)}
+.plan-btn.gold-btn{background:var(--gold);color:#06040A}
+.plan-btn.gold-btn:hover{opacity:.88}
+.plan-btn.purple-btn{background:linear-gradient(135deg,#9b59b6,#6c3483);color:#fff}
+.plan-btn.purple-btn:hover{opacity:.88}
+.plan.purple .plan-amt{color:#c39bd3}
+@media(max-width:900px){.plans-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.plans-grid{grid-template-columns:1fr}}
+
+/* CAUSE SECTION */
+.cause-card{text-decoration:none;display:block;cursor:pointer;}
+.cause-card:hover .cause-name{color:#FFD166;}
+.cause-sec{padding:5rem 0;background:linear-gradient(180deg,rgba(212,0,42,0.06) 0%,transparent 100%);border-top:1px solid rgba(212,0,42,0.15);}
+.cause-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,4rem);color:#fff;line-height:1.1;margin:0.5rem 0 1rem;letter-spacing:1px;}
+.cause-h2 em{color:#D4002A;font-style:normal;}
+.cause-sub{color:rgba(255,255,255,0.75);font-size:1.05rem;max-width:600px;margin:0 auto 3rem;line-height:1.7;}
+.cause-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:3rem;}
+.cause-card{background:rgba(255,255,255,0.04);border:1px solid rgba(212,0,42,0.2);border-radius:14px;padding:1.75rem 1.5rem;text-align:center;transition:transform 0.2s,border-color 0.2s;}
+.cause-card:hover{transform:translateY(-4px);border-color:rgba(212,0,42,0.5);}
+.cause-icon{font-size:2rem;margin-bottom:0.75rem;}
+.cause-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#F2B705;letter-spacing:1px;margin-bottom:0.5rem;}
+.cause-desc{color:rgba(255,255,255,0.65);font-size:0.82rem;line-height:1.5;}
+.cause-promise{display:flex;align-items:center;justify-content:center;gap:1rem;background:rgba(212,0,42,0.1);border:1px solid rgba(212,0,42,0.3);border-radius:12px;padding:1.25rem 2rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+.cause-pct{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#D4002A;line-height:1;}
+.cause-ptxt{color:rgba(255,255,255,0.85);font-size:1rem;max-width:380px;line-height:1.5;}
+/* JOIN FREE SECTION */
+.join-free-sec{padding:5rem 0;text-align:center;border-top:1px solid rgba(242,183,5,0.1);}
+.jf-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,4rem);color:#fff;line-height:1.1;margin:0.5rem 0 1rem;letter-spacing:1px;}
+.jf-h2 em{color:#F2B705;font-style:normal;}
+.jf-sub{color:rgba(255,255,255,0.75);font-size:1.05rem;max-width:560px;margin:0 auto 2.5rem;line-height:1.7;}
+.jf-perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.75rem;max-width:700px;margin:0 auto 2.5rem;text-align:left;}
+.jf-perk{color:rgba(255,255,255,0.85);font-size:0.95rem;padding:0.6rem 1rem;background:rgba(242,183,5,0.06);border:1px solid rgba(242,183,5,0.12);border-radius:8px;}
+.jf-note{color:rgba(255,255,255,0.45);font-size:0.85rem;margin-top:1.25rem;}
+
+.mech-cta{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:#06040A;font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.1em;padding:18px 48px;border-radius:100px;text-decoration:none;font-weight:900;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(242,183,5,.25)}
+.mech-cta:hover{background:#FFD166;transform:scale(1.04);box-shadow:0 6px 36px rgba(242,183,5,.4)}
+.btn-hero{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#D4002A,#a50020);color:#fff;font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.1em;padding:18px 48px;border-radius:100px;text-decoration:none;font-weight:900;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(212,0,42,.3);position:relative;overflow:hidden}
+.btn-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-100%);animation:heroShimmer 2.5s ease-in-out infinite}
+@keyframes heroShimmer{0%,100%{transform:translateX(-100%)}60%{transform:translateX(100%)}}
+.btn-hero:hover{background:linear-gradient(135deg,#b0001f,#800018);transform:scale(1.04);box-shadow:0 6px 36px rgba(212,0,42,.5)}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Dine With Celebrity","url":"https://www.dinewithcelebrity.com","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"},"description":"India's first celebrity dining membership platform"}</script>
+</head><body>
+<div id="stars" aria-hidden="true"></div>
+
+<nav><a href="/" class="nav-logo">★ <img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height:120px;width:auto;display:block" onerror="this.src='/logo.png'"/></a><ul class="nav-ul">
+      <li><a href="/stars.html">Celebrities</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/gives-back.html">Cause</a></li>
+      <li><a href="/partner-signup.html" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.88rem;font-weight:600;transition:color .2s" onmouseover="this.style.color='#F2B705'" onmouseout="this.style.color='rgba(255,255,255,.75)'">Partner With Us</a></li>
+      <li><a href="/signin.html">Sign In</a></li>
+      <li><a href="/signup.html" class="btn-join">Join Free</a></li>
+    </ul><button class="hbg" id="hbg" aria-expanded="false"><span></span><span></span><span></span></button></nav>
+<div class="mob" id="mob">
+<a href="/stars.html">★ Celebrities</a>
+<a href="/#about">About Us</a>
+<a href="/gives-back.html">Cause</a>
+<div style="height:1px;background:rgba(255,255,255,.1);margin:2px 0"></div>
+<div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 4px">Member</div>
+<a href="/signin.html" style="display:flex;align-items:center;gap:8px"><span style="font-size:1rem">👤</span> Member Sign In</a>
+<a href="/signup.html" class="btn-join">★ Join Free — Sign Up</a>
+<div style="height:1px;background:rgba(242,183,5,.2);margin:2px 0"></div>
+<div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(242,183,5,.5);padding:0 4px">Partner</div>
+<a href="/partner-signup.html" style="color:var(--gold);display:flex;align-items:center;gap:8px"><span style="font-size:1rem">������</span> Partner With Us</a>
+<a href="/partner-dashboard.html" style="color:var(--gold)">Partner Sign In →</a>
+</div><a href="/partner-signup.html" style="color:var(--gold);font-size:.88rem">🤝 Partner With Us</a><a href="/partner-dashboard.html" style="color:var(--gold);font-size:.88rem">Partner Login →</a><div style="height:1px;background:rgba(242,183,5,.2);margin:4px 0"></div><a href="/signin.html">Sign In</a><a href="/signup.html" class="btn-join">Join Free — Start Today</a></div>
+<section class="hero"><div class="kicker">Limited Seats — Next Event Filling Fast</div><h1>Dine With Your<br><em>Favourite Celebrity.</em><span>For Real. In India.</span></h1><p style="font-family:'Bebas Neue',cursive;font-size:clamp(1rem,2.5vw,1.5rem);letter-spacing:.2em;color:var(--gold);margin-bottom:16px;animation:up .8s ease .2s both">Dine For A Cause</p><p class="hero-sub">Join Dine With Celebrity and unlock <strong>exclusive dining experiences</strong> through your everyday spending.</p><div class="hero-ctas"><a href="/signup.html" class="btn-g">⭐ Claim Your Free Membership</a><a href="/stars.html" class="btn-o">Meet the Celebrities</a></div><div class="urgency">Only 12 seats left for the next celebrity dinner</div>
+    <div class="celeb-more-teaser">
+      <p class="more-celeb-text">&#x1F3AC; Bollywood &nbsp;&bull;&nbsp; &#x1F3CF; Cricket &nbsp;&bull;&nbsp; &#x1F3B5; Music &nbsp;&bull;&nbsp; &#x1F93C; Sports</p>
+      <p class="more-celeb-sub">More celebrities being confirmed every week &mdash; <strong>members get notified first</strong></p>
+    </div>
+  </section>
+<section class="how">
+  <div class="how-inner">
+    <div class="how-eyebrow">How It Works</div>
+    <h2 class="how-title">3 Steps to Your <em>Celebrity Dinner</em></h2>
+    <p class="how-sub">No complicated process. Sign up, pick your event, show up.</p>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="step-num-bg">01</div>
+        <div class="step-card step-card-1">
+          <div class="step-icon-wrap step-icon-1">&#x1F39F;</div>
+          <div class="step-label">Step 01</div>
+          <div class="step-title">Join Free.<br>Always Free.</div>
+          <p class="step-desc">Create your account in 30 seconds. No credit card. No commitment. Start earning dinner credits from day one.</p>
+          <span class="step-badge">Free forever</span>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-num-bg">02</div>
+        <div class="step-card step-card-2">
+          <div class="step-icon-wrap step-icon-2">&#x2B50;</div>
+          <div class="step-label">Step 02</div>
+          <div class="step-title">Your Favourite<br>Celebrity is Waiting.</div>
+          <p class="step-desc">Browse upcoming celebrity dinners — Bollywood, Tollywood, Sports. Book before it sells out. Members get first access.</p>
+          <span class="step-badge step-badge-gold">Members first</span>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-num-bg">03</div>
+        <div class="step-card step-card-3">
+          <div class="step-icon-wrap step-icon-3">&#x1F942;</div>
+          <div class="step-label">Step 03</div>
+          <div class="step-title">Sit at the Same<br>Table. For Real.</div>
+          <p class="step-desc">Show up. Sit down. Your meal directly funds a real social cause — and you walk away with a memory money can't buy.</p>
+          <span class="step-badge step-badge-red">Dine for a Cause</span>
+        </div>
+      </div>
+    </div>
+    <div class="how-cta-wrap">
+      <a href="/signup.html" class="btn-how-cta">
+        <span class="cta-icon">&#x1F31F;</span>
+        <span>Claim Your Seat &mdash; It&rsquo;s Free</span>
+        <span class="cta-arrow">&#x2192;</span>
+      </a>
+      <p class="how-cta-sub">&#x26A1; Next event filling fast &mdash; <strong>12 seats remaining</strong></p>
+    </div>
+  </div>
+</section>
+<section class="events" id="events-section"><div class="wrap"><p class="sec-lbl">Upcoming Events</p><h2>Celebrity Dinners</h2><p class="sec-sub" style="margin-bottom:36px">Pick your favourite. Book your seat. Every event is intimate and exclusive.</p><div id="events-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;max-width:980px;margin:0 auto"><div class="event-card" style="opacity:.5"><div class="event-badge">⏳ Loading events...</div><div class="event-title" style="font-size:1.2rem">Fetching upcoming events…</div></div></div></div></section>
+
+<section class="celeb-reveal">
+  <div class="wrap">
+    <p class="sec-lbl" style="text-align:center">Confirmed Events</p>
+    <h2 style="text-align:center;font-family:'Bebas Neue',cursive;font-size:clamp(2rem,5vw,3rem);margin-bottom:2rem">Celebrities <em>Confirmed for 2026</em></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:820px;margin:0 auto">
+
+      <div class="celeb-card">
+        <div class="celeb-emoji">&#x1F3AD; &#x1F3A4; &#x1F336;&#xFE0F;</div>
+        <div class="celeb-name">THAGUBOTHU RAMESH</div>
+        <p class="celeb-bio">Telugu comedy legend. Beloved by millions across AP &amp; Telangana. Known for his iconic roles in 100+ films — and now, coming to a dinner table near you.</p>
+        <div class="celeb-tags">
+          <span class="celeb-tag">Telugu Cinema</span>
+          <span class="celeb-tag">Comedy Icon</span>
+          <span class="celeb-tag">100+ Films</span>
+          <span class="celeb-tag">Hyderabad</span>
+        </div>
+        <div class="verified-tag">&#x2713; Officially Confirmed &mdash; June 2026</div>
+        <a href="/events" class="btn-g" style="display:block;text-align:center;margin-top:1.25rem">View Event →</a>
+      </div>
+
+      <div class="celeb-card">
+        <div class="celeb-emoji">🎬 🍽️ ⭐</div>
+        <div class="celeb-name">BAGAWANTHUDU MOVIE TEAM</div>
+        <p class="celeb-bio">Meet &amp; Dine with the Bagawanthudu Movie Team — Starring Thiruveer &amp; Faria Abdullah. Celebrate the re-release with an intimate dinner alongside the cast.</p>
+        <div class="celeb-tags">
+          <span class="celeb-tag">Telugu Cinema</span>
+          <span class="celeb-tag">Bagawanthudu</span>
+          <span class="celeb-tag">70 Seats Only</span>
+          <span class="celeb-tag">May 30 · Hyderabad</span>
+        </div>
+        <div class="verified-tag">&#x2713; Confirmed &mdash; May 30, 2026</div>
+        <a href="/bagawanthudu-dwc-event.html" class="btn-g" style="display:block;text-align:center;margin-top:1.25rem">View Event →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cause-sec">
+  <div class="wrap">
+    <p class="sec-lbl">Dine For A Cause</p>
+    <h2 class="cause-h2">Every Dinner You Attend<br><em>Saves A Life.</em></h2>
+    <p class="cause-sub">We built giving into our DNA. Every celebrity dinner you attend, every partner restaurant you visit — a portion of our company profits goes directly to the people who need it most.</p>
+    <div class="cause-grid">
+      <a href="/gives-back.html" class="cause-card">
+        <div class="cause-icon">❤️</div>
+        <div class="cause-name">Heart Surgery</div>
+        <div class="cause-desc">Funding life-saving cardiac surgeries for those who can't afford it</div>
+      </a>
+      <a href="/gives-back.html" class="cause-card">
+        <div class="cause-icon">🩺</div>
+        <div class="cause-name">Cancer Treatment</div>
+        <div class="cause-desc">Supporting patients through chemotherapy and long-term cancer care</div>
+      </a>
+      <a href="/gives-back.html" class="cause-card">
+        <div class="cause-icon">💧</div>
+        <div class="cause-name">Kidney Dialysis</div>
+        <div class="cause-desc">Covering dialysis sessions for patients with chronic kidney failure</div>
+      </a>
+      <a href="/gives-back.html" class="cause-card">
+        <div class="cause-icon">🫀</div>
+        <div class="cause-name">Organ Transplants</div>
+        <div class="cause-desc">Helping families bear the cost of life-changing organ transplants</div>
+      </a>
+      <a href="/gives-back.html" class="cause-card">
+        <div class="cause-icon">📚</div>
+        <div class="cause-name">Girl Education</div>
+        <div class="cause-desc">Sponsoring education for girls from underprivileged backgrounds</div>
+      </a>
+      <a href="/gives-back.html" class="cause-card">
+        <div class="cause-icon">🏠</div>
+        <div class="cause-name">Orphan Care</div>
+        <div class="cause-desc">Supporting orphanages with food, shelter, and daily essentials</div>
+      </a>
+    </div>
+    <div class="cause-promise">
+      <span class="cause-pct">20%</span>
+      <span class="cause-ptxt">of our company profits — our commitment to give back. Every dinner you attend directly funds these causes.</span>
+    </div>
+    <a href="/signup.html" class="btn-hero">Join Free — Dine For A Cause</a>
+  </div>
+</section>
+
+<section class="final"><h2>Your Celebrity Dinner<br><span>Starts Here.</span></h2><p class="final-sub">Thousands of members. Real dinners. Real stars. Real change. Join free — no credit card needed.</p><div class="final-ctas"><a href="/signup.html" class="btn-g">⭐ Join Now — It's Free</a><a href="/stars.html" class="btn-o">See Celebrities</a></div><div class="trust-row"><span>Free forever</span><span>No credit card</span><span>Dine for a cause</span></div></section>
+<footer><div class="ft"><div class="ft-brand"><div class="logo-txt">★ DINE WITH CELEBRITY</div><p>India's most exclusive celebrity dining membership. Dine for a cause. Dine With Celebrity Pvt Ltd.</p></div><div><h4>Explore</h4><ul><li><a href="/stars.html">Celebrities</a></li><li></li><li><a href="/about">About Us</a></li><li><a href="/gives-back.html">Cause</a></li></ul></div><div><h4>Membership</h4><ul><li><a href="/signup.html">Join Free</a></li><li><a href="/signup.html">Gold Plan</a></li><li><a href="/signup.html">Platinum Plan</a></li><li><a href="/signin.html">Sign In</a></li></ul></div><div><h4>Partners</h4><ul><li><a href="/partner-signup.html">Become a Partner</a></li><li><a href="/partner-sponsor.html">Partner Login</a></li><li><a </li></ul></div><div><h4>Company</h4><ul><li><a href="/gives-back.html">Cause</a></li><li><a href="/refund.html">Refund Policy</a></li><li><a href="/privacy">Privacy Policy</a></li><li><a href="/disclaimer.html">Disclaimer</a> <a href="/admin-events.html" style="color:rgba(242,183,5,0.5);font-size:.75rem">Admin Portal</a></li></ul></div></div><div class="ft-bot"><span>© 2025 Dine With Celebrity Pvt Ltd. All rights reserved.</span><span><a href="mailto:hello@dinewithcelebrity.com">hello@dinewithcelebrity.com</a></span><div><h4>Contact Us</h4><ul style="list-style:none;padding:0"><li style="margin-bottom:10px"><span style="color:var(--gold2);font-size:.72rem;font-weight:700;display:block;text-transform:uppercase;letter-spacing:.05em">General Enquiries</span><a href="mailto:hello@dinewithcelebrity.com" style="color:rgba(255,255,255,.75);font-size:.78rem;text-decoration:none">hello@dinewithcelebrity.com</a></li><li style="margin-bottom:10px"><span style="color:var(--gold2);font-size:.72rem;font-weight:700;display:block;text-transform:uppercase;letter-spacing:.05em">Payments</span><a href="mailto:payments@dinewithcelebrity.com" style="color:rgba(255,255,255,.75);font-size:.78rem;text-decoration:none">payments@dinewithcelebrity.com</a></li><li style="margin-bottom:10px"><span style="color:var(--gold2);font-size:.72rem;font-weight:700;display:block;text-transform:uppercase;letter-spacing:.05em">Legal</span><a href="mailto:legal@dinewithcelebrity.com" style="color:rgba(255,255,255,.75);font-size:.78rem;text-decoration:none">legal@dinewithcelebrity.com</a></li><li style="margin-bottom:10px"><span style="color:var(--gold2);font-size:.72rem;font-weight:700;display:block;text-transform:uppercase;letter-spacing:.05em">Partners</span><a href="mailto:partners@dinewithcelebrity.com</a></div><div style="margin-top:12px"><a href="/partner-signup.html" style="color:#F2B705;font-weight:700;font-size:.88rem;text-decoration:none">&#x2192; Partner With DWC</a>partners@dinewithcelebrity.com</a></li><li style="margin-bottom:10px"><span style="color:var(--gold2);font-size:.72rem;font-weight:700;display:block;text-transform:uppercase;letter-spacing:.05em">Sponsors</span><a href="mailto:sponsorships@dinewithcelebrity.com" style="color:rgba(255,255,255,.75);font-size:.78rem;text-decoration:none">sponsorships@dinewithcelebrity.com</a></li><li><span style="color:var(--gold2);font-size:.72rem;font-weight:700;display:block;text-transform:uppercase;letter-spacing:.05em">Careers</span><a href="mailto:careers@dinewithcelebrity.com" style="color:rgba(255,255,255,.75);font-size:.78rem;text-decoration:none">careers@dinewithcelebrity.com</a></li></ul></div></div></footer>
+
+
+<script>
+(function(){var l=document.getElementById('stars'),cls=['sA','sB','sC','sD','sE'],sh=['★','✦','✦','·','★','✧'],html='';var pos=[[4,5],[22,9],[48,4],[76,7],[94,3],[9,18],[88,12],[2,38],[96,45],[8,55],[91,60],[15,72],[82,78],[5,85],[93,88],[28,32],[78,50],[42,65],[55,20],[35,48],[63,15],[18,62],[71,30],[47,75],[86,22],[12,40],[58,85],[33,58],[67,42],[24,70],[90,35],[6,25],[44,90],[80,68],[50,10],[16,80],[72,55],[38,20],[60,38],[26,92],[84,48],[10,95],[52,28],[30,15],[76,82],[20,52],[46,35],[88,70],[14,66],[62,8],[36,78],[70,22],[54,60],[8,44],[96,15]];pos.forEach(function(p,i){var x=p[0],y=p[1],sz=((x*7+y*3)%10+6),c=cls[i%5],s=sh[i%6],d=-(((x+y)%50)/10).toFixed(1);html+='<i class="'+c+'" style="left:'+x+'%;top:'+y+'%;font-size:'+sz+'px;animation-delay:'+d+'s;">'+s+'</i>';});l.innerHTML=html;})()
+
+var hbg=document.getElementById('hbg'),mob=document.getElementById('mob');
+hbg.addEventListener('click',function(){var o=mob.classList.toggle('open');hbg.setAttribute('aria-expanded',o);});
+document.addEventListener('click',function(e){if(!hbg.contains(e.target)&&!mob.contains(e.target)){mob.classList.remove('open');hbg.setAttribute('aria-expanded','false');}});
+(function(){setTimeout(function(){var f=document.getElementById('prog-fill');if(f)f.style.width='17.8%';},400);function countUp(el,t,d){d=d||1800;var s=performance.now();(function r(n){var p=Math.min((n-s)/d,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*t).toLocaleString('en-IN');if(p<1)requestAnimationFrame(r);})(performance.now());}var o=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.querySelectorAll('.fomo-count').forEach(function(el){countUp(el,parseInt(el.dataset.target));});o.unobserve(e.target);}});},{threshold:.3});document.querySelectorAll('.fomo-sec').forEach(function(s){o.observe(s);});})();
+
+(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+// ── DYNAMIC EVENT LOADER ────────────────────────────────────────
+(function(){
+  var SUPA_URL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+  var sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+  // ── ALL EVENTS GRID ─────────────────────────────────────────
+  function renderEventsGrid(events){
+    var grid = document.getElementById('events-grid');
+    if(!grid) return;
+
+    if(!events || !events.length){
+      grid.innerHTML =
+        '<div class="event-card" style="grid-column:1/-1;text-align:center">'+
+          '<div class="event-badge">🔜 Coming Soon</div>'+
+          '<div class="event-title" style="font-size:1.3rem">Next event being confirmed</div>'+
+          '<p class="event-meta">Sign up to get notified when new events are announced</p>'+
+          '<a href="/signup.html" class="btn-g" style="margin-top:1rem;display:inline-block">Join Free →</a>'+
+        '</div>';
+      return;
+    }
+
+    grid.innerHTML = events.map(function(ev){
+      var dateStr = ev.event_date
+        ? new Date(ev.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})
+        : 'Date TBA';
+      var seatsLeft = (ev.total_seats||0) - (ev.confirmed_seats||0) - (ev.reserved_seats||0);
+      var seatsText = seatsLeft <= 0
+        ? '<span style="color:#ff6b6b">🔴 Sold Out</span>'
+        : seatsLeft <= 10
+          ? '<span style="color:#F2B705">🔥 Only '+seatsLeft+' seats left</span>'
+          : '<span style="color:rgba(255,255,255,.6)">'+seatsLeft+' seats available</span>';
+      var price = ev.ticket_price || ev.price_silver || null;
+      var priceText = price ? '₹'+Number(price).toLocaleString('en-IN') : 'Members only';
+      var bookUrl = '/event-detail.html?id='+(ev.slug||ev.id);
+
+      return '<div class="event-card" style="display:flex;flex-direction:column;justify-content:space-between">'+
+        '<div>'+
+          '<div class="event-badge">📅 '+dateStr+' · '+(ev.city||'Hyderabad')+'</div>'+
+          '<div class="event-title" style="font-size:1.3rem;margin:12px 0 8px">'+(ev.celebrity_name||ev.event_title)+'</div>'+
+          '<p class="event-meta" style="margin-bottom:12px">'+(ev.event_title||'Celebrity Dinner')+' · '+(ev.total_seats||50)+' seats</p>'+
+          '<p style="font-size:.85rem;margin-bottom:8px">'+seatsText+'</p>'+
+          '<p style="font-size:.85rem;color:var(--gold);font-weight:700;margin-bottom:16px">'+priceText+'</p>'+
+        '</div>'+
+        '<a href="'+bookUrl+'" class="btn-g" style="display:block;text-align:center;margin-top:auto">View Event →</a>'+
+      '</div>';
+    }).join('');
+  }
+
+  // Fetch live member count
+  sb.from('members').select('id', { count: 'exact', head: true })
+    .then(function(res){
+      var el = document.getElementById('memberCount');
+      if(el && res.count) el.textContent = Number(res.count).toLocaleString('en-IN')+'+';
+    });
+
+  // Fetch ALL published upcoming events
+  sb.from('celebrity_events')
+    .select('id,slug,event_title,celebrity_name,event_date,city,total_seats,confirmed_seats,reserved_seats,ticket_price,price_silver,is_published')
+    .eq('is_published', true)
+    .gte('event_date', new Date().toISOString())
+    .order('event_date', { ascending: true })
+    .then(function(res){
+      renderEventsGrid(res.data || []);
+    })
+    .catch(function(){ renderEventsGrid([]); });
+})();
+</script>
+</body></html>

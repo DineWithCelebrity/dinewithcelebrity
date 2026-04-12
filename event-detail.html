@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="page-title">Event | Dine With Celebrity</title>
+  <meta name="description" id="page-desc" content="Exclusive celebrity dining experience. Book your seat now."/>
+  <meta property="og:title" id="og-title" content="Event | Dine With Celebrity"/>
+  <meta property="og:image" content="/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    :root{
+      --black:#06040A;--gold:#F2B705;--gold2:#FFD166;
+      --red:#D4002A;--green:#00C853;
+      --white:rgba(255,255,255,0.92);--sub:rgba(255,255,255,0.75);
+      --dim:rgba(255,255,255,0.45);--card:rgba(255,255,255,0.04);
+      --border:rgba(255,255,255,0.08);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif;font-size:1rem;overflow-x:hidden}
+    #stars-canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(6,4,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .nav-logo img{height:40px;display:block}
+    .nav-links{display:flex;gap:28px}
+    .nav-links a{color:var(--sub);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s}
+    .nav-links a:hover{color:var(--gold)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .btn-login{padding:9px 20px;border:1px solid var(--border);border-radius:50px;color:var(--white);font-size:.85rem;font-weight:500;cursor:pointer;background:transparent;font-family:'Poppins',sans-serif;transition:all .2s}
+    .btn-login:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-join{padding:9px 22px;background:var(--gold);color:var(--black);border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;font-family:'Poppins',sans-serif;transition:transform .2s}
+    .btn-join:hover{transform:translateY(-1px)}
+    .nav-tier-badge{padding:5px 14px;border-radius:50px;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+    .tier-free{background:rgba(255,255,255,.1);color:var(--white)}
+    .tier-silver{background:rgba(192,192,192,.2);color:#C0C0C0}
+    .tier-gold{background:rgba(242,183,5,.2);color:var(--gold)}
+    .tier-platinum{background:rgba(100,100,255,.2);color:#818CF8}
+    .nav-user-name{font-size:.85rem;color:var(--sub)}
+    .btn-logout{background:none;border:none;color:var(--dim);font-size:.8rem;cursor:pointer;font-family:'Poppins',sans-serif}
+    @media(max-width:768px){.nav-links{display:none}}
+
+    /* LAYOUT */
+    .content-wrap{position:relative;z-index:1;padding-top:76px}
+    .event-hero{padding:48px 32px 0;max-width:1100px;margin:0 auto}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--dim);font-size:.85rem;text-decoration:none;margin-bottom:28px;transition:color .2s}
+    .back-link:hover{color:var(--gold)}
+    .hero-grid{display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+    /* LEFT: EVENT INFO */
+    .event-info{}
+    .event-type-badge{display:inline-block;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;padding:4px 14px;border-radius:50px;font-weight:600;margin-bottom:16px}
+    .type-movie{background:rgba(212,0,42,.12);color:#FF6B6B;border:1px solid rgba(212,0,42,.2)}
+    .type-sports{background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.2)}
+    .type-music{background:rgba(139,92,246,.1);color:#A78BFA;border:1px solid rgba(139,92,246,.2)}
+    .type-other{background:rgba(255,255,255,.06);color:var(--sub);border:1px solid var(--border)}
+    .event-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,4rem);letter-spacing:3px;line-height:1;color:var(--white);margin-bottom:10px}
+    .event-cast{font-size:1.1rem;color:var(--gold);font-weight:500;margin-bottom:20px}
+    .event-meta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+    .meta-chip{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--sub);background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 16px;border-radius:50px}
+    .event-desc{color:var(--sub);font-size:.95rem;line-height:1.75;margin-bottom:32px;max-width:600px}
+
+    /* URGENCY ROW */
+    .urgency-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
+    .urgency-item{display:flex;align-items:center;gap:8px;background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.15);padding:10px 18px;border-radius:12px;font-size:.85rem;color:var(--white)}
+    .urgency-item .dot{width:7px;height:7px;background:var(--red);border-radius:50%;animation:pulse 1.5s infinite}
+    .urgency-item.viewers{background:rgba(242,183,5,.07);border-color:rgba(242,183,5,.15)}
+    .urgency-item.viewers .dot{background:var(--gold)}
+
+    /* COUNTDOWN */
+    .countdown-section{margin-bottom:36px}
+    .cd-label{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+    .countdown-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    .cd-box{text-align:center;min-width:60px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:12px 8px}
+    .cd-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);line-height:1;display:block}
+    .cd-unit{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+    .cd-sep{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:rgba(242,183,5,.3)}
+
+    /* TIMELINE */
+    .timeline-section{margin-bottom:40px}
+    .section-h{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:var(--gold);margin-bottom:20px}
+    .timeline{position:relative;padding-left:0}
+    .tl-item{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
+    .tl-dot{width:44px;height:44px;min-width:44px;border-radius:50%;background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+    .tl-body h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;color:var(--gold);margin-bottom:2px}
+    .tl-time{font-size:.72rem;color:var(--dim);letter-spacing:1px;margin-bottom:4px}
+    .tl-body p{font-size:.88rem;color:var(--sub);line-height:1.55}
+
+    /* SPONSOR */
+    .sponsor-bar{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:40px}
+    .sponsor-label{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+    .sponsor-name{font-weight:600;color:var(--white);font-size:.95rem}
+    .sponsor-perks{font-size:.82rem;color:var(--sub);margin-top:2px}
+
+    /* RIGHT: BOOKING PANEL */
+    .booking-panel{background:#0F0D14;border:1px solid rgba(242,183,5,.2);border-radius:24px;padding:32px;position:sticky;top:96px}
+    .panel-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:var(--gold);margin-bottom:20px}
+
+    /* SEATS REMAINING */
+    .seats-section{margin-bottom:24px}
+    .seats-row{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:8px}
+    .seats-row span:first-child{color:var(--sub)}
+    .seats-count{font-weight:700}
+    .seats-count.critical{color:var(--red)}
+    .seats-count.low{color:var(--gold2)}
+    .seats-count.ok{color:var(--green)}
+    .seats-bar{height:8px;background:rgba(255,255,255,.08);border-radius:50px;overflow:hidden}
+    .seats-fill-panel{height:100%;border-radius:50px;transition:width .6s ease}
+
+    /* PRICING TABLE */
+    .pricing-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:.85rem}
+    .pricing-table th{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
+    .pricing-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--sub)}
+    .pricing-table .my-row{background:rgba(242,183,5,.07);border:1px solid rgba(242,183,5,.2)}
+    .pricing-table .my-row td{color:var(--white);font-weight:500}
+    .price-cell{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);letter-spacing:1px}
+    .price-cell.free-price{color:var(--green)}
+    .tier-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+    .dot-free{background:#888}
+    .dot-silver{background:#C0C0C0}
+    .dot-gold{background:var(--gold)}
+    .dot-platinum{background:#818CF8}
+    .my-tier-tag{display:inline-block;font-size:.6rem;background:var(--gold);color:var(--black);padding:2px 8px;border-radius:50px;font-weight:700;margin-left:6px;letter-spacing:1px}
+
+    /* UPGRADE HOOK */
+    .upgrade-hook{background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.15);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:.85rem;color:var(--sub);line-height:1.5;display:none}
+    .upgrade-hook strong{color:var(--gold);display:block;margin-bottom:4px}
+    .upgrade-hook a{color:var(--gold);text-decoration:none;font-weight:600}
+    .upgrade-hook a:hover{text-decoration:underline}
+
+    /* BOOKING ACTIONS */
+    .book-price-display{text-align:center;margin-bottom:16px}
+    .book-price-label{font-size:.75rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase}
+    .book-price-amount{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--gold);line-height:1.1;letter-spacing:2px}
+    .book-price-amount.free-amt{color:var(--green)}
+    .book-price-sub{font-size:.78rem;color:var(--sub);margin-top:4px}
+
+    .btn-primary-full{width:100%;background:var(--gold);color:var(--black);font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;letter-spacing:.3px}
+    .btn-primary-full:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(242,183,5,.4)}
+    .btn-primary-full:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+    .btn-outline-full{width:100%;background:transparent;color:var(--white);font-family:'Poppins',sans-serif;font-weight:500;font-size:.9rem;padding:14px;border-radius:50px;border:1px solid var(--border);cursor:pointer;transition:all .2s;margin-top:10px}
+    .btn-outline-full:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* NOT LOGGED IN STATE */
+    .login-prompt{text-align:center;padding:8px 0 4px}
+    .login-prompt p{color:var(--sub);font-size:.88rem;margin-bottom:16px;line-height:1.55}
+    .login-prompt .lock-icon{font-size:2rem;margin-bottom:10px}
+
+    /* RESERVATION TIMER */
+    .reservation-timer{background:rgba(242,183,5,.08);border:1px solid rgba(242,183,5,.2);border-radius:10px;padding:10px 14px;text-align:center;font-size:.82rem;color:var(--gold);margin-top:12px;display:none}
+    .timer-countdown{font-family:'Bebas Neue',sans-serif;font-size:1.1rem}
+
+    /* SUCCESS STATE */
+    .booking-success{text-align:center;padding:16px 0;display:none}
+    .success-icon{font-size:2.5rem;margin-bottom:12px}
+    .booking-success h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:var(--green);margin-bottom:8px}
+    .booking-success p{font-size:.88rem;color:var(--sub);line-height:1.6}
+
+    /* SOLD OUT */
+    .sold-out-state{text-align:center;padding:16px 0;display:none}
+    .sold-out-state h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:var(--red);margin-bottom:8px}
+    .btn-waitlist{width:100%;background:rgba(212,0,42,.15);color:#FF6B6B;font-family:'Poppins',sans-serif;font-weight:600;font-size:.95rem;padding:15px;border-radius:50px;border:1px solid rgba(212,0,42,.3);cursor:pointer;transition:all .2s}
+    .btn-waitlist:hover{background:rgba(212,0,42,.25)}
+
+    /* MOBILE STICKY BOOK BAR */
+    .mobile-book-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;padding:16px 20px;background:rgba(15,13,20,.97);border-top:1px solid rgba(242,183,5,.2);backdrop-filter:blur(12px)}
+    @media(max-width:900px){
+      .mobile-book-bar{display:flex;align-items:center;justify-content:space-between;gap:16px}
+      .content-wrap{padding-bottom:90px}
+    }
+    .mobile-price{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);line-height:1}
+    .mobile-price-label{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+    .btn-mobile-book{background:var(--gold);color:var(--black);font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;padding:14px 28px;border-radius:50px;border:none;cursor:pointer;white-space:nowrap}
+
+    /* UTILS */
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .gold-divider{width:48px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:40px 0}
+
+    /* AUTH MODAL */
+    .auth-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(6,4,10,.92);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}
+    .auth-box{background:#0F0D14;border:1px solid rgba(242,183,5,.2);border-radius:24px;padding:40px;max-width:420px;width:100%;position:relative}
+    .auth-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:1.5rem;cursor:pointer}
+    .auth-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:var(--white);font-family:'Poppins',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s;margin-bottom:14px}
+    .auth-input:focus{border-color:var(--gold)}
+    .auth-input::placeholder{color:rgba(255,255,255,.3)}
+    .auth-submit{width:100%;background:var(--gold);color:var(--black);font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;padding:15px;border-radius:50px;border:none;cursor:pointer}
+    .auth-err{display:none;background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#FF6B6B;padding:12px 16px;border-radius:12px;font-size:.85rem;margin-bottom:14px}
+
+    footer{position:relative;z-index:1;padding:40px 32px;border-top:1px solid var(--border);text-align:center}
+    .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:3px;margin-bottom:12px}
+    .footer-links{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-bottom:16px}
+    .footer-links a{color:var(--dim);text-decoration:none;font-size:.82rem;transition:color .2s}
+    .footer-links a:hover{color:var(--gold)}
+    .footer-copy{font-size:.75rem;color:rgba(255,255,255,.25)}
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <a href="/" class="nav-logo"><img src="/logo.png" alt="Dine With Celebrity"/></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/events.html">Events</a>
+    <a href="/stars.html">Celebrities</a>
+    <a href="/dashboard.html">My Account</a>
+  </div>
+  <div class="nav-right">
+    <div id="nav-guest" style="display:flex;gap:10px">
+      <button class="btn-login" onclick="openAuth()">Login</button>
+      <button class="btn-join" onclick="openAuth('signup')">Join Free</button>
+    </div>
+    <div id="nav-user" style="display:none;align-items:center;gap:10px">
+      <span class="nav-tier-badge tier-free" id="nav-badge">Free</span>
+      <span class="nav-user-name" id="nav-name"></span>
+      <button class="btn-logout" onclick="doLogout()">Sign out</button>
+    </div>
+  </div>
+</nav>
+
+<div class="content-wrap">
+  <div class="event-hero">
+    <a href="/events.html" class="back-link">← All Events</a>
+
+    <!-- Loading State -->
+    <div id="loading-state" style="text-align:center;padding:80px 0;color:var(--dim)">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;color:var(--gold);animation:pulse 1.5s infinite">Loading Event...</div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" style="display:none;text-align:center;padding:80px 0">
+      <div style="font-size:3rem;margin-bottom:16px">🎬</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--sub)">Event Not Found</h2>
+      <p style="color:var(--dim);margin:12px 0 24px">This event may have ended or the link is incorrect.</p>
+      <a href="/events.html" class="btn-primary-full" style="display:inline-block;width:auto;padding:14px 32px;text-decoration:none">Browse All Events</a>
+    </div>
+
+    <!-- Main Content (hidden until loaded) -->
+    <div id="event-content" style="display:none">
+      <div class="hero-grid">
+        <!-- LEFT -->
+        <div class="event-info">
+          <span class="event-type-badge type-movie" id="ev-type-badge">Movie</span>
+          <h1 class="event-title" id="ev-title">Event Title</h1>
+          <p class="event-cast" id="ev-cast">Celebrity Names</p>
+          <div class="event-meta-row" id="ev-meta-row"></div>
+          <p class="event-desc" id="ev-desc"></p>
+
+          <!-- Urgency -->
+          <div class="urgency-row" id="urgency-row"></div>
+
+          <!-- Countdown -->
+          <div class="countdown-section">
+            <p class="cd-label">Event Starts In</p>
+            <div class="countdown-row">
+              <div class="cd-box"><span class="cd-num" id="cd-d">00</span><span class="cd-unit">Days</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-box"><span class="cd-num" id="cd-h">00</span><span class="cd-unit">Hours</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-box"><span class="cd-num" id="cd-m">00</span><span class="cd-unit">Mins</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-box"><span class="cd-num" id="cd-s">00</span><span class="cd-unit">Secs</span></div>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="timeline-section" id="timeline-section">
+            <h3 class="section-h">Evening Flow</h3>
+            <div class="timeline" id="ev-timeline"></div>
+          </div>
+
+          <!-- Sponsor -->
+          <div class="sponsor-bar" id="sponsor-bar" style="display:none">
+            <div>
+              <div class="sponsor-label">Powered By</div>
+              <div class="sponsor-name" id="sponsor-name"></div>
+              <div class="sponsor-perks" id="sponsor-perks"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: BOOKING PANEL -->
+        <div class="booking-panel" id="booking-panel">
+          <div class="panel-title">Book Your Seat</div>
+
+          <!-- Seats Bar -->
+          <div class="seats-section">
+            <div class="seats-row">
+              <span>Seats Available</span>
+              <span class="seats-count" id="panel-seats-text">Loading...</span>
+            </div>
+            <div class="seats-bar">
+              <div class="seats-fill-panel" id="panel-seats-fill" style="width:0%;background:linear-gradient(to right,#F2B705,#D4002A)"></div>
+            </div>
+          </div>
+
+          <!-- Sold Out State -->
+          <div class="sold-out-state" id="sold-out-state">
+            <h3>Sold Out</h3>
+            <p style="color:var(--sub);font-size:.88rem;margin-bottom:16px">All seats are taken. Join the waitlist — we'll notify you if a seat opens up.</p>
+            <button class="btn-waitlist" onclick="joinWaitlist()">Join Waitlist</button>
+          </div>
+
+          <!-- Booking Active State -->
+          <div id="booking-active-state">
+            <!-- Pricing Table -->
+            <table class="pricing-table" id="pricing-table">
+              <thead>
+                <tr>
+                  <th>Tier</th>
+                  <th>Price</th>
+                  <th>Access</th>
+                </tr>
+              </thead>
+              <tbody id="pricing-tbody"></tbody>
+            </table>
+
+            <!-- Upgrade Hook -->
+            <div class="upgrade-hook" id="upgrade-hook"></div>
+
+            <!-- Not Logged In -->
+            <div id="login-prompt-state">
+              <div class="login-prompt">
+                <div style="background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem;text-align:center">
+                  <div style="font-size:.68rem;font-weight:800;letter-spacing:2px;color:var(--gold);margin-bottom:.25rem">🎁 NEW MEMBER OFFER</div>
+                  <div style="font-size:.88rem;color:rgba(255,255,255,.85)">Sign up today &amp; get <strong style="color:var(--gold)">₹500 off</strong> your first ticket</div>
+                </div>
+                <p>Login or join free to see your price and book your seat.</p>
+                <button class="btn-primary-full" onclick="openAuth()">Login to Book</button>
+                <button class="btn-outline-full" onclick="openAuth('signup')" style="border-color:var(--gold);color:var(--gold)">Sign Up &amp; Get ₹500 Off →</button>
+              </div>
+            </div>
+
+            <!-- Logged In -->
+            <div id="logged-in-state" style="display:none">
+              <div class="book-price-display">
+                <div class="book-price-label">Your Price</div>
+                <div class="book-price-amount" id="book-price-display">₹0</div>
+                <div class="book-price-sub" id="book-price-sub">Includes dinner, T-shirt & access</div>
+              </div>
+              <button class="btn-primary-full" id="btn-book-now" onclick="initiateBooking()">Confirm & Pay</button>
+              <button class="btn-outline-full" id="btn-upgrade" onclick="goUpgrade()" style="display:none">Upgrade for Better Price →</button>
+              <div class="reservation-timer" id="reservation-timer">
+                🔒 Seat reserved for <span class="timer-countdown" id="timer-cd">10:00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success State -->
+          <div class="booking-success" id="booking-success">
+            <div class="success-icon">🎉</div>
+            <h3>You're In!</h3>
+            <p>Your seat is confirmed. Check your dashboard for full details and updates.</p>
+            <br/>
+            <a href="/dashboard.html" class="btn-primary-full" style="display:block;text-decoration:none;text-align:center">View My Booking</a>
+          </div>
+
+          <p style="font-size:.72rem;color:var(--dim);text-align:center;margin-top:16px;line-height:1.5">
+            🔒 Secure payment via Razorpay<br/>Seat held for 10 mins after checkout starts
+          </p>
+        </div>
+      </div><!-- /hero-grid -->
+    </div><!-- /event-content -->
+  </div><!-- /event-hero -->
+</div><!-- /content-wrap -->
+
+<!-- Mobile Sticky Bar -->
+<div class="mobile-book-bar" id="mobile-bar">
+  <div>
+    <div class="mobile-price-label">Your Price</div>
+    <div class="mobile-price" id="mobile-price">—</div>
+  </div>
+  <button class="btn-mobile-book" onclick="scrollToPanel()">Book My Seat</button>
+</div>
+
+<footer>
+  <div class="footer-logo">DINE WITH CELEBRITY</div>
+  <div class="footer-links">
+    <a href="/">Home</a><a href="/events.html">Events</a>
+    <a href="/dashboard.html">Dashboard</a>
+    <a href="/cdn-cgi/l/email-protection#2b434e4747446b4f42454e5c425f43484e474e4959425f5205484446">Contact</a>
+  </div>
+  <p class="footer-copy">© 2026 Dine With Celebrity Pvt Ltd · Hyderabad</p>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <div style="text-align:center;margin-bottom:24px">
+      <img src="/logo.png" style="height:36px;margin:0 auto 12px;display:block"/>
+      <h2 id="a-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:2px;color:var(--gold)">Welcome Back</h2>
+      <p id="a-sub" style="color:var(--sub);font-size:.85rem;margin-top:4px">Login to access your member price</p>
+    </div>
+    <div class="auth-err" id="a-err"></div>
+    <input class="auth-input" id="a-email" type="email" placeholder="Email address"/>
+    <input class="auth-input" id="a-pass" type="password" placeholder="Password"/>
+    <button class="auth-submit" id="a-btn" onclick="handleAuth()">Login</button>
+    <p style="text-align:center;margin-top:16px;font-size:.82rem;color:var(--dim)">
+      <span id="a-switch-label">No account?</span>
+      <a href="#" id="a-switch" onclick="toggleAuth();return false" style="color:var(--gold);margin-left:6px">Sign up free</a>
+    </p>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const SURL='https://blwqqqzhnovsveeryjlm.supabase.co';
+const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+const sbClient=supabase.createClient(SURL,SKEY);
+const RAZORPAY_KEY='rzp_live_STyvlctN0h9cmG';
+
+let me=null,profile=null,eventData=null,reservationTimer=null,timerInterval=null;
+let authMode='login';
+
+/* STARS */
+const cv=document.getElementById('stars-canvas'),cx=cv.getContext('2d');let st=[];
+function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight}
+function ist(){st=[];for(let i=0;i<100;i++)st.push({x:Math.random()*cv.width,y:Math.random()*cv.height,sz:Math.random()*1.5+.5,ph:Math.random()*Math.PI*2,sp:Math.random()*.4+.2})}
+(function loop(t){cx.clearRect(0,0,cv.width,cv.height);st.forEach(s=>{const tw=.3+.7*Math.abs(Math.sin(s.ph+t*s.sp*.001));cx.globalAlpha=tw*.75;cx.fillStyle='#F2B705';cx.font=(s.sz*7)+'px serif';cx.fillText('★',s.x,s.y)});cx.globalAlpha=1;requestAnimationFrame(loop)})(0);
+rsz();ist();window.addEventListener('resize',()=>{rsz();ist()});
+
+/* REVEAL */
+document.querySelectorAll('.reveal').forEach(r=>{
+  new IntersectionObserver(e=>{if(e[0].isIntersecting)e[0].target.classList.add('visible')},{threshold:.1}).observe(r)
+});
+
+/* BOOT */
+async function boot(){
+  const slug = new URLSearchParams(window.location.search).get('id');
+  if(!slug){showError();return}
+
+  // Auth MUST resolve before loadEvent so admin bypass works
+  const {data:{session}}=await sbClient.auth.getSession();
+  if(session){
+    me=session.user;
+    await getProfile();
+    renderNav(true);
+  } else {
+    renderNav(false);
+  }
+
+  await loadEvent(slug);
+}
+
+async function getProfile(){
+  const {data}=await sbClient.from('profiles').select('full_name,membership_tier').eq('id',me.id).single();
+  if(data)profile=data;
+}
+
+function renderNav(loggedIn){
+  if(loggedIn){
+    document.getElementById('nav-guest').style.display='none';
+    const nu=document.getElementById('nav-user');nu.style.display='flex';
+    const t=(profile?.membership_tier||'free').toLowerCase();
+    const b=document.getElementById('nav-badge');b.textContent=cap(t);b.className='nav-tier-badge tier-'+t;
+    document.getElementById('nav-name').textContent=profile?.full_name||me.email.split('@')[0];
+  }
+}
+async function doLogout(){await sbClient.auth.signOut();location.reload()}
+
+/* LOAD EVENT */
+async function loadEvent(slug){
+  const isAdmin = me?.email === 'rupeshking@gmail.com';
+
+  // Admin can preview any event regardless of published status
+  let q = sbClient.from('celebrity_events').select('*').eq('slug',slug);
+  if(!isAdmin) q = q.eq('is_published',true);
+
+  const {data,error} = await q.single();
+  document.getElementById('loading-state').style.display='none';
+  if(error||!data){showError();return}
+
+  // Show draft banner for admin
+  if(isAdmin && !data.is_published){
+    const banner = document.createElement('div');
+    banner.style.cssText='position:fixed;top:76px;left:0;right:0;z-index:200;background:rgba(212,183,5,.15);border-bottom:1px solid rgba(242,183,5,.3);padding:10px;text-align:center;font-size:.82rem;color:#F2B705;font-family:Poppins,sans-serif';
+    banner.innerHTML='⚠ ADMIN PREVIEW — This event is not yet published. Set prices and publish from <a href="/admin-events.html" style="color:#F2B705;font-weight:700">Admin Events</a>';
+    document.body.prepend(banner);
+  }
+
+  eventData=data;
+  renderEvent(data);
+  startCountdown(data.event_date);
+  startViewers();
+}
+
+function showError(){
+  document.getElementById('loading-state').style.display='none';
+  document.getElementById('error-state').style.display='block';
+}
+
+function renderEvent(ev){
+  // Meta
+  document.title=ev.title+' | Dine With Celebrity';
+  document.getElementById('page-title').textContent=ev.title+' | Dine With Celebrity';
+  document.getElementById('page-desc').content=ev.event_description||'';
+  document.getElementById('og-title').content=ev.title;
+
+  // Type badge
+  const tb=document.getElementById('ev-type-badge');
+  tb.textContent=cap(ev.event_type||'event');
+  tb.className='event-type-badge type-'+(ev.event_type||'other');
+
+  // Title, cast
+  document.getElementById('ev-title').textContent=ev.title||'Upcoming Event';
+  document.getElementById('ev-cast').textContent=(ev.cast_names||[]).join(' & ');
+  document.getElementById('ev-desc').textContent=ev.event_description||'An exclusive celebrity dining experience.';
+
+  // Meta chips
+  const dateStr=ev.event_date?new Date(ev.event_date).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'TBA';
+  const timeStr=ev.event_date?new Date(ev.event_date).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}):'';
+  document.getElementById('ev-meta-row').innerHTML=`
+    <span class="meta-chip">📅 ${dateStr}${timeStr?' · '+timeStr:''}</span>
+    <span class="meta-chip">📍 ${ev.venue||'Premium Venue'}, ${ev.city||'Hyderabad'}</span>
+    <span class="meta-chip">🎟️ ${ev.max_seats} Total Seats</span>
+    ${ev.event_type?`<span class="meta-chip">🎬 ${cap(ev.event_type)}</span>`:''}
+  `;
+
+  // Timeline
+  if(ev.event_timeline && ev.event_timeline.length){
+    document.getElementById('ev-timeline').innerHTML=ev.event_timeline.map(t=>`
+      <div class="tl-item">
+        <div class="tl-dot">✨</div>
+        <div class="tl-body">
+          <div class="tl-time">${t.time||''}</div>
+          <h4>${t.title||''}</h4>
+          <p>${t.description||''}</p>
+        </div>
+      </div>`).join('');
+  } else document.getElementById('timeline-section').style.display='none';
+
+  // Sponsor
+  if(ev.sponsor_name){
+    document.getElementById('sponsor-bar').style.display='flex';
+    document.getElementById('sponsor-name').textContent=ev.sponsor_name;
+    if(ev.sponsor_perks)document.getElementById('sponsor-perks').textContent='🎁 '+ev.sponsor_perks;
+  }
+
+  // Seats
+  updateSeats(ev);
+
+  // Pricing
+  renderPricing(ev);
+
+  // Show content
+  document.getElementById('event-content').style.display='block';
+}
+
+function updateSeats(ev){
+  const avail=ev.max_seats-ev.reserved_seats;
+  const pct=Math.round((ev.reserved_seats/ev.max_seats)*100);
+  const fill=document.getElementById('panel-seats-fill');
+  fill.style.width=pct+'%';
+
+  const sc=document.getElementById('panel-seats-text');
+  if(avail<=0){
+    sc.textContent='Sold Out';sc.className='seats-count critical';
+    document.getElementById('booking-active-state').style.display='none';
+    document.getElementById('sold-out-state').style.display='block';
+  } else if(avail<=10){
+    sc.textContent='Only '+avail+' left!';sc.className='seats-count low';
+    document.getElementById('urgency-row').innerHTML+=`<div class="urgency-item"><span class="dot"></span>${avail} seats remaining — book now</div>`;
+  } else {
+    sc.textContent=avail+' available';sc.className='seats-count ok';
+  }
+}
+
+function renderPricing(ev){
+  const myTier=(profile?.membership_tier||'free').toLowerCase();
+  const ticketPrice = ev.ticket_price || ev.price_silver || ev.price_gold || ev.price_platinum || null;
+
+  // Hide pricing table — single price for all paid tiers
+  const tbody=document.getElementById('pricing-tbody');
+  if(tbody){
+    tbody.closest('table')?.closest('.pricing-section')?.style && (tbody.closest('table').closest('.pricing-section').style.display='none');
+    tbody.innerHTML='';
+  }
+
+  if(me){
+    document.getElementById('login-prompt-state').style.display='none';
+    document.getElementById('logged-in-state').style.display='block';
+
+    const pd=document.getElementById('book-price-display');
+
+    if(myTier==='free'){
+      // Free members cannot book
+      pd.textContent='Members Only';pd.className='book-price-amount';pd.style.fontSize='1.3rem';pd.style.color='var(--sub)';
+      document.getElementById('book-price-sub').textContent='Celebrity events are available for Silver, Gold & Platinum members';
+      document.getElementById('btn-book-now').disabled=true;
+      document.getElementById('btn-book-now').textContent='Upgrade to Book';
+    } else if(ticketPrice){
+      pd.textContent='₹'+Number(ticketPrice).toLocaleString('en-IN');
+      pd.className='book-price-amount';
+      document.getElementById('book-price-sub').textContent='Use your points to save up to 20% on this ticket';
+      document.getElementById('btn-book-now').textContent='Confirm & Pay ₹'+Number(ticketPrice).toLocaleString('en-IN');
+    } else {
+      pd.textContent='Price TBA';pd.className='book-price-amount';pd.style.fontSize='1.5rem';pd.style.color='var(--sub)';
+      document.getElementById('btn-book-now').disabled=true;
+      document.getElementById('book-price-sub').textContent='Admin will set the price shortly';
+    }
+
+    // Mobile bar
+    document.getElementById('mobile-price').textContent=myTier==='free'?'Members Only':ticketPrice?'₹'+Number(ticketPrice).toLocaleString('en-IN'):'TBA';
+
+    // Upgrade hook for free members only
+    showUpgradeHook(myTier, ev, ticketPrice);
+  }
+}
+
+function showUpgradeHook(tier, ev, ticketPrice){
+  const hook=document.getElementById('upgrade-hook');
+  if(tier!=='free'){hook.style.display='none';return}
+  hook.innerHTML=`<strong>🎟️ Upgrade to access this event</strong>Celebrity events are exclusively for Silver, Gold &amp; Platinum members.${ticketPrice?' Ticket price: ₹'+Number(ticketPrice).toLocaleString('en-IN')+'.':''} <a href="/upgrade.html">Upgrade now →</a>`;
+  hook.style.display='block';
+  document.getElementById('btn-upgrade').style.display='block';
+}
+
+/* COUNTDOWN */
+function startCountdown(dateStr){
+  if(!dateStr)return;
+  const target=new Date(dateStr);
+  function tick(){
+    const diff=target-new Date();
+    if(diff<=0){document.getElementById('cd-d').textContent=document.getElementById('cd-h').textContent=document.getElementById('cd-m').textContent=document.getElementById('cd-s').textContent='00';return}
+    const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+    document.getElementById('cd-d').textContent=pad(d);
+    document.getElementById('cd-h').textContent=pad(h);
+    document.getElementById('cd-m').textContent=pad(m);
+    document.getElementById('cd-s').textContent=pad(s);
+  }
+  tick();setInterval(tick,1000);
+}
+
+/* VIEWERS (simulated urgency) */
+function startViewers(){
+  const row=document.getElementById('urgency-row');
+  const v=Math.floor(Math.random()*18)+7;
+  row.innerHTML=`<div class="urgency-item viewers"><span class="dot"></span>${v} people viewing right now</div>`+row.innerHTML;
+  setInterval(()=>{
+    const nv=Math.max(3,v+Math.floor(Math.random()*5)-2);
+    const el=row.querySelector('.urgency-item.viewers');
+    if(el)el.innerHTML=`<span class="dot"></span>${nv} people viewing right now`;
+  },8000);
+}
+
+/* BOOKING */
+async function initiateBooking(){
+  if(!me){openAuth();return}
+  const ev=eventData;
+  const myTier=(profile?.membership_tier||'free').toLowerCase();
+  const price = ev.ticket_price || ev.price_silver || ev.price_gold || ev.price_platinum || null;
+
+  if(myTier==='free'){
+    window.location.href='/upgrade.html';
+    return;
+  }
+
+  const btn=document.getElementById('btn-book-now');
+  btn.textContent='Reserving seat...';btn.disabled=true;
+
+  // Lock seat via RPC
+  const {data:lockData,error:lockErr}=await sbClient.rpc('lock_event_seat',{p_event_id:ev.id,p_user_id:me.id,p_seats:1});
+  if(lockErr||!lockData?.success){
+    btn.textContent='Confirm & Pay';btn.disabled=false;
+    alert(lockData?.error||'Seat no longer available. Please refresh.');
+    return;
+  }
+
+  // Start 10-min timer
+  startReservationTimer(600);
+
+  // Free / Platinum complimentary removed — single price for all paid tiers
+  if(!price){btn.textContent='Confirm & Pay';btn.disabled=false;alert('Ticket price not set yet. Please check back soon.');return}
+
+  // Razorpay
+  try{
+    const orderRes=await fetch('/api/create-order',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(await sbClient.auth.getSession()).data.session?.access_token},
+      body:JSON.stringify({event_id:ev.id,amount:price,reservation_id:lockData.reservation_id})
+    });
+    const order=await orderRes.json();
+    if(!order.id)throw new Error(order.error||'Order creation failed');
+
+    const rzp=new Razorpay({
+      key:RAZORPAY_KEY,
+      amount:order.amount,
+      currency:'INR',
+      name:'Dine With Celebrity',
+      description:ev.title,
+      order_id:order.id,
+      prefill:{email:me.email},
+      theme:{color:'#F2B705'},
+      handler:async function(res){
+        await verifyPayment(res,ev,order.id,price);
+      },
+      modal:{ondismiss:function(){btn.textContent='Confirm & Pay ₹'+Number(price).toLocaleString('en-IN');btn.disabled=false}}
+    });
+    rzp.open();
+  }catch(e){
+    btn.textContent='Confirm & Pay';btn.disabled=false;
+    alert('Payment error: '+e.message);
+  }
+}
+
+async function confirmFreeBooking(ev,reservationId){
+  const {data}=await sbClient.rpc('confirm_event_seat',{
+    p_event_id:ev.id,p_user_id:me.id,
+    p_razorpay_order_id:'free_platinum',p_razorpay_payment_id:'free_platinum',
+    p_amount_paid:0,p_tier:'platinum',p_seats:1,p_points_used:0,p_points_discount:0
+  });
+  if(data?.success)showBookingSuccess();
+  else alert('Confirmation failed. Please contact support.');
+}
+
+async function verifyPayment(res,ev,orderId,price){
+  const myTier=(profile?.membership_tier||'free').toLowerCase();
+  const vRes=await fetch('/api/verify-event-payment',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+(await sbClient.auth.getSession()).data.session?.access_token},
+    body:JSON.stringify({
+      razorpay_order_id:orderId,
+      razorpay_payment_id:res.razorpay_payment_id,
+      razorpay_signature:res.razorpay_signature,
+      event_id:ev.id,amount:price,tier:myTier
+    })
+  });
+  const vData=await vRes.json();
+  if(vData.success)showBookingSuccess();
+  else alert('Payment verification failed. Please contact hello@dinewithcelebrity.com');
+}
+
+function showBookingSuccess(){
+  clearInterval(timerInterval);
+  document.getElementById('booking-active-state').style.display='none';
+  document.getElementById('sold-out-state').style.display='none';
+  document.getElementById('booking-success').style.display='block';
+  document.getElementById('mobile-bar').style.display='none';
+}
+
+function startReservationTimer(seconds){
+  const timerEl=document.getElementById('reservation-timer');
+  const cdEl=document.getElementById('timer-cd');
+  timerEl.style.display='block';
+  let remaining=seconds;
+  timerInterval=setInterval(()=>{
+    remaining--;
+    if(remaining<=0){clearInterval(timerInterval);timerEl.style.display='none';return}
+    const m=Math.floor(remaining/60),s=remaining%60;
+    cdEl.textContent=pad(m)+':'+pad(s);
+  },1000);
+}
+
+async function joinWaitlist(){
+  if(!me){openAuth();return}
+  const {error}=await sbClient.from('event_waitlist').insert({event_id:eventData.id,user_id:me.id});
+  if(!error)alert("You're on the waitlist! We'll notify you if a seat opens up.");
+  else alert('Already on waitlist.');
+}
+
+function goUpgrade(){window.location.href='/upgrade.html'}
+function scrollToPanel(){document.getElementById('booking-panel').scrollIntoView({behavior:'smooth'})}
+
+/* AUTH */
+function openAuth(m='login'){authMode=m;updAuth();document.getElementById('auth-overlay').style.display='flex'}
+function closeAuth(){document.getElementById('auth-overlay').style.display='none'}
+function toggleAuth(){authMode=authMode==='login'?'signup':'login';updAuth()}
+function updAuth(){
+  const l=authMode==='login';
+  document.getElementById('a-title').textContent=l?'Welcome Back':'Join DWC Free';
+  document.getElementById('a-sub').textContent=l?'Login to access your member price':'60 seconds — no card needed';
+  document.getElementById('a-btn').textContent=l?'Login':'Create Free Account';
+  document.getElementById('a-switch-label').textContent=l?'No account?':'Already a member?';
+  document.getElementById('a-switch').textContent=l?'Sign up free':'Login';
+}
+
+async function handleAuth(){
+  const email=document.getElementById('a-email').value.trim();
+  const pass=document.getElementById('a-pass').value;
+  const btn=document.getElementById('a-btn');
+  const err=document.getElementById('a-err');
+  err.style.display='none';
+  if(!email||!pass){err.textContent='Please fill all fields';err.style.display='block';return}
+  btn.textContent='Please wait...';btn.disabled=true;
+  try{
+    const r=authMode==='login'
+      ?await sbClient.auth.signInWithPassword({email,password:pass})
+      :await sbClient.auth.signUp({email,password:pass,options:{data:{full_name:email.split('@')[0]}}});
+    if(r.error)throw r.error;
+    me=r.data.user||r.data.session?.user;
+    await getProfile();renderNav(true);renderPricing(eventData);closeAuth();
+  }catch(e){
+    err.textContent=e.message||'Error. Try again.';err.style.display='block';
+    btn.textContent=authMode==='login'?'Login':'Create Free Account';btn.disabled=false;
