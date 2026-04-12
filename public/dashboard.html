@@ -1018,10 +1018,12 @@
       md = res.data;
     }
 
-    // Load redemptions
-    const { data: reds } = await sbClient
-      .from('voucher_redemptions').select('voucher_id').eq('user_id', cu.id);
-    if (reds) reds.forEach(r => { myRedemptions[r.voucher_id] = (myRedemptions[r.voucher_id] || 0) + 1; });
+    // Load redemptions — ignore errors (table may be empty)
+    try {
+      const { data: reds } = await sbClient
+        .from('voucher_redemptions').select('voucher_id').eq('user_id', cu.id);
+      if (reds) reds.forEach(r => { myRedemptions[r.voucher_id] = (myRedemptions[r.voucher_id] || 0) + 1; });
+    } catch(e) { console.warn('voucher_redemptions not available:', e.message); }
 
     // Load cities from Supabase live
     await loadCities();
@@ -1039,7 +1041,14 @@
 
   }).catch(err => {
     console.error('Dashboard init error:', err);
-    window.location.href = '/signin';
+    // Only redirect to signin if it's genuinely an auth error
+    if (err?.message?.includes('JWT') || err?.message?.includes('auth') || err?.message?.includes('session')) {
+      window.location.href = '/signin';
+    } else {
+      // Non-auth error — show dashboard anyway, don't redirect
+      hideLoader();
+      showApp();
+    }
   });
 
   // ── LOAD CITIES FROM SUPABASE ───────────────────────────────────────
