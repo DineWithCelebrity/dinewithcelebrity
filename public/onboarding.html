@@ -182,10 +182,11 @@ function goStep3() { renderStep3(); }
 // ── RENDER STEP 3 — POINTS PREVIEW + FINISH ────────────────────
 function renderStep3() {
   setStep(3);
-  const refCode = urlParams.get('ref') || sessionStorage.getItem('dwc_ref') || '';
+  const refCode   = urlParams.get('ref') || sessionStorage.getItem('dwc_ref') || '';
   const signupPts = 300;
   const refPts    = refCode ? 300 : 0;
   const totalPts  = signupPts + refPts;
+  const ptsValue  = totalPts * 3; // 1pt = ₹3
 
   document.getElementById('cardContent').innerHTML = `
     <div class="card-title">You're Almost In!</div>
@@ -194,12 +195,14 @@ function renderStep3() {
       <div class="pts-preview-title">⭐ Your Welcome Points</div>
       <div class="pts-row"><span class="pts-label">Signup bonus</span><span class="pts-val">+300 pts</span></div>
       ${refCode?`<div class="pts-row"><span class="pts-label">Referral bonus</span><span class="pts-val" style="color:var(--green)">+300 pts</span></div>`:''}
-      <div class="pts-row"><span class="pts-label">Total starting balance</span><span class="pts-val total">${totalPts} pts</span></div>
+      <div class="pts-row"><span class="pts-label">Total starting balance</span><span class="pts-val total">${totalPts} pts = ₹${ptsValue.toLocaleString('en-IN')} value</span></div>
     </div>
     <div class="pts-preview" style="margin-top:-.25rem">
       <div class="pts-preview-title">🎁 What Points Get You</div>
-      <div class="pts-row"><span class="pts-label">Restaurant discount</span><span class="pts-val">Up to ₹500 off</span></div>
-      <div class="pts-row"><span class="pts-label">Celebrity dinner discount</span><span class="pts-val">Up to ₹10,000 off</span></div>
+      <div class="pts-row"><span class="pts-label">1 point value</span><span class="pts-val">₹3</span></div>
+      <div class="pts-row"><span class="pts-label">Earn rate</span><span class="pts-val">1 pt per ₹10 spent</span></div>
+      <div class="pts-row"><span class="pts-label">Your ${totalPts} pts unlock</span><span class="pts-val" style="color:var(--green)">₹${ptsValue.toLocaleString('en-IN')} off a dinner</span></div>
+      <div class="pts-row"><span class="pts-label">Max discount per event</span><span class="pts-val">Up to 40% off</span></div>
     </div>
     <button class="btn" id="btnFinish" onclick="saveAndFinish()">🚀 Enter DWC — Claim My Points</button>
     <button class="btn-back" onclick="renderStep2()">← Back</button>

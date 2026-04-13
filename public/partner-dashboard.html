@@ -637,6 +637,10 @@ tr:hover td{background:rgba(255,255,255,.02)}
             <input class="otp-digit" maxlength="1" id="otp5" oninput="otpFinish(this)" onkeydown="otpBack(event,this,4)">
           </div>
 
+          <span class="otp-label">Bill Amount (₹) — Member earns 1 pt per ₹10</span>
+          <input type="number" class="pin-input" id="billAmountInput" placeholder="e.g. 2500" min="0" style="letter-spacing:normal;margin-bottom:8px"/>
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:16px;text-align:center" id="billPtsPreview">Enter bill to see points member will earn</div>
+
           <span class="otp-label">Your 4-digit Partner PIN</span>
           <input type="password" class="pin-input" id="partnerPinInput" maxlength="4" placeholder="••••">
 
@@ -1435,6 +1439,23 @@ async function validateOTP(){
   partner_city: _partner.city || null
   });
 
+  // ── AWARD POINTS TO MEMBER (1pt per ₹10 spent) ──────────────────────
+  const billInput = document.getElementById('billAmountInput');
+  const billAmt   = billInput ? parseFloat(billInput.value) || 0 : 0;
+  if(billAmt > 0 && otpRecord.member_id){
+    const ptsToAward = Math.floor(billAmt / 10);
+    if(ptsToAward > 0){
+      await sbClient.rpc('award_points', {
+        p_member_id:   otpRecord.member_id,
+        p_reason:      _partner.partner_type === 'travel' ? 'travel' :
+                       _partner.partner_type === 'shopping' ? 'shopping' : 'restaurant',
+        p_points:      ptsToAward,
+        p_idempotency: 'visit_' + otpRecord.member_id + '_' + Date.now(),
+        p_note:        `${ptsToAward} pts from ₹${billAmt.toLocaleString('en-IN')} spend at ${_partner.name}`
+      }).catch(e => console.warn('award_points failed', e.message));
+    }
+  }
+
   // Update voucher redeemed count
   if(otpRecord.partner_voucher_id){
     await sbClient.rpc('increment_voucher_redemptions',{vid:otpRecord.partner_voucher_id}).catch(()=>{});
@@ -1641,6 +1662,22 @@ async function changePin(){
 function handleRenew(){
   window.location.href='mailto:partners@dinewithcelebrity.com?subject=Contract Renewal — '+(encodeURIComponent(_partner.name||'Partner'))+'&body=Hi DWC Team,%0A%0AI would like to renew my partnership contract.%0A%0APartner: '+encodeURIComponent(_partner.name||'')+'%0AEmail: '+encodeURIComponent(_partner.contact_email||'')+'%0A%0APlease share the renewal details.%0A%0AThank you.';
 }
+
+// ── Bill amount live preview ──────────────────────────────────
+document.addEventListener('input', function(e){
+  if(e.target.id !== 'billAmountInput') return;
+  const bill = parseFloat(e.target.value) || 0;
+  const pts  = Math.floor(bill / 10);
+  const el   = document.getElementById('billPtsPreview');
+  if(!el) return;
+  if(bill <= 0){
+    el.textContent = 'Enter bill to see points member will earn';
+    el.style.color = 'var(--muted)';
+  } else {
+    el.textContent = `Member earns ${pts} pts = ₹${(pts*3).toLocaleString('en-IN')} value toward their next celebrity dinner`;
+    el.style.color = '#FFD166';
+  }
+});
 
 (function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
 </script>

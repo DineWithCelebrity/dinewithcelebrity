@@ -574,45 +574,100 @@ function updateSeats(ev){
 }
 
 function renderPricing(ev){
-  const myTier=(profile?.membership_tier||'free').toLowerCase();
-  const ticketPrice = ev.ticket_price || ev.price_silver || ev.price_gold || ev.price_platinum || null;
+  const myTier    = (profile?.membership_tier||'free').toLowerCase();
+  const ticketPrice = ev.ticket_price || ev.price_silver || ev.price_gold || null;
 
-  // Hide pricing table — single price for all paid tiers
-  const tbody=document.getElementById('pricing-tbody');
-  if(tbody){
-    tbody.closest('table')?.closest('.pricing-section')?.style && (tbody.closest('table').closest('.pricing-section').style.display='none');
-    tbody.innerHTML='';
+  // Hide old tier pricing table
+  const tbody = document.getElementById('pricing-tbody');
+  if(tbody) { const t = tbody.closest('table'); if(t) t.style.display='none'; }
+
+  if(!me){
+    document.getElementById('login-prompt-state').style.display='block';
+    document.getElementById('logged-in-state').style.display='none';
+    return;
   }
 
-  if(me){
-    document.getElementById('login-prompt-state').style.display='none';
-    document.getElementById('logged-in-state').style.display='block';
+  document.getElementById('login-prompt-state').style.display='none';
+  document.getElementById('logged-in-state').style.display='block';
 
-    const pd=document.getElementById('book-price-display');
-
-    if(myTier==='free'){
-      // Free members cannot book
-      pd.textContent='Members Only';pd.className='book-price-amount';pd.style.fontSize='1.3rem';pd.style.color='var(--sub)';
-      document.getElementById('book-price-sub').textContent='Celebrity events are available for Silver, Gold & Platinum members';
-      document.getElementById('btn-book-now').disabled=true;
-      document.getElementById('btn-book-now').textContent='Upgrade to Book';
-    } else if(ticketPrice){
-      pd.textContent='₹'+Number(ticketPrice).toLocaleString('en-IN');
-      pd.className='book-price-amount';
-      document.getElementById('book-price-sub').textContent='Use your points to save up to 20% on this ticket';
-      document.getElementById('btn-book-now').textContent='Confirm & Pay ₹'+Number(ticketPrice).toLocaleString('en-IN');
-    } else {
-      pd.textContent='Price TBA';pd.className='book-price-amount';pd.style.fontSize='1.5rem';pd.style.color='var(--sub)';
-      document.getElementById('btn-book-now').disabled=true;
-      document.getElementById('book-price-sub').textContent='Admin will set the price shortly';
-    }
-
-    // Mobile bar
-    document.getElementById('mobile-price').textContent=myTier==='free'?'Members Only':ticketPrice?'₹'+Number(ticketPrice).toLocaleString('en-IN'):'TBA';
-
-    // Upgrade hook for free members only
+  if(myTier==='free'){
+    const pd = document.getElementById('book-price-display');
+    pd.textContent='Members Only'; pd.style.fontSize='1.3rem'; pd.style.color='var(--sub)';
+    document.getElementById('book-price-sub').textContent='Celebrity events are for Silver, Gold & Platinum members';
+    document.getElementById('btn-book-now').disabled=true;
+    document.getElementById('mobile-price').textContent='Members Only';
     showUpgradeHook(myTier, ev, ticketPrice);
+    return;
   }
+
+  if(!ticketPrice){
+    document.getElementById('book-price-display').textContent='Price TBA';
+    document.getElementById('book-price-display').style.fontSize='1.5rem';
+    document.getElementById('book-price-display').style.color='var(--sub)';
+    document.getElementById('book-price-sub').textContent='Ticket price being set — check back soon';
+    document.getElementById('btn-book-now').disabled=true;
+    return;
+  }
+
+  // ── POINTS MATH ──────────────────────────────────────────────
+  const PT_VALUE  = 3;
+  const FLOOR_PCT = 0.6;
+  const memberPts = profile?.points || 0;
+  const maxDisc   = ticketPrice * (1 - FLOOR_PCT);          // max 40% off
+  const ptsWorth  = memberPts * PT_VALUE;
+  const discount  = Math.min(ptsWorth, maxDisc);            // capped at floor
+  const ptsUsed   = Math.ceil(discount / PT_VALUE);
+  const finalPrice= ticketPrice - discount;
+  const ptsCarry  = memberPts - ptsUsed;
+
+  // Apply ₹500 first event offer
+  const firstOffer      = profile?.first_event_booked === false ? 500 : 0;
+  const finalWithOffer  = Math.max(finalPrice - firstOffer, ticketPrice * FLOOR_PCT);
+  const totalSavings    = (ticketPrice - finalWithOffer);
+
+  // Store for booking
+  window._eventPricing = { ticketPrice, discount, ptsUsed, finalPrice: finalWithOffer, ptsCarry, firstOffer };
+
+  // ── RENDER PRICE BREAKDOWN ────────────────────────────────────
+  const pd  = document.getElementById('book-price-display');
+  const sub = document.getElementById('book-price-sub');
+
+  pd.textContent = '₹' + Math.round(finalWithOffer).toLocaleString('en-IN');
+  pd.className   = 'book-price-amount';
+  pd.style.fontSize = '';
+  pd.style.color    = '';
+
+  // Build sub-text
+  let subLines = [];
+  if(discount > 0)   subLines.push(`🌟 ${ptsUsed} pts → ₹${Math.round(discount).toLocaleString('en-IN')} off`);
+  if(firstOffer > 0) subLines.push(`🎁 ₹500 welcome offer applied`);
+  if(ptsCarry > 0)   subLines.push(`${ptsCarry} pts carry to your next event`);
+  if(subLines.length === 0) subLines.push('Use points to save on this ticket');
+
+  sub.innerHTML = subLines.join('<br/>');
+
+  // Savings badge
+  if(totalSavings > 0){
+    let badge = document.getElementById('savings-badge');
+    if(!badge){
+      badge = document.createElement('div');
+      badge.id = 'savings-badge';
+      badge.style.cssText = 'text-align:center;background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.3);border-radius:8px;padding:.5rem;margin:.5rem 0;font-size:.85rem;color:#00C853;font-weight:600';
+      pd.parentNode.insertBefore(badge, sub);
+    }
+    badge.textContent = `You save ₹${Math.round(totalSavings).toLocaleString('en-IN')} on this ticket`;
+  }
+
+  // Earn more CTA if no points
+  if(memberPts === 0){
+    sub.innerHTML = 'Earn points at partner restaurants, shops & travel brands to save on this ticket';
+  }
+
+  document.getElementById('btn-book-now').textContent = `Confirm & Pay ₹${Math.round(finalWithOffer).toLocaleString('en-IN')}`;
+  document.getElementById('btn-book-now').disabled = false;
+  document.getElementById('mobile-price').textContent = '₹' + Math.round(finalWithOffer).toLocaleString('en-IN');
+
+  showUpgradeHook(myTier, ev, ticketPrice);
 }
 
 function showUpgradeHook(tier, ev, ticketPrice){
@@ -654,59 +709,55 @@ function startViewers(){
 /* BOOKING */
 async function initiateBooking(){
   if(!me){openAuth();return}
-  const ev=eventData;
-  const myTier=(profile?.membership_tier||'free').toLowerCase();
-  const price = ev.ticket_price || ev.price_silver || ev.price_gold || ev.price_platinum || null;
+  const ev  = eventData;
+  const myTier = (profile?.membership_tier||'free').toLowerCase();
 
-  if(myTier==='free'){
-    window.location.href='/upgrade.html';
-    return;
-  }
+  if(myTier==='free'){ window.location.href='/upgrade.html'; return; }
 
-  const btn=document.getElementById('btn-book-now');
-  btn.textContent='Reserving seat...';btn.disabled=true;
+  const pricing = window._eventPricing;
+  if(!pricing){ alert('Price not loaded yet. Please refresh.'); return; }
 
-  // Lock seat via RPC
-  const {data:lockData,error:lockErr}=await sbClient.rpc('lock_event_seat',{p_event_id:ev.id,p_user_id:me.id,p_seats:1});
+  const { ticketPrice, ptsUsed, finalPrice, ptsCarry, firstOffer, discount } = pricing;
+
+  const btn = document.getElementById('btn-book-now');
+  btn.textContent='Reserving seat...'; btn.disabled=true;
+
+  // Lock seat
+  const {data:lockData,error:lockErr} = await sbClient.rpc('lock_event_seat',{p_event_id:ev.id,p_user_id:me.id,p_seats:1});
   if(lockErr||!lockData?.success){
-    btn.textContent='Confirm & Pay';btn.disabled=false;
+    btn.textContent='Confirm & Pay'; btn.disabled=false;
     alert(lockData?.error||'Seat no longer available. Please refresh.');
     return;
   }
 
-  // Start 10-min timer
   startReservationTimer(600);
 
-  // Free / Platinum complimentary removed — single price for all paid tiers
-  if(!price){btn.textContent='Confirm & Pay';btn.disabled=false;alert('Ticket price not set yet. Please check back soon.');return}
+  if(!finalPrice){ btn.textContent='Confirm & Pay'; btn.disabled=false; alert('Ticket price not set yet.'); return; }
 
-  // Razorpay
   try{
-    const orderRes=await fetch('/api/create-order',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(await sbClient.auth.getSession()).data.session?.access_token},
-      body:JSON.stringify({event_id:ev.id,amount:price,reservation_id:lockData.reservation_id})
-    });
-    const order=await orderRes.json();
-    if(!order.id)throw new Error(order.error||'Order creation failed');
+    const sess = await sbClient.auth.getSession();
+    const jwt  = sess.data.session?.access_token;
 
-    const rzp=new Razorpay({
-      key:RAZORPAY_KEY,
-      amount:order.amount,
-      currency:'INR',
-      name:'Dine With Celebrity',
-      description:ev.title,
-      order_id:order.id,
-      prefill:{email:me.email},
-      theme:{color:'#F2B705'},
-      handler:async function(res){
-        await verifyPayment(res,ev,order.id,price);
+    const orderRes = await fetch('/api/create-order',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+jwt},
+      body:JSON.stringify({event_id:ev.id, amount:Math.round(finalPrice), reservation_id:lockData.reservation_id})
+    });
+    const order = await orderRes.json();
+    if(!order.id) throw new Error(order.error||'Order creation failed');
+
+    const rzp = new Razorpay({
+      key:RAZORPAY_KEY, amount:order.amount, currency:'INR',
+      name:'Dine With Celebrity', description:ev.event_title||'Celebrity Event',
+      order_id:order.id, prefill:{email:me.email}, theme:{color:'#F2B705'},
+      handler: async function(res){
+        await verifyPayment(res, ev, order.id, Math.round(finalPrice), ptsUsed, discount, firstOffer > 0);
       },
-      modal:{ondismiss:function(){btn.textContent='Confirm & Pay ₹'+Number(price).toLocaleString('en-IN');btn.disabled=false}}
+      modal:{ ondismiss:function(){ btn.textContent='Confirm & Pay ₹'+Math.round(finalPrice).toLocaleString('en-IN'); btn.disabled=false; } }
     });
     rzp.open();
-  }catch(e){
-    btn.textContent='Confirm & Pay';btn.disabled=false;
+  } catch(e){
+    btn.textContent='Confirm & Pay'; btn.disabled=false;
     alert('Payment error: '+e.message);
   }
 }
@@ -721,29 +772,47 @@ async function confirmFreeBooking(ev,reservationId){
   else alert('Confirmation failed. Please contact support.');
 }
 
-async function verifyPayment(res,ev,orderId,price){
+async function verifyPayment(res,ev,orderId,price,ptsUsed=0,ptsDiscount=0,firstEventOffer=false){
   const myTier=(profile?.membership_tier||'free').toLowerCase();
+  const jwt=(await sbClient.auth.getSession()).data.session?.access_token;
   const vRes=await fetch('/api/verify-event-payment',{
     method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+(await sbClient.auth.getSession()).data.session?.access_token},
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+jwt},
     body:JSON.stringify({
       razorpay_order_id:orderId,
       razorpay_payment_id:res.razorpay_payment_id,
       razorpay_signature:res.razorpay_signature,
-      event_id:ev.id,amount:price,tier:myTier
+      event_id:ev.id, amount:price, tier:myTier,
+      points_used:ptsUsed, points_discount:ptsDiscount,
+      first_event_offer:firstEventOffer
     })
   });
   const vData=await vRes.json();
-  if(vData.success)showBookingSuccess();
-  else alert('Payment verification failed. Please contact hello@dinewithcelebrity.com');
+  if(vData.success){
+    // Update local points display if points were used
+    if(vData.points_used > 0 && profile){
+      profile.points = Math.max(0,(profile.points||0) - vData.points_used);
+    }
+    showBookingSuccess(vData);
+  } else {
+    alert('Payment verification failed. Please contact hello@dinewithcelebrity.com');
+  }
 }
 
-function showBookingSuccess(){
+function showBookingSuccess(data={}){
   clearInterval(timerInterval);
   document.getElementById('booking-active-state').style.display='none';
   document.getElementById('sold-out-state').style.display='none';
-  document.getElementById('booking-success').style.display='block';
   document.getElementById('mobile-bar').style.display='none';
+  const s = document.getElementById('booking-success');
+  s.style.display='block';
+  // Show carry forward message if applicable
+  if(data.pts_carry_fwd > 0){
+    const extra = document.createElement('p');
+    extra.style.cssText='font-size:.82rem;color:#FFD166;margin-top:8px';
+    extra.textContent=`🌟 ${data.pts_carry_fwd} points saved for your next DWC event`;
+    s.querySelector('p')?.after(extra);
+  }
 }
 
 function startReservationTimer(seconds){

@@ -1109,13 +1109,20 @@
     document.getElementById('navPts').textContent   = pts.toLocaleString() + ' pts';
     document.getElementById('statCity').textContent = md.city || '–';
 
-    // ── Celebrity ticket reduction ──
-    const reduction  = Math.floor(pts / 100) * 500;
-    const ticketAmt  = Math.max(70000 - reduction, 20000);
-    document.getElementById('statTicket').textContent    = '₹' + ticketAmt.toLocaleString();
-    document.getElementById('statTicketSub').textContent = reduction > 0
-      ? '₹' + reduction.toLocaleString() + ' saved via points'
-      : 'Earn points to reduce';
+    // ── Points value display (1pt = ₹3, floor 60%) ──
+    const PT_VALUE   = 3;
+    const FLOOR_PCT  = 0.6;
+    const minTicket  = 50000; // minimum DWC ticket price
+    const maxDisc    = minTicket * (1 - FLOOR_PCT);          // ₹20,000 max on ₹50k ticket
+    const ptsWorth   = pts * PT_VALUE;
+    const savings    = Math.min(ptsWorth, maxDisc);
+    const ptsToMax   = Math.ceil(maxDisc / PT_VALUE);        // pts needed for max discount
+    const ptsNeeded  = Math.max(0, ptsToMax - pts);
+
+    document.getElementById('statTicket').textContent    = savings > 0 ? '₹' + savings.toLocaleString('en-IN') : '₹0';
+    document.getElementById('statTicketSub').textContent = savings > 0
+      ? `Unlock up to ₹${maxDisc.toLocaleString('en-IN')} off any event`
+      : `Earn ${ptsToMax.toLocaleString('en-IN')} pts to unlock ₹${maxDisc.toLocaleString('en-IN')} off`;
 
     // ── Tier banner ──
     const banner = document.getElementById('tierBanner');
@@ -1358,16 +1365,20 @@
 
     const html = events.map(ev => {
       const locked     = ev.locked || effRank < 1;
-      const reduction  = Math.floor((md.points || 300) / 100) * 500;
-      const finalPrice = Math.max(ev.price - (locked ? 0 : reduction), ev.price * 0.3);
+      const pts        = md.points || 0;
+      const ptsWorth   = pts * 3;
+      const maxDisc    = ev.price * 0.4;
+      const discount   = locked ? 0 : Math.min(ptsWorth, maxDisc);
+      const finalPrice = ev.price - discount;
+      const savingsTxt = discount > 0 ? `· ₹${discount.toLocaleString('en-IN')} saved` : '';
 
       return `<div class="event-card${locked ? ' locked' : ''}">
         <span class="event-tag">${ev.tag}</span>
         <div class="event-title">${ev.title}</div>
         <div class="event-meta">${ev.meta}</div>
         <div class="event-price">
-          ₹${finalPrice.toLocaleString()}
-          <span>${locked ? '' : (reduction > 0 ? '· ' + reduction.toLocaleString() + ' pts applied' : '')}</span>
+          ₹${finalPrice.toLocaleString('en-IN')}
+          <span>${locked ? '' : savingsTxt}</span>
         </div>
         ${locked
           ? `<button class="event-action locked-btn" data-action="event-upgrade" data-tier="gold" data-title="${ev.title.replace(/"/g,'&quot;')}">🔒 Unlock with Gold</button>`
