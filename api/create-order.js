@@ -48,7 +48,36 @@ export default async function handler(req, res) {
   const { data: { user }, error: authErr } = await sbAdmin.auth.getUser(jwt);
   if (authErr || !user) return res.status(401).json({ error: 'Invalid token' });
 
-  const { event_id, redemption_token } = req.body || {};
+  const { event_id, redemption_token, tier } = req.body || {};
+
+  // ── MEMBERSHIP UPGRADE PATH ───────────────────────────────────
+  if (tier && !event_id) {
+    const validTiers = { gold: 499900, platinum: 999900, dwcpurple: 1999900 };
+    if (!validTiers[tier]) return res.status(400).json({ error: 'Invalid tier' });
+
+    const { data: member } = await sbAdmin
+      .from('members')
+      .select('id, tier, full_name')
+      .eq('id', user.id)
+      .single();
+
+    if (!member) return res.status(404).json({ error: 'Member not found' });
+
+    const rpOrder = await razorpay.orders.create({
+      amount:   validTiers[tier],
+      currency: 'INR',
+      notes: { member_id: member.id, tier, type: 'membership_upgrade' },
+    });
+
+    return res.status(200).json({
+      order_id:  rpOrder.id,
+      amount:    rpOrder.amount,
+      currency:  rpOrder.currency,
+      key_id:    process.env.RAZORPAY_KEY_ID,
+    });
+  }
+
+  // ── EVENT BOOKING PATH ────────────────────────────────────────
   if (!event_id) return res.status(400).json({ error: 'event_id required' });
 
   // ── Verify redemption token if provided ───────────────────────
@@ -99,7 +128,7 @@ export default async function handler(req, res) {
     const { data: member } = await sbAdmin
       .from('members')
       .select('id, points, tier')
-      .eq('auth_user_id', user.id)
+      .eq('id', user.id)
       .single();
 
     if (!member) return res.status(404).json({ error: 'Member not found' });
