@@ -308,17 +308,24 @@
     </div>
 
     <hr class="section-divider"/>
-    <p class="form-section-title">Ticket Price & Points</p>
-    <p style="font-size:.78rem;color:var(--dim);margin-bottom:14px">Single ticket price for all paid members. Points reduce the price using 1pt=₹3, floor at 60% of ticket.</p>
+    <p class="form-section-title">Ticket Pricing by Membership Tier</p>
+    <p style="font-size:.78rem;color:var(--dim);margin-bottom:14px">Set prices per tier. Leave blank = not available for that tier. Platinum 0 = complimentary.</p>
     <div class="price-grid">
       <div class="price-input-wrap">
-        <span class="price-tier-label" style="color:var(--gold)">Ticket Price (₹)</span>
-        <input id="f-ticket-price" type="number" placeholder="50000" min="50000" style="font-size:1.1rem;padding:.6rem 1rem"/>
+        <span class="price-tier-label tier-free-lbl">Free Member</span>
+        <input id="f-price-free" type="number" placeholder="3499" min="0"/>
       </div>
       <div class="price-input-wrap">
-        <span class="price-tier-label" style="color:#FFD166">Min Points Required</span>
-        <input id="f-required-points" type="number" placeholder="0 = no minimum" min="0"/>
-        <span style="font-size:.72rem;color:var(--dim);margin-top:4px;display:block">Members below this threshold cannot book</span>
+        <span class="price-tier-label tier-silver-lbl">Silver</span>
+        <input id="f-price-silver" type="number" placeholder="1999" min="0"/>
+      </div>
+      <div class="price-input-wrap">
+        <span class="price-tier-label tier-gold-lbl">Gold</span>
+        <input id="f-price-gold" type="number" placeholder="999" min="0"/>
+      </div>
+      <div class="price-input-wrap">
+        <span class="price-tier-label tier-platinum-lbl">Platinum</span>
+        <input id="f-price-platinum" type="number" placeholder="0" min="0"/>
       </div>
     </div>
 
@@ -556,8 +563,10 @@ async function openEditModal(id){
   document.getElementById('f-location').value=data.location||'';
   document.getElementById('f-seats').value=data.total_seats||80;
   document.getElementById('f-desc').value=data.description||'';
-  document.getElementById('f-ticket-price').value=data.ticket_price||'';
-  document.getElementById('f-required-points').value=data.required_points||'';
+  document.getElementById('f-price-free').value=data.price_free||'';
+  document.getElementById('f-price-silver').value=data.price_silver||'';
+  document.getElementById('f-price-gold').value=data.price_gold||'';
+  document.getElementById('f-price-platinum').value=data.price_platinum!==null?data.price_platinum:'';
   document.getElementById('f-sponsor-name').value=data.sponsor_name||'';
   document.getElementById('f-sponsor-perks').value=data.sponsor_perks||'';
   document.getElementById('f-featured').checked=data.featured||false;
@@ -568,7 +577,7 @@ async function openEditModal(id){
 }
 
 function clearForm(){
-  ['f-title','f-celebrity','f-slug','f-location','f-desc','f-ticket-price','f-required-points','f-sponsor-name','f-sponsor-perks'].forEach(id=>{document.getElementById(id).value=''});
+  ['f-title','f-celebrity','f-slug','f-location','f-desc','f-price-free','f-price-silver','f-price-gold','f-price-platinum','f-sponsor-name','f-sponsor-perks'].forEach(id=>{document.getElementById(id).value=''});
   document.getElementById('f-type').value='movie';
   document.getElementById('f-city').value='Hyderabad';
   document.getElementById('f-seats').value='80';
@@ -594,8 +603,10 @@ async function saveEvent(){
     showFormMsg('Event title, celebrity name and slug are required.','error');return;
   }
 
-  const tp=document.getElementById('f-ticket-price').value;
-  const rp=document.getElementById('f-required-points').value;
+  const pf=document.getElementById('f-price-free').value;
+  const ps=document.getElementById('f-price-silver').value;
+  const pg=document.getElementById('f-price-gold').value;
+  const pp=document.getElementById('f-price-platinum').value;
 
   const dateVal=document.getElementById('f-date').value;
   const payload={
@@ -607,19 +618,18 @@ async function saveEvent(){
     event_date:dateVal?new Date(dateVal).toISOString():null,
     total_seats:seats,
     description:document.getElementById('f-desc').value.trim()||null,
-    ticket_price:tp!==''?parseFloat(tp):null,
-    required_points:rp!==''?parseInt(rp):0,
-    price_free:null,
-    price_silver:tp!==''?parseFloat(tp):null,
-    price_gold:tp!==''?parseFloat(tp):null,
-    price_platinum:tp!==''?parseFloat(tp):null,
+    price_free:pf!==''?parseFloat(pf):null,
+    price_silver:ps!==''?parseFloat(ps):null,
+    price_gold:pg!==''?parseFloat(pg):null,
+    price_platinum:pp!==''?parseFloat(pp):null,
     sponsor_name:document.getElementById('f-sponsor-name').value.trim()||null,
     sponsor_perks:document.getElementById('f-sponsor-perks').value.trim()||null,
     featured:document.getElementById('f-featured').checked,
     is_published:document.getElementById('f-published').checked,
     waitlist_enabled:document.getElementById('f-waitlist').checked,
     status:document.getElementById('f-published').checked?'live':'draft',
-    cast_names:celebrity.split(',').map(s=>s.trim()).filter(Boolean)
+    cast_names:celebrity.split(',').map(s=>s.trim()).filter(Boolean),
+    ticket_price:pf!==''?parseFloat(pf):0
   };
 
   if(!editingEventId) payload.slug=slug;
