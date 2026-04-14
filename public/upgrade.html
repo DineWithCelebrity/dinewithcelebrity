@@ -231,7 +231,7 @@ async function startPayment(tier, paise, name, price) {
       image:       '/logo_navbar_400px.png',
       prefill: {
         email: currentUser.email || '',
-        name:  currentMember.first_name ? currentMember.first_name + ' ' + (currentMember.last_name||'') : '',
+        name:  currentMember?.full_name || '',
       },
       notes: {
         tier:      tier,
@@ -290,8 +290,8 @@ async function startPayment(tier, paise, name, price) {
 
   const { data: member } = await sbClient
     .from('members')
-    .select('id, tier, first_name, last_name, points, expires_at')
-    .eq('auth_user_id', currentUser.id)
+    .select('id, tier, full_name, points, expires_at')
+    .eq('id', currentUser.id)
     .maybeSingle();
 
   currentMember = member;
