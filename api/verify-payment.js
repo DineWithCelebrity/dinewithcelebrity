@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     const { data: member } = await sbAdmin
       .from('members')
       .select('id, member_id, points')
-      .eq('auth_user_id', user.id)
+      .eq('id', user.id)
       .single();
 
     if (!member) return res.status(404).json({ error: 'Member not found' });
@@ -123,6 +123,23 @@ export default async function handler(req, res) {
       payment_id:       razorpay_payment_id,
       idempotency_key:  `attempt_${razorpay_payment_id}`,
     });
+
+    // ── 8. Log to member_activity ─────────────────────────────
+    if (member.member_id) {
+      await sbAdmin.from('member_activity').insert({
+        member_id:     member.member_id,
+        member_uuid:   member.id,
+        activity_type: 'event_booking',
+        activity_data: {
+          event_id:    event_id,
+          payment_id:  razorpay_payment_id,
+          points_used: booking.points_used,
+          discount:    booking.discount_given,
+          amount_paid: booking.final_price,
+        },
+        created_at: new Date().toISOString(),
+      });
+    }
 
     // ── Update member tier if this was a membership payment ───
     // (existing tier upgrade logic preserved — only triggers if booking

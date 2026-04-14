@@ -13,7 +13,7 @@ function getRawBody(req) {
   });
 }
 
-const TIER_PRICES = { gold: 249900, platinum: 699900, dwcpurple: 1499900 };
+const TIER_PRICES = { gold: 499900, platinum: 999900, dwcpurple: 1999900 };
 const TIER_RANK   = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
 
 export default async function handler(req, res) {

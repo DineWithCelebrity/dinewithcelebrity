@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     const { data: member, error: memErr } = await sbAdmin
       .from('members')
       .select('id, points, tier, expires_at')
-      .eq('auth_user_id', user.id)
+      .eq('id', user.id)
       .single();
 
     if (memErr || !member) return res.status(404).json({ error: 'Member not found' });

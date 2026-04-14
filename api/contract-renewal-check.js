@@ -71,7 +71,7 @@ export default async function handler(req, res) {
     // 30-day expiry warning emails
     const in30d = new Date(Date.now()+30*24*60*60*1000).toISOString();
     const { data: expiring } = await sbAdmin.from('points_transactions')
-      .select('member_id,points,expires_at,members(email,first_name)')
+      .select('member_id,points,expires_at,members(email,full_name)')
       .eq('type','earn').gt('points',0).lt('expires_at',in30d).gt('expires_at',new Date().toISOString());
     const warned = new Set();
     for (const r of expiring||[]) {
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
         await resend.emails.send({
           from:'hello@dinewithcelebrity.com', to:r.members.email,
           subject:'⚠️ Your DWC points expire in 30 days',
-          html:`<p>Hi ${r.members.first_name||'Member'},</p><p>Some of your DWC points expire in 30 days. <a href="https://www.dinewithcelebrity.com/dashboard">Log in to use them</a>.</p>`,
+          html:`<p>Hi ${r.members?.full_name||'Member'},</p><p>Some of your DWC points expire in 30 days. <a href="https://www.dinewithcelebrity.com/dashboard">Log in to use them</a>.</p>`,
         });
       }
     }
