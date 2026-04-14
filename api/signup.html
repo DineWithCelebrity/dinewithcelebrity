@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Dine With Celebrity | Exclusive Membership</title>
+<meta name="description" content="Join Dine With Celebrity – India's exclusive celebrity dining membership. Sign up free and get 300 welcome points worth ₹900.">
+<meta property="og:title" content="Join Dine With Celebrity">
+<meta property="og:description" content="Sign up free and get 300 welcome points worth ₹900.">
+<meta property="og:url" content="https://www.dinewithcelebrity.com/signup.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://www.dinewithcelebrity.com/signup.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;}
+body{background:#06040A;color:rgba(255,255,255,0.9);font-family:'Poppins',sans-serif;display:flex;flex-direction:column;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 28px;border-bottom:1px solid rgba(242,183,5,0.15);background:#06040A;flex-shrink:0;height:56px;}
+nav img{height:36px;}
+nav a{font-size:.8rem;color:rgba(255,255,255,.45);text-decoration:none;border:1px solid rgba(255,255,255,.1);padding:5px 14px;border-radius:100px;}
+nav a:hover{color:#fff;}
+.layout{display:grid;grid-template-columns:1fr 420px;flex:1;height:calc(100vh - 56px);overflow:hidden;}
+.left{background:linear-gradient(160deg,#0E0818 0%,#06040A 100%);border-right:1px solid rgba(242,183,5,.1);display:flex;flex-direction:column;overflow:hidden;padding:24px 0 0;}
+.left-hdr{padding:0 32px 18px;}
+.left-hdr h2{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#F2B705;letter-spacing:2px;margin-bottom:2px;}
+.left-hdr p{font-size:.75rem;color:rgba(255,255,255,.3);}
+.cols{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to bottom,transparent,black 10%,black 90%,transparent);}
+.col{overflow:hidden;}
+.col-inner{display:flex;flex-direction:column;}
+.col.up .col-inner{animation:up 30s linear infinite;}
+.col.dn .col-inner{animation:dn 24s linear infinite;}
+.col.up2 .col-inner{animation:up 38s linear infinite;}
+@keyframes up{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes dn{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+.cn{font-family:'Bebas Neue',sans-serif;padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.04);white-space:nowrap;font-size:.98rem;letter-spacing:.05em;}
+.cn.g{color:#F2B705;}.cn.w{color:rgba(255,255,255,.65);}.cn.d{color:rgba(255,255,255,.28);font-size:.88rem;}
+.right{background:#06040A;display:flex;align-items:center;justify-content:center;padding:20px 32px;overflow-y:auto;}
+.form{width:100%;max-width:340px;}
+.dots{display:flex;gap:7px;margin-bottom:16px;}
+.dot{height:3px;width:28px;border-radius:2px;background:rgba(255,255,255,.1);transition:background .3s;}
+.dot.active{background:#F2B705;}.dot.done{background:#00C853;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;color:#F2B705;letter-spacing:1px;margin-bottom:2px;}
+.sub{font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.f{margin-bottom:9px;}
+label{display:block;font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:3px;font-weight:500;}
+input,select{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:8px 11px;font-family:'Poppins',sans-serif;font-size:.87rem;color:rgba(255,255,255,.9);outline:none;transition:border-color .2s;-webkit-appearance:none;}
+input:focus,select:focus{border-color:#F2B705;}
+input::placeholder{color:rgba(255,255,255,.2);}
+select option{background:#150E20;}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.btn{width:100%;background:#F2B705;color:#06040A;border:none;border-radius:8px;padding:11px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:6px;transition:background .2s;}
+.btn:hover{background:#FFD166;}.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-back{width:100%;background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);border-radius:8px;padding:9px;font-family:'Poppins',sans-serif;font-size:.82rem;cursor:pointer;margin-top:6px;}
+.err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.25);border-radius:6px;color:#ff6b6b;font-size:.75rem;padding:7px 10px;margin-bottom:8px;display:none;}
+.err.show{display:block;}
+.hint{text-align:center;margin-top:12px;font-size:.75rem;color:rgba(255,255,255,.3);}
+.hint a{color:#F2B705;text-decoration:none;}
+.pbox{background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.18);border-radius:10px;padding:13px;margin-bottom:9px;}
+.ibox{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;margin-bottom:11px;}
+.blbl{font-size:.68rem;font-weight:600;letter-spacing:.4px;margin-bottom:9px;}
+.pbox .blbl{color:#F2B705;}.ibox .blbl{color:rgba(255,255,255,.35);}
+.pr{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:5px;}
+.pr:last-child{margin-bottom:0;}.pr .v{font-weight:600;color:#F2B705;}
+.pr.tot{border-top:1px solid rgba(255,255,255,.07);padding-top:7px;margin-top:2px;color:#fff;font-size:.83rem;}
+.ir{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:5px;}
+.ir:last-child{margin-bottom:0;}.ir .v{font-weight:600;color:rgba(255,255,255,.85);}
+.ir .v.g{color:#F2B705;}.ir .v.gr{color:#00C853;}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(6,4,10,.25);border-top-color:#06040A;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:5px;}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:780px){html,body{overflow:auto;}.layout{grid-template-columns:1fr;height:auto;}.left{display:none;}.right{padding:24px 20px 40px;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/"><img src="/logo.png" alt="DWC"></a>
+  <a href="/">← Back</a>
+</nav>
+<div class="layout">
+  <div class="left">
+    <div class="left-hdr">
+      <h2>★ Who You'll Dine With</h2>
+      <p>India's biggest stars are waiting at the table.</p>
+    </div>
+    <div class="cols" id="cols"></div>
+  </div>
+  <div class="right">
+    <div class="form">
+      <div class="dots"><div class="dot active" id="d1"></div><div class="dot" id="d2"></div></div>
+      <div id="s1">
+        <h1>Create Account</h1>
+        <p class="sub">Join free. Get ₹900 in welcome points instantly.</p>
+        <div class="err" id="e1"></div>
+        <div class="f"><label>Full Name</label><input id="fn" type="text" placeholder="Your full name" autocomplete="name"></div>
+        <div class="r2">
+          <div class="f"><label>State</label><select id="st"><option value="">State</option></select></div>
+          <div class="f"><label>City</label><select id="ct" disabled><option value="">City</option></select></div>
+        </div>
+        <div class="f"><label>Mobile</label><input id="mb" type="tel" placeholder="10-digit mobile" maxlength="10" inputmode="numeric"></div>
+        <div class="f"><label>Email</label><input id="em" type="email" placeholder="you@email.com" autocomplete="email"></div>
+        <div class="f"><label>Password</label><input id="pw" type="password" placeholder="Min 8 characters" autocomplete="new-password"></div>
+        <button class="btn" onclick="goS2()">Continue →</button>
+        <p class="hint">Already a member? <a href="/login.html">Sign in</a></p>
+      </div>
+      <div id="s2" style="display:none">
+        <h1>YOU'RE ALMOST IN!</h1>
+        <p class="sub">Here's what you're getting — for free.</p>
+        <div class="pbox">
+          <div class="blbl">⭐ YOUR WELCOME POINTS</div>
+          <div class="pr"><span>Signup bonus</span><span class="v">+300 PTS</span></div>
+          <div class="pr tot"><span>Total balance</span><span class="v">300 PTS = ₹900 VALUE</span></div>
+        </div>
+        <div class="ibox">
+          <div class="blbl">🎁 WHAT POINTS GET YOU</div>
+          <div class="ir"><span>1 point value</span><span class="v g">₹3</span></div>
+          <div class="ir"><span>Earn rate</span><span class="v">1 PT per ₹10 spent</span></div>
+          <div class="ir"><span>Your 300 pts unlock</span><span class="v gr">₹900 OFF a dinner</span></div>
+          <div class="ir"><span>Max discount</span><span class="v">Up to 40% off</span></div>
+        </div>
+        <div class="err" id="e2"></div>
+        <button class="btn" id="cb" onclick="doSignup()">🎉 Enter DWC — Claim My Points</button>
+        <button class="btn-back" onclick="goS1()">← Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const C1=['Allu Arjun','Shah Rukh Khan','Virat Kohli','Mahesh Babu','Deepika Padukone','MS Dhoni','Prabhas','Alia Bhatt','Rajinikanth','Samantha Ruth Prabhu','Rohit Sharma','Jr NTR','Katrina Kaif','Vijay','Rashmika Mandanna','Sachin Tendulkar','Ram Charan','Priyanka Chopra','Nayanthara','Salman Khan','PV Sindhu','Chiranjeevi','Kareena Kapoor','Dhanush','Hrithik Roshan','Neeraj Chopra','Nagarjuna','Tamannaah Bhatia','Suriya','Aamir Khan'];
+const C2=['Vijay Deverakonda','Ranveer Singh','Ajith Kumar','Anushka Sharma','Yash','Hardik Pandya','Trisha Krishnan','Ranbir Kapoor','Sai Pallavi','KL Rahul','Venkatesh','Kriti Sanon','Kamal Haasan','Kiara Advani','Mohanlal','Jasprit Bumrah','Pooja Hegde','Vicky Kaushal','Keerthy Suresh','Akshay Kumar','Mammootty','Taapsee Pannu','Sivakarthikeyan','Shahid Kapoor','Dulquer Salmaan','Suryakumar Yadav','Anushka Shetty','Tiger Shroff','Nithiin','Mary Kom'];
+const C3=['Rana Daggubati','Vidya Balan','Vikram','Ayushmann Khurrana','Fahadh Faasil','Shubman Gill','Kajal Aggarwal','Varun Dhawan','Adivi Sesh','Shruti Haasan','Pawan Kalyan','Kangana Ranaut','Karthi','Sonakshi Sinha','Tovino Thomas','Rishabh Pant','Jyotika','Sidharth Malhotra','Balakrishna','Divya Khosla','Nivin Pauly','Mrunal Thakur','Darshan','Regina Cassandra','Sudeep','Bajrang Punia','Andrea Jeremiah','Jayam Ravi','Aishwarya Rajesh','Nikhat Zareen'];
+const CL=['g','w','d','w','g','d'];
+function mkCol(names,cls){const d=[...names,...names].map((n,i)=>`<div class="cn ${CL[i%CL.length]}">${n}</div>`).join('');return `<div class="col ${cls}"><div class="col-inner">${d}</div></div>`;}
+document.getElementById('cols').innerHTML=mkCol(C1,'up')+mkCol(C2,'dn')+mkCol(C3,'up2');
+const sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+const refCode=new URLSearchParams(location.search).get('ref')||'';
+async function loadStates(){const{data}=await sbClient.from('cities').select('state').order('state');if(!data)return;const states=[...new Set(data.map(r=>r.state))];const sel=document.getElementById('st');states.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});}
+document.getElementById('st').addEventListener('change',async function(){const c=document.getElementById('ct');c.innerHTML='<option value="">City</option>';c.disabled=true;if(!this.value)return;const{data}=await sbClient.from('cities').select('city').eq('state',this.value).order('city');if(data){data.forEach(r=>{const o=document.createElement('option');o.value=r.city;o.textContent=r.city;c.appendChild(o);});c.disabled=false;}});
+loadStates();
+function se(id,m){const e=document.getElementById(id);e.textContent=m;e.classList.add('show');}
+function he(id){document.getElementById(id).classList.remove('show');}
+function goS2(){he('e1');const fn=document.getElementById('fn').value.trim(),st=document.getElementById('st').value,ct=document.getElementById('ct').value,mb=document.getElementById('mb').value.trim(),em=document.getElementById('em').value.trim(),pw=document.getElementById('pw').value;if(!fn)return se('e1','Please enter your full name.');if(!st||!ct)return se('e1','Please select your state and city.');if(!/^\d{10}$/.test(mb))return se('e1','Enter a valid 10-digit mobile number.');if(!/\S+@\S+\.\S+/.test(em))return se('e1','Enter a valid email address.');if(pw.length<8)return se('e1','Password must be at least 8 characters.');document.getElementById('s1').style.display='none';document.getElementById('s2').style.display='block';document.getElementById('d1').className='dot done';document.getElementById('d2').className='dot active';}
+function goS1(){document.getElementById('s2').style.display='none';document.getElementById('s1').style.display='block';document.getElementById('d1').className='dot active';document.getElementById('d2').className='dot';}
+async function doSignup(){he('e2');const btn=document.getElementById('cb');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Creating your account...';const fn=document.getElementById('fn').value.trim(),ct=document.getElementById('ct').value,st=document.getElementById('st').value,mb=document.getElementById('mb').value.trim(),em=document.getElementById('em').value.trim(),pw=document.getElementById('pw').value;try{const{data:auth,error:aE}=await sbClient.auth.signUp({email:em,password:pw,options:{data:{full_name:fn,phone:mb,city:ct,state:st}}});if(aE)throw aE;const uid=auth.user?.id;if(!uid)throw new Error('Account creation failed. Please try again.');const{count}=await sbClient.from('members').select('*',{count:'exact',head:true});const mid=`DWC-HYD-${String((count||0)+1).padStart(4,'0')}`;const{error:mE}=await sbClient.from('members').insert({id:uid,email:em,full_name:fn,phone:mb,city:ct,state:st,member_id:mid,tier:'free',points:300,vouchers_used:0,membership_start:new Date().toISOString(),membership_expiry:new Date(Date.now()+365*24*60*60*1000).toISOString(),referred_by:refCode||null,created_at:new Date().toISOString()});if(mE)throw mE;await sbClient.from('member_activity').insert({member_id:uid,activity_type:'signup',points_earned:300,description:'Welcome bonus — account created',created_at:new Date().toISOString()});if(refCode){const{data:ref}=await sbClient.from('members').select('id,points').eq('member_id',refCode).single();if(ref){await sbClient.from('members').update({points:(ref.points||0)+500}).eq('id',ref.id);await sbClient.from('member_activity').insert({member_id:ref.id,activity_type:'referral_bonus',points_earned:500,description:`Referral bonus — ${fn} joined`,created_at:new Date().toISOString()});}}location.href='/dashboard.html';}catch(err){se('e2',err.message||'Something went wrong. Please try again.');btn.disabled=false;btn.innerHTML='🎉 Enter DWC — Claim My Points';}}
+</script>
+</body>
+</html>
