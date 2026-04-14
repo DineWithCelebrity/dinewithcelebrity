@@ -368,7 +368,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
           <div class="pending-step"><div class="ps-num">2</div><div class="ps-text"><strong>You get an approval email</strong>With your dashboard login link and next steps.</div></div>
           <div class="pending-step"><div class="ps-num">3</div><div class="ps-text"><strong>Your vouchers go live to DWC members</strong>Members start seeing your offer on their dashboard immediately.</div></div>
         </div>
-        <p style="font-size:.8rem;color:var(--muted)">Questions? <a href="mailto:partners@dinewithcelebrity.com" style="color:var(--gold)">partners@dinewithcelebrity.com</a></p>
+        <p style="font-size:.8rem;color:var(--muted)">Questions? <a href="/cdn-cgi/l/email-protection#14647566607a71666754707d7a71637d607c7771787176667d606d3a777b79" style="color:var(--gold)"><span class="__cf_email__" data-cfemail="15657467617b70676655717c7b70627c617d7670797077677c616c3b767a78">[email&#160;protected]</span></a></p>
       </div>
     </div>
 
@@ -377,7 +377,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(6,4,10,.95);backdrop-filte
 
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){var se=document.getElementById('stars');for(var i=0;i<60;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*9)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
@@ -405,19 +405,21 @@ try{
   var {error:authErr}=await sbClient.auth.signUp({email,password:pw});
   if(authErr&&!authErr.message.includes('already registered')){throw new Error(authErr.message);}
   // 2. Insert partner record
-  var {data:partner,error:partnerErr}=await sbClient.from('partners').insert({name:bizName,type:cat,category:cat,city:city,contact_name:contact,contact_email:email,contact_phone:phone,description:'Outlets:'+outlets+'|AOV:'+aov,is_licensed_premises:licensed,is_active:false,avg_order_value:aov,partner_tier:'basic',total_redemption_quota:20,redemption_fee:50}).select('id').single();
+  // Generate readable partner ID
+  var {count:pCount}=await sbClient.from('partners').select('*',{count:'exact',head:true});
+  var partnerId='DWC-P-'+String((pCount||0)+1).padStart(4,'0');
+  var {data:partner,error:partnerErr}=await sbClient.from('partners').insert({name:bizName,type:cat,category:cat,city:city,contact_name:contact,contact_email:email,contact_phone:phone,description:'Outlets:'+outlets+'|AOV:'+aov,is_licensed_premises:licensed,is_active:false,avg_order_value:aov,partner_tier:'basic',total_redemption_quota:20,redemption_fee:50,partner_id:partnerId}).select('id,partner_id').single();
   if(partnerErr){throw new Error(partnerErr.message);}
   // 3. Auto-create voucher in partner_vouchers
   if(partner&&partner.id){
     var expiresAt=new Date();expiresAt.setDate(expiresAt.getDate()+validity);
     await sbClient.from('partner_vouchers').insert({partner_id:partner.id,title:bizName+' — Welcome Offer',discount_value:discount,min_billing:minBill,quantity:qty,validity_days:validity,valid_for_tiers:tierList,expires_at:expiresAt.toISOString(),status:'pending_approval'});
+  // Log signup activity
+  await sbClient.from('partner_activity').insert({partner_id:partner.id,activity_type:'signup',activity_data:{name:bizName,category:cat,city:city,email:email,outlets:outlets,aov:aov,partner_id:partnerId,voucher_discount:discount,voucher_min_bill:minBill,voucher_tiers:tierList}});
   }
   // 4. Notify DWC team
   await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:'d1f2d7f1-e31f-4fa9-9e19-4b7ea221d8c9',subject:'\uD83E\uDD1D New Partner Application \u2014 '+bizName,from_name:contact,email:email,message:'Business: '+bizName+'\nCategory: '+cat+'\nCity: '+city+'\nPhone: '+phone+'\nEmail: '+email+'\nOutlets: '+outlets+'\nAOV: \u20B9'+aov+'\nLicensed: '+licensed+'\n\nCAMPAIGN:\nDiscount: \u20B9'+discount+' off\nMin Billing: \u20B9'+minBill+'\nQty: '+qty+'\nValidity: '+validity+' days\nTiers: '+tierList.join(', ')+'\n\nACTION: Activate at admin-partners.html'})});
   showScreen(4);
 }catch(e){err.textContent=e.message.includes('unique')||e.message.includes('already')?'This email is already registered. Please login at partner-dashboard.html':'Submission failed: '+e.message;err.style.display='block';this.disabled=false;this.textContent='Submit Partner Application \u2192';}};
 
-(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
-</script>
-</body>
-</html>
+(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+
