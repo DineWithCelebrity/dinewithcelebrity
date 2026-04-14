@@ -659,7 +659,6 @@
     <div class="nav-wrap">
       <button class="nav-avatar" id="navAvatar" onclick="toggleDrop()">D</button>
       <div class="nav-drop" id="navDrop">
-        <a href="#" id="navProfileLink">Complete Profile</a>
         <a href="/upgrade">Upgrade Plan</a>
         <a href="/events">Celebrity Events</a>
         <button onclick="signOut()">Sign Out</button>
@@ -677,10 +676,15 @@
     <button class="banner-btn" onclick="location.href='/upgrade'">Renew Now</button>
   </div>
 
-  <!-- Profile banner -->
-  <div class="banner banner-profile" id="profileBanner">
-    <div class="banner-text"><strong>Earn 25 points</strong> — Complete your profile in 30 seconds</div>
-    <button class="banner-btn" onclick="openProfile()">Complete Now</button>
+  <!-- Profile completion card - prominent, not in navbar -->
+  <div id="profileBanner" style="display:none;background:linear-gradient(135deg,rgba(0,200,83,.1),rgba(0,200,83,.03));border:1px solid rgba(0,200,83,.3);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#00C853;letter-spacing:1px;margin-bottom:.3rem;">&#127873; Complete Your Profile — Earn 25 Points</div>
+        <div style="font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.6;">Takes 30 seconds. Help us personalise your vouchers and celebrity experiences.</div>
+      </div>
+      <button onclick="openProfile()" style="background:#00C853;color:#06040A;border:none;border-radius:10px;padding:.75rem 1.5rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap;">Complete Now →</button>
+    </div>
   </div>
 
   <!-- Tier banner -->
@@ -895,13 +899,16 @@
 <div class="toast" id="toast"></div>
 
 <script>
-(function() {
-  // ── CONFIG ──────────────────────────────────────────────────────────
+  // ── GLOBALS (accessible to all functions inside and outside IIFE) ──
   const SB_URL  = 'https://blwqqqzhnovsveeryjlm.supabase.co';
   const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
-  const DEV_EMAIL = 'rupeshking@gmail.com';
-
   const sbClient = supabase.createClient(SB_URL, SB_ANON);
+  let cu = null;
+  let md = null;
+
+(function() {
+  // ── CONFIG ──────────────────────────────────────────────────────────
+  const DEV_EMAIL = 'rupeshking@gmail.com';
 
   const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
   const TIER_META = {
@@ -919,8 +926,6 @@
   ];
 
   // State
-  let cu  = null; // current auth user
-  let md  = null; // member data
   let myRedemptions = {}; // voucher_id → count
   let selInd = [], selInt = [];
   let selectedUpgradeTier = 'gold';
@@ -991,12 +996,6 @@
     sbClient.auth.signOut().finally(() => { window.location.href = '/signin'; });
   }
 
-  document.getElementById('navProfileLink').addEventListener('click', e => {
-    e.preventDefault();
-    closeDrop();
-    openProfile();
-  });
-
   // ── AUTH + INIT ─────────────────────────────────────────────────────
   sbClient.auth.getSession().then(({ data }) => {
     if (!data.session) { window.location.href = '/signin'; return; }
@@ -1016,6 +1015,8 @@
       md = fresh || {};
     } else {
       md = res.data;
+    // Normalise expiry field — handle both column names
+    if (!md.expires_at && md.membership_expiry) md.expires_at = md.membership_expiry;
     }
 
     // Load redemptions — ignore errors (table may be empty)
