@@ -1011,10 +1011,10 @@ async function loadOverview() {
   }
 
   // Recent members
-  const {data:recentM} = await sbClient.from('members').select('member_id,first_name,last_name,tier,created_at').order('created_at',{ascending:false}).limit(5);
+  const {data:recentM} = await sbClient.from('members').select('member_id,full_name,tier,created_at').order('created_at',{ascending:false}).limit(5);
   const rmEl = document.getElementById('ov-recent-members');
   rmEl.innerHTML = (recentM||[]).map(m=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem">
-    <span>${m.member_id||'—'} · ${m.first_name||''} ${m.last_name||''}</span>
+    <span>${m.member_id||'—'} · ${m.full_name||'—'}</span>
     ${tierMemberBadge(m.tier)}
   </div>`).join('') || '<div class="empty">No members yet</div>';
 
@@ -1350,9 +1350,9 @@ async function cancelBooking(id){
 async function loadMembers(){
   const search=document.getElementById('mb-search')?.value;
   const tier=document.getElementById('mb-tier')?.value;
-  let q=sbClient.from('members').select('id,member_id,first_name,last_name,email,tier,points,monthly_points_earned,city,created_at',{count:'exact'}).order('created_at',{ascending:false}).range(mbPage*PAGE_SIZE,(mbPage+1)*PAGE_SIZE-1);
+  let q=sbClient.from('members').select('id,member_id,full_name,email,tier,points,monthly_points_earned,city,created_at',{count:'exact'}).order('created_at',{ascending:false}).range(mbPage*PAGE_SIZE,(mbPage+1)*PAGE_SIZE-1);
   if(tier) q=q.eq('tier',tier);
-  if(search) q=q.or(`member_id.ilike.%${search}%,email.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%`);
+  if(search) q=q.or(`member_id.ilike.%${search}%,email.ilike.%${search}%,full_name.ilike.%${search}%`);
   const {data,count}=await q;
   document.getElementById('mb-total').textContent=count||0;
   // Tier counts
@@ -1368,7 +1368,7 @@ async function loadMembers(){
   if(!data?.length){tb.innerHTML='<tr><td colspan="9" class="empty">No members found</td></tr>';renderPagination('mb-pagination',count,mbPage,PAGE_SIZE,p=>{mbPage=p;loadMembers();});return;}
   tb.innerHTML=data.map(m=>`<tr>
     <td style="font-family:monospace;font-size:.72rem">${m.member_id||'—'}</td>
-    <td>${m.first_name||''} ${m.last_name||''}</td>
+    <td>${m.full_name||'—'}</td>
     <td style="color:var(--muted);font-size:.72rem">${m.email||'—'}</td>
     <td style="font-size:.72rem">${m.city||'—'}</td>
     <td>${tierMemberBadge(m.tier)}</td>
@@ -1377,7 +1377,8 @@ async function loadMembers(){
     <td style="font-size:.7rem">${fmtDate(m.created_at)}</td>
     <td class="td-actions">
       <button class="btn-secondary btn-sm" onclick="editMember('${m.id}','${m.points}','${m.tier}')">Edit</button>
-      <button class="btn-danger btn-sm" onclick="suspendMemberDirect('${m.id}','${m.first_name}')">Suspend</button>
+      <button class="btn-secondary btn-sm" onclick="viewMemberActivity('${m.member_id}','${m.full_name||m.email}')">Activity</button>
+      <button class="btn-danger btn-sm" onclick="suspendMemberDirect('${m.id}','${m.full_name}')">Suspend</button>
     </td>
   </tr>`).join('');
   renderPagination('mb-pagination',count,mbPage,PAGE_SIZE,p=>{mbPage=p;loadMembers();});
@@ -1784,6 +1785,66 @@ function renderPagination(containerId,total,page,pageSize,onPage){
 
 // ── BOOT ──────────────────────────────────────────────────────────
 init();
+</script>
+<!-- ── MEMBER ACTIVITY MODAL ── -->
+<div class="modal-overlay hidden" id="activityModal">
+  <div class="modal" style="max-width:600px;max-height:80vh;overflow-y:auto">
+    <div class="modal-hdr">
+      <div class="modal-title" id="activityModalTitle">Member Activity</div>
+      <button class="modal-close" onclick="closeModal('activityModal')">✕</button>
+    </div>
+    <div id="activityList" style="margin-top:1rem"></div>
+  </div>
+</div>
+
+<script>
+async function viewMemberActivity(memberId, memberName) {
+  document.getElementById('activityModalTitle').textContent = 'Activity — ' + (memberName || memberId);
+  document.getElementById('activityList').innerHTML = '<div style="color:var(--muted);font-size:.82rem;padding:.5rem 0">Loading...</div>';
+  openModal('activityModal');
+
+  const { data, error } = await sbClient
+    .from('member_activity')
+    .select('*')
+    .eq('member_id', memberId)
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (error || !data || !data.length) {
+    document.getElementById('activityList').innerHTML = '<div style="color:var(--muted);font-size:.82rem;padding:.5rem 0">No activity recorded yet.</div>';
+    return;
+  }
+
+  const icons = {
+    signup: '🎉', profile_complete: '✅', voucher_redeem: '🎫',
+    event_booking: '⭐', upgrade: '🚀', referral_bonus: '🤝',
+    referral_received: '🎁', admin_credit: '💳', admin_debit: '💳',
+    points_earned: '💰', points_expired: '⏳'
+  };
+
+  const labels = {
+    signup: 'Signed Up', profile_complete: 'Completed Profile',
+    voucher_redeem: 'Redeemed Voucher', event_booking: 'Booked Event',
+    upgrade: 'Upgraded Tier', referral_bonus: 'Referral Bonus',
+    referral_received: 'Joined via Referral', admin_credit: 'Admin Credit',
+    admin_debit: 'Admin Adjustment', points_earned: 'Points Earned',
+    points_expired: 'Points Expired'
+  };
+
+  document.getElementById('activityList').innerHTML = data.map(a => {
+    const d = typeof a.activity_data === 'string' ? JSON.parse(a.activity_data || '{}') : (a.activity_data || {});
+    const detail = Object.entries(d).map(([k,v]) => `<span style="color:var(--muted);font-size:.7rem">${k}: <strong style="color:var(--sub)">${v}</strong></span>`).join(' · ');
+    const date = new Date(a.created_at).toLocaleString('en-IN', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    return `<div style="display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border2);align-items:flex-start">
+      <div style="font-size:1.2rem;flex-shrink:0">${icons[a.activity_type] || '📌'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.85rem;font-weight:600;color:var(--text)">${labels[a.activity_type] || a.activity_type}</div>
+        <div style="margin-top:.25rem;display:flex;flex-wrap:wrap;gap:.4rem">${detail}</div>
+      </div>
+      <div style="font-size:.7rem;color:var(--muted);flex-shrink:0;text-align:right">${date}</div>
+    </div>`;
+  }).join('');
+}
 </script>
 </body>
 </html>

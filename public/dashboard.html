@@ -1336,8 +1336,8 @@
         member_id:     md.member_id,
         member_uuid:   cu.id,
         activity_type: 'voucher_redeem',
-        activity_data: { voucher_id: voucherId, voucher_title: voucherTitle, tier: md.tier },
-        city:          md.city || null,
+        activity_data: { voucher_id: voucherId, voucher_title: voucherTitle, tier: md.tier, city: md.city || null },
+        created_at:    new Date().toISOString(),
       });
     }
 
@@ -1523,6 +1523,17 @@
       document.getElementById('navPts').textContent  = update.points.toLocaleString() + ' pts';
     }
     if (update.city) document.getElementById('statCity').textContent = update.city;
+
+    // Log to member_activity
+    if (!wasDone && md.member_id) {
+      await sbClient.from('member_activity').insert({
+        member_id:     md.member_id,
+        member_uuid:   cu.id,
+        activity_type: 'profile_complete',
+        activity_data: { city: update.city || md.city, interests: selInt, industry: selInd },
+        created_at:    new Date().toISOString(),
+      });
+    }
     document.getElementById('profileBanner').style.display = 'none';
     closeProfile();
     showToast(wasDone ? 'Profile updated!' : '✅ Profile complete! +25 points earned');
