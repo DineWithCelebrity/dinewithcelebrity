@@ -1,203 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Join Free — Dine With Celebrity | India's Celebrity Dining Club</title>
-<meta name="description" content="Sign up free to Dine With Celebrity. Earn points on every experience and redeem toward a real celebrity dinner. 153 cities across India."/>
-<meta name="keywords" content="dine with celebrity signup, celebrity dining membership India, DWC join free"/>
-<meta property="og:title" content="Join Dine With Celebrity — Free Membership"/>
-<meta property="og:description" content="Sign up free. Earn points. Dine with your favourite celebrity."/>
-<meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
-<meta property="og:url" content="https://www.dinewithcelebrity.com/signup"/>
-<meta property="og:type" content="website"/>
-<meta name="twitter:card" content="summary_large_image"/>
-<link rel="canonical" href="https://www.dinewithcelebrity.com/signup"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Join Dine With Celebrity","url":"https://www.dinewithcelebrity.com/signup","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","logo":{"@type":"ImageObject","url":"https://www.dinewithcelebrity.com/logo.png"}}}</script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Dine With Celebrity | Exclusive Membership</title>
+<meta name="description" content="Join Dine With Celebrity - India's exclusive celebrity dining membership.">
+<meta property="og:title" content="Join Dine With Celebrity">
+<meta property="og:url" content="https://www.dinewithcelebrity.com/signup.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://www.dinewithcelebrity.com/signup.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#06040A;--gold:#F2B705;--gold2:#FFD166;--red:#D4002A;--green:#00C853;--text:rgba(255,255,255,.95);--sub:rgba(255,255,255,.72);--muted:rgba(255,255,255,.45);--border:rgba(242,183,5,.2);--border2:rgba(255,255,255,.08);--card:#0f0d14;}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;}
-/* ── STARS ── */
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-#stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3s ease-in-out infinite alternate}
-@keyframes tw{0%{opacity:.04}100%{opacity:.2}}
-/* ── LAYOUT ── */
-.wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem}
-.logo-bar{margin-bottom:2rem;text-align:center}
-.logo-bar img{height:48px;width:auto}
-.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:420px}
-.card-title{font-family:'Bebas Neue',cursive;font-size:2rem;letter-spacing:1px;color:var(--text);margin-bottom:.25rem}
-.card-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.75rem}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
-.field input,.field select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text);padding:.72rem 1rem;border-radius:9px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,-webkit-appearance .2s}
-.field input:focus,.field select:focus{border-color:var(--gold)}
-.field input::placeholder{color:rgba(255,255,255,.25)}
-.field select option{background:#0f0d14;color:var(--text)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.btn{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.85rem;font-family:'Poppins',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;margin-top:.5rem;transition:opacity .2s}
-.btn:hover{opacity:.88}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.78rem;padding:.6rem .9rem;border-radius:8px;margin-top:.75rem;display:none}
-.divider{text-align:center;font-size:.72rem;color:var(--muted);margin:.75rem 0;position:relative}
-.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border2)}
-.divider::before{left:0}.divider::after{right:0}
-.signin-link{text-align:center;font-size:.78rem;color:var(--muted);margin-top:1.25rem}
-.signin-link a{color:var(--gold);font-weight:600;text-decoration:none}
-.signin-link a:hover{text-decoration:underline}
-.ref-badge{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:8px;padding:.6rem .9rem;font-size:.75rem;color:rgba(0,200,83,.9);margin-bottom:1rem;display:none}
-.ref-badge strong{color:var(--green)}
-.terms{font-size:.68rem;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.6}
-.terms a{color:var(--gold);text-decoration:none}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;}
+body{background:#06040A;color:rgba(255,255,255,0.9);font-family:'Poppins',sans-serif;display:flex;flex-direction:column;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 28px;border-bottom:1px solid rgba(242,183,5,0.15);height:56px;flex-shrink:0;}
+nav img{height:36px;}
+.back-btn{font-size:.8rem;color:rgba(255,255,255,.4);text-decoration:none;border:1px solid rgba(255,255,255,.1);padding:5px 14px;border-radius:100px;}
+.back-btn:hover{color:#fff;}
+
+/* SPLIT LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 400px;height:calc(100vh - 56px);overflow:hidden;}
+
+/* LEFT - celebrity names */
+.left{background:linear-gradient(150deg,#100820 0%,#06040A 100%);border-right:1px solid rgba(242,183,5,0.1);display:flex;flex-direction:column;overflow:hidden;}
+.left-top{padding:28px 32px 18px;flex-shrink:0;}
+.left-top h2{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#F2B705;letter-spacing:2px;margin-bottom:3px;}
+.left-top p{font-size:.75rem;color:rgba(255,255,255,.3);}
+.cols{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;mask-image:linear-gradient(to bottom,transparent,black 8%,black 92%,transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,black 8%,black 92%,transparent);}
+.col{overflow:hidden;}
+.col-inner{display:flex;flex-direction:column;}
+.col.up  .col-inner{animation:goUp 28s linear infinite;}
+.col.dn  .col-inner{animation:goDn 22s linear infinite;}
+.col.up2 .col-inner{animation:goUp 36s linear infinite;}
+@keyframes goUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes goDn{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+.cname{font-family:'Bebas Neue',sans-serif;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,.04);white-space:nowrap;letter-spacing:.06em;}
+.cname.g{color:#F2B705;font-size:1rem;}
+.cname.w{color:rgba(255,255,255,.6);font-size:.95rem;}
+.cname.d{color:rgba(255,255,255,.25);font-size:.88rem;}
+
+/* RIGHT - form */
+.right{display:flex;align-items:center;justify-content:center;padding:24px 32px;overflow-y:auto;}
+.form{width:100%;max-width:330px;}
+.dots{display:flex;gap:6px;margin-bottom:16px;}
+.dot{height:3px;width:26px;border-radius:2px;background:rgba(255,255,255,.1);transition:background .3s;}
+.dot.active{background:#F2B705;}.dot.done{background:#00C853;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#F2B705;letter-spacing:1px;margin-bottom:2px;}
+.sub{font-size:.77rem;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.f{margin-bottom:9px;}
+label{display:block;font-size:.71rem;color:rgba(255,255,255,.5);margin-bottom:3px;font-weight:500;}
+input,select{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:8px 11px;font-family:'Poppins',sans-serif;font-size:.87rem;color:rgba(255,255,255,.9);outline:none;transition:border-color .2s;-webkit-appearance:none;}
+input:focus,select:focus{border-color:#F2B705;}
+input::placeholder{color:rgba(255,255,255,.2);}
+select option{background:#150E20;}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.btn{width:100%;background:#F2B705;color:#06040A;border:none;border-radius:8px;padding:11px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:5px;transition:background .2s;}
+.btn:hover{background:#FFD166;}.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-back{width:100%;background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);border-radius:8px;padding:9px;font-family:'Poppins',sans-serif;font-size:.8rem;cursor:pointer;margin-top:6px;}
+.err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.25);border-radius:6px;color:#ff6b6b;font-size:.75rem;padding:6px 10px;margin-bottom:8px;display:none;}
+.err.show{display:block;}
+.hint{text-align:center;margin-top:11px;font-size:.74rem;color:rgba(255,255,255,.28);}
+.hint a{color:#F2B705;text-decoration:none;}
+/* step 2 */
+.pbox{background:rgba(242,183,5,.06);border:1px solid rgba(242,183,5,.18);border-radius:10px;padding:13px;margin-bottom:9px;}
+.ibox{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;margin-bottom:10px;}
+.blbl{font-size:.67rem;font-weight:600;letter-spacing:.4px;margin-bottom:9px;}
+.pbox .blbl{color:#F2B705;}.ibox .blbl{color:rgba(255,255,255,.3);}
+.pr{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:5px;}
+.pr:last-child{margin-bottom:0;}.pr .v{font-weight:600;color:#F2B705;}
+.pr.tot{border-top:1px solid rgba(255,255,255,.07);padding-top:7px;margin-top:2px;color:#fff;}
+.ir{display:flex;justify-content:space-between;font-size:.79rem;color:rgba(255,255,255,.5);margin-bottom:5px;}
+.ir:last-child{margin-bottom:0;}.ir .v{font-weight:600;color:rgba(255,255,255,.85);}
+.ir .v.g{color:#F2B705;}.ir .v.gr{color:#00C853;}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(6,4,10,.25);border-top-color:#06040A;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px;}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:760px){html,body{overflow:auto;}.layout{grid-template-columns:1fr;height:auto;}.left{display:none;}.right{padding:24px 20px 40px;align-items:flex-start;min-height:calc(100vh - 56px);}}
 </style>
 </head>
 <body>
-<div id="stars"></div>
-<div class="wrap">
-  <div class="logo-bar"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" onerror="this.src='/logo.png'"/></div>
-  <div class="card">
-    <div class="card-title">Join Free</div>
-    <p class="card-sub">Start earning points toward your celebrity dinner today.</p>
-    <div class="ref-badge" id="refBadge">🤝 You were referred by <strong id="refByName">a member</strong>! +300 bonus points on signup.</div>
-    <div class="field"><label>Email <span style="color:var(--red)">*</span></label><input type="email" id="inp-email" placeholder="your@email.com" autocomplete="email"/></div>
-    <div class="field"><label>Password</label><input type="password" id="inp-pass" placeholder="Min 8 characters" autocomplete="new-password"/></div>
-    <div class="field-row">
-      <div class="field"><label>First Name</label><input type="text" id="inp-first" placeholder="First name" autocomplete="given-name"/></div>
-      <div class="field"><label>Last Name</label><input type="text" id="inp-last" placeholder="Last name" autocomplete="family-name"/></div>
+<nav>
+  <a href="/"><img src="/logo.png" alt="Dine With Celebrity"></a>
+  <a href="/" class="back-btn">← Back</a>
+</nav>
+<div class="layout">
+  <!-- LEFT: Celebrity Names -->
+  <div class="left">
+    <div class="left-top">
+      <h2>★ Who You'll Dine With</h2>
+      <p>India's biggest stars are waiting at the table.</p>
     </div>
-    <div class="field"><label>Phone <span style="color:var(--red)">*</span></label><input type="tel" id="inp-phone" placeholder="+91 98765 43210" autocomplete="tel" required/></div>
-    <div class="field"><label>State</label>
-      <select id="inp-state" onchange="loadCities()">
-        <option value="">Select state...</option>
-      </select>
+    <div class="cols" id="cols"></div>
+  </div>
+  <!-- RIGHT: Form -->
+  <div class="right">
+    <div class="form">
+      <div class="dots"><div class="dot active" id="d1"></div><div class="dot" id="d2"></div></div>
+      <!-- Step 1 -->
+      <div id="s1">
+        <h1>Create Account</h1>
+        <p class="sub">Join free. Get 300 welcome points worth &#8377;900 instantly.</p>
+        <div class="err" id="e1"></div>
+        <div class="f"><label>Full Name</label><input id="fn" type="text" placeholder="Your full name" autocomplete="name"></div>
+        <div class="r2">
+          <div class="f"><label>State</label><select id="st"><option value="">State</option></select></div>
+          <div class="f"><label>City</label><select id="ct" disabled><option value="">City</option></select></div>
+        </div>
+        <div class="f"><label>Mobile</label><input id="mb" type="tel" placeholder="10-digit mobile" maxlength="10" inputmode="numeric"></div>
+        <div class="f"><label>Email</label><input id="em" type="email" placeholder="you@email.com" autocomplete="email"></div>
+        <div class="f"><label>Password</label><input id="pw" type="password" placeholder="Min 8 characters" autocomplete="new-password"></div>
+        <button class="btn" onclick="goS2()">Continue &#8594;</button>
+        <p class="hint">Already a member? <a href="/login.html">Sign in</a></p>
+      </div>
+      <!-- Step 2 -->
+      <div id="s2" style="display:none">
+        <h1>YOU'RE ALMOST IN!</h1>
+        <p class="sub">Here's what you're getting right now &#8212; for free.</p>
+        <div class="pbox">
+          <div class="blbl">&#11088; YOUR WELCOME POINTS</div>
+          <div class="pr"><span>Signup bonus</span><span class="v">+300 PTS</span></div>
+          <div class="pr tot"><span>Total balance</span><span class="v">300 PTS = &#8377;900 VALUE</span></div>
+        </div>
+        <div class="ibox">
+          <div class="blbl">&#127873; WHAT POINTS GET YOU</div>
+          <div class="ir"><span>1 point value</span><span class="v g">&#8377;3</span></div>
+          <div class="ir"><span>Earn rate</span><span class="v">1 PT per &#8377;10 spent</span></div>
+          <div class="ir"><span>Your 300 pts unlock</span><span class="v gr">&#8377;900 OFF a dinner</span></div>
+          <div class="ir"><span>Max discount</span><span class="v">Up to 40% off</span></div>
+        </div>
+        <div class="err" id="e2"></div>
+        <button class="btn" id="cb" onclick="doSignup()">&#127881; Enter DWC &#8212; Claim My Points</button>
+        <button class="btn-back" onclick="goS1()">&#8592; Back</button>
+      </div>
     </div>
-    <div class="field"><label>City</label>
-      <select id="inp-city" disabled>
-        <option value="">Select city...</option>
-      </select>
-    </div>
-    <button class="btn" id="btnSignup" onclick="doSignup()">Create Free Account</button>
-    <div class="err" id="errMsg"></div>
-    <div class="terms">By signing up you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/disclaimer">Terms</a></div>
-    <div class="signin-link">Already a member? <a href="/signin">Sign in</a></div>
   </div>
 </div>
-
 <script>
-// ── SAVE REFERRAL CODE FROM URL ────────────────────────────────
-(function(){
-  const _ref = new URLSearchParams(window.location.search).get('ref');
-  if (_ref) {
-    sessionStorage.setItem('dwc_ref', _ref);
-    // Show referral badge
-    const badge = document.getElementById('refBadge');
-    if(badge) badge.style.display='block';
-  }
-})();
-
-const SB_URL  = 'https://blwqqqzhnovsveeryjlm.supabase.co';
-const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
-const sbClient = supabase.createClient(SB_URL, SB_ANON);
-
-// ── STARS ──────────────────────────────────────────────────────
-(function(){
-  const s=document.getElementById('stars');
-  for(let i=0;i<50;i++){const el=document.createElement('i');el.textContent='★';el.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(5+Math.random()*8)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2+Math.random()*3)+'s';s.appendChild(el);}
-})();
-
-// ── UTM PASSTHROUGH ────────────────────────────────────────────
-const _utmParams = new URLSearchParams(window.location.search);
-
-// ── LOAD STATES + CITIES ───────────────────────────────────────
-async function loadStates() {
-  const { data } = await sbClient.from('cities').select('state').eq('is_active', true);
-  if(!data) return;
-  const states = [...new Set(data.map(r=>r.state))].sort();
-  const sel = document.getElementById('inp-state');
-  states.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s; opt.textContent = s;
-    sel.appendChild(opt);
-  });
+const C1=['Allu Arjun','Shah Rukh Khan','Virat Kohli','Mahesh Babu','Deepika Padukone','MS Dhoni','Prabhas','Alia Bhatt','Rajinikanth','Samantha Ruth Prabhu','Rohit Sharma','Jr NTR','Katrina Kaif','Vijay','Rashmika Mandanna','Sachin Tendulkar','Ram Charan','Priyanka Chopra','Nayanthara','Salman Khan','PV Sindhu','Chiranjeevi','Kareena Kapoor','Dhanush','Hrithik Roshan','Neeraj Chopra','Nagarjuna','Tamannaah Bhatia','Suriya','Aamir Khan'];
+const C2=['Vijay Deverakonda','Ranveer Singh','Ajith Kumar','Anushka Sharma','Yash','Hardik Pandya','Trisha Krishnan','Ranbir Kapoor','Sai Pallavi','KL Rahul','Venkatesh','Kriti Sanon','Kamal Haasan','Kiara Advani','Mohanlal','Jasprit Bumrah','Pooja Hegde','Vicky Kaushal','Keerthy Suresh','Akshay Kumar','Mammootty','Taapsee Pannu','Sivakarthikeyan','Shahid Kapoor','Dulquer Salmaan','Suryakumar Yadav','Anushka Shetty','Tiger Shroff','Nithiin','Mary Kom'];
+const C3=['Rana Daggubati','Vidya Balan','Vikram','Ayushmann Khurrana','Fahadh Faasil','Shubman Gill','Kajal Aggarwal','Varun Dhawan','Adivi Sesh','Shruti Haasan','Pawan Kalyan','Kangana Ranaut','Karthi','Sonakshi Sinha','Tovino Thomas','Rishabh Pant','Jyotika','Sidharth Malhotra','Balakrishna','Divya Khosla','Nivin Pauly','Mrunal Thakur','Darshan','Regina Cassandra','Sudeep','Bajrang Punia','Andrea Jeremiah','Jayam Ravi','Aishwarya Rajesh','Nikhat Zareen'];
+const CL=['g','w','d','w','g','d'];
+function mkCol(arr,cls){
+  const items=[...arr,...arr].map((n,i)=>'<div class="cname '+CL[i%CL.length]+'">'+n+'</div>').join('');
+  return '<div class="col '+cls+'"><div class="col-inner">'+items+'</div></div>';
 }
+document.getElementById('cols').innerHTML=mkCol(C1,'up')+mkCol(C2,'dn')+mkCol(C3,'up2');
 
-async function loadCities() {
-  const state = document.getElementById('inp-state').value;
-  const citySel = document.getElementById('inp-city');
-  citySel.innerHTML = '<option value="">Select city...</option>';
-  if(!state) { citySel.disabled=true; return; }
-  const { data } = await sbClient.from('cities').select('city').eq('state', state).eq('is_active', true).order('city');
-  if(!data) return;
-  data.forEach(r => {
-    const opt = document.createElement('option');
-    opt.value = r.city; opt.textContent = r.city;
-    citySel.appendChild(opt);
-  });
-  citySel.disabled = false;
+const sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
+const refCode=new URLSearchParams(location.search).get('ref')||'';
+
+async function loadStates(){
+  const{data}=await sbClient.from('cities').select('state').order('state');
+  if(!data)return;
+  const states=[...new Set(data.map(r=>r.state))];
+  const sel=document.getElementById('st');
+  states.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});
 }
-
-// ── SIGNUP ─────────────────────────────────────────────────────
-async function doSignup() {
-  const email  = document.getElementById('inp-email').value.trim();
-  const pass   = document.getElementById('inp-pass').value;
-  const first  = document.getElementById('inp-first').value.trim();
-  const last   = document.getElementById('inp-last').value.trim();
-  const phone  = document.getElementById('inp-phone').value.trim();
-  const state  = document.getElementById('inp-state').value;
-  const city   = document.getElementById('inp-city').value;
-  const err    = document.getElementById('errMsg');
-  const btn    = document.getElementById('btnSignup');
-
-  err.style.display='none';
-  if(!email||!pass||!first||!last||!city||!phone){err.textContent='Please fill in all required fields including phone number.';err.style.display='block';return;}
-  const phoneClean = phone.replace(/[\s\-\(\)\+]/g,'');
-  if(phoneClean.length < 10){err.textContent='Please enter a valid phone number (min 10 digits).';err.style.display='block';return;}
-  if(pass.length<8){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}
-
-  btn.disabled=true; btn.textContent='Creating account...';
-
-  try {
-    const { data: signupData, error: signupError } = await sbClient.auth.signUp({
-      email, password: pass,
-      options: { data: { first_name: first, last_name: last }}
-    });
-    if(signupError) throw signupError;
-
-    const uid = signupData.user?.id;
-    if(!uid) throw new Error('Signup failed — no user ID returned.');
-
-    // Build redirect URL preserving UTM + ref
-    const utmStr = ['utm_source','utm_medium','utm_campaign','utm_content'].filter(k=>_utmParams.get(k)).map(k=>k+'='+_utmParams.get(k)).join('&');
-    const ref = sessionStorage.getItem('dwc_ref') || _utmParams.get('ref') || '';
-    let redirect = '/onboarding';
-    const qs = [];
-    if(ref) qs.push('ref='+encodeURIComponent(ref));
-    if(utmStr) qs.push(utmStr);
-    if(qs.length) redirect += '?'+qs.join('&');
-
-    window.location.href = redirect;
-
-  } catch(e) {
-    err.textContent = e.message || 'Signup failed. Try again.';
-    err.style.display = 'block';
-    btn.disabled=false; btn.textContent='Create Free Account';
-  }
-}
-
-// Enter key support
-['inp-email','inp-pass','inp-first','inp-last','inp-phone'].forEach(id=>{
-  const el=document.getElementById(id);
-  if(el) el.addEventListener('keydown',e=>{if(e.key==='Enter')doSignup();});
+document.getElementById('st').addEventListener('change',async function(){
+  var c=document.getElementById('ct');c.innerHTML='<option value="">City</option>';c.disabled=true;
+  if(!this.value)return;
+  const{data}=await sbClient.from('cities').select('city').eq('state',this.value).order('city');
+  if(data){data.forEach(function(r){var o=document.createElement('option');o.value=r.city;o.textContent=r.city;c.appendChild(o);});c.disabled=false;}
 });
+loadStates();
 
-// ── CHECK IF ALREADY SIGNED IN ─────────────────────────────────
-(async function(){
-  const { data: { session }} = await sbClient.auth.getSession();
-  if(session) window.location.href = '/dashboard';
-  else loadStates();
-})();
+function se(id,m){var e=document.getElementById(id);e.textContent=m;e.classList.add('show');}
+function he(id){document.getElementById(id).classList.remove('show');}
+
+function goS2(){
+  he('e1');
+  var fn=document.getElementById('fn').value.trim();
+  var st=document.getElementById('st').value;
+  var ct=document.getElementById('ct').value;
+  var mb=document.getElementById('mb').value.trim();
+  var em=document.getElementById('em').value.trim();
+  var pw=document.getElementById('pw').value;
+  if(!fn)return se('e1','Please enter your full name.');
+  if(!st||!ct)return se('e1','Please select your state and city.');
+  if(!/^\d{10}$/.test(mb))return se('e1','Enter a valid 10-digit mobile number.');
+  if(!/\S+@\S+\.\S+/.test(em))return se('e1','Enter a valid email address.');
+  if(pw.length<8)return se('e1','Password must be at least 8 characters.');
+  document.getElementById('s1').style.display='none';
+  document.getElementById('s2').style.display='block';
+  document.getElementById('d1').className='dot done';
+  document.getElementById('d2').className='dot active';
+}
+function goS1(){
+  document.getElementById('s2').style.display='none';
+  document.getElementById('s1').style.display='block';
+  document.getElementById('d1').className='dot active';
+  document.getElementById('d2').className='dot';
+}
+
+async function doSignup(){
+  he('e2');
+  var btn=document.getElementById('cb');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span>Creating your account...';
+  var fn=document.getElementById('fn').value.trim();
+  var ct=document.getElementById('ct').value;
+  var st=document.getElementById('st').value;
+  var mb=document.getElementById('mb').value.trim();
+  var em=document.getElementById('em').value.trim();
+  var pw=document.getElementById('pw').value;
+  try{
+    var res=await sbClient.auth.signUp({email:em,password:pw,options:{data:{full_name:fn,phone:mb,city:ct,state:st}}});
+    if(res.error)throw res.error;
+    var uid=res.data.user&&res.data.user.id;
+    if(!uid)throw new Error('Account creation failed. Please try again.');
+    var cntRes=await sbClient.from('members').select('*',{count:'exact',head:true});
+    var mid='DWC-HYD-'+String((cntRes.count||0)+1).padStart(4,'0');
+    var ins=await sbClient.from('members').insert({id:uid,email:em,full_name:fn,phone:mb,city:ct,state:st,member_id:mid,tier:'free',points:300,vouchers_used:0,membership_start:new Date().toISOString(),membership_expiry:new Date(Date.now()+365*24*60*60*1000).toISOString(),referred_by:refCode||null,created_at:new Date().toISOString()});
+    if(ins.error)throw ins.error;
+    await sbClient.from('member_activity').insert({member_id:uid,activity_type:'signup',points_earned:300,description:'Welcome bonus - account created',created_at:new Date().toISOString()});
+    if(refCode){
+      var rr=await sbClient.from('members').select('id,points').eq('member_id',refCode).single();
+      if(rr.data){
+        await sbClient.from('members').update({points:(rr.data.points||0)+500}).eq('id',rr.data.id);
+        await sbClient.from('member_activity').insert({member_id:rr.data.id,activity_type:'referral_bonus',points_earned:500,description:'Referral bonus - '+fn+' joined',created_at:new Date().toISOString()});
+      }
+    }
+    location.href='/dashboard.html';
+  }catch(err){
+    se('e2',err.message||'Something went wrong. Please try again.');
+    btn.disabled=false;
+    btn.innerHTML='&#127881; Enter DWC &#8212; Claim My Points';
+  }
+}
 </script>
 </body>
 </html>
