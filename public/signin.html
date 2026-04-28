@@ -3,6 +3,18 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sign In — Dine With Celebrity Pvt Ltd</title>
+<meta name="description" content="Sign in to your Dine With Celebrity member account with a one-time email code.">
+<meta property="og:title" content="Sign In — Dine With Celebrity"/>
+<meta property="og:description" content="Sign in to your Dine With Celebrity member account."/>
+<meta property="og:url" content="https://www.dinewithcelebrity.com/signin"/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+<meta property="og:site_name" content="Dine With Celebrity"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Sign In — Dine With Celebrity"/>
+<meta name="twitter:description" content="Sign in to your Dine With Celebrity member account."/>
+<link rel="canonical" href="https://www.dinewithcelebrity.com/signin"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Member Sign In","url":"https://www.dinewithcelebrity.com/signin","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -16,7 +28,6 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;width:100%;position:relative;z-index:1}
 .left{background:linear-gradient(135deg,#0d0612,#1a0520);display:flex;flex-direction:column;justify-content:center;padding:60px 52px;border-right:1px solid var(--border2)}
 .left-logo{margin-bottom:48px;text-decoration:none;display:inline-block}
-.left-logo span{color:var(--text)}
 .left-heading{font-family:'Bebas Neue',cursive;font-size:clamp(2.8rem,5vw,4.2rem);line-height:1;color:var(--text);margin-bottom:12px}
 .left-heading em{color:var(--gold);font-style:normal;display:block}
 .left-sub{font-size:1rem;color:var(--sub);line-height:1.6;margin-bottom:40px;max-width:360px}
@@ -39,9 +50,6 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .field input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:rgba(255,255,255,.28)}
-.forgot-row{text-align:right;margin-top:6px}
-.forgot-link{font-size:.78rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;padding:0;transition:color .2s}
-.forgot-link:hover{color:var(--gold)}
 .btn-primary{width:100%;background:var(--gold);color:#06040A;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;padding:15px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;margin-top:8px;transition:opacity .2s}
 .btn-primary:hover{opacity:.88}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
@@ -52,28 +60,24 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
 .divider span{font-size:.78rem;color:var(--muted)}
 .bottom-row{text-align:center;font-size:.9rem;color:var(--sub)}
 .bottom-row a{color:var(--gold);font-weight:700;text-decoration:none}
-.back-btn{background:none;border:none;color:var(--gold);font-weight:700;font-family:'Poppins',sans-serif;font-size:.9rem;cursor:pointer;padding:0}
+.otp-row{display:flex;gap:10px;justify-content:space-between;margin-bottom:6px}
+.otp-row input{flex:1;height:60px;background:#0d0814;border:1px solid var(--border2);color:var(--text);text-align:center;font-size:1.6rem;font-weight:700;font-family:'Bebas Neue',cursive;letter-spacing:.05em;border-radius:10px;outline:none;transition:border-color .15s;width:0;min-width:0}
+.otp-row input:focus{border-color:var(--gold)}
+.otp-row input.filled{border-color:var(--gold);color:var(--gold)}
+.email-show{font-size:.85rem;color:var(--sub);text-align:center;margin-bottom:18px}
+.email-show strong{color:var(--text)}
+.timer-row{text-align:center;font-size:.78rem;color:var(--muted);margin-top:14px}
+.timer-row button{background:none;border:none;color:var(--gold);font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
+.timer-row button:disabled{color:var(--muted);cursor:not-allowed;text-decoration:none}
 @media(max-width:768px){.page{grid-template-columns:1fr}.left{display:none}.right{padding:40px 24px;min-height:100vh}}
-.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.star{position:absolute;color:#F2B705;opacity:0;animation:twinkle var(--d,3s) var(--del,0s) infinite;font-size:var(--sz,10px)}@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--op,.25);transform:scale(1)}}</style>
-
-  <meta property="og:title" content="Sign In — Dine With Celebrity"/>
-  <meta property="og:description" content="Sign in to your Dine With Celebrity member account."/>
-  <meta property="og:url" content="https://www.dinewithcelebrity.com/signin"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
-  <meta property="og:site_name" content="Dine With Celebrity"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Sign In — Dine With Celebrity"/>
-  <meta name="twitter:description" content="Sign in to your Dine With Celebrity member account."/>
-  <link rel="canonical" href="https://www.dinewithcelebrity.com/signin"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"DWC Member Sign In","url":"https://www.dinewithcelebrity.com/signin","publisher":{"@type":"Organization","name":"Dine With Celebrity Pvt Ltd","url":"https://www.dinewithcelebrity.com"}}</script>
+</style>
 </head>
 <body>
 <div id="stars"></div>
 <div class="brand-bg">DWC</div>
 <div class="page">
   <div class="left">
-    <a class="left-logo" href="/"><img src="/logo_navbar_400px.png" alt="Dine With Celebrity" style="height: 60px;width:auto;display:block" onerror="this.src='/logo.png'"/></a>
+    <a class="left-logo" href="/"><img src="/logo.png" alt="Dine With Celebrity" style="height:60px;width:auto;display:block"/></a>
     <div class="left-heading">YOUR CELEBRITY<br><em>DINNER AWAITS.</em></div>
     <p class="left-sub">Sign in and check how close you are to dining with your favourite star.</p>
     <div class="proof-list">
@@ -84,142 +88,146 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min
   </div>
   <div class="right">
     <div class="form-box">
-
-      <!-- SIGN IN -->
-      <div id="signinView">
+      <div id="emailView">
         <div class="eyebrow">&#x1F44B; Welcome Back</div>
         <div class="form-title">SIGN IN TO<br><em>YOUR DASHBOARD</em></div>
-        <p class="form-sub">Enter your email and password.</p>
-        <div class="field"><label>Email Address</label><input type="email" id="siEmail" placeholder="hello@example.com" autocomplete="email"></div>
-        <div class="field">
-          <label>Password</label>
-          <input type="password" id="siPass" placeholder="Your password" autocomplete="current-password">
-          <div class="forgot-row"><button class="forgot-link" onclick="show('forgotView')">Forgot password?</button></div>
-        </div>
-        <button class="btn-primary" id="btnSignin">Sign In</button>
-        <div class="err-msg" id="siErr"></div>
+        <p class="form-sub">Enter your email — we'll send you a 6-digit code.</p>
+        <div class="field"><label>Email Address</label><input type="email" id="emInput" placeholder="hello@example.com" autocomplete="email"></div>
+        <button class="btn-primary" id="btnSendCode">Send Code</button>
+        <div class="err-msg" id="emErr"></div>
         <div class="divider"><span>New to DWC?</span></div>
         <div class="bottom-row">Don't have an account? <a href="/signup">Join Free &rarr;</a></div>
       </div>
 
-      <!-- FORGOT PASSWORD -->
-      <div id="forgotView" style="display:none">
-        <div class="eyebrow">&#x1F512; Reset Password</div>
-        <div class="form-title">FORGOT YOUR<br><em>PASSWORD?</em></div>
-        <p class="form-sub">Enter your email — we'll send a reset link instantly.</p>
-        <div class="field"><label>Email Address</label><input type="email" id="fpEmail" placeholder="hello@example.com" autocomplete="email"></div>
-        <button class="btn-primary" id="btnForgot">Send Reset Link</button>
-        <div class="err-msg" id="fpErr"></div>
-        <div class="suc-msg" id="fpSuc"></div>
-        <div class="divider"><span>&nbsp;</span></div>
-        <div class="bottom-row"><button class="back-btn" onclick="show('signinView')">&#x2190; Back to Sign In</button></div>
+      <div id="otpView" style="display:none">
+        <div class="eyebrow">&#x1F4E7; Check Your Inbox</div>
+        <div class="form-title">ENTER<br><em>YOUR CODE</em></div>
+        <p class="email-show">We sent a 6-digit code to<br><strong id="emShow"></strong></p>
+        <div class="otp-row" id="otpRow">
+          <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+        </div>
+        <button class="btn-primary" id="btnVerify" disabled>Verify &amp; Sign In</button>
+        <div class="err-msg" id="otpErr"></div>
+        <div class="suc-msg" id="otpSuc"></div>
+        <div class="timer-row">
+          <span id="timerText">Resend code in <span id="countdown">30</span>s</span>
+          <button id="btnResend" disabled>Resend</button>
+          &middot;
+          <button onclick="show('emailView')">Change email</button>
+        </div>
       </div>
-
-      <!-- UPDATE PASSWORD (shown when reset link clicked) -->
-      <div id="updateView" style="display:none">
-        <div class="eyebrow">&#x1F511; New Password</div>
-        <div class="form-title">SET YOUR<br><em>NEW PASSWORD</em></div>
-        <p class="form-sub">Choose a strong password for your account.</p>
-        <div class="field"><label>New Password</label><input type="password" id="np1" placeholder="Min. 8 characters" autocomplete="new-password"></div>
-        <div class="field"><label>Confirm Password</label><input type="password" id="np2" placeholder="Repeat password" autocomplete="new-password"></div>
-        <button class="btn-primary" id="btnUpdate">Update Password</button>
-        <div class="err-msg" id="upErr"></div>
-        <div class="suc-msg" id="upSuc"></div>
-      </div>
-
     </div>
   </div>
 </div>
 
-
 <script>
-// Stars
 (function(){var se=document.getElementById('stars');for(var i=0;i<65;i++){var s=document.createElement('i');s.textContent='\u2605';s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;font-size:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*4+'s;animation-duration:'+(2.5+Math.random()*3)+'s';se.appendChild(s);}})();
 
 var sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 
-function show(id){
-  ['signinView','forgotView','updateView'].forEach(function(v){
-    document.getElementById(v).style.display=v===id?'block':'none';
-  });
+(async function(){var s=await sbClient.auth.getSession();if(s.data.session)window.location.replace('/dashboard.html');})();
+
+function show(id){['emailView','otpView'].forEach(function(v){document.getElementById(v).style.display=v===id?'block':'none';});}
+
+var currentEmail='';
+var resendTimer=null;
+
+function startResendTimer(){
+  var sec=30;
+  document.getElementById('countdown').textContent=sec;
+  document.getElementById('timerText').style.display='';
+  document.getElementById('btnResend').disabled=true;
+  clearInterval(resendTimer);
+  resendTimer=setInterval(function(){
+    sec--;
+    document.getElementById('countdown').textContent=sec;
+    if(sec<=0){clearInterval(resendTimer);document.getElementById('timerText').style.display='none';document.getElementById('btnResend').disabled=false;}
+  },1000);
 }
 
-// CRITICAL — check for recovery token in URL hash FIRST before anything else
-var hash=window.location.hash;
-var isRecovery=hash.includes('type=recovery');
-
-if(isRecovery){
-  // Show update password form immediately — don't redirect
-  show('updateView');
-} else {
-  // Only check session if NOT a recovery link
-  (async function(){
-    var s=await sbClient.auth.getSession();
-    if(s.data.session) window.location.href='/dashboard.html';
-  })();
+async function sendCode(email){
+  return await sbClient.auth.signInWithOtp({email:email,options:{shouldCreateUser:false}});
 }
 
-// SIGN IN
-document.getElementById('btnSignin').onclick=async function(){
-  var email=document.getElementById('siEmail').value.trim();
-  var pass=document.getElementById('siPass').value;
-  var err=document.getElementById('siErr');
+document.getElementById('btnSendCode').onclick=async function(){
+  var email=document.getElementById('emInput').value.trim().toLowerCase();
+  var err=document.getElementById('emErr');
   err.style.display='none';
-  if(!email||!pass){err.textContent='Please enter your email and password.';err.style.display='block';return;}
-  this.disabled=true;this.textContent='Signing in...';
-  var res=await sbClient.auth.signInWithPassword({email:email,password:pass});
+  if(!email||!/\S+@\S+\.\S+/.test(email)){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+  this.disabled=true;this.textContent='Sending code...';
+  var res=await sendCode(email);
   if(res.error){
-    err.textContent=res.error.message==='Invalid login credentials'?'Incorrect email or password. Please try again.':res.error.message;
-    err.style.display='block';this.disabled=false;this.textContent='Sign In';
-  } else {
-    this.textContent='\u2713 Signed in! Redirecting...';
-    setTimeout(function(){window.location.href='/dashboard.html';},800);
+    var msg=res.error.message;
+    if(msg.toLowerCase().includes('signup')||msg.toLowerCase().includes('not found')||msg.toLowerCase().includes('disabled')){msg='No DWC account with this email. Please sign up first.';}
+    err.textContent=msg;err.style.display='block';
+    this.disabled=false;this.textContent='Send Code';
+    return;
   }
+  currentEmail=email;
+  document.getElementById('emShow').textContent=email;
+  show('otpView');
+  startResendTimer();
+  setTimeout(function(){document.querySelectorAll('#otpRow input')[0].focus();},150);
+  this.disabled=false;this.textContent='Send Code';
 };
 
-// FORGOT PASSWORD
-document.getElementById('btnForgot').onclick=async function(){
-  var email=document.getElementById('fpEmail').value.trim();
-  var err=document.getElementById('fpErr');
-  var suc=document.getElementById('fpSuc');
-  err.style.display='none';suc.style.display='none';
-  if(!email){err.textContent='Please enter your email address.';err.style.display='block';return;}
-  this.disabled=true;this.textContent='Sending...';
-  var res=await sbClient.auth.resetPasswordForEmail(email,{
-    redirectTo:'https://www.dinewithcelebrity.com/signin'
+document.getElementById('btnResend').onclick=async function(){
+  this.disabled=true;
+  document.querySelectorAll('#otpRow input').forEach(function(i){i.value='';i.classList.remove('filled');});
+  document.getElementById('btnVerify').disabled=true;
+  document.getElementById('otpErr').style.display='none';
+  var res=await sendCode(currentEmail);
+  if(res.error){var err=document.getElementById('otpErr');err.textContent=res.error.message;err.style.display='block';return;}
+  startResendTimer();
+  setTimeout(function(){document.querySelectorAll('#otpRow input')[0].focus();},150);
+};
+
+var otpInputs=document.querySelectorAll('#otpRow input');
+otpInputs.forEach(function(box,i){
+  box.addEventListener('input',function(){
+    this.value=this.value.replace(/\D/g,'').slice(-1);
+    if(this.value)this.classList.add('filled');else this.classList.remove('filled');
+    if(this.value&&i<otpInputs.length-1)otpInputs[i+1].focus();
+    var all=Array.from(otpInputs).every(function(b){return b.value!=='';});
+    document.getElementById('btnVerify').disabled=!all;
+    if(all)document.getElementById('btnVerify').focus();
   });
-  if(res.error){err.textContent=res.error.message;err.style.display='block';}
-  else{suc.textContent='\u2713 Reset link sent! Check your inbox and spam folder.';suc.style.display='block';}
-  this.disabled=false;this.textContent='Send Reset Link';
-};
+  box.addEventListener('keydown',function(e){
+    if(e.key==='Backspace'&&!this.value&&i>0){otpInputs[i-1].focus();otpInputs[i-1].value='';otpInputs[i-1].classList.remove('filled');document.getElementById('btnVerify').disabled=true;}
+    if(e.key==='Enter'&&!document.getElementById('btnVerify').disabled)document.getElementById('btnVerify').click();
+  });
+  box.addEventListener('paste',function(e){
+    e.preventDefault();
+    var p=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+    otpInputs.forEach(function(b,j){if(p[j]){b.value=p[j];b.classList.add('filled');}});
+    var all=Array.from(otpInputs).every(function(b){return b.value!=='';});
+    document.getElementById('btnVerify').disabled=!all;
+    if(all)document.getElementById('btnVerify').focus();
+  });
+});
 
-// UPDATE PASSWORD
-document.getElementById('btnUpdate').onclick=async function(){
-  var p=document.getElementById('np1').value;
-  var p2=document.getElementById('np2').value;
-  var err=document.getElementById('upErr');
-  var suc=document.getElementById('upSuc');
+document.getElementById('btnVerify').onclick=async function(){
+  var token=Array.from(otpInputs).map(function(b){return b.value;}).join('');
+  var err=document.getElementById('otpErr');var suc=document.getElementById('otpSuc');
   err.style.display='none';suc.style.display='none';
-  if(p.length<8){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}
-  if(p!==p2){err.textContent='Passwords do not match.';err.style.display='block';return;}
-  this.disabled=true;this.textContent='Updating...';
-  var res=await sbClient.auth.updateUser({password:p});
+  this.disabled=true;this.textContent='Verifying...';
+  var res=await sbClient.auth.verifyOtp({email:currentEmail,token:token,type:'email'});
   if(res.error){
-    err.textContent=res.error.message;err.style.display='block';
-    this.disabled=false;this.textContent='Update Password';
-  } else {
-    suc.textContent='\u2713 Password updated! Taking you to your dashboard...';
-    suc.style.display='block';
-    setTimeout(function(){window.location.href='/dashboard.html';},1500);
+    err.textContent=res.error.message.toLowerCase().includes('expired')?'Code expired. Tap Resend for a new one.':'Incorrect code. Please check and try again.';
+    err.style.display='block';
+    this.disabled=false;this.textContent='Verify & Sign In';
+    return;
   }
+  suc.textContent='\u2713 Signed in! Redirecting...';suc.style.display='block';
+  setTimeout(function(){window.location.href='/dashboard.html';},700);
 };
 
-// Enter key support
-document.getElementById('siPass').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnSignin').click();});
-document.getElementById('siEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('siPass').focus();});
-document.getElementById('fpEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnForgot').click();});
-
-(function(){var bg=document.getElementById('stars');if(!bg){bg=document.createElement('div');bg.className='stars';bg.id='stars';document.body.insertBefore(bg,document.body.firstChild);}for(var i=0;i<60;i++){var s=document.createElement('span');s.className='star';s.textContent='★';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.setProperty('--del',Math.random()*6+'s');s.style.setProperty('--op',(0.08+Math.random()*0.22)+'');s.style.setProperty('--sz',(6+Math.random()*8)+'px');bg.appendChild(s);}})();
+document.getElementById('emInput').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('btnSendCode').click();});
 </script>
 </body>
 </html>

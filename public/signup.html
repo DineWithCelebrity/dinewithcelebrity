@@ -68,6 +68,15 @@ select option{background:#150E20;}
 .ir .v.g{color:#F2B705;}.ir .v.gr{color:#00C853;}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(6,4,10,.25);border-top-color:#06040A;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:5px;}
 @keyframes sp{to{transform:rotate(360deg)}}
+.otp-row{display:flex;gap:7px;justify-content:space-between;margin:8px 0 4px;}
+.otp-row input{flex:1;height:48px;width:0;min-width:0;text-align:center;font-size:1.4rem;font-weight:700;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.9);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:7px;outline:none;padding:0;}
+.otp-row input:focus{border-color:#F2B705;}
+.otp-row input.filled{border-color:#F2B705;color:#F2B705;}
+.email-show{font-size:.78rem;color:rgba(255,255,255,.5);text-align:center;margin-bottom:8px;line-height:1.5;}
+.email-show strong{color:rgba(255,255,255,.9);}
+.timer-row{font-size:.7rem;color:rgba(255,255,255,.4);text-align:center;margin-top:8px;}
+.timer-row button{background:none;border:none;color:#F2B705;font-family:'Poppins',sans-serif;font-size:.7rem;font-weight:600;cursor:pointer;text-decoration:underline;padding:0;}
+.timer-row button:disabled{color:rgba(255,255,255,.3);cursor:not-allowed;text-decoration:none;}
 @media(max-width:780px){html,body{overflow:auto;}.layout{grid-template-columns:1fr;height:auto;}.left{display:none;}.right{padding:24px 20px 40px;align-items:flex-start;}}
 </style>
 </head>
@@ -86,23 +95,47 @@ select option{background:#150E20;}
   </div>
   <div class="right">
     <div class="form">
-      <div class="dots"><div class="dot active" id="d1"></div><div class="dot" id="d2"></div></div>
+      <div class="dots"><div class="dot active" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
+
+      <!-- STEP 1: PROFILE FORM -->
       <div id="s1">
         <h1>Create Account</h1>
-        <p class="sub">Join free. Get ₹900 in welcome points instantly.</p>
+        <p class="sub">Join free. We'll email you a 6-digit code.</p>
         <div class="err" id="e1"></div>
         <div class="f"><label>Full Name</label><input id="fn" type="text" placeholder="Your full name" autocomplete="name"></div>
         <div class="r2">
           <div class="f"><label>State</label><select id="st"><option value="">State</option></select></div>
           <div class="f"><label>City</label><select id="ct" disabled><option value="">City</option></select></div>
         </div>
-        <div class="f"><label>Mobile</label><input id="mb" type="tel" placeholder="10-digit mobile" maxlength="10" inputmode="numeric"></div>
+        <div class="f"><label>Mobile (for event reminders)</label><input id="mb" type="tel" placeholder="10-digit mobile" maxlength="10" inputmode="numeric"></div>
         <div class="f"><label>Email</label><input id="em" type="email" placeholder="you@email.com" autocomplete="email"></div>
-        <div class="f"><label>Password</label><input id="pw" type="password" placeholder="Min 8 characters" autocomplete="new-password"></div>
-        <button class="btn" onclick="goS2()">Continue →</button>
-        <p class="hint">Already a member? <a href="/login.html">Sign in</a></p>
+        <button class="btn" onclick="goS2()">Send Code →</button>
+        <p class="hint">Already a member? <a href="/signin">Sign in</a></p>
       </div>
+
+      <!-- STEP 2: OTP VERIFY -->
       <div id="s2" style="display:none">
+        <h1>Verify Email</h1>
+        <p class="email-show">We sent a 6-digit code to<br><strong id="emShow"></strong></p>
+        <div class="err" id="e2"></div>
+        <div class="otp-row" id="otpRow">
+          <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+          <input type="text" inputmode="numeric" maxlength="1">
+        </div>
+        <button class="btn" id="vb" disabled onclick="doVerify()">Verify Code →</button>
+        <div class="timer-row">
+          <span id="timerText">Resend in <span id="countdown">30</span>s</span>
+          <button id="btnResend" disabled>Resend code</button>
+        </div>
+        <button class="btn-back" onclick="goS1()">← Edit details</button>
+      </div>
+
+      <!-- STEP 3: WELCOME / CLAIM POINTS -->
+      <div id="s3" style="display:none">
         <h1>YOU'RE ALMOST IN!</h1>
         <p class="sub">Here's what you're getting — for free.</p>
         <div class="pbox">
@@ -117,30 +150,194 @@ select option{background:#150E20;}
           <div class="ir"><span>Your 300 pts unlock</span><span class="v gr">₹900 OFF a dinner</span></div>
           <div class="ir"><span>Max discount</span><span class="v">Up to 40% off</span></div>
         </div>
-        <div class="err" id="e2"></div>
-        <button class="btn" id="cb" onclick="doSignup()">🎉 Enter DWC — Claim My Points</button>
-        <button class="btn-back" onclick="goS1()">← Back</button>
+        <div class="err" id="e3"></div>
+        <button class="btn" id="cb" onclick="doClaim()">🎉 Enter DWC — Claim My Points</button>
       </div>
+
     </div>
   </div>
 </div>
 <script>
 const C1=['Allu Arjun','Shah Rukh Khan','Virat Kohli','Mahesh Babu','Deepika Padukone','MS Dhoni','Prabhas','Alia Bhatt','Rajinikanth','Samantha Ruth Prabhu','Rohit Sharma','Jr NTR','Katrina Kaif','Vijay','Rashmika Mandanna','Sachin Tendulkar','Ram Charan','Priyanka Chopra','Nayanthara','Salman Khan','PV Sindhu','Chiranjeevi','Kareena Kapoor','Dhanush','Hrithik Roshan','Neeraj Chopra','Nagarjuna','Tamannaah Bhatia','Suriya','Aamir Khan'];
 const C2=['Vijay Deverakonda','Ranveer Singh','Ajith Kumar','Anushka Sharma','Yash','Hardik Pandya','Trisha Krishnan','Ranbir Kapoor','Sai Pallavi','KL Rahul','Venkatesh','Kriti Sanon','Kamal Haasan','Kiara Advani','Mohanlal','Jasprit Bumrah','Pooja Hegde','Vicky Kaushal','Keerthy Suresh','Akshay Kumar','Mammootty','Taapsee Pannu','Sivakarthikeyan','Shahid Kapoor','Dulquer Salmaan','Suryakumar Yadav','Anushka Shetty','Tiger Shroff','Nithiin','Mary Kom'];
-const C3=['Rana Daggubati','Vidya Balan','Vikram','Ayushmann Khurrana','Fahadh Faasil','Shubman Gill','Kajal Aggarwal','Varun Dhawan','Adivi Sesh','Shruti Haasan','Pawan Kalyan','Kangana Ranaut','Karthi','Sonakshi Sinha','Tovino Thomas','Rishabh Pant','Jyotika','Sidharth Malhotra','Balakrishna','Divya Khosla','Nivin Pauly','Mrunal Thakur','Darshan','Regina Cassandra','Sudeep','Bajrang Punia','Andrea Jeremiah','Jayam Ravi','Aishwarya Rajesh','Nikhat Zareen'];
+const C3=['Rana Daggubati','Vidya Balan','Vikram','Ayushmann Khurrana','Fahadh Faasil','Shubman Gill','Kajal Aggarwal','Varun Dhawan','Adivi Sesh','Shruti Haasan','Pawan Kalyan','Kangana Ranaut','Karthi','Sonakshi Sinha','Tovino Thomas','Rishabh Pant','Jyotika','Sidharth Malhotra','Balakrishna','Divya Khosla','Nivin Pauly','Mrunal Thakur','Regina Cassandra','Sudeep','Bajrang Punia','Andrea Jeremiah','Jayam Ravi','Aishwarya Rajesh','Nikhat Zareen'];
 const CL=['g','w','d','w','g','d'];
 function mkCol(names,cls){const d=[...names,...names].map((n,i)=>`<div class="cn ${CL[i%CL.length]}">${n}</div>`).join('');return `<div class="col ${cls}"><div class="col-inner">${d}</div></div>`;}
 document.getElementById('cols').innerHTML=mkCol(C1,'up')+mkCol(C2,'dn')+mkCol(C3,'up2');
+
 const sbClient=supabase.createClient('https://blwqqqzhnovsveeryjlm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY');
 const refCode=new URLSearchParams(location.search).get('ref')||'';
-async function loadStates(){const{data}=await sbClient.from('cities').select('state').order('state');if(!data)return;const states=[...new Set(data.map(r=>r.state))];const sel=document.getElementById('st');states.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});}
-document.getElementById('st').addEventListener('change',async function(){const c=document.getElementById('ct');c.innerHTML='<option value="">City</option>';c.disabled=true;if(!this.value)return;const{data}=await sbClient.from('cities').select('city').eq('state',this.value).order('city');if(data){data.forEach(r=>{const o=document.createElement('option');o.value=r.city;o.textContent=r.city;c.appendChild(o);});c.disabled=false;}});
+
+// If already signed in, bounce to dashboard
+(async function(){var s=await sbClient.auth.getSession();if(s.data.session)window.location.replace('/dashboard.html');})();
+
+async function loadStates(){
+  const{data}=await sbClient.from('cities').select('state').order('state');
+  if(!data)return;
+  const states=[...new Set(data.map(r=>r.state))];
+  const sel=document.getElementById('st');
+  states.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});
+}
+document.getElementById('st').addEventListener('change',async function(){
+  const c=document.getElementById('ct');
+  c.innerHTML='<option value="">City</option>';c.disabled=true;
+  if(!this.value)return;
+  const{data}=await sbClient.from('cities').select('city').eq('state',this.value).order('city');
+  if(data){data.forEach(r=>{const o=document.createElement('option');o.value=r.city;o.textContent=r.city;c.appendChild(o);});c.disabled=false;}
+});
 loadStates();
+
 function se(id,m){const e=document.getElementById(id);e.textContent=m;e.classList.add('show');}
 function he(id){document.getElementById(id).classList.remove('show');}
-function goS2(){he('e1');const fn=document.getElementById('fn').value.trim(),st=document.getElementById('st').value,ct=document.getElementById('ct').value,mb=document.getElementById('mb').value.trim(),em=document.getElementById('em').value.trim(),pw=document.getElementById('pw').value;if(!fn)return se('e1','Please enter your full name.');if(!st||!ct)return se('e1','Please select your state and city.');if(!/^\d{10}$/.test(mb))return se('e1','Enter a valid 10-digit mobile number.');if(!/\S+@\S+\.\S+/.test(em))return se('e1','Enter a valid email address.');if(pw.length<8)return se('e1','Password must be at least 8 characters.');document.getElementById('s1').style.display='none';document.getElementById('s2').style.display='block';document.getElementById('d1').className='dot done';document.getElementById('d2').className='dot active';}
-function goS1(){document.getElementById('s2').style.display='none';document.getElementById('s1').style.display='block';document.getElementById('d1').className='dot active';document.getElementById('d2').className='dot';}
-async function doSignup(){he('e2');const btn=document.getElementById('cb');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Creating your account...';const fn=document.getElementById('fn').value.trim(),ct=document.getElementById('ct').value,st=document.getElementById('st').value,mb=document.getElementById('mb').value.trim(),em=document.getElementById('em').value.trim(),pw=document.getElementById('pw').value;try{const{data:auth,error:aE}=await sbClient.auth.signUp({email:em,password:pw,options:{data:{full_name:fn,phone:mb,city:ct,state:st}}});if(aE)throw aE;const uid=auth.user?.id;if(!uid)throw new Error('Account creation failed. Please try again.');const{count}=await sbClient.from('members').select('*',{count:'exact',head:true});const mid=`DWC-HYD-${String((count||0)+1).padStart(4,'0')}`;const{error:mE}=await sbClient.from('members').insert({id:uid,email:em,full_name:fn,phone:mb,city:ct,state:st,member_id:mid,tier:'free',points:300,vouchers_used:0,membership_start:new Date().toISOString(),membership_expiry:new Date(Date.now()+365*24*60*60*1000).toISOString(),referred_by:refCode||null,created_at:new Date().toISOString()});if(mE)throw mE;await sbClient.from('member_activity').insert({member_id:uid,activity_type:'signup',points_earned:300,description:'Welcome bonus — account created',created_at:new Date().toISOString()});if(refCode){const{data:ref}=await sbClient.from('members').select('id,points').eq('member_id',refCode).single();if(ref){await sbClient.from('members').update({points:(ref.points||0)+500}).eq('id',ref.id);await sbClient.from('member_activity').insert({member_id:ref.id,activity_type:'referral_bonus',points_earned:500,description:`Referral bonus — ${fn} joined`,created_at:new Date().toISOString()});}}location.href='/dashboard.html';}catch(err){se('e2',err.message||'Something went wrong. Please try again.');btn.disabled=false;btn.innerHTML='🎉 Enter DWC — Claim My Points';}}
+function setStep(n){
+  document.getElementById('s1').style.display=n===1?'block':'none';
+  document.getElementById('s2').style.display=n===2?'block':'none';
+  document.getElementById('s3').style.display=n===3?'block':'none';
+  ['d1','d2','d3'].forEach((id,i)=>{const d=document.getElementById(id);d.className='dot';if(i+1<n)d.classList.add('done');else if(i+1===n)d.classList.add('active');});
+}
+
+// ── STEP 1 → 2: validate + send OTP ──
+async function goS2(){
+  he('e1');
+  const fn=document.getElementById('fn').value.trim();
+  const st=document.getElementById('st').value;
+  const ct=document.getElementById('ct').value;
+  const mb=document.getElementById('mb').value.trim();
+  const em=document.getElementById('em').value.trim().toLowerCase();
+  if(!fn)return se('e1','Please enter your full name.');
+  if(!st||!ct)return se('e1','Please select your state and city.');
+  if(!/^[6-9]\d{9}$/.test(mb))return se('e1','Enter a valid 10-digit Indian mobile number.');
+  if(!/\S+@\S+\.\S+/.test(em))return se('e1','Enter a valid email address.');
+
+  const btn=document.querySelector('#s1 .btn');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Sending code...';
+
+  // Save form data globally for use after verify
+  window.signupData={fn:fn,st:st,ct:ct,mb:mb,em:em};
+
+  const res=await sbClient.auth.signInWithOtp({email:em,options:{shouldCreateUser:true,data:{full_name:fn,phone:mb,city:ct,state:st}}});
+  if(res.error){se('e1',res.error.message);btn.disabled=false;btn.innerHTML='Send Code →';return;}
+
+  document.getElementById('emShow').textContent=em;
+  setStep(2);
+  startResendTimer();
+  setTimeout(()=>{document.querySelectorAll('#otpRow input')[0].focus();},150);
+  btn.disabled=false;btn.innerHTML='Send Code →';
+}
+
+function goS1(){setStep(1);clearInterval(window.resendTimer);}
+
+// ── OTP INPUT BEHAVIOUR ──
+const otpInputs=document.querySelectorAll('#otpRow input');
+otpInputs.forEach((box,i)=>{
+  box.addEventListener('input',function(){
+    this.value=this.value.replace(/\D/g,'').slice(-1);
+    if(this.value)this.classList.add('filled');else this.classList.remove('filled');
+    if(this.value&&i<otpInputs.length-1)otpInputs[i+1].focus();
+    const all=Array.from(otpInputs).every(b=>b.value!=='');
+    document.getElementById('vb').disabled=!all;
+    if(all)document.getElementById('vb').focus();
+  });
+  box.addEventListener('keydown',function(e){
+    if(e.key==='Backspace'&&!this.value&&i>0){otpInputs[i-1].focus();otpInputs[i-1].value='';otpInputs[i-1].classList.remove('filled');document.getElementById('vb').disabled=true;}
+    if(e.key==='Enter'&&!document.getElementById('vb').disabled)doVerify();
+  });
+  box.addEventListener('paste',function(e){
+    e.preventDefault();
+    const p=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+    otpInputs.forEach((b,j)=>{if(p[j]){b.value=p[j];b.classList.add('filled');}});
+    const all=Array.from(otpInputs).every(b=>b.value!=='');
+    document.getElementById('vb').disabled=!all;
+    if(all)document.getElementById('vb').focus();
+  });
+});
+
+// ── RESEND TIMER ──
+window.resendTimer=null;
+function startResendTimer(){
+  let sec=30;
+  document.getElementById('countdown').textContent=sec;
+  document.getElementById('timerText').style.display='';
+  document.getElementById('btnResend').disabled=true;
+  clearInterval(window.resendTimer);
+  window.resendTimer=setInterval(()=>{
+    sec--;document.getElementById('countdown').textContent=sec;
+    if(sec<=0){clearInterval(window.resendTimer);document.getElementById('timerText').style.display='none';document.getElementById('btnResend').disabled=false;}
+  },1000);
+}
+document.getElementById('btnResend').onclick=async function(){
+  this.disabled=true;
+  otpInputs.forEach(b=>{b.value='';b.classList.remove('filled');});
+  document.getElementById('vb').disabled=true;
+  he('e2');
+  const d=window.signupData;
+  const res=await sbClient.auth.signInWithOtp({email:d.em,options:{shouldCreateUser:true,data:{full_name:d.fn,phone:d.mb,city:d.ct,state:d.st}}});
+  if(res.error){se('e2',res.error.message);return;}
+  startResendTimer();
+  setTimeout(()=>{otpInputs[0].focus();},150);
+};
+
+// ── STEP 2 → 3: verify OTP, then on step 3 user clicks claim to insert member row ──
+async function doVerify(){
+  he('e2');
+  const token=Array.from(otpInputs).map(b=>b.value).join('');
+  const d=window.signupData;
+  const btn=document.getElementById('vb');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Verifying...';
+  const res=await sbClient.auth.verifyOtp({email:d.em,token:token,type:'email'});
+  if(res.error){
+    se('e2',res.error.message.toLowerCase().includes('expired')?'Code expired. Tap Resend for a new one.':'Incorrect code. Please try again.');
+    btn.disabled=false;btn.innerHTML='Verify Code →';
+    return;
+  }
+  // Verified — user has session. Move to claim screen.
+  clearInterval(window.resendTimer);
+  setStep(3);
+}
+
+// ── STEP 3: insert member row + activity, then redirect ──
+async function doClaim(){
+  he('e3');
+  const btn=document.getElementById('cb');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Setting up your account...';
+  try{
+    const{data:userData}=await sbClient.auth.getUser();
+    const uid=userData.user?.id;
+    if(!uid)throw new Error('Session lost. Please refresh and sign in.');
+    const d=window.signupData;
+
+    const{data:mid,error:midErr}=await sbClient.rpc('next_member_id');
+    if(midErr||!mid)throw new Error('Could not generate member ID. Please try again.');
+
+    const{error:mE}=await sbClient.from('members').insert({
+      id:uid,email:d.em,full_name:d.fn,phone:d.mb,city:d.ct,state:d.st,
+      member_id:mid,tier:'free',points:300,vouchers_used:0,
+      membership_start:new Date().toISOString(),
+      membership_expiry:new Date(Date.now()+365*24*60*60*1000).toISOString(),
+      referred_by:refCode||null,
+      created_at:new Date().toISOString()
+    });
+    if(mE)throw mE;
+
+    await sbClient.from('member_activity').insert({
+      member_id:uid,activity_type:'signup',points_earned:300,
+      description:'Welcome bonus — account created',
+      created_at:new Date().toISOString()
+    });
+
+    if(refCode){
+      const{data:ref}=await sbClient.from('members').select('id,points').eq('member_id',refCode).single();
+      if(ref){
+        await sbClient.from('members').update({points:(ref.points||0)+500}).eq('id',ref.id);
+        await sbClient.from('member_activity').insert({member_id:ref.id,activity_type:'referral_bonus',points_earned:500,description:`Referral bonus — ${d.fn} joined`,created_at:new Date().toISOString()});
+      }
+    }
+    location.href='/dashboard.html';
+  }catch(err){
+    se('e3',err.message||'Something went wrong. Please try again.');
+    btn.disabled=false;btn.innerHTML='🎉 Enter DWC — Claim My Points';
+  }
+}
 </script>
 </body>
 </html>
