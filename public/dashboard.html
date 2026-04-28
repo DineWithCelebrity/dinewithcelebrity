@@ -198,21 +198,22 @@
     /* ── WELCOME & MEMBER ID ── */
     .welcome {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.2rem; color: var(--white);
-      margin-bottom: .6rem; letter-spacing: 1px;
+      font-size: 3.6rem; color: var(--white);
+      line-height: .95; margin: .9rem 0 .6rem; letter-spacing: .04em;
     }
     .welcome em { color: var(--gold); font-style: normal; }
+    .welcome-tagline { font-size: 1.15rem; color: rgba(255,255,255,.78); line-height: 1.55; font-weight: 400; margin-bottom: 1.6rem; }
 
     .member-id-chip {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(242,183,5,.08);
-      border: 1px solid rgba(242,183,5,.2);
-      border-radius: 100px; padding: 5px 14px;
-      font-size: .75rem; font-weight: 700; color: var(--gold);
-      letter-spacing: .1em; cursor: pointer; margin-bottom: 1.5rem;
-      transition: all .2s;
+      background: rgba(242,183,5,.1);
+      border: 1px solid rgba(242,183,5,.25);
+      border-radius: 100px; padding: .4rem 1rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem;
+      color: var(--gold); letter-spacing: .12em;
+      cursor: pointer; transition: all .2s;
     }
-    .member-id-chip:hover { background: rgba(242,183,5,.14); }
+    .member-id-chip:hover { background: rgba(242,183,5,.18); }
     .member-id-chip.copied { background: rgba(0,200,83,.12); border-color: rgba(0,200,83,.3); color: #00C853; }
 
     /* ── STATS ── */
@@ -637,36 +638,65 @@
   .event-book-btn:disabled{opacity:.4;cursor:not-allowed;}
   .event-sold{width:100%;margin-top:.6rem;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-size:.78rem;text-align:center;}
 
+  /* ── STATS ROW (drama-pass) ── */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1.6rem 0 2.5rem;}
+  .stat-card{background:rgba(255,255,255,.03);border:1px solid rgba(242,183,5,.1);border-radius:14px;padding:1.1rem 1rem;position:relative;overflow:hidden;}
+  .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
+  .stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);line-height:1;letter-spacing:.02em;margin-bottom:.4rem;}
+  .stat-card:first-child .stat-val{font-size:1.6rem;color:rgba(255,255,255,.95);}
+  .stat-label{color:rgba(255,255,255,.55);font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;}
+  @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+
+  /* ── CARD HEADERS (drama-pass) ── */
+  .card{margin-bottom:2rem;}
+  .card-header{margin-bottom:1.5rem;}
+  .card-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;letter-spacing:.05em;color:var(--text);margin-bottom:.5rem;}
+  .card-subtitle{font-size:1.15rem;color:rgba(255,255,255,.78);line-height:1.6;font-weight:400;}
+
+  /* ── SECTION HEADER (Your Vouchers etc.) ── */
+  .section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem;}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--text);letter-spacing:.04em;}
+  .section-badge{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:20px;padding:.3rem .9rem;font-size:.85rem;color:var(--gold);font-weight:600;}
+
   /* ── POINTS ENGINE SIMULATOR ── */
   .sim-wrap{padding:.25rem 0;}
-  .sim-row{display:flex;align-items:center;gap:.85rem;margin-bottom:1.4rem;}
-  .sim-lbl{font-size:.78rem;color:var(--sub);min-width:90px;flex-shrink:0;}
-  .sim-select{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);padding:.6rem .8rem;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;cursor:pointer;}
+  .sim-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+  .sim-lbl{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.1em;color:var(--gold);min-width:110px;flex-shrink:0;}
+  .sim-select{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.2);border-radius:10px;color:var(--text);padding:.85rem 1rem;font-family:'Poppins',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;cursor:pointer;}
   .sim-select:focus,.sim-select:hover{border-color:var(--gold);}
   .sim-select option{background:#0d0814;color:var(--text);}
-  .sim-spend-row{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;color:var(--sub);margin-bottom:.4rem;}
-  .sim-spend-out{color:var(--gold);font-weight:700;font-family:'Bebas Neue',cursive;font-size:1.05rem;letter-spacing:.04em;}
-  .sim-slider{width:100%;height:6px;background:rgba(255,255,255,.08);border-radius:100px;outline:none;-webkit-appearance:none;margin-bottom:1.4rem;cursor:pointer;}
-  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;background:var(--gold);border-radius:50%;cursor:pointer;border:2px solid #06040A;box-shadow:0 0 0 1px var(--gold);}
-  .sim-slider::-moz-range-thumb{width:18px;height:18px;background:var(--gold);border-radius:50%;cursor:pointer;border:2px solid #06040A;box-shadow:0 0 0 1px var(--gold);}
-  .sim-stats{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.2rem;}
-  .sim-stat{background:rgba(242,183,5,.04);border:1px solid rgba(242,183,5,.12);border-radius:10px;padding:.85rem 1rem;}
-  .sim-stat-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;}
-  .sim-stat-val{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--gold);line-height:1.1;margin-top:.2rem;letter-spacing:.02em;}
-  .sim-stat-sub{font-size:.66rem;color:var(--muted);margin-top:.2rem;}
-  .sim-math{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:.95rem 1.1rem;margin-bottom:1.1rem;}
-  .sim-math-row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--sub);margin-bottom:.4rem;}
-  .sim-math-row span:last-child{font-weight:600;color:var(--text);}
+  .sim-base-block{text-align:center;margin:.5rem 0 1.6rem;padding:1.4rem 0;background:rgba(0,0,0,.25);border-radius:12px;border:1px solid rgba(255,255,255,.05);}
+  .sim-base-lbl{font-size:.95rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.2em;margin-bottom:.5rem;font-weight:700;}
+  .sim-base-val{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;color:var(--text);line-height:1;letter-spacing:.02em;}
+  .sim-saved{font-size:1rem;color:#00C853;margin-top:.5rem;font-weight:700;}
+  .sim-spend-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.7rem;}
+  .sim-spend-lbl{font-size:1rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
+  .sim-spend-out{color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.02em;}
+  .sim-slider{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:100px;outline:none;-webkit-appearance:none;margin-bottom:1.5rem;cursor:pointer;}
+  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-slider::-moz-range-thumb{width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
+  .sim-stat{background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.18);border-radius:12px;padding:1rem 1.1rem;}
+  .sim-stat-lbl{font-size:.82rem;color:rgba(0,200,83,.78);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.35rem;}
+  .sim-stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:#00C853;line-height:1;letter-spacing:.02em;}
+  .sim-stat-sub{font-size:.85rem;color:rgba(255,255,255,.55);margin-top:.3rem;font-weight:400;}
+  .sim-math{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(212,0,42,.08));border:1px solid rgba(242,183,5,.3);border-radius:14px;padding:1.5rem 1.25rem;margin-bottom:1.5rem;text-align:center;position:relative;overflow:hidden;}
+  .sim-math::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+  .sim-math-row{display:flex;justify-content:space-between;font-size:1rem;color:rgba(255,255,255,.7);margin-bottom:.5rem;text-align:left;}
+  .sim-math-row span:last-child{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--text);letter-spacing:.02em;}
   .sim-reduction{color:#00C853 !important;}
-  .sim-final{display:flex;justify-content:space-between;align-items:baseline;margin-top:.7rem;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.07);}
-  .sim-final-lbl{font-size:.85rem;font-weight:600;color:var(--text);}
-  .sim-final-val{font-family:'Bebas Neue',cursive;font-size:1.9rem;color:var(--gold);letter-spacing:.02em;}
-  .sim-disclaimer{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.2);border-radius:8px;padding:.75rem .9rem;font-size:.75rem;color:rgba(255,255,255,.78);line-height:1.55;margin-bottom:1.1rem;}
+  .sim-final{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);}
+  .sim-final-lbl{font-size:.95rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.22em;font-weight:700;margin-bottom:.4rem;}
+  .sim-final-val{font-family:'Bebas Neue',sans-serif;font-size:4.2rem;color:var(--gold);line-height:1;letter-spacing:.02em;text-shadow:0 0 30px rgba(242,183,5,.35);display:block;}
+  .sim-disclaimer{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.22);border-radius:10px;padding:1rem 1.1rem;font-size:.95rem;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:1.3rem;font-weight:400;}
   .sim-disclaimer strong{color:#ff8fa3;font-weight:700;}
-  .sim-cta{width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);background-size:200% auto;color:#06040A;border:none;border-radius:10px;padding:1rem;font-family:'Bebas Neue',cursive;font-size:1.15rem;letter-spacing:.1em;cursor:pointer;transition:background-position .4s,transform .15s;font-weight:900;}
-  .sim-cta:hover{background-position:right center;transform:translateY(-1px);}
-  .sim-cta-sub{text-align:center;font-size:.72rem;color:var(--muted);margin-top:.5rem;}
-  @media(max-width:600px){.sim-row{flex-direction:column;align-items:stretch;gap:.4rem;}.sim-lbl{min-width:0;}.sim-stats{grid-template-columns:1fr;}.sim-final-val{font-size:1.6rem;}}
+  .sim-cta{display:block;width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);background-size:200% auto;color:#06040A;border:none;border-radius:14px;padding:1.5rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.12em;cursor:pointer;font-weight:900;text-decoration:none;text-align:center;transition:background-position .4s,transform .15s;animation:simPulse 2.4s ease-in-out infinite;position:relative;overflow:hidden;}
+  .sim-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);transform:translateX(-100%);animation:simShimmer 2.8s ease-in-out infinite;}
+  @keyframes simPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,.45)}55%{box-shadow:0 0 32px 6px rgba(242,183,5,.18)}}
+  @keyframes simShimmer{0%,100%{transform:translateX(-100%)}55%{transform:translateX(100%)}}
+  .sim-cta:hover{background-position:right center;transform:translateY(-2px);}
+  .sim-cta-sub{text-align:center;font-size:.95rem;color:rgba(255,255,255,.6);margin-top:.75rem;font-weight:500;}
+  @media(max-width:600px){.sim-row{flex-direction:column;align-items:stretch;gap:.5rem;}.sim-lbl{min-width:0;}.sim-stats{grid-template-columns:1fr;}.sim-final-val{font-size:3rem;}}
 
   </style>
 </head>
@@ -784,47 +814,47 @@
 
         <div class="sim-wrap">
           <div class="sim-row">
-            <label class="sim-lbl">Pick a star</label>
+            <label class="sim-lbl">PICK A STAR</label>
             <select id="simStar" class="sim-select">
               <option value="">Loading celebrities...</option>
             </select>
           </div>
 
+          <div class="sim-base-block">
+            <div class="sim-base-lbl">Ticket Price</div>
+            <div class="sim-base-val" id="simBasePrice">—</div>
+          </div>
+
           <div class="sim-spend-row">
-            <span class="sim-spend-lbl">Shopping spend with our brand partners</span>
+            <span class="sim-spend-lbl">Shopping at Partners</span>
             <span class="sim-spend-out" id="simSpendOut">₹0</span>
           </div>
           <input id="simSpend" type="range" min="0" max="500000" step="5000" value="0" class="sim-slider" />
 
           <div class="sim-stats">
             <div class="sim-stat">
-              <div class="sim-stat-lbl">Points earned</div>
+              <div class="sim-stat-lbl">Points Earned</div>
               <div class="sim-stat-val" id="simPtsEarned">0</div>
               <div class="sim-stat-sub">1 point per ₹3 spent</div>
             </div>
             <div class="sim-stat">
-              <div class="sim-stat-lbl">Points value</div>
+              <div class="sim-stat-lbl">Points Value</div>
               <div class="sim-stat-val" id="simPtsValue">₹0</div>
               <div class="sim-stat-sub">1 point = ₹3 face value</div>
             </div>
           </div>
 
           <div class="sim-math">
-            <div class="sim-math-row"><span>Base ticket price</span><span id="simBasePrice">—</span></div>
-            <div class="sim-math-row"><span>Reduced via points</span><span class="sim-reduction" id="simReduction">— ₹0</span></div>
-            <div class="sim-final">
-              <span class="sim-final-lbl">Your final price</span>
-              <span class="sim-final-val" id="simFinalPrice">—</span>
-            </div>
+            <div class="sim-final-lbl">YOUR FINAL PRICE</div>
+            <div class="sim-final-val" id="simFinalPrice">—</div>
+            <div class="sim-saved" id="simSaved" style="visibility:hidden">You saved ₹0 with points</div>
           </div>
 
           <div class="sim-disclaimer">
-            <strong>Stars listed are illustrative.</strong> The mechanism is real. Specific events and pricing are announced to members based on confirmed agreements with celebrities.
+            <strong>Stars listed are illustrative.</strong> The mechanism is real. Specific events and pricing announced based on confirmed agreements.
           </div>
 
-          <button class="sim-cta" onclick="location.href='/upgrade'">
-            Upgrade to Gold — ₹4,999/yr →
-          </button>
+          <a href="/upgrade" class="sim-cta">UPGRADE TO GOLD — ₹4,999/YR &rarr;</a>
           <div class="sim-cta-sub">Unlock the points engine. Start earning toward your celebrity dinner today.</div>
         </div>
       </div>
@@ -1680,8 +1710,14 @@
     document.getElementById('simPtsEarned').textContent = pts.toLocaleString('en-IN');
     document.getElementById('simPtsValue').textContent  = fmt(ptsValue);
     document.getElementById('simBasePrice').textContent = price ? fmt(price) : '—';
-    document.getElementById('simReduction').textContent = '− ' + fmt(reduction);
     document.getElementById('simFinalPrice').textContent= price ? fmt(finalP) : '—';
+    var saved = document.getElementById('simSaved');
+    if (reduction > 0) {
+      saved.textContent = 'You saved ' + fmt(reduction) + ' with points';
+      saved.style.visibility = 'visible';
+    } else {
+      saved.style.visibility = 'hidden';
+    }
   }
 
   // Wire simulator inputs once the DOM is ready
