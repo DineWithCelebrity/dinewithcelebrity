@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/login.html", "destination": "/signin", "permanent": true },
+    { "source": "/bagawanthudu-dwc-event.html", "destination": "/events", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/dashboard",          "destination": "/dashboard.html" },
     { "source": "/onboarding",         "destination": "/onboarding.html" },
@@ -19,7 +23,7 @@
     { "source": "/partner-dashboard",  "destination": "/partner-dashboard.html" },
     { "source": "/partner-login",      "destination": "/partner-login.html" },
     { "source": "/partner-sponsor",    "destination": "/partner-login.html" },
-    { "source": "/bagawanthudu",         "destination": "/bagawanthudu-dwc-event.html" }
+    { "source": "/bagawanthudu",       "destination": "/events" }
   ],
   "crons": [
     {
