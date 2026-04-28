@@ -738,8 +738,8 @@
       <div class="pt-card"><div class="pt-card-emoji">🥘</div><div class="pt-card-name">Celebrity Kitchen</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹350 Off</div></div>
       <div class="pt-card"><div class="pt-card-emoji">🍣</div><div class="pt-card-name">Exclusive Diner</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹400 Off</div></div>
       <div class="pt-cta-wrap">
-        <div class="pt-cta-text"><strong>20+ partner restaurants</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
-        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹2,499/yr →</button>
+        <div class="pt-cta-text"><strong>1000+ partner restaurants &amp; shopping brands</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
+        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹4,999/yr →</button>
       </div>
     </div>
   </div>
@@ -807,29 +807,29 @@
     <div class="tier-cards">
       <div class="tier-card c-gold selected" id="card-gold" data-tier="gold">
         <div class="tc-name g">Gold</div>
-        <div class="tc-price">₹2,499/yr</div>
+        <div class="tc-price">₹4,999/yr</div>
         <ul class="tc-perks">
-          <li>10 restaurant vouchers</li>
-          <li>Celebrity event tickets</li>
-          <li>200 pts per visit</li>
+          <li>5 vouchers per month</li>
+          <li>Celebrity events access</li>
+          <li>100 pts per visit</li>
         </ul>
       </div>
       <div class="tier-card c-platinum" id="card-platinum" data-tier="platinum">
         <div class="tc-name p">Platinum</div>
-        <div class="tc-price">₹6,999/yr</div>
+        <div class="tc-price">₹9,999/yr</div>
         <ul class="tc-perks">
-          <li>Unlimited vouchers</li>
-          <li>Priority booking</li>
-          <li>Concierge service</li>
+          <li>10 vouchers per month</li>
+          <li>Priority events &amp; table reservation</li>
+          <li>200 pts per visit</li>
         </ul>
       </div>
       <div class="tier-card c-dwcpurple" id="card-dwcpurple" data-tier="dwcpurple">
         <div class="tc-name v">DWC Purple</div>
-        <div class="tc-price">₹14,999/yr</div>
+        <div class="tc-price">₹19,999/yr</div>
         <ul class="tc-perks">
-          <li>VIP access everywhere</li>
-          <li>Personal concierge</li>
-          <li>Exclusive meet &amp; greets</li>
+          <li>Unlimited vouchers</li>
+          <li>VIP events &amp; personal concierge</li>
+          <li>300 pts per visit</li>
         </ul>
       </div>
     </div>
@@ -912,10 +912,10 @@
 
   const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
   const TIER_META = {
-    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹2,499', desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
-    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹6,999', desc: 'Upgrade to Platinum for unlimited vouchers and priority booking' },
-    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹14,999',desc: 'Upgrade to DWC Purple for VIP access and personal concierge' },
-    dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,     desc: 'You have our best membership. Enjoy unlimited VIP access!' }
+    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹4,999',  desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
+    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹9,999',  desc: 'Upgrade to Platinum for more vouchers and priority booking' },
+    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹19,999', desc: 'Upgrade to DWC Purple for unlimited vouchers and VIP access' },
+    dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,      desc: 'You have our best membership. Enjoy unlimited VIP access!' }
   };
 
   // Mock celebrity events shown while real data loads / as fallback
@@ -1104,19 +1104,11 @@
       document.getElementById('memberIdChip').style.display = 'inline-flex';
     }
 
-    // ── Points ──
-    const pts = md.points || 300;
-    document.getElementById('statPts').textContent  = pts.toLocaleString();
-    document.getElementById('navPts').textContent   = pts.toLocaleString() + ' pts';
-    document.getElementById('statCity').textContent = md.city || '–';
-
-    // ── Celebrity ticket reduction ──
-    const reduction  = Math.floor(pts / 100) * 500;
-    const ticketAmt  = Math.max(70000 - reduction, 20000);
-    document.getElementById('statTicket').textContent    = '₹' + ticketAmt.toLocaleString();
-    document.getElementById('statTicketSub').textContent = reduction > 0
-      ? '₹' + reduction.toLocaleString() + ' saved via points'
-      : 'Earn points to reduce';
+    // ── Points (statP), Tier (statT) ──
+    const pts = md.points || 0;
+    document.getElementById('statP').textContent  = pts.toLocaleString();
+    document.getElementById('navPts').textContent = pts.toLocaleString() + ' pts';
+    document.getElementById('statT').textContent  = effTm.label;
 
     // ── Tier banner ──
     const banner = document.getElementById('tierBanner');
@@ -1177,9 +1169,7 @@
       document.getElementById('partnerTeaser').style.display = 'block';
     }
 
-    // ── Referral code ──
-    const code = md.referral_code || ('DWC-' + display.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6) + Math.floor(1000 + Math.random() * 9000));
-    document.getElementById('refCode').textContent = code;
+    // ── Referral code is set by loadReferralStats() (which also persists it) ──
 
     // ── Dev panel ──
     if (cu.email === DEV_EMAIL) document.getElementById('devPanel').style.display = 'block';
@@ -1378,7 +1368,8 @@
     }).join('');
 
     grid.innerHTML = html || '<div class="empty">No upcoming events. Check back soon!</div>';
-    document.getElementById('eventsSubBadge').textContent = effRank < 1 ? '🔒 Gold+' : '🌟 Exclusive';
+    const subBadge = document.getElementById('eventsSubBadge');
+    if (subBadge) subBadge.textContent = effRank < 1 ? '🔒 Gold+' : '🌟 Exclusive';
   }
 
   // ── EVENT DELEGATION for events grid ───────────────────────────────
@@ -1391,13 +1382,31 @@
 
   // ── REFERRAL STATS ───────────────────────────────────────────────────
   async function loadReferralStats() {
+    // Always default the stat card to 0, even if no referral code yet
+    document.getElementById('statR').textContent = '0';
+
+    // Generate a referral code if missing
+    if (!md.referral_code) {
+      const firstName = (md.full_name || cu.email.split('@')[0]).split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '');
+      const suffix = Math.floor(1000 + Math.random() * 9000);
+      const newCode = `DWC-${firstName.slice(0, 8)}${suffix}`;
+      const { error } = await sbClient.from('members').update({ referral_code: newCode }).eq('id', cu.id);
+      if (!error) md.referral_code = newCode;
+    }
+
+    if (md.referral_code) {
+      document.getElementById('refCode').textContent = md.referral_code;
+    }
+
     if (!md.referral_code) return;
+
     const { count } = await sbClient
       .from('members')
       .select('*', { count: 'exact', head: true })
       .eq('referred_by', md.referral_code);
     const refCount = count || 0;
-    document.getElementById('refCount').textContent     = refCount;
+    document.getElementById('statR').textContent       = refCount;
+    document.getElementById('refCount').textContent    = refCount;
     document.getElementById('refPtsEarned').textContent = (refCount * 500).toLocaleString();
   }
 
@@ -1519,10 +1528,9 @@
 
     Object.assign(md, update);
     if (update.points) {
-      document.getElementById('statPts').textContent = update.points.toLocaleString();
-      document.getElementById('navPts').textContent  = update.points.toLocaleString() + ' pts';
+      document.getElementById('statP').textContent  = update.points.toLocaleString();
+      document.getElementById('navPts').textContent = update.points.toLocaleString() + ' pts';
     }
-    if (update.city) document.getElementById('statCity').textContent = update.city;
 
     // Log to member_activity
     if (!wasDone && md.member_id) {
