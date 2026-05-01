@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>My Dashboard - Dine With Celebrity | Member Benefits & Vouchers</title>
+  <meta name="description" content="Access your Dine With Celebrity membership dashboard. View vouchers, track points, unlock celebrity dining experiences across India."/>
+  <meta name="keywords" content="Dine With Celebrity dashboard, DWC member portal, celebrity dining vouchers, restaurant discounts India"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="canonical" href="https://www.dinewithcelebrity.com/dashboard"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="My DWC Dashboard - Dine With Celebrity"/>
+  <meta property="og:description" content="View your vouchers, points, and celebrity dining experiences."/>
+  <meta property="og:url" content="https://www.dinewithcelebrity.com/dashboard"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+  <meta property="og:site_name" content="Dine With Celebrity"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="My DWC Dashboard"/>
+  <meta name="twitter:description" content="Your Dine With Celebrity member portal."/>
+  <meta name="twitter:image" content="https://www.dinewithcelebrity.com/logo.png"/>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"DWC Member Dashboard","description":"Dine With Celebrity membership dashboard for vouchers, points and celebrity experiences.","url":"https://www.dinewithcelebrity.com/dashboard","publisher":{"@type":"Organization","name":"Dine With Celebrity","url":"https://www.dinewithcelebrity.com"}}
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    /* ── CSS VARIABLES ── */
+    :root {
+      --black: #06040A;
+      --gold: #F2B705;
+      --gold2: #FFD166;
+      --red: #D4002A;
+      --green: #00C853;
+      --purple: #7C3AED;
+      --white: rgba(255,255,255,0.92);
+      --sub: rgba(255,255,255,0.75);
+      --muted: rgba(255,255,255,0.5);
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(242,183,5,0.15);
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── PAGE LOADER ── */
+    #pageLoader {
+      position: fixed; inset: 0; background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity .4s ease;
+    }
+    #pageLoader.hidden { opacity: 0; pointer-events: none; }
+    .loader-logo { height: 48px; width: auto; animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:.5; transform: scale(.96); } 50% { opacity:1; transform: scale(1); } }
+
+    /* ── STARS ── */
+    .stars {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .star {
+      position: absolute; color: var(--gold); opacity: 0;
+      animation: twinkle var(--d,3s) var(--del,0s) infinite;
+      font-size: var(--sz, 10px);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:0; transform:scale(.5); }
+      50% { opacity:var(--op,.25); transform:scale(1); }
+    }
+
+    /* ── NAVBAR ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 1.5rem;
+      background: rgba(6,4,10,.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      text-decoration: none;
+      display: flex; align-items: center;
+    }
+    .nav-logo img { height: 34px; width: auto; display: block; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .nav-pts {
+      background: rgba(242,183,5,.1);
+      border: 1px solid rgba(242,183,5,.3);
+      border-radius: 20px; padding: .3rem .9rem;
+      font-size: .8rem; color: var(--gold); font-weight: 600;
+    }
+    .nav-wrap { position: relative; }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--gold); color: #06040A;
+      border: none; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .9rem; cursor: pointer;
+    }
+    .nav-drop {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px);
+      background: #0e0c14; border: 1px solid var(--border);
+      border-radius: 12px; padding: .4rem; min-width: 175px; z-index: 200;
+    }
+    .nav-drop.open { display: block; }
+    .nav-drop a, .nav-drop button {
+      display: block; width: 100%;
+      padding: .65rem 1rem; color: var(--sub); font-size: .85rem;
+      text-decoration: none; background: none; border: none;
+      cursor: pointer; text-align: left; border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .nav-drop a:hover, .nav-drop button:hover {
+      background: rgba(255,255,255,.06); color: var(--white);
+    }
+
+    /* ── MAIN ── */
+    .app {
+      position: relative; z-index: 1;
+      max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem;
+      display: none; /* hidden until auth confirmed */
+    }
+    .app.visible { display: block; }
+
+    /* ── BANNERS ── */
+    .banner {
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .banner-text { font-size: .85rem; }
+    .banner-text strong { font-weight: 700; }
+    .banner-btn {
+      border: none; border-radius: 8px;
+      padding: .5rem 1.1rem; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .8rem; cursor: pointer; white-space: nowrap;
+    }
+    .banner-expiry {
+      background: linear-gradient(135deg,rgba(212,0,42,.12),rgba(212,0,42,.04));
+      border: 1px solid rgba(212,0,42,.4); display: none;
+    }
+    .banner-expiry strong { color: #ff6b6b; }
+    .banner-expiry .banner-btn { background: var(--gold); color: #06040A; }
+    .banner-profile {
+      background: linear-gradient(135deg,rgba(0,200,83,.07),rgba(0,200,83,.02));
+      border: 1px solid rgba(0,200,83,.25); display: none;
+    }
+    .banner-profile strong { color: var(--green); }
+    .banner-profile .banner-btn { background: var(--green); color: #06040A; }
+
+    /* ── TIER BANNER ── */
+    .tier-banner {
+      border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .tier-banner.t-free   { background: linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.1); }
+    .tier-banner.t-gold   { background: linear-gradient(135deg,rgba(242,183,5,.1),rgba(242,183,5,.04)); border: 1px solid rgba(242,183,5,.3); }
+    .tier-banner.t-platinum { background: linear-gradient(135deg,rgba(192,192,192,.1),rgba(192,192,192,.04)); border: 1px solid rgba(192,192,192,.3); }
+    .tier-banner.t-dwcpurple { background: linear-gradient(135deg,rgba(124,58,237,.15),rgba(124,58,237,.05)); border: 1px solid rgba(124,58,237,.4); }
+
+    .tier-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem; letter-spacing: 1px;
+    }
+    .tier-name.c-free     { color: var(--sub); }
+    .tier-name.c-gold     { color: var(--gold); }
+    .tier-name.c-platinum { color: #C0C0C0; }
+    .tier-name.c-dwcpurple{ color: #A78BFA; }
+
+    .tier-desc  { color: var(--sub); font-size: .82rem; margin-top: .25rem; }
+    .tier-expiry{ color: var(--muted); font-size: .75rem; margin-top: .3rem; }
+    .tier-expiry.warn { color: #ff6b6b; font-weight: 600; }
+
+    .tier-upgrade-btn {
+      background: var(--gold); color: #06040A;
+      border: none; border-radius: 10px;
+      padding: .65rem 1.4rem; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .85rem; cursor: pointer;
+      white-space: nowrap;
+    }
+    .tier-upgrade-btn.hidden { display: none; }
+
+    /* ── WELCOME & MEMBER ID ── */
+    .welcome {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.6rem; color: var(--white);
+      line-height: .95; margin: .9rem 0 .6rem; letter-spacing: .04em;
+    }
+    .welcome em { color: var(--gold); font-style: normal; }
+    .welcome-tagline { font-size: 1.15rem; color: rgba(255,255,255,.78); line-height: 1.55; font-weight: 400; margin-bottom: 1.6rem; }
+
+    .member-id-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(242,183,5,.1);
+      border: 1px solid rgba(242,183,5,.25);
+      border-radius: 100px; padding: .4rem 1rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem;
+      color: var(--gold); letter-spacing: .12em;
+      cursor: pointer; transition: all .2s;
+    }
+    .member-id-chip:hover { background: rgba(242,183,5,.18); }
+    .member-id-chip.copied { background: rgba(0,200,83,.12); border-color: rgba(0,200,83,.3); color: #00C853; }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+    }
+    .stat::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+    .stat-label { color: var(--sub); font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .4rem; }
+    .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); line-height: 1; }
+    .stat-sub   { color: var(--muted); font-size: .72rem; margin-top: .25rem; }
+
+    /* ── SECTION TITLES ── */
+    .section-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--white); letter-spacing: 1px;
+    }
+    .section-badge {
+      background: rgba(242,183,5,.1); border: 1px solid rgba(242,183,5,.25);
+      border-radius: 20px; padding: .2rem .75rem;
+      font-size: .72rem; color: var(--gold); font-weight: 600;
+    }
+
+    /* ── VOUCHERS ── */
+    .vouchers {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px,1fr));
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .voucher {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+    .voucher:hover { border-color: rgba(242,183,5,.3); transform: translateY(-1px); }
+
+    .voucher-badge {
+      display: inline-block; padding: .2rem .7rem;
+      border-radius: 20px; font-size: .7rem; font-weight: 600; margin-bottom: .75rem;
+    }
+    .b-free     { background: rgba(0,200,83,.12);    color: var(--green); }
+    .b-gold     { background: rgba(242,183,5,.12);   color: var(--gold); }
+    .b-platinum { background: rgba(192,192,192,.12); color: #C0C0C0; }
+    .b-dwcpurple{ background: rgba(124,58,237,.15);  color: #A78BFA; }
+
+    .voucher-title { font-weight: 600; font-size: .95rem; color: var(--white); margin-bottom: .3rem; }
+    .voucher-desc  { color: var(--sub); font-size: .8rem; line-height: 1.5; margin-bottom: .75rem; }
+    .voucher-disc  { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--gold); margin-bottom: .25rem; }
+    .voucher-meta  { color: var(--muted); font-size: .75rem; margin-bottom: .35rem; }
+    .voucher-expiry{ color: var(--muted); font-size: .72rem; margin-bottom: 1rem; }
+    .voucher-expiry.warn { color: #ff6b6b; }
+
+    .voucher-redeem {
+      width: 100%; background: var(--gold); color: #06040A;
+      border: none; border-radius: 8px; padding: .7rem;
+      font-family: 'Poppins', sans-serif; font-weight: 700;
+      font-size: .85rem; cursor: pointer; transition: opacity .2s;
+    }
+    .voucher-redeem:hover:not(:disabled) { opacity: .88; }
+    .voucher-redeem:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* Locked voucher */
+    .voucher-locked .voucher-title,
+    .voucher-locked .voucher-desc,
+    .voucher-locked .voucher-disc,
+    .voucher-locked .voucher-meta { filter: blur(3px); user-select: none; }
+
+    .voucher-overlay {
+      position: absolute; inset: 0;
+      background: rgba(6,4,10,.6);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 14px; cursor: pointer; transition: background .2s;
+    }
+    .voucher-overlay:hover { background: rgba(6,4,10,.72); }
+    .vl-icon  { font-size: 1.6rem; margin-bottom: .4rem; }
+    .vl-label { color: var(--gold); font-size: .8rem; font-weight: 600; text-align: center; }
+    .vl-tier  { color: var(--sub); font-size: .72rem; margin-top: .2rem; }
+
+    /* Divider between city and other vouchers */
+    .voucher-divider {
+      grid-column: 1 / -1;
+      padding: .5rem 0;
+      font-size: .78rem; color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: .5rem;
+    }
+
+    /* ── PARTNER RESTAURANTS (upgrade teaser for FREE) ── */
+    .partner-teaser { margin-bottom: 2.5rem; }
+    .pt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .pt-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+      opacity: .55; filter: blur(1.5px);
+      pointer-events: none;
+    }
+    .pt-card-emoji { font-size: 1.8rem; margin-bottom: .5rem; }
+    .pt-card-name  { font-weight: 600; font-size: .9rem; margin-bottom: .25rem; }
+    .pt-card-city  { font-size: .75rem; color: var(--muted); }
+    .pt-card-disc  { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--gold); margin-top: .6rem; }
+    .pt-cta-wrap {
+      grid-column: 1 / -1; margin-top: 1rem;
+      background: linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.02));
+      border: 1px solid rgba(242,183,5,.2);
+      border-radius: 14px; padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .pt-cta-text { font-size: .85rem; line-height: 1.6; }
+    .pt-cta-text strong { color: var(--gold); }
+    .pt-cta-btn {
+      background: var(--gold); color: #06040A;
+      border: none; border-radius: 8px;
+      padding: .65rem 1.3rem; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: .85rem; cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ── CELEBRITY EVENTS ── */
+    .events-section { margin-bottom: 2.5rem; }
+
+    /* My Bookings */
+    .bookings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; margin-top:1rem; }
+    .booking-card  { background:var(--card2); border:1px solid rgba(242,183,5,.15); border-radius:14px; padding:1.2rem; position:relative; overflow:hidden; }
+    .booking-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold2)); }
+    .booking-celeb { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:var(--gold); letter-spacing:1px; margin-bottom:.3rem; }
+    .booking-event { font-size:.95rem; color:var(--white); font-weight:600; margin-bottom:.5rem; }
+    .booking-meta  { font-size:.82rem; color:var(--sub); margin-bottom:.25rem; display:flex; align-items:center; gap:.4rem; }
+    .booking-meta span { color:var(--muted); }
+    .booking-amount{ font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--white); margin:.6rem 0 .4rem; }
+    .booking-badge { display:inline-flex; align-items:center; gap:.3rem; padding:.25rem .75rem; border-radius:20px; font-size:.78rem; font-weight:600; }
+    .booking-badge.confirmed { background:rgba(0,200,83,.15); color:var(--green); border:1px solid rgba(0,200,83,.3); }
+    .booking-badge.pending   { background:rgba(242,183,5,.12); color:var(--gold);  border:1px solid rgba(242,183,5,.25); }
+    .booking-badge.cancelled { background:rgba(212,0,42,.12);  color:var(--red);   border:1px solid rgba(212,0,42,.25); }
+    .booking-pts   { font-size:.78rem; color:var(--muted); margin-top:.5rem; }
+    .booking-id    { font-size:.72rem; color:var(--muted); margin-top:.4rem; font-family:monospace; }
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .event-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      position: relative; overflow: hidden;
+      transition: border-color .2s;
+    }
+    .event-card:hover { border-color: rgba(242,183,5,.3); }
+    .event-card.locked { opacity: .55; }
+    .event-tag {
+      display: inline-block; padding: .2rem .7rem;
+      border-radius: 20px; font-size: .7rem; font-weight: 600; margin-bottom: .75rem;
+      background: rgba(242,183,5,.1); color: var(--gold);
+    }
+    .event-title { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
+    .event-meta  { color: var(--sub); font-size: .78rem; margin-bottom: .75rem; line-height: 1.6; }
+    .event-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--gold); margin-bottom: .75rem; }
+    .event-price span { font-size: .8rem; font-family: 'Poppins',sans-serif; color: var(--sub); }
+    .event-action {
+      width: 100%; border: none; border-radius: 8px; padding: .7rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .85rem;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .event-action.locked-btn {
+      background: rgba(242,183,5,.1); color: var(--gold);
+      border: 1px solid rgba(242,183,5,.25);
+    }
+    .event-action.book-btn {
+      background: var(--gold); color: #06040A;
+    }
+    .event-action.book-btn:hover { opacity: .88; }
+
+    /* ── REFERRAL ── */
+    .ref-card {
+      background: linear-gradient(135deg,rgba(242,183,5,.07),rgba(242,183,5,.02));
+      border: 1px solid rgba(242,183,5,.2);
+      border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;
+    }
+    .ref-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); margin-bottom: .3rem; }
+    .ref-sub   { color: var(--sub); font-size: .83rem; margin-bottom: 1rem; line-height: 1.6; }
+    .ref-row   { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    .ref-code  {
+      background: rgba(255,255,255,.06); border: 1px dashed rgba(242,183,5,.4);
+      border-radius: 8px; padding: .6rem 1.1rem;
+      font-family: monospace; font-size: 1rem; color: var(--gold);
+      letter-spacing: 2px; flex: 1; min-width: 160px;
+    }
+    .ref-copy {
+      background: var(--gold); color: #06040A; border: none;
+      border-radius: 8px; padding: .65rem 1.2rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: .83rem; cursor: pointer; white-space: nowrap;
+    }
+    .ref-stats {
+      display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid rgba(242,183,5,.12);
+    }
+    .ref-stat-item { font-size: .8rem; }
+    .ref-stat-num  { font-family: 'Bebas Neue',sans-serif; font-size: 1.5rem; color: var(--gold); display: block; }
+    .ref-stat-lbl  { color: var(--muted); font-size: .72rem; }
+
+    /* ── OVERLAYS / SHEETS ── */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.8);
+      z-index: 500; display: flex; align-items: flex-end;
+      justify-content: center; backdrop-filter: blur(6px);
+      animation: fadeIn .2s ease;
+    }
+    .overlay.hidden { display: none; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    .sheet {
+      background: #0d0b13; border: 1px solid var(--border);
+      border-radius: 24px 24px 0 0; padding: 2rem;
+      width: 100%; max-width: 600px; max-height: 88vh;
+      overflow-y: auto; animation: slideUp .3s ease;
+    }
+    @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+    @media(min-width:640px) {
+      .overlay { align-items: center; }
+      .sheet { border-radius: 24px; }
+    }
+    .sheet-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .4rem;
+    }
+    .sheet-title { font-family: 'Bebas Neue',sans-serif; font-size: 1.9rem; color: var(--white); }
+    .sheet-close {
+      background: rgba(255,255,255,.08); border: none; color: var(--sub);
+      width: 32px; height: 32px; border-radius: 50%;
+      font-size: 1rem; cursor: pointer; font-family: 'Poppins',sans-serif;
+      transition: background .2s;
+    }
+    .sheet-close:hover { background: rgba(255,255,255,.14); }
+    .sheet-sub { color: var(--sub); font-size: .85rem; margin-bottom: 1.5rem; line-height: 1.6; }
+
+    /* Upgrade tier cards */
+    .tier-cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: .75rem; margin-bottom: 1.5rem; }
+    .tier-card  { border-radius: 12px; padding: 1rem; cursor: pointer; transition: transform .15s; border: 2px solid transparent; }
+    .tier-card:hover { transform: translateY(-2px); }
+    .tier-card.selected { border-color: var(--gold); }
+    .tier-card.c-gold     { background: rgba(242,183,5,.08); }
+    .tier-card.c-platinum { background: rgba(192,192,192,.08); }
+    .tier-card.c-dwcpurple{ background: rgba(124,58,237,.1); }
+    .tc-name  { font-family: 'Bebas Neue',sans-serif; font-size: 1.1rem; letter-spacing: 1px; margin-bottom: .3rem; }
+    .tc-name.g { color: var(--gold); } .tc-name.p { color: #C0C0C0; } .tc-name.v { color: #A78BFA; }
+    .tc-price  { font-size: .85rem; font-weight: 700; color: var(--white); margin-bottom: .6rem; }
+    .tc-perks  { list-style: none; }
+    .tc-perks li { font-size: .75rem; color: var(--sub); padding: .2rem 0; display: flex; gap: .4rem; }
+    .tc-perks li::before { content:'✓'; color: var(--green); font-weight: 700; flex-shrink: 0; font-size: .7rem; }
+
+    .upgrade-cta {
+      width: 100%; background: var(--gold); color: #06040A; border: none;
+      border-radius: 12px; padding: 1rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; letter-spacing: .5px;
+      transition: opacity .2s;
+    }
+    .upgrade-cta:hover { opacity: .88; }
+
+    /* Profile sheet */
+    .profile-reward {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(0,200,83,.1); border: 1px solid rgba(0,200,83,.25);
+      border-radius: 20px; padding: .3rem .9rem;
+      font-size: .78rem; color: var(--green); font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .field { margin-bottom: 1.25rem; }
+    .field-label {
+      font-size: .75rem; text-transform: uppercase;
+      letter-spacing: .5px; color: var(--sub);
+      margin-bottom: .5rem; display: block;
+    }
+    .chips { display: grid; grid-template-columns: repeat(auto-fill,minmax(110px,1fr)); gap: .5rem; }
+    .chip {
+      padding: .65rem .5rem; background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08); border-radius: 10px;
+      font-size: .82rem; color: var(--sub); cursor: pointer;
+      transition: all .2s; text-align: center; font-family: 'Poppins',sans-serif;
+    }
+    .chip:hover { border-color: rgba(242,183,5,.4); color: var(--white); }
+    .chip.on    { background: rgba(242,183,5,.1); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+
+    .state-toggle {
+      display: flex; background: rgba(255,255,255,.04);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 3px; gap: 3px; margin-bottom: .75rem;
+    }
+    .state-btn {
+      flex: 1; padding: .5rem; border: none; border-radius: 7px;
+      background: transparent; color: var(--sub);
+      font-family: 'Poppins',sans-serif; font-size: .82rem; cursor: pointer;
+      transition: all .2s;
+    }
+    .state-btn.active { background: var(--gold); color: #06040A; font-weight: 700; }
+
+    .city-sel {
+      width: 100%; background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+      padding: .75rem 1rem; color: var(--white);
+      font-family: 'Poppins',sans-serif; font-size: .9rem; outline: none;
+    }
+    .city-sel:focus { border-color: var(--gold); }
+    .city-sel option { background: #0d0b13; }
+
+    .profile-save {
+      width: 100%; background: var(--gold); color: #06040A; border: none;
+      border-radius: 10px; padding: 1rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; margin-top: 1.5rem;
+      transition: opacity .2s;
+    }
+    .profile-save:disabled { opacity: .4; cursor: default; }
+
+    /* ── DEV PANEL ── */
+    .dev-panel {
+      display: none; position: fixed; bottom: 1.5rem; right: 1.5rem;
+      z-index: 999; background: #0d0b13;
+      border: 2px solid var(--gold); border-radius: 12px; padding: 1rem;
+    }
+    .dev-panel-title {
+      color: var(--gold); font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: .75rem;
+    }
+    .dev-btn {
+      display: block; width: 100%; margin-bottom: .4rem;
+      border: none; border-radius: 8px; padding: .5rem 1rem;
+      font-family: 'Poppins',sans-serif; font-weight: 700;
+      font-size: .8rem; cursor: pointer;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a1828; border: 1px solid var(--gold);
+      border-radius: 12px; padding: .85rem 1.5rem;
+      color: var(--white); font-size: .85rem;
+      z-index: 2000; opacity: 0; transition: all .3s;
+      white-space: nowrap; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── EMPTY STATES ── */
+    .empty { color: var(--muted); font-size: .85rem; padding: 1.5rem 0; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px) {
+      .app              { padding: 1.2rem 1rem; }
+      .stats            { grid-template-columns: 1fr 1fr; }
+      .vouchers, .pt-grid, .events-grid { grid-template-columns: 1fr; }
+      .tier-cards       { grid-template-columns: 1fr; }
+      .ref-row          { flex-direction: column; }
+      .ref-code         { width: 100%; }
+      .chips            { grid-template-columns: repeat(3,1fr); }
+      .pt-cta-wrap      { flex-direction: column; }
+    }
+  
+  /* ── POINTS HISTORY ── */
+  .pts-history{margin-top:1rem;}
+  .pts-hist-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid rgba(255,255,255,.05);gap:.5rem;}
+  .pts-hist-row:last-child{border-bottom:none;}
+  .pts-hist-left{display:flex;align-items:center;gap:.75rem;}
+  .pts-hist-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+  .pts-hist-icon.earn{background:rgba(0,200,83,.1);}
+  .pts-hist-icon.spend{background:rgba(212,0,42,.1);}
+  .pts-hist-icon.expire{background:rgba(255,255,255,.05);}
+  .pts-hist-reason{font-size:.82rem;color:var(--text);font-weight:500;}
+  .pts-hist-date{font-size:.7rem;color:var(--muted);}
+  .pts-hist-pts{font-family:'Bebas Neue',cursive;font-size:1.1rem;}
+  .pts-hist-pts.earn{color:var(--green);}
+  .pts-hist-pts.spend{color:var(--red);}
+  .pts-hist-pts.expire{color:var(--muted);}
+  /* ── MONTHLY CAP BAR ── */
+  .monthly-cap-bar{margin-top:.5rem;}
+  .monthly-cap-label{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted);margin-bottom:.3rem;}
+  .monthly-cap-track{height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;}
+  .monthly-cap-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:100px;transition:width .5s ease;}
+  /* ── CELEBRITY EVENTS ── */
+  .events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;margin-top:1rem;}
+  .event-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s;}
+  .event-card:hover{transform:translateY(-2px);border-color:var(--border);}
+  .event-card-top{padding:1.1rem 1.1rem .6rem;}
+  .event-tier{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .55rem;border-radius:100px;margin-bottom:.5rem;}
+  .event-tier.S{background:rgba(212,0,42,.12);border:1px solid rgba(242,183,5,.4);color:var(--gold);}
+  .event-tier.A{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.3);color:var(--gold);}
+  .event-tier.B{background:rgba(100,150,255,.08);border:1px solid rgba(100,150,255,.2);color:#7eb3ff;}
+  .event-tier.C{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--sub);}
+  .event-name{font-family:'Bebas Neue',cursive;font-size:1.25rem;line-height:1.1;margin-bottom:.2rem;}
+  .event-title-sub{font-size:.75rem;color:var(--sub);margin-bottom:.5rem;}
+  .event-meta{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem;}
+  .event-meta-pill{font-size:.65rem;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:100px;padding:.12rem .5rem;}
+  .event-pricing{background:rgba(242,183,5,.03);border-top:1px solid rgba(242,183,5,.08);padding:.9rem 1.1rem;}
+  .event-price-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem;}
+  .event-price-val{font-weight:600;color:var(--sub);}
+  .event-price-val.hl{color:var(--green);}
+  .event-final{display:flex;justify-content:space-between;align-items:center;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.05);}
+  .event-final-label{font-size:.72rem;color:var(--muted);}
+  .event-final-price{font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--gold);}
+  .event-book-btn{width:100%;margin-top:.6rem;background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;transition:opacity .2s;}
+  .event-book-btn:hover{opacity:.88;}
+  .event-book-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .event-sold{width:100%;margin-top:.6rem;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-size:.78rem;text-align:center;}
+
+  /* ── STATS ROW (drama-pass) ── */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1.6rem 0 2.5rem;}
+  .stat-card{background:rgba(255,255,255,.03);border:1px solid rgba(242,183,5,.1);border-radius:14px;padding:1.1rem 1rem;position:relative;overflow:hidden;}
+  .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
+  .stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);line-height:1;letter-spacing:.02em;margin-bottom:.4rem;}
+  .stat-card:first-child .stat-val{font-size:1.6rem;color:rgba(255,255,255,.95);}
+  .stat-label{color:rgba(255,255,255,.55);font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;}
+  @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+
+  /* ── CARD HEADERS (drama-pass) ── */
+  .card{margin-bottom:2rem;}
+  .card-header{margin-bottom:1.5rem;}
+  .card-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;letter-spacing:.05em;color:var(--text);margin-bottom:.5rem;}
+  .card-subtitle{font-size:1.15rem;color:rgba(255,255,255,.78);line-height:1.6;font-weight:400;}
+
+  /* ── SECTION HEADER (Your Vouchers etc.) ── */
+  .section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem;}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--text);letter-spacing:.04em;}
+  .section-badge{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:20px;padding:.3rem .9rem;font-size:.85rem;color:var(--gold);font-weight:600;}
+
+  /* ── POINTS ENGINE SIMULATOR ── */
+  .sim-wrap{padding:.25rem 0;}
+  .sim-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+  .sim-lbl{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.1em;color:var(--gold);min-width:110px;flex-shrink:0;}
+  .sim-select{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.2);border-radius:10px;color:var(--text);padding:.85rem 1rem;font-family:'Poppins',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;cursor:pointer;}
+  .sim-select:focus,.sim-select:hover{border-color:var(--gold);}
+  .sim-select option{background:#0d0814;color:var(--text);}
+  .sim-base-block{text-align:center;margin:.5rem 0 1.6rem;padding:1.4rem 0;background:rgba(0,0,0,.25);border-radius:12px;border:1px solid rgba(255,255,255,.05);}
+  .sim-base-lbl{font-size:.95rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.2em;margin-bottom:.5rem;font-weight:700;}
+  .sim-base-val{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;color:var(--text);line-height:1;letter-spacing:.02em;}
+  .sim-saved{font-size:1rem;color:#00C853;margin-top:.5rem;font-weight:700;}
+  .sim-spend-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.7rem;}
+  .sim-spend-lbl{font-size:1rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
+  .sim-spend-out{color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.02em;}
+  .sim-slider{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:100px;outline:none;-webkit-appearance:none;margin-bottom:1.5rem;cursor:pointer;}
+  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-slider::-moz-range-thumb{width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
+  .sim-stat{background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.18);border-radius:12px;padding:1rem 1.1rem;}
+  .sim-stat-lbl{font-size:.82rem;color:rgba(0,200,83,.78);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.35rem;}
+  .sim-stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:#00C853;line-height:1;letter-spacing:.02em;}
+  .sim-stat-sub{font-size:.85rem;color:rgba(255,255,255,.55);margin-top:.3rem;font-weight:400;}
+  .sim-math{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(212,0,42,.08));border:1px solid rgba(242,183,5,.3);border-radius:14px;padding:1.5rem 1.25rem;margin-bottom:1.5rem;text-align:center;position:relative;overflow:hidden;}
+  .sim-math::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+  .sim-math-row{display:flex;justify-content:space-between;font-size:1rem;color:rgba(255,255,255,.7);margin-bottom:.5rem;text-align:left;}
+  .sim-math-row span:last-child{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--text);letter-spacing:.02em;}
+  .sim-reduction{color:#00C853 !important;}
+  .sim-final{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);}
+  .sim-final-lbl{font-size:.95rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.22em;font-weight:700;margin-bottom:.4rem;}
+  .sim-final-val{font-family:'Bebas Neue',sans-serif;font-size:4.2rem;color:var(--gold);line-height:1;letter-spacing:.02em;text-shadow:0 0 30px rgba(242,183,5,.35);display:block;}
+  .sim-disclaimer{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.22);border-radius:10px;padding:1rem 1.1rem;font-size:.95rem;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:1.3rem;font-weight:400;}
+  .sim-disclaimer strong{color:#ff8fa3;font-weight:700;}
+  .sim-cta{display:block;width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);background-size:200% auto;color:#06040A;border:none;border-radius:14px;padding:1.5rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.12em;cursor:pointer;font-weight:900;text-decoration:none;text-align:center;transition:background-position .4s,transform .15s;animation:simPulse 2.4s ease-in-out infinite;position:relative;overflow:hidden;}
+  .sim-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);transform:translateX(-100%);animation:simShimmer 2.8s ease-in-out infinite;}
+  @keyframes simPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,.45)}55%{box-shadow:0 0 32px 6px rgba(242,183,5,.18)}}
+  @keyframes simShimmer{0%,100%{transform:translateX(-100%)}55%{transform:translateX(100%)}}
+  .sim-cta:hover{background-position:right center;transform:translateY(-2px);}
+  .sim-cta-sub{text-align:center;font-size:.95rem;color:rgba(255,255,255,.6);margin-top:.75rem;font-weight:500;}
+  @media(max-width:600px){.sim-row{flex-direction:column;align-items:stretch;gap:.5rem;}.sim-lbl{min-width:0;}.sim-stats{grid-template-columns:1fr;}.sim-final-val{font-size:3rem;}}
+
+  </style>
+</head>
+<body>
+
+<!-- ── PAGE LOADER ── -->
+<div id="pageLoader">
+  <img class="loader-logo" src="/dwc-logo.svg" alt="DWC" onerror="this.src='/logo.png'"/>
+</div>
+
+<!-- ── ANIMATED GOLD STARS ── -->
+<div class="stars" id="stars"></div>
+
+<!-- ── NAVBAR ── -->
+<nav class="nav">
+  <a class="nav-logo" href="/">
+    <img src="/logo_navbar_400px.png" alt="Dine With Celebrity" onerror="this.src='/logo.png'"/>
+  </a>
+  <div class="nav-right">
+    <div class="nav-pts" id="navPts">0 pts</div>
+    <div class="nav-wrap">
+      <button class="nav-avatar" id="navAvatar" onclick="toggleDrop()">D</button>
+      <div class="nav-drop" id="navDrop">
+        <a href="/upgrade">Upgrade Plan</a>
+        <a href="/events">Celebrity Events</a>
+        <button onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="app" id="app">
+
+  <!-- Expiry banner -->
+  <div class="banner banner-expiry" id="expiryBanner">
+    <div class="banner-text"><strong>⚠️ Your membership has expired.</strong> Renew now to keep your benefits.</div>
+    <button class="banner-btn" onclick="location.href='/upgrade'">Renew Now</button>
+  </div>
+
+  <!-- Profile completion card - prominent, not in navbar -->
+  <div id="profileBanner" style="display:none;background:linear-gradient(135deg,rgba(0,200,83,.1),rgba(0,200,83,.03));border:1px solid rgba(0,200,83,.3);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#00C853;letter-spacing:1px;margin-bottom:.3rem;">&#127873; Complete Your Profile — Earn 25 Points</div>
+        <div style="font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.6;">Takes 30 seconds. Help us personalise your vouchers and celebrity experiences.</div>
+      </div>
+      <button onclick="openProfile()" style="background:#00C853;color:#06040A;border:none;border-radius:10px;padding:.75rem 1.5rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap;">Complete Now →</button>
+    </div>
+  </div>
+
+  <!-- Tier banner -->
+  <div class="tier-banner t-free" id="tierBanner">
+    <div>
+      <div class="tier-name c-free" id="tierName">FREE MEMBER</div>
+      <div class="tier-desc" id="tierDesc">Upgrade to Gold to unlock more vouchers and events</div>
+      <div class="tier-expiry" id="tierExpiry"></div>
+    </div>
+    <button class="tier-upgrade-btn" id="tierUpgradeBtn" onclick="location.href='/upgrade'">Upgrade Now</button>
+  </div>
+
+  <!-- Welcome -->
+  <h1 class="welcome">Welcome, <em id="memberName">Star</em>!</h1>
+  <div class="member-id-chip" id="memberIdChip" style="display:none" onclick="copyMemberId()">
+    📋 <span id="memberIdText"></span>
+  </div>
+
+  <!-- Stats -->
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card"><div class="stat-val" id="statT">—</div><div class="stat-label">Tier</div></div>
+        <div class="stat-card">
+          <div class="stat-val" id="statP" style="color:var(--gold)">—</div>
+          <div class="stat-label">Points</div>
+          <div class="monthly-cap-bar">
+            <div class="monthly-cap-label"><span><span id="monthlyEarned">0</span> / 2,000 this month</span></div>
+            <div class="monthly-cap-track"><div class="monthly-cap-fill" id="monthlyBar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="stat-card"><div class="stat-val" id="statV">—</div><div class="stat-label">Vouchers</div></div>
+        <div class="stat-card"><div class="stat-val" id="statR">—</div><div class="stat-label">Referrals</div></div>
+      </div>
+      <!-- VOUCHERS SECTION -->
+  <div class="section-hdr">
+    <div class="section-title">Your Vouchers</div>
+    <div class="section-badge" id="voucherCountBadge">Loading…</div>
+  </div>
+  <div class="vouchers" id="vouchersGrid">
+    <div class="empty">Loading vouchers…</div>
+  </div>
+
+  <!-- PARTNER RESTAURANTS SECTION (for FREE members only) -->
+  <div class="partner-teaser" id="partnerTeaser" style="display:none">
+    <div class="section-hdr">
+      <div class="section-title">Partner Restaurants</div>
+      <div class="section-badge">🔒 Unlock with Gold</div>
+    </div>
+    <div class="pt-grid">
+      <!-- Locked placeholder cards -->
+      <div class="pt-card"><div class="pt-card-emoji">🍽️</div><div class="pt-card-name">Premium Restaurant</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹500 Off</div></div>
+      <div class="pt-card"><div class="pt-card-emoji">🥘</div><div class="pt-card-name">Celebrity Kitchen</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹350 Off</div></div>
+      <div class="pt-card"><div class="pt-card-emoji">🍣</div><div class="pt-card-name">Exclusive Diner</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹400 Off</div></div>
+      <div class="pt-cta-wrap">
+        <div class="pt-cta-text"><strong>1000+ partner restaurants &amp; shopping brands</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
+        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹4,999/yr →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CELEBRITY EVENTS — POINTS ENGINE SIMULATOR -->
+      <div class="card" id="eventsCard">
+        <div class="card-header">
+          <div class="card-title">⭐ How A Celebrity Dinner Works</div>
+          <div class="card-subtitle">Pick a star. See the ticket price. Move the slider to see how shopping with our brand partners reduces what you pay.</div>
+        </div>
+
+        <div class="sim-wrap">
+          <div class="sim-row">
+            <label class="sim-lbl">PICK A STAR</label>
+            <select id="simStar" class="sim-select">
+              <option value="">Loading celebrities...</option>
+            </select>
+          </div>
+
+          <div class="sim-base-block">
+            <div class="sim-base-lbl">Ticket Price</div>
+            <div class="sim-base-val" id="simBasePrice">—</div>
+          </div>
+
+          <div class="sim-spend-row">
+            <span class="sim-spend-lbl">Shopping at Partners</span>
+            <span class="sim-spend-out" id="simSpendOut">₹0</span>
+          </div>
+          <input id="simSpend" type="range" min="0" max="500000" step="5000" value="0" class="sim-slider" />
+
+          <div class="sim-stats">
+            <div class="sim-stat">
+              <div class="sim-stat-lbl">Points Earned</div>
+              <div class="sim-stat-val" id="simPtsEarned">0</div>
+              <div class="sim-stat-sub">1 point per ₹3 spent</div>
+            </div>
+            <div class="sim-stat">
+              <div class="sim-stat-lbl">Points Value</div>
+              <div class="sim-stat-val" id="simPtsValue">₹0</div>
+              <div class="sim-stat-sub">1 point = ₹3 face value</div>
+            </div>
+          </div>
+
+          <div class="sim-math">
+            <div class="sim-final-lbl">YOUR FINAL PRICE</div>
+            <div class="sim-final-val" id="simFinalPrice">—</div>
+            <div class="sim-saved" id="simSaved" style="visibility:hidden">You saved ₹0 with points</div>
+          </div>
+
+          <div class="sim-disclaimer">
+            <strong>Stars listed are illustrative.</strong> The mechanism is real. Specific events and pricing announced based on confirmed agreements.
+          </div>
+
+          <a href="/upgrade" class="sim-cta">UPGRADE TO GOLD — ₹4,999/YR &rarr;</a>
+          <div class="sim-cta-sub">Unlock the points engine. Start earning toward your celebrity dinner today.</div>
+        </div>
+      </div>
+
+      <!-- MY BOOKINGS SECTION -->
+      <div class="card" id="myBookingsCard" style="display:none">
+        <div class="card-header">
+          <div class="card-title">🎟️ My Bookings</div>
+          <div class="card-subtitle">Your confirmed celebrity event tickets</div>
+        </div>
+        <div class="bookings-grid" id="bookingsGrid">
+          <div class="empty">Loading bookings…</div>
+        </div>
+      </div>
+
+      <!-- POINTS HISTORY SECTION -->
+      <div class="card" id="ptsHistCard">
+        <div class="card-header">
+          <div class="card-title">💰 Points History</div>
+          <div class="card-subtitle" id="ptsExpiry"></div>
+        </div>
+        <div class="pts-history" id="ptsHistoryList"><div class="empty">No transactions yet.</div></div>
+      </div>
+
+      <!-- REFERRAL SECTION -->
+  <div class="section-title" style="margin-bottom:1rem">Refer and Earn</div>
+  <div class="ref-card">
+    <div class="ref-title">Your Referral Code</div>
+    <p class="ref-sub">Share with friends — earn <strong style="color:var(--gold)">500 points</strong> per referral. They get 300 bonus points on joining.</p>
+    <div class="ref-row">
+      <div class="ref-code" id="refCode">DWC-LOADING</div>
+      <button class="ref-copy" onclick="copyRef()">Copy Link</button>
+    </div>
+    <div class="ref-stats">
+      <div class="ref-stat-item">
+        <span class="ref-stat-num" id="refCount">0</span>
+        <span class="ref-stat-lbl">Referrals made</span>
+      </div>
+      <div class="ref-stat-item">
+        <span class="ref-stat-num" id="refPtsEarned">0</span>
+        <span class="ref-stat-lbl">Points from referrals</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.app -->
+
+<!-- ── UPGRADE OVERLAY ── -->
+<div class="overlay hidden" id="upgradeOverlay">
+  <div class="sheet">
+    <div class="sheet-hdr">
+      <div class="sheet-title" id="upgradeTitle">Unlock This Voucher</div>
+      <button class="sheet-close" onclick="closeUpgrade()">✕</button>
+    </div>
+    <p class="sheet-sub" id="upgradeSub">Choose a plan to unlock this voucher and more exclusive benefits.</p>
+    <div class="tier-cards">
+      <div class="tier-card c-gold selected" id="card-gold" data-tier="gold">
+        <div class="tc-name g">Gold</div>
+        <div class="tc-price">₹4,999/yr</div>
+        <ul class="tc-perks">
+          <li>5 vouchers per month</li>
+          <li>Celebrity events access</li>
+          <li>100 pts per visit</li>
+        </ul>
+      </div>
+      <div class="tier-card c-platinum" id="card-platinum" data-tier="platinum">
+        <div class="tc-name p">Platinum</div>
+        <div class="tc-price">₹9,999/yr</div>
+        <ul class="tc-perks">
+          <li>10 vouchers per month</li>
+          <li>Priority events &amp; table reservation</li>
+          <li>200 pts per visit</li>
+        </ul>
+      </div>
+      <div class="tier-card c-dwcpurple" id="card-dwcpurple" data-tier="dwcpurple">
+        <div class="tc-name v">DWC Purple</div>
+        <div class="tc-price">₹19,999/yr</div>
+        <ul class="tc-perks">
+          <li>Unlimited vouchers</li>
+          <li>VIP events &amp; personal concierge</li>
+          <li>300 pts per visit</li>
+        </ul>
+      </div>
+    </div>
+    <button class="upgrade-cta" onclick="goUpgradeSelected()">Upgrade Now</button>
+  </div>
+</div>
+
+<!-- ── PROFILE OVERLAY ── -->
+<div class="overlay hidden" id="profileOverlay">
+  <div class="sheet">
+    <div class="sheet-hdr">
+      <div class="sheet-title">Complete Profile</div>
+      <button class="sheet-close" onclick="closeProfile()">✕</button>
+    </div>
+    <div class="profile-reward">🎁 Earn 25 points on completion</div>
+    <p class="sheet-sub">Help us personalise your vouchers and celebrity experiences.</p>
+
+    <div class="field">
+      <label class="field-label">Movie Industry (pick any)</label>
+      <div class="chips">
+        <div class="chip" data-group="ind" data-val="Tollywood">Tollywood</div>
+        <div class="chip" data-group="ind" data-val="Bollywood">Bollywood</div>
+        <div class="chip" data-group="ind" data-val="Sandalwood">Sandalwood</div>
+        <div class="chip" data-group="ind" data-val="Kollywood">Kollywood</div>
+        <div class="chip" data-group="ind" data-val="Mollywood">Mollywood</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Your City</label>
+      <div class="state-toggle">
+        <button class="state-btn active" id="btnTS" data-state="TS">Telangana</button>
+        <button class="state-btn" id="btnAP" data-state="AP">Andhra Pradesh</button>
+        <button class="state-btn" id="btnOT" data-state="OT">Other</button>
+      </div>
+      <select class="city-sel" id="popCity">
+        <option value="">Select your city…</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Interests (pick any)</label>
+      <div class="chips">
+        <div class="chip" data-group="int" data-val="Food and Dining">Food</div>
+        <div class="chip" data-group="int" data-val="Sports">Sports</div>
+        <div class="chip" data-group="int" data-val="Music">Music</div>
+        <div class="chip" data-group="int" data-val="Business">Business</div>
+        <div class="chip" data-group="int" data-val="Travel">Travel</div>
+        <div class="chip" data-group="int" data-val="Fashion">Fashion</div>
+      </div>
+    </div>
+
+    <button class="profile-save" id="profileSaveBtn">Save and Earn 25 Points</button>
+  </div>
+</div>
+
+<!-- ── DEV PANEL (rupeshking@gmail.com only) ── -->
+<div class="dev-panel" id="devPanel">
+  <div class="dev-panel-title">⚡ Dev Panel</div>
+  <button class="dev-btn" style="background:var(--gold);color:#06040A" data-dev-tier="gold">Set Gold</button>
+  <button class="dev-btn" style="background:rgba(192,192,192,.15);color:#C0C0C0;border:1px solid #C0C0C0" data-dev-tier="platinum">Set Platinum</button>
+  <button class="dev-btn" style="background:rgba(124,58,237,.15);color:#A78BFA;border:1px solid #A78BFA" data-dev-tier="dwcpurple">Set DWC Purple</button>
+  <button class="dev-btn" style="background:rgba(255,255,255,.06);color:var(--sub);border:1px solid rgba(255,255,255,.15)" data-dev-tier="free">Reset Free</button>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── GLOBALS (accessible to all functions inside and outside IIFE) ──
+  const SB_URL  = 'https://blwqqqzhnovsveeryjlm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
+  const sbClient = supabase.createClient(SB_URL, SB_ANON);
+  let cu = null;
+  let md = null;
+
+(function() {
+  // ── CONFIG ──────────────────────────────────────────────────────────
+  const DEV_EMAIL = 'rupeshking@gmail.com';
+
+  const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
+  const TIER_META = {
+    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹4,999',  desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
+    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹9,999',  desc: 'Upgrade to Platinum for more vouchers and priority booking' },
+    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹19,999', desc: 'Upgrade to DWC Purple for unlimited vouchers and VIP access' },
+    dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,      desc: 'You have our best membership. Enjoy unlimited VIP access!' }
+  };
+
+  // Mock celebrity events shown while real data loads / as fallback
+  const DEMO_EVENTS = [];
+
+  // State
+  let myRedemptions = {}; // voucher_id → count
+  let selInd = [], selInt = [];
+  let selectedUpgradeTier = 'gold';
+  let allCities = {}; // state → [city,...]
+
+  // ── STARS ──────────────────────────────────────────────────────────
+  (function buildStars() {
+    const bg = document.getElementById('stars');
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('span');
+      s.className = 'star';
+      s.textContent = '★';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top  = Math.random() * 100 + '%';
+      s.style.setProperty('--d',   (2 + Math.random() * 4) + 's');
+      s.style.setProperty('--del',  Math.random() * 6 + 's');
+      s.style.setProperty('--op',  (0.08 + Math.random() * 0.22) + '');
+      s.style.setProperty('--sz',  (6 + Math.random() * 8) + 'px');
+      bg.appendChild(s);
+    }
+  })();
+
+  // ── HELPERS ────────────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function hideLoader() {
+    const l = document.getElementById('pageLoader');
+    l.classList.add('hidden');
+    setTimeout(() => l.remove(), 500);
+  }
+
+  function showApp() {
+    document.getElementById('app').classList.add('visible');
+  }
+
+  function isExpired(expiresAt) {
+    return expiresAt && new Date(expiresAt) < new Date();
+  }
+
+  function daysLeft(expiresAt) {
+    if (!expiresAt) return null;
+    return Math.ceil((new Date(expiresAt) - new Date()) / 86400000);
+  }
+
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function tierBadgeClass(tier) {
+    return { free: 'b-free', gold: 'b-gold', platinum: 'b-platinum', dwcpurple: 'b-dwcpurple' }[tier] || 'b-free';
+  }
+
+  function tierDisplayName(tier) {
+    return { free: 'Free', gold: 'Gold', platinum: 'Platinum', dwcpurple: 'DWC Purple' }[tier] || 'Free';
+  }
+
+  // ── NAV ────────────────────────────────────────────────────────────
+  function toggleDrop() { document.getElementById('navDrop').classList.toggle('open'); }
+  function closeDrop()  { document.getElementById('navDrop').classList.remove('open'); }
+  document.addEventListener('click', e => { if (!e.target.closest('.nav-wrap')) closeDrop(); });
+
+  function signOut() {
+    sbClient.auth.signOut().finally(() => { window.location.href = '/signin'; });
+  }
+
+  // ── AUTH + INIT ─────────────────────────────────────────────────────
+  sbClient.auth.getSession().then(({ data }) => {
+    if (!data.session) { window.location.href = '/signin'; return; }
+    cu = data.session.user;
+    return sbClient.from('members').select('*').eq('id', cu.id).single();
+  }).then(async res => {
+    if (!res) return;
+
+    if (!res.data) {
+      // New member — auto-create row
+      const name = (cu.user_metadata?.full_name || cu.user_metadata?.name || cu.email.split('@')[0]).split(' ')[0];
+      await sbClient.from('members').upsert(
+        { id: cu.id, email: cu.email, full_name: name, tier: 'free', points: 300 },
+        { onConflict: 'id' }
+      );
+      const { data: fresh } = await sbClient.from('members').select('*').eq('id', cu.id).single();
+      md = fresh || {};
+    } else {
+      md = res.data;
+    // Normalise expiry field — handle both column names
+    if (!md.expires_at && md.membership_expiry) md.expires_at = md.membership_expiry;
+    }
+
+    // Load redemptions — ignore errors (table may be empty)
+    try {
+      const { data: reds } = await sbClient
+        .from('voucher_redemptions').select('voucher_id').eq('user_id', cu.id);
+      if (reds) reds.forEach(r => { myRedemptions[r.voucher_id] = (myRedemptions[r.voucher_id] || 0) + 1; });
+    } catch(e) { console.warn('voucher_redemptions not available:', e.message); }
+
+    // Load cities from Supabase live
+    await loadCities();
+
+    // Render static UI
+    renderDashboard();
+    hideLoader();
+    showApp();
+
+    // Async: load vouchers + events + referral stats
+    await Promise.all([ loadVouchers(), loadReferralStats() ]);
+    loadEvents();
+    loadBookings();
+    loadPointsHistory();
+
+  }).catch(err => {
+    console.error('Dashboard init error:', err);
+    // Only redirect to signin if it's genuinely an auth error
+    if (err?.message?.includes('JWT') || err?.message?.includes('auth') || err?.message?.includes('session')) {
+      window.location.href = '/signin';
+    } else {
+      // Non-auth error — show dashboard anyway, don't redirect
+      hideLoader();
+      showApp();
+    }
+  });
+
+  // ── LOAD CITIES FROM SUPABASE ───────────────────────────────────────
+  async function loadCities() {
+    const { data } = await sbClient
+      .from('cities')
+      .select('city, state')
+      .eq('is_active', true)
+      .order('city', { ascending: true });
+
+    if (!data || data.length === 0) {
+      // Fallback hardcoded
+      allCities = {
+        TS: ['Hyderabad','Warangal','Karimnagar','Nizamabad','Khammam','Nalgonda','Sangareddy','Medak','Adilabad','Siddipet'],
+        AP: ['Visakhapatnam','Vijayawada','Guntur','Tirupati','Rajahmundry','Kakinada','Nellore','Kurnool','Kadapa','Anantapur'],
+        OT: ['Mumbai','Delhi','Bangalore','Chennai','Pune','Kolkata','Ahmedabad','Jaipur','Lucknow','Chandigarh','Other']
+      };
+      return;
+    }
+
+    const stateMap = { 'Telangana': 'TS', 'Andhra Pradesh': 'AP' };
+    allCities = { TS: [], AP: [], OT: [] };
+    data.forEach(row => {
+      const key = stateMap[row.state] || 'OT';
+      if (!allCities[key]) allCities[key] = [];
+      allCities[key].push(row.city);
+    });
+  }
+
+  // ── RENDER DASHBOARD ────────────────────────────────────────────────
+  function renderDashboard() {
+    const tier     = (md.tier || 'free').toLowerCase();
+    const tm       = TIER_META[tier] || TIER_META.free;
+    const expired  = isExpired(md.expires_at);
+    const effTier  = (expired && tier !== 'free') ? 'free' : tier;
+    const effTm    = TIER_META[effTier] || TIER_META.free;
+
+    // ── Name ──
+    const rawName = md.full_name
+      || cu.user_metadata?.full_name
+      || cu.user_metadata?.name
+      || cu.email.split('@')[0];
+    const firstName = rawName.split(' ')[0];
+    const display   = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+
+    document.getElementById('memberName').textContent = display;
+    document.getElementById('navAvatar').textContent  = display[0].toUpperCase();
+
+    // ── Member ID ──
+    if (md.member_id) {
+      document.getElementById('memberIdText').textContent = md.member_id;
+      document.getElementById('memberIdChip').style.display = 'inline-flex';
+    }
+
+    // ── Points (statP), Tier (statT) ──
+    const pts = md.points || 0;
+    document.getElementById('statP').textContent  = pts.toLocaleString();
+    document.getElementById('navPts').textContent = pts.toLocaleString() + ' pts';
+    document.getElementById('statT').textContent  = effTm.label;
+
+    // ── Tier banner ──
+    const banner = document.getElementById('tierBanner');
+    const tn     = document.getElementById('tierName');
+    const te     = document.getElementById('tierExpiry');
+    const tub    = document.getElementById('tierUpgradeBtn');
+
+    banner.className = 'tier-banner t-' + effTm.css;
+    tn.className     = 'tier-name c-' + effTm.css;
+    tn.textContent   = (expired && tier !== 'free')
+      ? 'EXPIRED — ' + tm.label
+      : effTm.label + ' MEMBER';
+    document.getElementById('tierDesc').textContent = effTm.desc;
+
+    if (md.expires_at) {
+      const days = daysLeft(md.expires_at);
+      if (expired) {
+        te.textContent = 'Expired on ' + fmtDate(md.expires_at);
+        te.className   = 'tier-expiry warn';
+      } else if (days !== null && days <= 30) {
+        te.textContent = '⚠️ Expires in ' + days + ' day' + (days === 1 ? '' : 's') + ' (' + fmtDate(md.expires_at) + ')';
+        te.className   = 'tier-expiry warn';
+      } else {
+        te.textContent = 'Valid until ' + fmtDate(md.expires_at);
+        te.className   = 'tier-expiry';
+      }
+    }
+
+    if (effTm.next) {
+      tub.classList.remove('hidden');
+      tub.textContent = expired
+        ? 'Renew Now'
+        : 'Upgrade to ' + effTm.nextLabel + ' — ' + effTm.nextPrice;
+    } else {
+      tub.classList.add('hidden');
+    }
+
+    // ── Expiry banner ──
+    if (expired && tier !== 'free') {
+      document.getElementById('expiryBanner').style.display = 'flex';
+    }
+
+    // ── Profile banner ──
+    const profileDone = md.city && md.interests && md.interests.length > 0;
+    if (!profileDone) {
+      document.getElementById('profileBanner').style.display = 'flex';
+      // Show popup once per day (not every session)
+      const lastShown = localStorage.getItem('dwc_profile_pop');
+      const oneDayAgo = Date.now() - 86400000;
+      if (!lastShown || Number(lastShown) < oneDayAgo) {
+        localStorage.setItem('dwc_profile_pop', Date.now());
+        setTimeout(openProfile, 1800);
+      }
+    }
+
+    // ── Partner restaurants teaser (free only) ──
+    if (effTier === 'free') {
+      document.getElementById('partnerTeaser').style.display = 'block';
+    }
+
+    // ── Referral code is set by loadReferralStats() (which also persists it) ──
+
+    // ── Dev panel ──
+    if (cu.email === DEV_EMAIL) document.getElementById('devPanel').style.display = 'block';
+
+    // ── Prefill profile chips ──
+    prefillProfile();
+
+    // ── Upgrade success toast ──
+    if (location.search.includes('upgraded=1')) {
+      showToast('Membership upgraded! Welcome to ' + tm.label + ' 🎉');
+      history.replaceState({}, '', '/dashboard');
+    }
+  }
+
+  // ── LOAD VOUCHERS ───────────────────────────────────────────────────
+  async function loadVouchers() {
+    const grid  = document.getElementById('vouchersGrid');
+    const badge = document.getElementById('voucherCountBadge');
+    const tier  = (md.tier || 'free').toLowerCase();
+    const expired  = isExpired(md.expires_at);
+    const effTier  = (expired && tier !== 'free') ? 'free' : tier;
+    const effRank  = TIER_RANK[effTier] || 0;
+    const memberCity = (md.city || '').toLowerCase().trim();
+    const now = new Date();
+
+    const { data: vouchers, error } = await sbClient
+      .from('vouchers')
+      .select('*')
+      .eq('is_active', true)
+      .gt('partner_expiry', now.toISOString())
+      .order('tier_required', { ascending: true });
+
+    if (error || !vouchers || vouchers.length === 0) {
+      grid.innerHTML = '<div class="empty">No vouchers available in your city yet — we\'re onboarding partners. Check back soon!</div>';
+      badge.textContent = '0 available';
+      document.getElementById('statV').textContent = '0';
+      return;
+    }
+
+    // Sort: city-matching first
+    const cityVouchers  = vouchers.filter(v => !memberCity || v.city?.toLowerCase().trim() === memberCity);
+    const otherVouchers = vouchers.filter(v => memberCity  && v.city?.toLowerCase().trim() !== memberCity);
+    const sorted = cityVouchers.concat(otherVouchers);
+    const showSep = memberCity && cityVouchers.length > 0 && otherVouchers.length > 0;
+
+    let html = '';
+    let availCount = 0;
+
+    // No local vouchers message
+    if (memberCity && cityVouchers.length === 0 && otherVouchers.length > 0) {
+      html += `<div style="grid-column:1/-1;background:rgba(242,183,5,.05);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:.85rem 1rem;font-size:.82rem;color:var(--sub)">
+        🏙️ No vouchers in <strong style="color:var(--gold)">${md.city}</strong> yet — we're onboarding partners. Showing vouchers from other cities below.
+      </div>`;
+    }
+
+    sorted.forEach((v, idx) => {
+      const vRank     = TIER_RANK[v.tier_required] || 0;
+      const unlocked  = effRank >= vRank;
+      const redeemed  = myRedemptions[v.id] || 0;
+      const canRedeem = unlocked && !expired
+        && v.total_redemptions < v.max_redemptions
+        && redeemed < v.per_user_limit;
+
+      const isOther   = memberCity && v.city?.toLowerCase().trim() !== memberCity;
+      const vDays     = Math.ceil((new Date(v.partner_expiry) - now) / 86400000);
+      const expClass  = vDays <= 7 ? 'voucher-expiry warn' : 'voucher-expiry';
+      const expText   = vDays <= 7
+        ? `⚠️ Expires in ${vDays} day${vDays === 1 ? '' : 's'}`
+        : `Valid until ${new Date(v.partner_expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`;
+
+      if (unlocked) availCount++;
+
+      if (showSep && idx === cityVouchers.length) {
+        html += `<div class="voucher-divider">📍 Vouchers in other cities</div>`;
+      }
+
+      html += `<div class="voucher${unlocked ? '' : ' voucher-locked'}"${isOther ? ' style="opacity:.65"' : ''} data-voucher-id="${v.id}">`;
+      html += `<span class="voucher-badge ${tierBadgeClass(v.tier_required)}">${tierDisplayName(v.tier_required)}</span>`;
+      html += `<div class="voucher-title">${v.title}</div>`;
+      html += `<div class="voucher-desc">${v.description || ''}</div>`;
+      html += `<div class="voucher-disc">₹${v.discount_amount} Off</div>`;
+      html += `<div class="voucher-meta">${v.city}${isOther ? ' 📍' : ''} · Min bill ₹${v.min_bill.toLocaleString()}</div>`;
+      html += `<div class="${expClass}">${expText}</div>`;
+
+      if (unlocked) {
+        if (redeemed >= v.per_user_limit) {
+          html += `<button class="voucher-redeem" disabled>Already Redeemed</button>`;
+        } else if (v.total_redemptions >= v.max_redemptions) {
+          html += `<button class="voucher-redeem" disabled>Fully Redeemed</button>`;
+        } else if (expired) {
+          html += `<button class="voucher-redeem" disabled>Membership Expired</button>`;
+        } else {
+          // ✅ DATA ATTRIBUTES — no onclick quoting issues
+          html += `<button class="voucher-redeem" data-action="redeem" data-voucher-id="${v.id}" data-voucher-title="${v.title.replace(/"/g,'&quot;')}">Redeem Voucher</button>`;
+        }
+      } else {
+        html += `<div class="voucher-overlay" data-action="upgrade" data-tier="${v.tier_required}" data-title="${v.title.replace(/"/g,'&quot;')}">`;
+        html += `<div class="vl-icon">🔒</div>`;
+        html += `<div class="vl-label">Unlock with ${tierDisplayName(v.tier_required)}</div>`;
+        html += `<div class="vl-tier">Tap to upgrade</div>`;
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+
+    grid.innerHTML = html || '<div class="empty">No vouchers available yet. Check back soon!</div>';
+    document.getElementById('statV').textContent = availCount;
+    badge.textContent = availCount + ' available';
+  }
+
+  // ── EVENT DELEGATION for voucher grid ───────────────────────────────
+  document.getElementById('vouchersGrid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === 'redeem') {
+      redeemVoucher(btn.dataset.voucherId, btn.dataset.voucherTitle, btn);
+    } else if (action === 'upgrade') {
+      showUpgradePopup(btn.dataset.tier, btn.dataset.title);
+    }
+  });
+
+  // ── REDEEM VOUCHER (atomic) ─────────────────────────────────────────
+  async function redeemVoucher(voucherId, voucherTitle, btn) {
+    if (!voucherId || !cu) return;
+    btn.disabled = true;
+    btn.textContent = 'Redeeming…';
+
+    if (isExpired(md.expires_at)) {
+      showToast('Your membership has expired. Please renew.');
+      btn.disabled = false;
+      btn.textContent = 'Redeem Voucher';
+      return;
+    }
+
+    const { data: result, error } = await sbClient.rpc('redeem_voucher_atomic', {
+      p_voucher_id:    voucherId,
+      p_user_id:       cu.id,
+      p_member_id_text: md.member_id || null,
+      p_member_tier:   md.tier || 'free',
+    });
+
+    if (error || !result?.success) {
+      const reason = result?.reason || 'Redemption failed. Please try again.';
+      showToast(reason);
+      btn.disabled = false;
+      btn.textContent = 'Redeem Voucher';
+      return;
+    }
+
+    // Log activity (non-blocking)
+    if (md.member_id) {
+      sbClient.from('member_activity').insert({
+        member_id:     md.member_id,
+        member_uuid:   cu.id,
+        activity_type: 'voucher_redeem',
+        activity_data: { voucher_id: voucherId, voucher_title: voucherTitle, tier: md.tier, city: md.city || null },
+        created_at:    new Date().toISOString(),
+      });
+    }
+
+    myRedemptions[voucherId] = (myRedemptions[voucherId] || 0) + 1;
+    btn.textContent = 'Redeemed ✓';
+    showToast('Voucher redeemed! Show this screen to the restaurant. 🎉');
+    setTimeout(loadVouchers, 2000);
+  }
+
+  // ── CELEBRITY EVENTS ────────────────────────────────────────────────
+  // (renderEvents/DEMO_EVENTS removed — replaced by points-engine simulator above)
+
+  // ── REFERRAL STATS ───────────────────────────────────────────────────
+  async function loadReferralStats() {
+    // Always default the stat card to 0, even if no referral code yet
+    document.getElementById('statR').textContent = '0';
+
+    // Generate a referral code if missing
+    if (!md.referral_code) {
+      const firstName = (md.full_name || cu.email.split('@')[0]).split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '');
+      const suffix = Math.floor(1000 + Math.random() * 9000);
+      const newCode = `DWC-${firstName.slice(0, 8)}${suffix}`;
+      const { error } = await sbClient.from('members').update({ referral_code: newCode }).eq('id', cu.id);
+      if (!error) md.referral_code = newCode;
+    }
+
+    if (md.referral_code) {
+      document.getElementById('refCode').textContent = md.referral_code;
+    }
+
+    if (!md.referral_code) return;
+
+    const { count } = await sbClient
+      .from('members')
+      .select('*', { count: 'exact', head: true })
+      .eq('referred_by', md.referral_code);
+    const refCount = count || 0;
+    document.getElementById('statR').textContent       = refCount;
+    document.getElementById('refCount').textContent    = refCount;
+    document.getElementById('refPtsEarned').textContent = (refCount * 500).toLocaleString();
+  }
+
+  // ── UPGRADE POPUP ───────────────────────────────────────────────────
+  function showUpgradePopup(reqTier, title) {
+    selectedUpgradeTier = reqTier;
+    const reqLabel = tierDisplayName(reqTier);
+    document.getElementById('upgradeTitle').textContent = title ? `Unlock: ${title}` : 'Choose Your Plan';
+    document.getElementById('upgradeSub').textContent   = title
+      ? `This requires ${reqLabel} or above.`
+      : 'Pick a plan to unlock exclusive dining experiences.';
+
+    ['gold','platinum','dwcpurple'].forEach(t => {
+      document.getElementById('card-' + t)?.classList.remove('selected');
+    });
+    document.getElementById('card-' + reqTier)?.classList.add('selected');
+    document.getElementById('upgradeOverlay').classList.remove('hidden');
+  }
+
+  function closeUpgrade() { document.getElementById('upgradeOverlay').classList.add('hidden'); }
+
+  function goUpgradeSelected() { window.location.href = '/upgrade?tier=' + selectedUpgradeTier; }
+
+  // Tier card selection
+  document.getElementById('upgradeOverlay').addEventListener('click', e => {
+    const card = e.target.closest('.tier-card');
+    if (card) {
+      selectedUpgradeTier = card.dataset.tier;
+      document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+    if (e.target === document.getElementById('upgradeOverlay')) closeUpgrade();
+  });
+
+  // ── PROFILE ─────────────────────────────────────────────────────────
+  function openProfile()  { buildCityDropdown(md?.city ? detectState(md.city) : 'TS'); document.getElementById('profileOverlay').classList.remove('hidden'); }
+  function closeProfile() { document.getElementById('profileOverlay').classList.add('hidden'); }
+
+  document.getElementById('profileOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('profileOverlay')) closeProfile();
+  });
+
+  function detectState(city) {
+    if (!allCities.TS || !allCities.AP) return 'TS';
+    if (allCities.TS.includes(city)) return 'TS';
+    if (allCities.AP.includes(city)) return 'AP';
+    return 'OT';
+  }
+
+  function buildCityDropdown(state) {
+    document.querySelectorAll('.state-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.state === state);
+    });
+    const cities = allCities[state] || [];
+    let opts = '<option value="">Select your city…</option>';
+    cities.forEach(c => { opts += `<option value="${c}">${c}</option>`; });
+    const sel = document.getElementById('popCity');
+    sel.innerHTML = opts;
+    if (md?.city && cities.includes(md.city)) sel.value = md.city;
+  }
+
+  document.querySelectorAll('.state-btn').forEach(btn => {
+    btn.addEventListener('click', () => buildCityDropdown(btn.dataset.state));
+  });
+
+  // Chip toggling via event delegation
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('on');
+      const arr = chip.dataset.group === 'ind' ? selInd : selInt;
+      const val = chip.dataset.val;
+      const idx = arr.indexOf(val);
+      if (chip.classList.contains('on')) { if (idx === -1) arr.push(val); }
+      else { if (idx > -1) arr.splice(idx, 1); }
+    });
+  });
+
+  function prefillProfile() {
+    if (!md) return;
+    const state = detectState(md.city);
+    buildCityDropdown(state);
+    if (md.interests?.length) {
+      md.interests.forEach(v => {
+        const c = document.querySelector(`.chip[data-group="int"][data-val="${v}"]`);
+        if (c) { c.classList.add('on'); if (!selInt.includes(v)) selInt.push(v); }
+      });
+    }
+    if (md.movie_industry?.length) {
+      md.movie_industry.forEach(v => {
+        const c = document.querySelector(`.chip[data-group="ind"][data-val="${v}"]`);
+        if (c) { c.classList.add('on'); if (!selInd.includes(v)) selInd.push(v); }
+      });
+    }
+  }
+
+  document.getElementById('profileSaveBtn').addEventListener('click', saveProfile);
+
+  async function saveProfile() {
+    const city = document.getElementById('popCity').value;
+    const btn  = document.getElementById('profileSaveBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    const wasDone = md?.city && md?.interests?.length > 0;
+    const update = { onboarded: true };
+    if (city)           update.city           = city;
+    if (selInt.length)  update.interests      = selInt;
+    if (selInd.length)  update.movie_industry = selInd;
+    if (!wasDone)       update.points         = (md.points || 300) + 25;
+
+    const { error } = await sbClient.from('members').update(update).eq('id', cu.id);
+
+    if (error) {
+      showToast('Error saving. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Save and Earn 25 Points';
+      return;
+    }
+
+    Object.assign(md, update);
+    if (update.points) {
+      document.getElementById('statP').textContent  = update.points.toLocaleString();
+      document.getElementById('navPts').textContent = update.points.toLocaleString() + ' pts';
+    }
+
+    // Log to member_activity
+    if (!wasDone && md.member_id) {
+      await sbClient.from('member_activity').insert({
+        member_id:     md.member_id,
+        member_uuid:   cu.id,
+        activity_type: 'profile_complete',
+        activity_data: { city: update.city || md.city, interests: selInt, industry: selInd },
+        created_at:    new Date().toISOString(),
+      });
+    }
+    document.getElementById('profileBanner').style.display = 'none';
+    closeProfile();
+    showToast(wasDone ? 'Profile updated!' : '✅ Profile complete! +25 points earned');
+    btn.disabled = false;
+    btn.textContent = 'Save and Earn 25 Points';
+    loadVouchers();
+    loadEvents();
+    loadBookings();
+    loadPointsHistory();
+    updateMonthlyBar(md.monthly_points_earned || 0); // Reload with new city filter
+  }
+
+  // ── REFERRAL ────────────────────────────────────────────────────────
+  function copyRef() {
+    const code = document.getElementById('refCode').textContent.trim();
+    const link = 'https://www.dinewithcelebrity.com/signup?ref=' + code;
+    navigator.clipboard.writeText(link).then(() => {
+      showToast('Referral link copied!');
+    }).catch(() => {
+      showToast('Your code: ' + code);
+    });
+  }
+
+  // ── MEMBER ID ───────────────────────────────────────────────────────
+  function copyMemberId() {
+    const mid  = document.getElementById('memberIdText').textContent;
+    const chip = document.getElementById('memberIdChip');
+    if (!mid) return;
+    navigator.clipboard.writeText(mid).then(() => {
+      const orig = chip.innerHTML;
+      chip.innerHTML = '✔ Copied!';
+      chip.classList.add('copied');
+      setTimeout(() => { chip.innerHTML = orig; chip.classList.remove('copied'); }, 1500);
+    });
+  }
+
+  // ── DEV PANEL ───────────────────────────────────────────────────────
+  document.getElementById('devPanel').addEventListener('click', async e => {
+    const btn = e.target.closest('[data-dev-tier]');
+    if (!btn || !cu || cu.email !== DEV_EMAIL) return;
+    const tier   = btn.dataset.devTier;
+    const expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 1);
+    const update = tier === 'free'
+      ? { tier: 'free', expires_at: expiry.toISOString() }
+      : { tier, expires_at: expiry.toISOString(), upgraded_at: new Date().toISOString() };
+
+    await sbClient.from('members').update(update).eq('id', cu.id);
+    showToast('Dev: tier set to ' + tier.toUpperCase());
+    setTimeout(() => location.reload(), 900);
+  });
+
+  // Expose for nav onclick
+  window.toggleDrop   = toggleDrop;
+  window.signOut      = signOut;
+  window.openProfile  = openProfile;
+  window.copyRef      = copyRef;
+  window.copyMemberId = copyMemberId;
+
+})();
+
+  // ── POINTS ENGINE SIMULATOR (replaces old loadEvents/event-cards) ─────
+  async function loadEvents() {
+    const sel = document.getElementById('simStar');
+    if (!sel) return;
+
+    const { data: events, error } = await sbClient
+      .from('celebrity_events')
+      .select('celebrity_name,ticket_price')
+      .eq('status', 'live')
+      .order('ticket_price', { ascending: false })
+      .limit(20);
+
+    if (error || !events || !events.length) {
+      sel.innerHTML = '<option value="">No celebrities to show yet</option>';
+      simUpdate();
+      return;
+    }
+
+    sel.innerHTML = events.map(function(e){
+      var price = parseInt(e.ticket_price, 10) || 0;
+      return '<option data-price="' + price + '">' +
+        e.celebrity_name + ' — ₹' + price.toLocaleString('en-IN') +
+        '</option>';
+    }).join('');
+
+    simUpdate();
+  }
+
+  function simUpdate() {
+    var spend = document.getElementById('simSpend');
+    var sel   = document.getElementById('simStar');
+    if (!spend || !sel) return;
+    var amt   = parseInt(spend.value, 10) || 0;
+    var opt   = sel.options[sel.selectedIndex];
+    var price = opt && opt.dataset.price ? parseInt(opt.dataset.price, 10) : 0;
+    var pts   = Math.floor(amt / 3);
+    var ptsValue  = pts * 3;
+    var reduction = Math.min(ptsValue, price);
+    var finalP    = Math.max(price - reduction, 0);
+    var fmt = function(n){ return '₹' + Math.round(n).toLocaleString('en-IN'); };
+
+    document.getElementById('simSpendOut').textContent  = fmt(amt);
+    document.getElementById('simPtsEarned').textContent = pts.toLocaleString('en-IN');
+    document.getElementById('simPtsValue').textContent  = fmt(ptsValue);
+    document.getElementById('simBasePrice').textContent = price ? fmt(price) : '—';
+    document.getElementById('simFinalPrice').textContent= price ? fmt(finalP) : '—';
+    var saved = document.getElementById('simSaved');
+    if (reduction > 0) {
+      saved.textContent = 'You saved ' + fmt(reduction) + ' with points';
+      saved.style.visibility = 'visible';
+    } else {
+      saved.style.visibility = 'hidden';
+    }
+  }
+
+  // Wire simulator inputs once the DOM is ready
+  (function(){
+    var spend = document.getElementById('simSpend');
+    var sel   = document.getElementById('simStar');
+    if (spend) spend.addEventListener('input', simUpdate);
+    if (sel)   sel.addEventListener('change', simUpdate);
+  })();
+
+  // ── BOOK EVENT ───────────────────────────────────────────────
+  async function bookEvent(btn) {
+    const eventId    = btn.dataset.eventId;
+    const finalPrice = parseInt(btn.dataset.finalPrice);
+    btn.disabled = true; btn.textContent = 'Processing...';
+    try {
+      const sess = await sbClient.auth.getSession();
+      const jwt  = sess.data.session?.access_token;
+      if (!jwt) { showToast('Please sign in first.'); btn.disabled=false; return; }
+
+      const quoteRes = await fetch('/api/redeem-points', {
+        method:'POST',
+        headers:{'content-type':'application/json','authorization':'Bearer '+jwt},
+        body: JSON.stringify({ event_id: eventId })
+      });
+      const quote = await quoteRes.json();
+      if (!quoteRes.ok || quote.error) { showToast(quote.error||'Could not get quote.'); btn.disabled=false; return; }
+
+      const orderRes = await fetch('/api/create-order', {
+        method:'POST',
+        headers:{'content-type':'application/json','authorization':'Bearer '+jwt},
+        body: JSON.stringify({ event_id: eventId, redemption_token: quote.token })
+      });
+      const order = await orderRes.json();
+      if (!orderRes.ok || order.error) { showToast(order.error||'Could not create order.'); btn.disabled=false; return; }
+
+      const rzp = new Razorpay({
+        key: order.key_id, amount: order.amount, currency: 'INR',
+        order_id: order.order_id,
+        name: 'Dine With Celebrity', description: 'Celebrity Event Booking',
+        image: '/logo_navbar_400px.png',
+        prefill: { email: cu?.email||'' },
+        theme: { color: '#F2B705' },
+        handler: async function(response) {
+          const verRes = await fetch('/api/verify-payment', {
+            method:'POST',
+            headers:{'content-type':'application/json','authorization':'Bearer '+jwt},
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              event_id: eventId,
+            })
+          });
+          const vr = await verRes.json();
+          if (vr.success) {
+            showToast('\uD83C\uDF89 Booking confirmed! Check your email.');
+            setTimeout(() => { loadEvents(); loadBookings(); loadPointsHistory(); loadDashboard(); }, 1500);
+          } else {
+            showToast('Payment verified but booking had an issue. Contact support.');
+          }
+        },
+        modal: { ondismiss: () => { btn.disabled=false; btn.textContent='Book Seat'; } }
+      });
+      rzp.open();
+    } catch(err) {
+      console.error('[bookEvent]', err);
+      showToast('Something went wrong. Try again.');
+      btn.disabled=false;
+    }
+  }
+
+  // ── LOAD POINTS HISTORY ──────────────────────────────────────
+  async function loadPointsHistory() {
+    const list  = document.getElementById('ptsHistoryList');
+    const expEl = document.getElementById('ptsExpiry');
+    if (!list) return;
+
+    const { data: txns } = await sbClient
+      .from('points_transactions')
+      .select('*')
+      .eq('member_id', cu.id)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (!txns || !txns.length) {
+      list.innerHTML = '<div class="empty">No points transactions yet. Start earning!</div>';
+      return;
+    }
+
+    // Expiry warning
+    if (expEl) {
+      const earns = txns.filter(t => t.type==='earn' && t.expires_at && t.points > 0);
+      if (earns.length) {
+        const earliest = earns.reduce((a,b) => new Date(a.expires_at) < new Date(b.expires_at) ? a : b);
+        const days = Math.ceil((new Date(earliest.expires_at) - new Date()) / 86400000);
+        if (days <= 30) {
+          expEl.innerHTML = '<span style="color:var(--red)">\u26A0\uFE0F Some points expire in '+days+' days!</span>';
+        } else {
+          expEl.textContent = 'Points valid for 1 year from earning';
+        }
+      }
+    }
+
+    const labels = {signup:'Welcome bonus',profile_complete:'Profile completed',referral_sent:'Referred a friend',referral_received:'Joined via referral',voucher_claim:'Claimed voucher',voucher_redeemed:'Voucher redeemed',shopping:'Shopping',travel:'Travel booking',event_booking:'Event booked',admin_credit:'Admin credit',admin_debit:'Admin adjustment',expiry:'Points expired'};
+    const icons  = {signup:'\uD83C\uDF9F\uFE0F',profile_complete:'\u2705',referral_sent:'\uD83E\uDD1D',referral_received:'\uD83C\uDF81',voucher_claim:'\uD83D\uDCCB',voucher_redeemed:'\uD83C\uDF7D\uFE0F',shopping:'\uD83D\uDECD\uFE0F',travel:'\u2708\uFE0F',event_booking:'\u2B50',admin_credit:'\uD83D\uDCB3',admin_debit:'\uD83D\uDCB3',expiry:'\u23F3'};
+
+    list.innerHTML = txns.map(t => {
+      const sign = t.type==='earn' ? '+' : '';
+      const date = new Date(t.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+      return `<div class="pts-hist-row">
+        <div class="pts-hist-left">
+          <div class="pts-hist-icon ${t.type}">${icons[t.reason]||'\u2B50'}</div>
+          <div><div class="pts-hist-reason">${labels[t.reason]||t.reason}</div><div class="pts-hist-date">${date}</div></div>
+        </div>
+        <div class="pts-hist-pts ${t.type}">${sign}${Math.abs(t.points)} pts</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── MONTHLY BAR ──────────────────────────────────────────────
+  function updateMonthlyBar(earned) {
+    const pct = Math.min(100, Math.round(((earned||0) / 2000) * 100));
+    const el  = document.getElementById('monthlyBar');
+    const lbl = document.getElementById('monthlyEarned');
+    if (el)  el.style.width = pct + '%';
+    if (lbl) lbl.textContent = earned || 0;
+  }
+
+  // ── MY BOOKINGS ───────────────────────────────────────────────
+  async function loadBookings() {
+    const card = document.getElementById('myBookingsCard');
+    const grid = document.getElementById('bookingsGrid');
+    if (!card || !grid) return;
+
+    const { data: bookings, error } = await sbClient
+      .from('event_bookings')
+      .select(`
+        id, status, amount_paid, points_used, points_discount,
+        razorpay_payment_id, created_at, tier,
+        celebrity_events ( event_title, celebrity_name, event_date, location, city, slug )
+      `)
+      .eq('member_id', cu.id)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error || !bookings || !bookings.length) {
+      card.style.display = 'none';
+      return;
+    }
+
+    card.style.display = 'block';
+
+    grid.innerHTML = bookings.map(b => {
+      const ev   = b.celebrity_events || {};
+      const date = ev.event_date
+        ? new Date(ev.event_date).toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short', year:'numeric' })
+        : 'Date TBA';
+      const booked = new Date(b.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      const badgeCls = b.status === 'confirmed' ? 'confirmed' : b.status === 'pending' ? 'pending' : 'cancelled';
+      const badgeTxt = b.status === 'confirmed' ? '✅ Confirmed' : b.status === 'pending' ? '⏳ Pending' : '❌ Cancelled';
+      const ptsLine  = b.points_used > 0
+        ? `<div class="booking-pts">🌟 ${b.points_used} points used — saved ₹${b.points_discount || 0}</div>`
+        : '';
+      const link = ev.slug ? `href="/event-detail.html?id=${ev.slug}"` : '';
+
+      return `
+        <div class="booking-card">
+          <div class="booking-celeb">${ev.celebrity_name || 'DWC Event'}</div>
+          <div class="booking-event">${ev.event_title || 'Celebrity Dining Experience'}</div>
+          <div class="booking-meta">📅 <span>${date}</span></div>
+          <div class="booking-meta">📍 <span>${ev.city || ev.location || 'Hyderabad'}</span></div>
+          <div class="booking-meta">🎫 <span>Booked on ${booked}</span></div>
+          <div class="booking-amount">₹${(b.amount_paid||0).toLocaleString('en-IN')}</div>
+          <span class="booking-badge ${badgeCls}">${badgeTxt}</span>
+          ${ptsLine}
+          <div class="booking-id">ID: ${b.razorpay_payment_id || b.id}</div>
+          ${link ? `<a ${link} style="display:block;margin-top:.8rem;text-align:center;background:rgba(242,183,5,.12);color:var(--gold);padding:.5rem;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;border:1px solid rgba(242,183,5,.25)">View Event →</a>` : ''}
+        </div>`;
+    }).join('');
+  }
+
+</script>
+</body>
+</html>
