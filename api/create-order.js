@@ -163,6 +163,53 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not reserve seat. Try again.' });
     }
 
+    // ── Zero-amount path: full points redemption ─────────────
+    // Razorpay rejects amount=0, so we bypass the payment leg
+    // entirely when points cover the full ticket.
+    if (finalPrice <= 0) {
+      const idempKeyFree = `booking_${member.id}_${event_id}_free_${Date.now()}`;
+
+      const { error: bookErr } = await sbAdmin.from('event_bookings').insert({
+        member_id:        member.id,
+        event_id:         event_id,
+        seats:            1,
+        base_price:       event.ticket_price,
+        points_used:      pointsUsed,
+        discount_given:   discount,
+        final_price:      0,
+        payment_order_id: null,
+        status:           'confirmed',
+        idempotency_key:  idempKeyFree,
+      });
+
+      if (bookErr) {
+        console.error('[create-order] free booking insert failed:', bookErr);
+        // Roll back the seat lock since we failed to record the booking
+        await sbAdmin.rpc('release_event_seat', { p_event_id: event_id }).catch(() => {});
+        return res.status(500).json({ error: 'Could not confirm booking. Please try again.' });
+      }
+
+      // Deduct the points used from points_transactions
+      await sbAdmin.from('points_transactions').insert({
+        member_id:       member.id,
+        type:            'redeem',
+        points:          -pointsUsed,
+        reason:          `Redeemed ${pointsUsed} points for ${event.celebrity_name} dinner (full redemption)`,
+        reference_id:    event_id,
+        reference_type:  'event_booking',
+        idempotency_key: idempKeyFree,
+      }).catch((e) => console.error('[create-order] points_transactions log failed:', e));
+
+      return res.status(200).json({
+        free_booking: true,
+        booking_confirmed: true,
+        final_price: 0,
+        discount: discount,
+        points_used: pointsUsed,
+        message: 'Booking confirmed using points. No payment required.',
+      });
+    }
+
     // ── Create Razorpay order ─────────────────────────────────
     const rpOrder = await razorpay.orders.create({
       amount:   finalPrice * 100,   // paise
