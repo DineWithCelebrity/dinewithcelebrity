@@ -28,33 +28,33 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 .logo-bar img{height:48px;width:auto}
 .page-title{font-family:'Bebas Neue',cursive;font-size:clamp(2.5rem,6vw,4.5rem);text-align:center;letter-spacing:1px;color:var(--text);margin-bottom:.4rem}
 .page-title em{color:var(--gold);font-style:normal}
-.page-sub{text-align:center;color:var(--sub);font-size:.9rem;margin-bottom:.75rem}
+.page-sub{text-align:center;color:var(--sub);font-size:1.15rem;margin-bottom:.75rem;line-height:1.55}
 .current-tier{text-align:center;margin-bottom:2.5rem}
-.tier-badge{display:inline-block;background:rgba(242,183,5,.1);border:1px solid var(--border);border-radius:100px;padding:.4rem 1.25rem;font-size:.78rem;color:var(--gold);font-weight:700}
+.tier-badge{display:inline-block;background:rgba(242,183,5,.1);border:1px solid var(--border);border-radius:100px;padding:.5rem 1.4rem;font-family:'Bebas Neue',cursive;font-size:1rem;color:var(--gold);letter-spacing:.12em}
 /* Plans grid */
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:3rem}
 .plan{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:2rem 1.5rem;position:relative;transition:border-color .2s,transform .2s;cursor:pointer}
 .plan:hover{border-color:var(--border);transform:translateY(-3px)}
 .plan.popular{border-color:rgba(242,183,5,.5);box-shadow:0 0 40px rgba(242,183,5,.08)}
 .plan.current-plan{border-color:rgba(0,200,83,.4);opacity:.65;cursor:not-allowed}
-.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#06040A;font-size:.65rem;font-weight:900;padding:.25rem .9rem;border-radius:100px;white-space:nowrap}
-.plan-name{font-family:'Bebas Neue',cursive;font-size:1.75rem;letter-spacing:1px;color:var(--text);margin-bottom:.2rem}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#06040A;font-size:.72rem;font-weight:900;padding:.3rem 1rem;border-radius:100px;white-space:nowrap;letter-spacing:.06em}
+.plan-name{font-family:'Bebas Neue',cursive;font-size:2rem;letter-spacing:.04em;color:var(--text);margin-bottom:.2rem}
 .plan-price{margin-bottom:1.25rem}
-.plan-amount{font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--gold);line-height:1}
-.plan-period{font-size:.75rem;color:var(--muted);margin-left:.25rem}
+.plan-amount{font-family:'Bebas Neue',cursive;font-size:3.2rem;color:var(--gold);line-height:1;letter-spacing:.02em}
+.plan-period{font-size:.88rem;color:var(--muted);margin-left:.3rem}
 .plan-features{list-style:none;margin-bottom:1.75rem}
-.plan-features li{font-size:.8rem;color:var(--sub);padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:.5rem}
+.plan-features li{font-size:.92rem;color:var(--sub);padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:.5rem;line-height:1.4}
 .plan-features li:last-child{border-bottom:none}
 .plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
-.plan-btn{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:.8rem;font-family:'Poppins',sans-serif;font-weight:900;font-size:.88rem;cursor:pointer;transition:opacity .2s}
+.plan-btn{width:100%;background:var(--gold);color:#06040A;border:none;border-radius:10px;padding:1rem;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.08em;cursor:pointer;transition:opacity .2s;font-weight:900}
 .plan-btn:hover{opacity:.88}
 .plan-btn:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.08);color:var(--muted)}
 /* Comparison table */
 .compare{background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden;margin-bottom:2rem}
 .compare table{width:100%;border-collapse:collapse}
-.compare th{background:rgba(255,255,255,.03);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.85rem 1rem;text-align:center;border-bottom:1px solid var(--border2)}
-.compare th:first-child{text-align:left}
-.compare td{font-size:.8rem;color:var(--sub);padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);text-align:center}
+.compare th{background:rgba(255,255,255,.03);font-family:'Bebas Neue',cursive;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);padding:1rem 1rem;text-align:center;border-bottom:1px solid var(--border2)}
+.compare th:first-child{text-align:left;color:var(--text)}
+.compare td{font-size:.92rem;color:var(--sub);padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);text-align:center}
 .compare td:first-child{text-align:left;color:var(--text);font-weight:500}
 .compare tr:last-child td{border-bottom:none}
 .chk{color:var(--green);font-weight:700}
@@ -77,7 +77,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
 <div id="toast"></div>
 
 <div class="page">
-  <div class="logo-bar"><a href="/dashboard"><img src="/logo_navbar_400px.png" alt="DWC" onerror="this.src='/logo.png'"/></a></div>
+  <div class="logo-bar"><a href="/dashboard"><img src="/logo.png" alt="Dine With Celebrity"/></a></div>
   <h1 class="page-title">Unlock Your Full <em>Celebrity</em> Experience</h1>
   <p class="page-sub">Upgrade your plan and get closer to your favourite star</p>
   <div class="current-tier"><span class="tier-badge" id="currentTierBadge">Loading...</span></div>
@@ -96,20 +96,25 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'P
         </tr>
       </thead>
       <tbody>
-        <tr><td>Monthly Vouchers</td><td>2</td><td>5</td><td>10</td><td>Unlimited</td></tr>
+        <tr><td>Monthly Vouchers</td><td>—</td><td>5</td><td>10</td><td>Unlimited</td></tr>
+        <tr><td>Welcome bonus</td><td>300 pts</td><td>300 pts</td><td>300 pts</td><td>300 pts</td></tr>
         <tr><td>Points on dining</td><td class="cross">—</td><td class="chk">100 pts/visit</td><td class="chk">200 pts/visit</td><td class="chk">300 pts/visit</td></tr>
         <tr><td>Celebrity events</td><td class="cross">—</td><td class="chk">✓</td><td class="chk">✓ Priority</td><td class="chk">✓ VIP</td></tr>
         <tr><td>Multi-city vouchers</td><td class="cross">—</td><td class="chk">✓</td><td class="chk">✓</td><td class="chk">✓</td></tr>
         <tr><td>Table reservation</td><td class="cross">—</td><td class="cross">—</td><td class="chk">✓</td><td class="chk">✓</td></tr>
         <tr><td>Personal concierge</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="chk">✓</td></tr>
         <tr><td>Voucher discount</td><td class="cross">—</td><td>₹150 off ₹1,500+</td><td>₹250 off ₹2,000+</td><td>₹500 off ₹3,000+</td></tr>
-        <tr><td>Referral bonus</td><td>500 pts</td><td>750 pts</td><td>1000 pts</td><td>1500 pts</td></tr>
+        <tr><td>Referral bonus per signup</td><td>500 pts</td><td>750 pts</td><td>1000 pts</td><td>1500 pts</td></tr>
       </tbody>
     </table>
   </div>
 
   <div style="text-align:center;font-size:.75rem;color:var(--muted);line-height:1.7">
     ✓ Secure payment via Razorpay &nbsp;·&nbsp; ✓ No hidden fees &nbsp;·&nbsp; ✓ 1 year from payment date &nbsp;·&nbsp; ✓ Mid-cycle upgrades preserve your expiry
+  </div>
+
+  <div style="text-align:center;font-size:.72rem;color:rgba(255,255,255,.35);line-height:1.7;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06)">
+    © 2026 Dine With Celebrity Pvt Ltd · Hyderabad, India<br>Dine For A Cause
   </div>
 </div>
 
@@ -220,15 +225,17 @@ async function startPayment(tier, paise, name, price) {
 
     overlay.classList.remove('on');
 
+    if (!order.key_id) throw new Error('Payment configuration error. Contact support.');
+
     // Open Razorpay checkout
     const rzp = new Razorpay({
-      key:         order.key_id || 'rzp_live_STyvlctN0h9cmG',
-      amount:      order.amount || paise,
+      key:         order.key_id,
+      amount:      order.amount,
       currency:    'INR',
       order_id:    order.order_id,
       name:        'Dine With Celebrity',
       description: name + ' Membership — 1 Year',
-      image:       '/logo_navbar_400px.png',
+      image:       '/logo.png',
       prefill: {
         email: currentUser.email || '',
         name:  currentMember?.full_name || '',
