@@ -198,22 +198,21 @@
     /* ── WELCOME & MEMBER ID ── */
     .welcome {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.6rem; color: var(--white);
-      line-height: .95; margin: .9rem 0 .6rem; letter-spacing: .04em;
+      font-size: 2.2rem; color: var(--white);
+      margin-bottom: .6rem; letter-spacing: 1px;
     }
     .welcome em { color: var(--gold); font-style: normal; }
-    .welcome-tagline { font-size: 1.15rem; color: rgba(255,255,255,.78); line-height: 1.55; font-weight: 400; margin-bottom: 1.6rem; }
 
     .member-id-chip {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(242,183,5,.1);
-      border: 1px solid rgba(242,183,5,.25);
-      border-radius: 100px; padding: .4rem 1rem;
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem;
-      color: var(--gold); letter-spacing: .12em;
-      cursor: pointer; transition: all .2s;
+      background: rgba(242,183,5,.08);
+      border: 1px solid rgba(242,183,5,.2);
+      border-radius: 100px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 700; color: var(--gold);
+      letter-spacing: .1em; cursor: pointer; margin-bottom: 1.5rem;
+      transition: all .2s;
     }
-    .member-id-chip:hover { background: rgba(242,183,5,.18); }
+    .member-id-chip:hover { background: rgba(242,183,5,.14); }
     .member-id-chip.copied { background: rgba(0,200,83,.12); border-color: rgba(0,200,83,.3); color: #00C853; }
 
     /* ── STATS ── */
@@ -251,69 +250,120 @@
     }
 
     /* ── VOUCHERS ── */
+    /* ── VOUCHERS (drama-pass) ── */
     .vouchers {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(265px,1fr));
-      gap: 1rem; margin-bottom: 2.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(290px,1fr));
+      gap: 1.1rem; margin-bottom: 2.5rem;
     }
     .voucher {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.25rem;
+      background: linear-gradient(160deg, rgba(242,183,5,.05), rgba(255,255,255,.02));
+      border: 1px solid rgba(242,183,5,.22);
+      border-radius: 14px; padding: 1.4rem 1.25rem;
       position: relative; overflow: hidden;
-      transition: border-color .2s, transform .2s;
+      transition: transform .2s, border-color .2s;
     }
-    .voucher:hover { border-color: rgba(242,183,5,.3); transform: translateY(-1px); }
+    .voucher::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2), var(--gold));
+    }
+    .voucher:hover { border-color: rgba(242,183,5,.4); transform: translateY(-2px); }
+    .voucher.locked { opacity: .72; }
+    .voucher.other-city { opacity: .68; }
 
     .voucher-badge {
-      display: inline-block; padding: .2rem .7rem;
-      border-radius: 20px; font-size: .7rem; font-weight: 600; margin-bottom: .75rem;
+      display: inline-block; padding: .25rem .85rem;
+      border-radius: 100px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .8rem; letter-spacing: .14em;
+      margin-bottom: .65rem;
     }
-    .b-free     { background: rgba(0,200,83,.12);    color: var(--green); }
-    .b-gold     { background: rgba(242,183,5,.12);   color: var(--gold); }
-    .b-platinum { background: rgba(192,192,192,.12); color: #C0C0C0; }
-    .b-dwcpurple{ background: rgba(124,58,237,.15);  color: #A78BFA; }
+    .b-gold     { background: rgba(242,183,5,.12);   color: var(--gold);  border: 1px solid rgba(242,183,5,.3); }
+    .b-platinum { background: rgba(192,192,192,.1);  color: #C0C0C0;       border: 1px solid rgba(192,192,192,.3); }
+    .b-dwcpurple{ background: rgba(124,58,237,.12);  color: #A78BFA;       border: 1px solid rgba(124,58,237,.35); }
+    .b-locked   { background: rgba(255,255,255,.05); color: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.1); }
 
-    .voucher-title { font-weight: 600; font-size: .95rem; color: var(--white); margin-bottom: .3rem; }
-    .voucher-desc  { color: var(--sub); font-size: .8rem; line-height: 1.5; margin-bottom: .75rem; }
-    .voucher-disc  { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--gold); margin-bottom: .25rem; }
-    .voucher-meta  { color: var(--muted); font-size: .75rem; margin-bottom: .35rem; }
-    .voucher-expiry{ color: var(--muted); font-size: .72rem; margin-bottom: 1rem; }
-    .voucher-expiry.warn { color: #ff6b6b; }
-
+    .voucher-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem; line-height: 1.05;
+      letter-spacing: .03em;
+      color: var(--white);
+      margin-bottom: .2rem;
+    }
+    .voucher-area {
+      font-size: .9rem; color: rgba(255,255,255,.6);
+      margin-bottom: .9rem;
+    }
+    .voucher-disc {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem; color: var(--gold);
+      line-height: 1; letter-spacing: .02em;
+      margin-bottom: .35rem;
+      text-shadow: 0 0 18px rgba(242,183,5,.25);
+    }
+    .voucher-terms {
+      font-size: .9rem; color: rgba(255,255,255,.72);
+      line-height: 1.5; margin-bottom: .7rem;
+    }
+    .voucher-meta-row {
+      display: flex; flex-wrap: wrap; gap: .4rem;
+      margin-bottom: .9rem;
+    }
+    .voucher-pill {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      color: rgba(255,255,255,.65);
+      font-size: .72rem; padding: .22rem .65rem;
+      border-radius: 100px;
+    }
+    .voucher-pill.warn {
+      background: rgba(212,0,42,.07);
+      border-color: rgba(212,0,42,.22);
+      color: #ff8a8a;
+    }
     .voucher-redeem {
       width: 100%; background: var(--gold); color: #06040A;
-      border: none; border-radius: 8px; padding: .7rem;
-      font-family: 'Poppins', sans-serif; font-weight: 700;
-      font-size: .85rem; cursor: pointer; transition: opacity .2s;
+      border: none; border-radius: 10px; padding: .85rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: .08em; font-weight: 900;
+      cursor: pointer; transition: opacity .2s, transform .15s;
     }
-    .voucher-redeem:hover:not(:disabled) { opacity: .88; }
-    .voucher-redeem:disabled { opacity: .4; cursor: not-allowed; }
-
-    /* Locked voucher */
-    .voucher-locked .voucher-title,
-    .voucher-locked .voucher-desc,
-    .voucher-locked .voucher-disc,
-    .voucher-locked .voucher-meta { filter: blur(3px); user-select: none; }
-
-    .voucher-overlay {
-      position: absolute; inset: 0;
-      background: rgba(6,4,10,.6);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      border-radius: 14px; cursor: pointer; transition: background .2s;
+    .voucher-redeem:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+    .voucher-redeem:disabled {
+      background: rgba(255,255,255,.05); color: rgba(255,255,255,.4);
+      cursor: not-allowed;
+      border: 1px dashed rgba(255,255,255,.15);
     }
-    .voucher-overlay:hover { background: rgba(6,4,10,.72); }
-    .vl-icon  { font-size: 1.6rem; margin-bottom: .4rem; }
-    .vl-label { color: var(--gold); font-size: .8rem; font-weight: 600; text-align: center; }
-    .vl-tier  { color: var(--sub); font-size: .72rem; margin-top: .2rem; }
+    .voucher-locked-btn {
+      width: 100%; background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.55); cursor: pointer;
+      border: 1px dashed rgba(255,255,255,.15);
+      border-radius: 10px; padding: .85rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: .08em; font-weight: 900;
+      transition: background .2s, color .2s;
+    }
+    .voucher-locked-btn:hover { background: rgba(242,183,5,.08); color: var(--gold); }
 
     /* Divider between city and other vouchers */
     .voucher-divider {
       grid-column: 1 / -1;
-      padding: .5rem 0;
-      font-size: .78rem; color: var(--muted);
+      padding: .8rem 0 .2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; color: rgba(255,255,255,.5);
+      letter-spacing: .12em;
       border-top: 1px solid rgba(255,255,255,.06); margin-top: .5rem;
     }
+    .city-banner {
+      grid-column: 1 / -1;
+      background: rgba(242,183,5,.05);
+      border: 1px solid rgba(242,183,5,.18);
+      border-radius: 10px;
+      padding: .9rem 1rem;
+      font-size: .85rem; color: rgba(255,255,255,.78);
+      line-height: 1.5;
+    }
+    .city-banner strong { color: var(--gold); }
 
     /* ── PARTNER RESTAURANTS (upgrade teaser for FREE) ── */
     .partner-teaser { margin-bottom: 2.5rem; }
@@ -638,66 +688,6 @@
   .event-book-btn:disabled{opacity:.4;cursor:not-allowed;}
   .event-sold{width:100%;margin-top:.6rem;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-size:.78rem;text-align:center;}
 
-  /* ── STATS ROW (drama-pass) ── */
-  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1.6rem 0 2.5rem;}
-  .stat-card{background:rgba(255,255,255,.03);border:1px solid rgba(242,183,5,.1);border-radius:14px;padding:1.1rem 1rem;position:relative;overflow:hidden;}
-  .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
-  .stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);line-height:1;letter-spacing:.02em;margin-bottom:.4rem;}
-  .stat-card:first-child .stat-val{font-size:1.6rem;color:rgba(255,255,255,.95);}
-  .stat-label{color:rgba(255,255,255,.55);font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;}
-  @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr);}}
-
-  /* ── CARD HEADERS (drama-pass) ── */
-  .card{margin-bottom:2rem;}
-  .card-header{margin-bottom:1.5rem;}
-  .card-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;letter-spacing:.05em;color:var(--text);margin-bottom:.5rem;}
-  .card-subtitle{font-size:1.15rem;color:rgba(255,255,255,.78);line-height:1.6;font-weight:400;}
-
-  /* ── SECTION HEADER (Your Vouchers etc.) ── */
-  .section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem;}
-  .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--text);letter-spacing:.04em;}
-  .section-badge{background:rgba(242,183,5,.1);border:1px solid rgba(242,183,5,.25);border-radius:20px;padding:.3rem .9rem;font-size:.85rem;color:var(--gold);font-weight:600;}
-
-  /* ── POINTS ENGINE SIMULATOR ── */
-  .sim-wrap{padding:.25rem 0;}
-  .sim-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
-  .sim-lbl{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.1em;color:var(--gold);min-width:110px;flex-shrink:0;}
-  .sim-select{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.2);border-radius:10px;color:var(--text);padding:.85rem 1rem;font-family:'Poppins',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;cursor:pointer;}
-  .sim-select:focus,.sim-select:hover{border-color:var(--gold);}
-  .sim-select option{background:#0d0814;color:var(--text);}
-  .sim-base-block{text-align:center;margin:.5rem 0 1.6rem;padding:1.4rem 0;background:rgba(0,0,0,.25);border-radius:12px;border:1px solid rgba(255,255,255,.05);}
-  .sim-base-lbl{font-size:.95rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.2em;margin-bottom:.5rem;font-weight:700;}
-  .sim-base-val{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;color:var(--text);line-height:1;letter-spacing:.02em;}
-  .sim-saved{font-size:1rem;color:#00C853;margin-top:.5rem;font-weight:700;}
-  .sim-spend-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.7rem;}
-  .sim-spend-lbl{font-size:1rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
-  .sim-spend-out{color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.02em;}
-  .sim-slider{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:100px;outline:none;-webkit-appearance:none;margin-bottom:1.5rem;cursor:pointer;}
-  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
-  .sim-slider::-moz-range-thumb{width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
-  .sim-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
-  .sim-stat{background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.18);border-radius:12px;padding:1rem 1.1rem;}
-  .sim-stat-lbl{font-size:.82rem;color:rgba(0,200,83,.78);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.35rem;}
-  .sim-stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:#00C853;line-height:1;letter-spacing:.02em;}
-  .sim-stat-sub{font-size:.85rem;color:rgba(255,255,255,.55);margin-top:.3rem;font-weight:400;}
-  .sim-math{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(212,0,42,.08));border:1px solid rgba(242,183,5,.3);border-radius:14px;padding:1.5rem 1.25rem;margin-bottom:1.5rem;text-align:center;position:relative;overflow:hidden;}
-  .sim-math::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-  .sim-math-row{display:flex;justify-content:space-between;font-size:1rem;color:rgba(255,255,255,.7);margin-bottom:.5rem;text-align:left;}
-  .sim-math-row span:last-child{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--text);letter-spacing:.02em;}
-  .sim-reduction{color:#00C853 !important;}
-  .sim-final{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);}
-  .sim-final-lbl{font-size:.95rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.22em;font-weight:700;margin-bottom:.4rem;}
-  .sim-final-val{font-family:'Bebas Neue',sans-serif;font-size:4.2rem;color:var(--gold);line-height:1;letter-spacing:.02em;text-shadow:0 0 30px rgba(242,183,5,.35);display:block;}
-  .sim-disclaimer{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.22);border-radius:10px;padding:1rem 1.1rem;font-size:.95rem;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:1.3rem;font-weight:400;}
-  .sim-disclaimer strong{color:#ff8fa3;font-weight:700;}
-  .sim-cta{display:block;width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);background-size:200% auto;color:#06040A;border:none;border-radius:14px;padding:1.5rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.12em;cursor:pointer;font-weight:900;text-decoration:none;text-align:center;transition:background-position .4s,transform .15s;animation:simPulse 2.4s ease-in-out infinite;position:relative;overflow:hidden;}
-  .sim-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);transform:translateX(-100%);animation:simShimmer 2.8s ease-in-out infinite;}
-  @keyframes simPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,.45)}55%{box-shadow:0 0 32px 6px rgba(242,183,5,.18)}}
-  @keyframes simShimmer{0%,100%{transform:translateX(-100%)}55%{transform:translateX(100%)}}
-  .sim-cta:hover{background-position:right center;transform:translateY(-2px);}
-  .sim-cta-sub{text-align:center;font-size:.95rem;color:rgba(255,255,255,.6);margin-top:.75rem;font-weight:500;}
-  @media(max-width:600px){.sim-row{flex-direction:column;align-items:stretch;gap:.5rem;}.sim-lbl{min-width:0;}.sim-stats{grid-template-columns:1fr;}.sim-final-val{font-size:3rem;}}
-
   </style>
 </head>
 <body>
@@ -799,64 +789,19 @@
       <div class="pt-card"><div class="pt-card-emoji">🥘</div><div class="pt-card-name">Celebrity Kitchen</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹350 Off</div></div>
       <div class="pt-card"><div class="pt-card-emoji">🍣</div><div class="pt-card-name">Exclusive Diner</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹400 Off</div></div>
       <div class="pt-cta-wrap">
-        <div class="pt-cta-text"><strong>1000+ partner restaurants &amp; shopping brands</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
-        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹4,999/yr →</button>
+        <div class="pt-cta-text"><strong>20+ partner restaurants</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
+        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹2,499/yr →</button>
       </div>
     </div>
   </div>
 
-  <!-- CELEBRITY EVENTS — POINTS ENGINE SIMULATOR -->
+  <!-- CELEBRITY EVENTS SECTION -->
       <div class="card" id="eventsCard">
         <div class="card-header">
-          <div class="card-title">⭐ How A Celebrity Dinner Works</div>
-          <div class="card-subtitle">Pick a star. See the ticket price. Move the slider to see how shopping with our brand partners reduces what you pay.</div>
+          <div class="card-title">⭐ Celebrity Events</div>
+          <div class="card-subtitle">Earn points dining &amp; shopping — redeem them for a discount on your celebrity dinner</div>
         </div>
-
-        <div class="sim-wrap">
-          <div class="sim-row">
-            <label class="sim-lbl">PICK A STAR</label>
-            <select id="simStar" class="sim-select">
-              <option value="">Loading celebrities...</option>
-            </select>
-          </div>
-
-          <div class="sim-base-block">
-            <div class="sim-base-lbl">Ticket Price</div>
-            <div class="sim-base-val" id="simBasePrice">—</div>
-          </div>
-
-          <div class="sim-spend-row">
-            <span class="sim-spend-lbl">Shopping at Partners</span>
-            <span class="sim-spend-out" id="simSpendOut">₹0</span>
-          </div>
-          <input id="simSpend" type="range" min="0" max="500000" step="5000" value="0" class="sim-slider" />
-
-          <div class="sim-stats">
-            <div class="sim-stat">
-              <div class="sim-stat-lbl">Points Earned</div>
-              <div class="sim-stat-val" id="simPtsEarned">0</div>
-              <div class="sim-stat-sub">1 point per ₹3 spent</div>
-            </div>
-            <div class="sim-stat">
-              <div class="sim-stat-lbl">Points Value</div>
-              <div class="sim-stat-val" id="simPtsValue">₹0</div>
-              <div class="sim-stat-sub">1 point = ₹3 face value</div>
-            </div>
-          </div>
-
-          <div class="sim-math">
-            <div class="sim-final-lbl">YOUR FINAL PRICE</div>
-            <div class="sim-final-val" id="simFinalPrice">—</div>
-            <div class="sim-saved" id="simSaved" style="visibility:hidden">You saved ₹0 with points</div>
-          </div>
-
-          <div class="sim-disclaimer">
-            <strong>Stars listed are illustrative.</strong> The mechanism is real. Specific events and pricing announced based on confirmed agreements.
-          </div>
-
-          <a href="/upgrade" class="sim-cta">UPGRADE TO GOLD — ₹4,999/YR &rarr;</a>
-          <div class="sim-cta-sub">Unlock the points engine. Start earning toward your celebrity dinner today.</div>
-        </div>
+        <div class="events-grid" id="eventsGrid"><div class="empty">Loading events...</div></div>
       </div>
 
       <!-- MY BOOKINGS SECTION -->
@@ -913,29 +858,29 @@
     <div class="tier-cards">
       <div class="tier-card c-gold selected" id="card-gold" data-tier="gold">
         <div class="tc-name g">Gold</div>
-        <div class="tc-price">₹4,999/yr</div>
+        <div class="tc-price">₹2,499/yr</div>
         <ul class="tc-perks">
-          <li>5 vouchers per month</li>
-          <li>Celebrity events access</li>
-          <li>100 pts per visit</li>
+          <li>10 restaurant vouchers</li>
+          <li>Celebrity event tickets</li>
+          <li>200 pts per visit</li>
         </ul>
       </div>
       <div class="tier-card c-platinum" id="card-platinum" data-tier="platinum">
         <div class="tc-name p">Platinum</div>
-        <div class="tc-price">₹9,999/yr</div>
+        <div class="tc-price">₹6,999/yr</div>
         <ul class="tc-perks">
-          <li>10 vouchers per month</li>
-          <li>Priority events &amp; table reservation</li>
-          <li>200 pts per visit</li>
+          <li>Unlimited vouchers</li>
+          <li>Priority booking</li>
+          <li>Concierge service</li>
         </ul>
       </div>
       <div class="tier-card c-dwcpurple" id="card-dwcpurple" data-tier="dwcpurple">
         <div class="tc-name v">DWC Purple</div>
-        <div class="tc-price">₹19,999/yr</div>
+        <div class="tc-price">₹14,999/yr</div>
         <ul class="tc-perks">
-          <li>Unlimited vouchers</li>
-          <li>VIP events &amp; personal concierge</li>
-          <li>300 pts per visit</li>
+          <li>VIP access everywhere</li>
+          <li>Personal concierge</li>
+          <li>Exclusive meet &amp; greets</li>
         </ul>
       </div>
     </div>
@@ -1018,14 +963,18 @@
 
   const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
   const TIER_META = {
-    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹4,999',  desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
-    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹9,999',  desc: 'Upgrade to Platinum for more vouchers and priority booking' },
-    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹19,999', desc: 'Upgrade to DWC Purple for unlimited vouchers and VIP access' },
-    dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,      desc: 'You have our best membership. Enjoy unlimited VIP access!' }
+    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹2,499', desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
+    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹6,999', desc: 'Upgrade to Platinum for unlimited vouchers and priority booking' },
+    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹14,999',desc: 'Upgrade to DWC Purple for VIP access and personal concierge' },
+    dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,     desc: 'You have our best membership. Enjoy unlimited VIP access!' }
   };
 
   // Mock celebrity events shown while real data loads / as fallback
-  const DEMO_EVENTS = [];
+  const DEMO_EVENTS = [
+    { title: 'Tollywood Dinner Gala',  meta: 'Exclusive 8-celebrity dinner · Hyderabad · Jul 2025', price: 70000, locked: true,  tag: 'Tollywood' },
+    { title: 'Cricket Legends Night',  meta: 'Meet &amp; dine with India cricket stars · Mumbai',    price: 55000, locked: true,  tag: 'Cricket'    },
+    { title: 'Bollywood Brunch',       meta: 'Sunday brunch with top Bollywood names · Delhi',       price: 48000, locked: false, tag: 'Bollywood'  },
+  ];
 
   // State
   let myRedemptions = {}; // voucher_id → count
@@ -1138,7 +1087,7 @@
 
     // Async: load vouchers + events + referral stats
     await Promise.all([ loadVouchers(), loadReferralStats() ]);
-    loadEvents();
+    renderEvents();
     loadBookings();
     loadPointsHistory();
 
@@ -1206,11 +1155,19 @@
       document.getElementById('memberIdChip').style.display = 'inline-flex';
     }
 
-    // ── Points (statP), Tier (statT) ──
-    const pts = md.points || 0;
-    document.getElementById('statP').textContent  = pts.toLocaleString();
-    document.getElementById('navPts').textContent = pts.toLocaleString() + ' pts';
-    document.getElementById('statT').textContent  = effTm.label;
+    // ── Points ──
+    const pts = md.points || 300;
+    document.getElementById('statPts').textContent  = pts.toLocaleString();
+    document.getElementById('navPts').textContent   = pts.toLocaleString() + ' pts';
+    document.getElementById('statCity').textContent = md.city || '–';
+
+    // ── Celebrity ticket reduction ──
+    const reduction  = Math.floor(pts / 100) * 500;
+    const ticketAmt  = Math.max(70000 - reduction, 20000);
+    document.getElementById('statTicket').textContent    = '₹' + ticketAmt.toLocaleString();
+    document.getElementById('statTicketSub').textContent = reduction > 0
+      ? '₹' + reduction.toLocaleString() + ' saved via points'
+      : 'Earn points to reduce';
 
     // ── Tier banner ──
     const banner = document.getElementById('tierBanner');
@@ -1271,7 +1228,9 @@
       document.getElementById('partnerTeaser').style.display = 'block';
     }
 
-    // ── Referral code is set by loadReferralStats() (which also persists it) ──
+    // ── Referral code ──
+    const code = md.referral_code || ('DWC-' + display.toUpperCase().replace(/[^A-Z]/g,'').substring(0,6) + Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('refCode').textContent = code;
 
     // ── Dev panel ──
     if (cu.email === DEV_EMAIL) document.getElementById('devPanel').style.display = 'block';
@@ -1293,93 +1252,151 @@
     const tier  = (md.tier || 'free').toLowerCase();
     const expired  = isExpired(md.expires_at);
     const effTier  = (expired && tier !== 'free') ? 'free' : tier;
-    const effRank  = TIER_RANK[effTier] || 0;
     const memberCity = (md.city || '').toLowerCase().trim();
     const now = new Date();
 
+    // Pull active, in-window vouchers + the partner brand info via JOIN
     const { data: vouchers, error } = await sbClient
-      .from('vouchers')
-      .select('*')
-      .eq('is_active', true)
-      .gt('partner_expiry', now.toISOString())
-      .order('tier_required', { ascending: true });
+      .from('partner_vouchers')
+      .select(`
+        id, title, description,
+        discount_type, discount_value, min_billing,
+        quantity, redeemed_count, valid_for_tiers,
+        starts_at, expires_at, status,
+        partners ( id, name, area, city, category, logo_url )
+      `)
+      .eq('status', 'active')
+      .lte('starts_at', now.toISOString())
+      .gt('expires_at', now.toISOString());
 
-    if (error || !vouchers || vouchers.length === 0) {
-      grid.innerHTML = '<div class="empty">No vouchers available in your city yet — we\'re onboarding partners. Check back soon!</div>';
+    if (error) {
+      console.error('loadVouchers error:', error);
+      grid.innerHTML = '<div class="empty">Could not load vouchers right now. Please refresh.</div>';
+      badge.textContent = '—';
+      document.getElementById('statV').textContent = '—';
+      return;
+    }
+
+    if (!vouchers || vouchers.length === 0) {
+      grid.innerHTML = '<div class="empty">No vouchers available yet — we\'re onboarding partners. Check back soon!</div>';
       badge.textContent = '0 available';
       document.getElementById('statV').textContent = '0';
       return;
     }
 
-    // Sort: city-matching first
-    const cityVouchers  = vouchers.filter(v => !memberCity || v.city?.toLowerCase().trim() === memberCity);
-    const otherVouchers = vouchers.filter(v => memberCity  && v.city?.toLowerCase().trim() !== memberCity);
-    const sorted = cityVouchers.concat(otherVouchers);
+    // Helper: which tiers are eligible — array stored on row, member's effTier
+    const isUnlocked = v => {
+      if (!v.valid_for_tiers || v.valid_for_tiers.length === 0) return false;
+      return v.valid_for_tiers.includes(effTier);
+    };
+    // Helper: lowest tier required (for the badge label + upgrade target)
+    const lowestRequired = v => {
+      const order = ['gold','platinum','dwcpurple'];
+      return order.find(t => v.valid_for_tiers?.includes(t)) || 'gold';
+    };
+
+    // Sort: city match first, then expiry urgency (soonest first), then bigger discount
+    const sortVouchers = (a, b) => {
+      const aCity = (a.partners?.city || '').toLowerCase().trim();
+      const bCity = (b.partners?.city || '').toLowerCase().trim();
+      const aMatch = memberCity && aCity === memberCity ? 1 : 0;
+      const bMatch = memberCity && bCity === memberCity ? 1 : 0;
+      if (aMatch !== bMatch) return bMatch - aMatch;
+      const aDays = (new Date(a.expires_at) - now) / 86400000;
+      const bDays = (new Date(b.expires_at) - now) / 86400000;
+      if (Math.abs(aDays - bDays) > 1) return aDays - bDays;
+      return (b.discount_value || 0) - (a.discount_value || 0);
+    };
+    vouchers.sort(sortVouchers);
+
+    const cityVouchers  = vouchers.filter(v => !memberCity || (v.partners?.city || '').toLowerCase().trim() === memberCity);
+    const otherVouchers = vouchers.filter(v => memberCity && (v.partners?.city || '').toLowerCase().trim() !== memberCity);
     const showSep = memberCity && cityVouchers.length > 0 && otherVouchers.length > 0;
 
     let html = '';
     let availCount = 0;
 
-    // No local vouchers message
+    // No local vouchers note
     if (memberCity && cityVouchers.length === 0 && otherVouchers.length > 0) {
-      html += `<div style="grid-column:1/-1;background:rgba(242,183,5,.05);border:1px solid rgba(242,183,5,.15);border-radius:10px;padding:.85rem 1rem;font-size:.82rem;color:var(--sub)">
-        🏙️ No vouchers in <strong style="color:var(--gold)">${md.city}</strong> yet — we're onboarding partners. Showing vouchers from other cities below.
-      </div>`;
+      html += `<div class="city-banner">📍 No vouchers in <strong>${md.city}</strong> yet — we're onboarding partners. Showing vouchers from other cities below.</div>`;
     }
 
-    sorted.forEach((v, idx) => {
-      const vRank     = TIER_RANK[v.tier_required] || 0;
-      const unlocked  = effRank >= vRank;
-      const redeemed  = myRedemptions[v.id] || 0;
-      const canRedeem = unlocked && !expired
-        && v.total_redemptions < v.max_redemptions
-        && redeemed < v.per_user_limit;
+    const renderCard = (v, isOther) => {
+      const unlocked   = isUnlocked(v);
+      const requiredT  = lowestRequired(v);
+      const redeemed   = myRedemptions[v.id] || 0;
+      const perMember  = 1; // currently one redemption per member per voucher
+      const remaining  = (v.quantity || 0) - (v.redeemed_count || 0);
+      const vDays      = Math.ceil((new Date(v.expires_at) - now) / 86400000);
+      const expWarn    = vDays <= 7;
 
-      const isOther   = memberCity && v.city?.toLowerCase().trim() !== memberCity;
-      const vDays     = Math.ceil((new Date(v.partner_expiry) - now) / 86400000);
-      const expClass  = vDays <= 7 ? 'voucher-expiry warn' : 'voucher-expiry';
-      const expText   = vDays <= 7
-        ? `⚠️ Expires in ${vDays} day${vDays === 1 ? '' : 's'}`
-        : `Valid until ${new Date(v.partner_expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`;
+      // Brand display: "Paradise Biryani · Begumpet, Hyderabad"
+      const p = v.partners || {};
+      const brand = (p.name || 'Partner').toUpperCase();
+      const areaCity = [p.area, p.city].filter(Boolean).join(', ');
+
+      // Discount string
+      const discStr = v.discount_type === 'percent'
+        ? `${v.discount_value}% OFF`
+        : `₹${(v.discount_value || 0).toLocaleString('en-IN')} OFF`;
+
+      // Min spend pill
+      const minPill = v.min_billing && v.min_billing > 0
+        ? `<span class="voucher-pill">Min ₹${v.min_billing.toLocaleString('en-IN')}</span>`
+        : '';
+
+      // Expiry pill
+      const expPill = expWarn
+        ? `<span class="voucher-pill warn">⚠️ Expires in ${vDays} day${vDays === 1 ? '' : 's'}</span>`
+        : `<span class="voucher-pill">Valid till ${new Date(v.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>`;
+
+      // Tier badge
+      const badgeClass = unlocked ? `b-${requiredT}` : 'b-locked';
+      const badgeText = unlocked ? tierDisplayName(requiredT).toUpperCase()
+                                 : `🔒 ${tierDisplayName(requiredT).toUpperCase()}`;
 
       if (unlocked) availCount++;
 
-      if (showSep && idx === cityVouchers.length) {
-        html += `<div class="voucher-divider">📍 Vouchers in other cities</div>`;
-      }
-
-      html += `<div class="voucher${unlocked ? '' : ' voucher-locked'}"${isOther ? ' style="opacity:.65"' : ''} data-voucher-id="${v.id}">`;
-      html += `<span class="voucher-badge ${tierBadgeClass(v.tier_required)}">${tierDisplayName(v.tier_required)}</span>`;
-      html += `<div class="voucher-title">${v.title}</div>`;
-      html += `<div class="voucher-desc">${v.description || ''}</div>`;
-      html += `<div class="voucher-disc">₹${v.discount_amount} Off</div>`;
-      html += `<div class="voucher-meta">${v.city}${isOther ? ' 📍' : ''} · Min bill ₹${v.min_bill.toLocaleString()}</div>`;
-      html += `<div class="${expClass}">${expText}</div>`;
-
-      if (unlocked) {
-        if (redeemed >= v.per_user_limit) {
-          html += `<button class="voucher-redeem" disabled>Already Redeemed</button>`;
-        } else if (v.total_redemptions >= v.max_redemptions) {
-          html += `<button class="voucher-redeem" disabled>Fully Redeemed</button>`;
-        } else if (expired) {
-          html += `<button class="voucher-redeem" disabled>Membership Expired</button>`;
-        } else {
-          // ✅ DATA ATTRIBUTES — no onclick quoting issues
-          html += `<button class="voucher-redeem" data-action="redeem" data-voucher-id="${v.id}" data-voucher-title="${v.title.replace(/"/g,'&quot;')}">Redeem Voucher</button>`;
-        }
+      // Button state
+      let btnHtml;
+      if (!unlocked) {
+        btnHtml = `<button class="voucher-locked-btn" data-action="upgrade" data-tier="${requiredT}" data-title="${(v.title || '').replace(/"/g,'&quot;')}">🔒 Upgrade to ${tierDisplayName(requiredT)}</button>`;
+      } else if (expired) {
+        btnHtml = `<button class="voucher-redeem" disabled>Membership Expired</button>`;
+      } else if (redeemed >= perMember) {
+        btnHtml = `<button class="voucher-redeem" disabled>Already Redeemed</button>`;
+      } else if (remaining <= 0) {
+        btnHtml = `<button class="voucher-redeem" disabled>Fully Redeemed</button>`;
       } else {
-        html += `<div class="voucher-overlay" data-action="upgrade" data-tier="${v.tier_required}" data-title="${v.title.replace(/"/g,'&quot;')}">`;
-        html += `<div class="vl-icon">🔒</div>`;
-        html += `<div class="vl-label">Unlock with ${tierDisplayName(v.tier_required)}</div>`;
-        html += `<div class="vl-tier">Tap to upgrade</div>`;
-        html += `</div>`;
+        btnHtml = `<button class="voucher-redeem" data-action="redeem" data-voucher-id="${v.id}" data-voucher-title="${(v.title || '').replace(/"/g,'&quot;')}">Redeem Voucher</button>`;
       }
-      html += `</div>`;
-    });
+
+      const cardClasses = ['voucher'];
+      if (!unlocked) cardClasses.push('locked');
+      if (isOther)   cardClasses.push('other-city');
+
+      return `<div class="${cardClasses.join(' ')}" data-voucher-id="${v.id}">
+        <span class="voucher-badge ${badgeClass}">${badgeText}</span>
+        <div class="voucher-brand">${brand}</div>
+        <div class="voucher-area">📍 ${areaCity || 'India-wide'}</div>
+        <div class="voucher-disc">${discStr}</div>
+        <div class="voucher-terms">${v.description || v.title || ''}</div>
+        <div class="voucher-meta-row">
+          ${minPill}
+          <span class="voucher-pill">${perMember} per member</span>
+          ${expPill}
+        </div>
+        ${btnHtml}
+      </div>`;
+    };
+
+    cityVouchers.forEach(v => { html += renderCard(v, false); });
+    if (showSep) html += `<div class="voucher-divider">📍 OTHER CITIES</div>`;
+    otherVouchers.forEach(v => { html += renderCard(v, true); });
 
     grid.innerHTML = html || '<div class="empty">No vouchers available yet. Check back soon!</div>';
     document.getElementById('statV').textContent = availCount;
-    badge.textContent = availCount + ' available';
+    badge.textContent = availCount + (availCount === 1 ? ' available' : ' available');
   }
 
   // ── EVENT DELEGATION for voucher grid ───────────────────────────────
@@ -1440,35 +1457,56 @@
   }
 
   // ── CELEBRITY EVENTS ────────────────────────────────────────────────
-  // (renderEvents/DEMO_EVENTS removed — replaced by points-engine simulator above)
+  function renderEvents() {
+    const tier    = (md.tier || 'free').toLowerCase();
+    const expired = isExpired(md.expires_at);
+    const effTier = (expired && tier !== 'free') ? 'free' : tier;
+    const effRank = TIER_RANK[effTier] || 0;
+    const grid    = document.getElementById('eventsGrid');
+
+    const events = DEMO_EVENTS; // Replace with Supabase fetch when events table exists
+
+    const html = events.map(ev => {
+      const locked     = ev.locked || effRank < 1;
+      const reduction  = Math.floor((md.points || 300) / 100) * 500;
+      const finalPrice = Math.max(ev.price - (locked ? 0 : reduction), ev.price * 0.3);
+
+      return `<div class="event-card${locked ? ' locked' : ''}">
+        <span class="event-tag">${ev.tag}</span>
+        <div class="event-title">${ev.title}</div>
+        <div class="event-meta">${ev.meta}</div>
+        <div class="event-price">
+          ₹${finalPrice.toLocaleString()}
+          <span>${locked ? '' : (reduction > 0 ? '· ' + reduction.toLocaleString() + ' pts applied' : '')}</span>
+        </div>
+        ${locked
+          ? `<button class="event-action locked-btn" data-action="event-upgrade" data-tier="gold" data-title="${ev.title.replace(/"/g,'&quot;')}">🔒 Unlock with Gold</button>`
+          : `<button class="event-action book-btn" data-action="book-event">Book Seat →</button>`
+        }
+      </div>`;
+    }).join('');
+
+    grid.innerHTML = html || '<div class="empty">No upcoming events. Check back soon!</div>';
+    document.getElementById('eventsSubBadge').textContent = effRank < 1 ? '🔒 Gold+' : '🌟 Exclusive';
+  }
+
+  // ── EVENT DELEGATION for events grid ───────────────────────────────
+  document.getElementById('eventsGrid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'event-upgrade') showUpgradePopup(btn.dataset.tier, btn.dataset.title);
+    if (btn.dataset.action === 'book-event')   location.href = '/events';
+  });
 
   // ── REFERRAL STATS ───────────────────────────────────────────────────
   async function loadReferralStats() {
-    // Always default the stat card to 0, even if no referral code yet
-    document.getElementById('statR').textContent = '0';
-
-    // Generate a referral code if missing
-    if (!md.referral_code) {
-      const firstName = (md.full_name || cu.email.split('@')[0]).split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '');
-      const suffix = Math.floor(1000 + Math.random() * 9000);
-      const newCode = `DWC-${firstName.slice(0, 8)}${suffix}`;
-      const { error } = await sbClient.from('members').update({ referral_code: newCode }).eq('id', cu.id);
-      if (!error) md.referral_code = newCode;
-    }
-
-    if (md.referral_code) {
-      document.getElementById('refCode').textContent = md.referral_code;
-    }
-
     if (!md.referral_code) return;
-
     const { count } = await sbClient
       .from('members')
       .select('*', { count: 'exact', head: true })
       .eq('referred_by', md.referral_code);
     const refCount = count || 0;
-    document.getElementById('statR').textContent       = refCount;
-    document.getElementById('refCount').textContent    = refCount;
+    document.getElementById('refCount').textContent     = refCount;
     document.getElementById('refPtsEarned').textContent = (refCount * 500).toLocaleString();
   }
 
@@ -1590,9 +1628,10 @@
 
     Object.assign(md, update);
     if (update.points) {
-      document.getElementById('statP').textContent  = update.points.toLocaleString();
-      document.getElementById('navPts').textContent = update.points.toLocaleString() + ' pts';
+      document.getElementById('statPts').textContent = update.points.toLocaleString();
+      document.getElementById('navPts').textContent  = update.points.toLocaleString() + ' pts';
     }
+    if (update.city) document.getElementById('statCity').textContent = update.city;
 
     // Log to member_activity
     if (!wasDone && md.member_id) {
@@ -1665,68 +1704,72 @@
 
 })();
 
-  // ── POINTS ENGINE SIMULATOR (replaces old loadEvents/event-cards) ─────
+  // ── LOAD CELEBRITY EVENTS ────────────────────────────────────
   async function loadEvents() {
-    const sel = document.getElementById('simStar');
-    if (!sel) return;
+    const grid = document.getElementById('eventsGrid');
+    if (!grid) return;
+    const memberPts = md.points || 0;
 
     const { data: events, error } = await sbClient
       .from('celebrity_events')
-      .select('celebrity_name,ticket_price')
-      .eq('status', 'live')
+      .select('*')
+      .eq('status','live')
       .order('ticket_price', { ascending: false })
-      .limit(20);
+      .limit(12);
 
     if (error || !events || !events.length) {
-      sel.innerHTML = '<option value="">No celebrities to show yet</option>';
-      simUpdate();
+      grid.innerHTML = '<div class="empty">No events scheduled yet. Check back soon.</div>';
       return;
     }
 
-    sel.innerHTML = events.map(function(e){
-      var price = parseInt(e.ticket_price, 10) || 0;
-      return '<option data-price="' + price + '">' +
-        e.celebrity_name + ' — ₹' + price.toLocaleString('en-IN') +
-        '</option>';
+    const fmtINR = n => '\u20B9' + n.toLocaleString('en-IN');
+    const tierLabel = {S:'S-Class · VIP',A:'A-Class',B:'B-Class',C:'C-Class'};
+
+    grid.innerHTML = events.map(e => {
+      const seatsLeft = e.available_seats - e.reserved_seats;
+      const soldOut   = seatsLeft <= 0;
+      const ptsPerRupee = 100 / e.points_value_per_100;
+      const maxDiscount = Math.min(
+        Math.floor(e.ticket_price * e.max_discount_pct / 100),
+        e.max_discount_abs
+      );
+      const ptsForMax   = Math.ceil(maxDiscount * ptsPerRupee);
+      const usablePts   = Math.min(memberPts, ptsForMax);
+      const rawDiscount = usablePts / ptsPerRupee;
+      const discount    = Math.floor(rawDiscount / 50) * 50;
+      const ptsUsed     = Math.ceil(discount * ptsPerRupee);
+      const finalPrice  = e.ticket_price - discount;
+      const eventDate   = e.event_date
+        ? new Date(e.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})
+        : 'TBA';
+
+      return `<div class="event-card">
+        <div class="event-card-top">
+          <div class="event-tier ${e.tier}">${tierLabel[e.tier]||e.tier}</div>
+          <div class="event-name">${e.celebrity_name}</div>
+          <div class="event-title-sub">${e.event_title}</div>
+          <div class="event-meta">
+            <span class="event-meta-pill">\uD83D\uDCC5 ${eventDate}</span>
+            <span class="event-meta-pill">\uD83D\uDCCD ${e.city||'TBA'}</span>
+            <span class="event-meta-pill">${soldOut ? '\uD83D\uDD34 Sold Out' : '\uD83D\uDFE2 '+seatsLeft+' seats left'}</span>
+          </div>
+        </div>
+        <div class="event-pricing">
+          <div class="event-price-row"><span>Base price</span><span class="event-price-val">${fmtINR(e.ticket_price)}</span></div>
+          <div class="event-price-row"><span>Max possible saving</span><span class="event-price-val">${fmtINR(maxDiscount)}</span></div>
+          <div class="event-price-row"><span>Your points saving</span><span class="event-price-val hl">${discount > 0 ? '− '+fmtINR(discount)+' ('+ptsUsed+' pts)' : 'Earn points to save'}</span></div>
+          <div class="event-final">
+            <span class="event-final-label">Your price</span>
+            <span class="event-final-price">${fmtINR(finalPrice)}</span>
+          </div>
+          ${soldOut
+            ? '<div class="event-sold">SOLD OUT</div>'
+            : '<button class="event-book-btn" onclick="bookEvent(this)" data-event-id="'+e.id+'" data-final-price="'+finalPrice+'" data-discount="'+discount+'" data-pts-used="'+ptsUsed+'">Book Seat — '+fmtINR(finalPrice)+'</button>'}
+          ${!soldOut && seatsLeft <= 5 ? '<div style="font-size:.65rem;color:var(--red);text-align:center;margin-top:.3rem">\u26A1 Only '+seatsLeft+' seats left!</div>' : ''}
+        </div>
+      </div>`;
     }).join('');
-
-    simUpdate();
   }
-
-  function simUpdate() {
-    var spend = document.getElementById('simSpend');
-    var sel   = document.getElementById('simStar');
-    if (!spend || !sel) return;
-    var amt   = parseInt(spend.value, 10) || 0;
-    var opt   = sel.options[sel.selectedIndex];
-    var price = opt && opt.dataset.price ? parseInt(opt.dataset.price, 10) : 0;
-    var pts   = Math.floor(amt / 3);
-    var ptsValue  = pts * 3;
-    var reduction = Math.min(ptsValue, price);
-    var finalP    = Math.max(price - reduction, 0);
-    var fmt = function(n){ return '₹' + Math.round(n).toLocaleString('en-IN'); };
-
-    document.getElementById('simSpendOut').textContent  = fmt(amt);
-    document.getElementById('simPtsEarned').textContent = pts.toLocaleString('en-IN');
-    document.getElementById('simPtsValue').textContent  = fmt(ptsValue);
-    document.getElementById('simBasePrice').textContent = price ? fmt(price) : '—';
-    document.getElementById('simFinalPrice').textContent= price ? fmt(finalP) : '—';
-    var saved = document.getElementById('simSaved');
-    if (reduction > 0) {
-      saved.textContent = 'You saved ' + fmt(reduction) + ' with points';
-      saved.style.visibility = 'visible';
-    } else {
-      saved.style.visibility = 'hidden';
-    }
-  }
-
-  // Wire simulator inputs once the DOM is ready
-  (function(){
-    var spend = document.getElementById('simSpend');
-    var sel   = document.getElementById('simStar');
-    if (spend) spend.addEventListener('input', simUpdate);
-    if (sel)   sel.addEventListener('change', simUpdate);
-  })();
 
   // ── BOOK EVENT ───────────────────────────────────────────────
   async function bookEvent(btn) {
