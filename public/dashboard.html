@@ -688,6 +688,49 @@
   .event-book-btn:disabled{opacity:.4;cursor:not-allowed;}
   .event-sold{width:100%;margin-top:.6rem;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.65rem;font-family:'Poppins',sans-serif;font-size:.78rem;text-align:center;}
 
+  /* ── CARD HEADERS (drama-pass) ── */
+  .card{margin-bottom:2rem;}
+  .card-header{margin-bottom:1.5rem;}
+  .card-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;letter-spacing:.05em;color:var(--white);margin-bottom:.5rem;}
+  .card-subtitle{font-size:1.15rem;color:rgba(255,255,255,.78);line-height:1.6;font-weight:400;}
+
+  /* ── POINTS ENGINE SIMULATOR ── */
+  .sim-wrap{padding:.25rem 0;}
+  .sim-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+  .sim-lbl{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.1em;color:var(--gold);min-width:110px;flex-shrink:0;}
+  .sim-select{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.2);border-radius:10px;color:var(--white);padding:.85rem 1rem;font-family:'Poppins',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;cursor:pointer;}
+  .sim-select:focus,.sim-select:hover{border-color:var(--gold);}
+  .sim-select option{background:#0d0814;color:var(--white);}
+  .sim-base-block{text-align:center;margin:.5rem 0 1.6rem;padding:1.4rem 0;background:rgba(0,0,0,.25);border-radius:12px;border:1px solid rgba(255,255,255,.05);}
+  .sim-base-lbl{font-size:.95rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.2em;margin-bottom:.5rem;font-weight:700;}
+  .sim-base-val{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;color:var(--white);line-height:1;letter-spacing:.02em;}
+  .sim-saved{font-size:1rem;color:#00C853;margin-top:.5rem;font-weight:700;}
+  .sim-spend-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.7rem;}
+  .sim-spend-lbl{font-size:1rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
+  .sim-spend-out{color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.02em;}
+  .sim-slider{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:100px;outline:none;-webkit-appearance:none;margin-bottom:1.5rem;cursor:pointer;}
+  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-slider::-moz-range-thumb{width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
+  .sim-stat{background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.18);border-radius:12px;padding:1rem 1.1rem;}
+  .sim-stat-lbl{font-size:.82rem;color:rgba(0,200,83,.78);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.35rem;}
+  .sim-stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:#00C853;line-height:1;letter-spacing:.02em;}
+  .sim-stat-sub{font-size:.85rem;color:rgba(255,255,255,.55);margin-top:.3rem;font-weight:400;}
+  .sim-math{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(212,0,42,.08));border:1px solid rgba(242,183,5,.3);border-radius:14px;padding:1.5rem 1.25rem;margin-bottom:1.5rem;text-align:center;position:relative;overflow:hidden;}
+  .sim-math::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+  .sim-final{margin-top:0;}
+  .sim-final-lbl{font-size:.95rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.22em;font-weight:700;margin-bottom:.4rem;}
+  .sim-final-val{font-family:'Bebas Neue',sans-serif;font-size:4.2rem;color:var(--gold);line-height:1;letter-spacing:.02em;text-shadow:0 0 30px rgba(242,183,5,.35);display:block;}
+  .sim-disclaimer{background:rgba(212,0,42,.08);border:1px solid rgba(212,0,42,.22);border-radius:10px;padding:1rem 1.1rem;font-size:.95rem;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:1.3rem;font-weight:400;}
+  .sim-disclaimer strong{color:#ff8fa3;font-weight:700;}
+  .sim-cta{display:block;width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);background-size:200% auto;color:#06040A;border:none;border-radius:14px;padding:1.5rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.12em;cursor:pointer;font-weight:900;text-decoration:none;text-align:center;transition:background-position .4s,transform .15s;animation:simPulse 2.4s ease-in-out infinite;position:relative;overflow:hidden;}
+  .sim-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);transform:translateX(-100%);animation:simShimmer 2.8s ease-in-out infinite;}
+  @keyframes simPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,183,5,.45)}55%{box-shadow:0 0 32px 6px rgba(242,183,5,.18)}}
+  @keyframes simShimmer{0%,100%{transform:translateX(-100%)}55%{transform:translateX(100%)}}
+  .sim-cta:hover{background-position:right center;transform:translateY(-2px);}
+  .sim-cta-sub{text-align:center;font-size:.95rem;color:rgba(255,255,255,.6);margin-top:.75rem;font-weight:500;}
+  @media(max-width:600px){.sim-row{flex-direction:column;align-items:stretch;gap:.5rem;}.sim-lbl{min-width:0;}.sim-stats{grid-template-columns:1fr;}.sim-final-val{font-size:3rem;}}
+
   </style>
 </head>
 <body>
@@ -795,13 +838,58 @@
     </div>
   </div>
 
-  <!-- CELEBRITY EVENTS SECTION -->
+  <!-- CELEBRITY EVENTS — POINTS ENGINE SIMULATOR -->
       <div class="card" id="eventsCard">
         <div class="card-header">
-          <div class="card-title">⭐ Celebrity Events</div>
-          <div class="card-subtitle">Earn points dining &amp; shopping — redeem them for a discount on your celebrity dinner</div>
+          <div class="card-title">⭐ How A Celebrity Dinner Works</div>
+          <div class="card-subtitle">Pick a star. See the ticket price. Move the slider to see how shopping with our brand partners reduces what you pay.</div>
         </div>
-        <div class="events-grid" id="eventsGrid"><div class="empty">Loading events...</div></div>
+
+        <div class="sim-wrap">
+          <div class="sim-row">
+            <label class="sim-lbl">PICK A STAR</label>
+            <select id="simStar" class="sim-select">
+              <option value="">Loading celebrities...</option>
+            </select>
+          </div>
+
+          <div class="sim-base-block">
+            <div class="sim-base-lbl">Ticket Price</div>
+            <div class="sim-base-val" id="simBasePrice">—</div>
+          </div>
+
+          <div class="sim-spend-row">
+            <span class="sim-spend-lbl">Shopping at Partners</span>
+            <span class="sim-spend-out" id="simSpendOut">₹0</span>
+          </div>
+          <input id="simSpend" type="range" min="0" max="500000" step="5000" value="0" class="sim-slider" />
+
+          <div class="sim-stats">
+            <div class="sim-stat">
+              <div class="sim-stat-lbl">Points Earned</div>
+              <div class="sim-stat-val" id="simPtsEarned">0</div>
+              <div class="sim-stat-sub">1 point per ₹3 spent</div>
+            </div>
+            <div class="sim-stat">
+              <div class="sim-stat-lbl">Points Value</div>
+              <div class="sim-stat-val" id="simPtsValue">₹0</div>
+              <div class="sim-stat-sub">1 point = ₹3 face value</div>
+            </div>
+          </div>
+
+          <div class="sim-math">
+            <div class="sim-final-lbl">YOUR FINAL PRICE</div>
+            <div class="sim-final-val" id="simFinalPrice">—</div>
+            <div class="sim-saved" id="simSaved" style="visibility:hidden">You saved ₹0 with points</div>
+          </div>
+
+          <div class="sim-disclaimer">
+            <strong>Stars listed are illustrative.</strong> The mechanism is real. Specific events and pricing announced based on confirmed agreements.
+          </div>
+
+          <a href="/upgrade" class="sim-cta">UPGRADE TO GOLD — ₹4,999/YR &rarr;</a>
+          <div class="sim-cta-sub">Unlock the points engine. Start earning toward your celebrity dinner today.</div>
+        </div>
       </div>
 
       <!-- MY BOOKINGS SECTION -->
@@ -1155,19 +1243,11 @@
       document.getElementById('memberIdChip').style.display = 'inline-flex';
     }
 
-    // ── Points ──
+    // ── Points & Tier stats ──
     const pts = md.points || 300;
-    document.getElementById('statPts').textContent  = pts.toLocaleString();
-    document.getElementById('navPts').textContent   = pts.toLocaleString() + ' pts';
-    document.getElementById('statCity').textContent = md.city || '–';
-
-    // ── Celebrity ticket reduction ──
-    const reduction  = Math.floor(pts / 100) * 500;
-    const ticketAmt  = Math.max(70000 - reduction, 20000);
-    document.getElementById('statTicket').textContent    = '₹' + ticketAmt.toLocaleString();
-    document.getElementById('statTicketSub').textContent = reduction > 0
-      ? '₹' + reduction.toLocaleString() + ' saved via points'
-      : 'Earn points to reduce';
+    document.getElementById('statP').textContent  = pts.toLocaleString();
+    document.getElementById('navPts').textContent = pts.toLocaleString() + ' pts';
+    document.getElementById('statT').textContent  = effTm.label;
 
     // ── Tier banner ──
     const banner = document.getElementById('tierBanner');
@@ -1446,47 +1526,73 @@
     setTimeout(loadVouchers, 2000);
   }
 
-  // ── CELEBRITY EVENTS ────────────────────────────────────────────────
-  function renderEvents() {
-    const tier    = (md.tier || 'free').toLowerCase();
-    const expired = isExpired(md.expires_at);
-    const effTier = (expired && tier !== 'free') ? 'free' : tier;
-    const effRank = TIER_RANK[effTier] || 0;
-    const grid    = document.getElementById('eventsGrid');
-
-    const events = DEMO_EVENTS; // Replace with Supabase fetch when events table exists
-
-    const html = events.map(ev => {
-      const locked     = ev.locked || effRank < 1;
-      const reduction  = Math.floor((md.points || 300) / 100) * 500;
-      const finalPrice = Math.max(ev.price - (locked ? 0 : reduction), ev.price * 0.3);
-
-      return `<div class="event-card${locked ? ' locked' : ''}">
-        <span class="event-tag">${ev.tag}</span>
-        <div class="event-title">${ev.title}</div>
-        <div class="event-meta">${ev.meta}</div>
-        <div class="event-price">
-          ₹${finalPrice.toLocaleString()}
-          <span>${locked ? '' : (reduction > 0 ? '· ' + reduction.toLocaleString() + ' pts applied' : '')}</span>
-        </div>
-        ${locked
-          ? `<button class="event-action locked-btn" data-action="event-upgrade" data-tier="gold" data-title="${ev.title.replace(/"/g,'&quot;')}">🔒 Unlock with Gold</button>`
-          : `<button class="event-action book-btn" data-action="book-event">Book Seat →</button>`
-        }
-      </div>`;
-    }).join('');
-
-    grid.innerHTML = html || '<div class="empty">No upcoming events. Check back soon!</div>';
-    document.getElementById('eventsSubBadge').textContent = effRank < 1 ? '🔒 Gold+' : '🌟 Exclusive';
+  // ── POINTS ENGINE SIMULATOR (replaces old events grid) ─────────────
+  async function renderEvents() {
+    // Backwards-compat: this is called as 'renderEvents' from init flow
+    return loadSimEvents();
   }
 
-  // ── EVENT DELEGATION for events grid ───────────────────────────────
-  document.getElementById('eventsGrid').addEventListener('click', e => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    if (btn.dataset.action === 'event-upgrade') showUpgradePopup(btn.dataset.tier, btn.dataset.title);
-    if (btn.dataset.action === 'book-event')   location.href = '/events';
-  });
+  async function loadSimEvents() {
+    const sel = document.getElementById('simStar');
+    if (!sel) return;
+
+    const { data: events, error } = await sbClient
+      .from('celebrity_events')
+      .select('celebrity_name,ticket_price')
+      .eq('status', 'live')
+      .order('ticket_price', { ascending: false })
+      .limit(20);
+
+    if (error || !events || !events.length) {
+      sel.innerHTML = '<option value="">No celebrities to show yet</option>';
+      simUpdate();
+      return;
+    }
+
+    sel.innerHTML = events.map(function(e){
+      var price = parseInt(e.ticket_price, 10) || 0;
+      return '<option data-price="' + price + '">' +
+        e.celebrity_name + ' — ₹' + price.toLocaleString('en-IN') +
+        '</option>';
+    }).join('');
+
+    simUpdate();
+  }
+
+  function simUpdate() {
+    var spend = document.getElementById('simSpend');
+    var sel   = document.getElementById('simStar');
+    if (!spend || !sel) return;
+    var amt   = parseInt(spend.value, 10) || 0;
+    var opt   = sel.options[sel.selectedIndex];
+    var price = opt && opt.dataset.price ? parseInt(opt.dataset.price, 10) : 0;
+    var pts   = Math.floor(amt / 3);
+    var ptsValue  = pts * 3;
+    var reduction = Math.min(ptsValue, price);
+    var finalP    = Math.max(price - reduction, 0);
+    var fmt = function(n){ return '₹' + Math.round(n).toLocaleString('en-IN'); };
+
+    document.getElementById('simSpendOut').textContent  = fmt(amt);
+    document.getElementById('simPtsEarned').textContent = pts.toLocaleString('en-IN');
+    document.getElementById('simPtsValue').textContent  = fmt(ptsValue);
+    document.getElementById('simBasePrice').textContent = price ? fmt(price) : '—';
+    document.getElementById('simFinalPrice').textContent= price ? fmt(finalP) : '—';
+    var saved = document.getElementById('simSaved');
+    if (reduction > 0) {
+      saved.textContent = 'You saved ' + fmt(reduction) + ' with points';
+      saved.style.visibility = 'visible';
+    } else {
+      saved.style.visibility = 'hidden';
+    }
+  }
+
+  // Wire simulator inputs after DOM ready
+  (function(){
+    var spend = document.getElementById('simSpend');
+    var sel   = document.getElementById('simStar');
+    if (spend) spend.addEventListener('input', simUpdate);
+    if (sel)   sel.addEventListener('change', simUpdate);
+  })();
 
   // ── REFERRAL STATS ───────────────────────────────────────────────────
   async function loadReferralStats() {
@@ -1618,10 +1724,9 @@
 
     Object.assign(md, update);
     if (update.points) {
-      document.getElementById('statPts').textContent = update.points.toLocaleString();
-      document.getElementById('navPts').textContent  = update.points.toLocaleString() + ' pts';
+      document.getElementById('statP').textContent  = update.points.toLocaleString();
+      document.getElementById('navPts').textContent = update.points.toLocaleString() + ' pts';
     }
-    if (update.city) document.getElementById('statCity').textContent = update.city;
 
     // Log to member_activity
     if (!wasDone && md.member_id) {
@@ -1694,71 +1799,11 @@
 
 })();
 
-  // ── LOAD CELEBRITY EVENTS ────────────────────────────────────
+  // ── LOAD CELEBRITY EVENTS (alias to simulator loader) ────────
   async function loadEvents() {
-    const grid = document.getElementById('eventsGrid');
-    if (!grid) return;
-    const memberPts = md.points || 0;
-
-    const { data: events, error } = await sbClient
-      .from('celebrity_events')
-      .select('*')
-      .eq('status','live')
-      .order('ticket_price', { ascending: false })
-      .limit(12);
-
-    if (error || !events || !events.length) {
-      grid.innerHTML = '<div class="empty">No events scheduled yet. Check back soon.</div>';
-      return;
-    }
-
-    const fmtINR = n => '\u20B9' + n.toLocaleString('en-IN');
-    const tierLabel = {S:'S-Class · VIP',A:'A-Class',B:'B-Class',C:'C-Class'};
-
-    grid.innerHTML = events.map(e => {
-      const seatsLeft = e.available_seats - e.reserved_seats;
-      const soldOut   = seatsLeft <= 0;
-      const ptsPerRupee = 100 / e.points_value_per_100;
-      const maxDiscount = Math.min(
-        Math.floor(e.ticket_price * e.max_discount_pct / 100),
-        e.max_discount_abs
-      );
-      const ptsForMax   = Math.ceil(maxDiscount * ptsPerRupee);
-      const usablePts   = Math.min(memberPts, ptsForMax);
-      const rawDiscount = usablePts / ptsPerRupee;
-      const discount    = Math.floor(rawDiscount / 50) * 50;
-      const ptsUsed     = Math.ceil(discount * ptsPerRupee);
-      const finalPrice  = e.ticket_price - discount;
-      const eventDate   = e.event_date
-        ? new Date(e.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})
-        : 'TBA';
-
-      return `<div class="event-card">
-        <div class="event-card-top">
-          <div class="event-tier ${e.tier}">${tierLabel[e.tier]||e.tier}</div>
-          <div class="event-name">${e.celebrity_name}</div>
-          <div class="event-title-sub">${e.event_title}</div>
-          <div class="event-meta">
-            <span class="event-meta-pill">\uD83D\uDCC5 ${eventDate}</span>
-            <span class="event-meta-pill">\uD83D\uDCCD ${e.city||'TBA'}</span>
-            <span class="event-meta-pill">${soldOut ? '\uD83D\uDD34 Sold Out' : '\uD83D\uDFE2 '+seatsLeft+' seats left'}</span>
-          </div>
-        </div>
-        <div class="event-pricing">
-          <div class="event-price-row"><span>Base price</span><span class="event-price-val">${fmtINR(e.ticket_price)}</span></div>
-          <div class="event-price-row"><span>Max possible saving</span><span class="event-price-val">${fmtINR(maxDiscount)}</span></div>
-          <div class="event-price-row"><span>Your points saving</span><span class="event-price-val hl">${discount > 0 ? '− '+fmtINR(discount)+' ('+ptsUsed+' pts)' : 'Earn points to save'}</span></div>
-          <div class="event-final">
-            <span class="event-final-label">Your price</span>
-            <span class="event-final-price">${fmtINR(finalPrice)}</span>
-          </div>
-          ${soldOut
-            ? '<div class="event-sold">SOLD OUT</div>'
-            : '<button class="event-book-btn" onclick="bookEvent(this)" data-event-id="'+e.id+'" data-final-price="'+finalPrice+'" data-discount="'+discount+'" data-pts-used="'+ptsUsed+'">Book Seat — '+fmtINR(finalPrice)+'</button>'}
-          ${!soldOut && seatsLeft <= 5 ? '<div style="font-size:.65rem;color:var(--red);text-align:center;margin-top:.3rem">\u26A1 Only '+seatsLeft+' seats left!</div>' : ''}
-        </div>
-      </div>`;
-    }).join('');
+    // Old grid removed - simulator now handles celebrity data.
+    // Stub kept so external callers don't error.
+    return;
   }
 
   // ── BOOK EVENT ───────────────────────────────────────────────
@@ -1808,7 +1853,7 @@
           const vr = await verRes.json();
           if (vr.success) {
             showToast('\uD83C\uDF89 Booking confirmed! Check your email.');
-            setTimeout(() => { loadEvents(); loadBookings(); loadPointsHistory(); loadDashboard(); }, 1500);
+            setTimeout(() => { loadEvents(); loadBookings(); loadPointsHistory(); }, 1500);
           } else {
             showToast('Payment verified but booking had an issue. Contact support.');
           }
