@@ -278,6 +278,7 @@
       font-size: .8rem; letter-spacing: .14em;
       margin-bottom: .65rem;
     }
+    .b-free     { background: rgba(0,200,83,.12);    color: var(--green); border: 1px solid rgba(0,200,83,.25); }
     .b-gold     { background: rgba(242,183,5,.12);   color: var(--gold);  border: 1px solid rgba(242,183,5,.3); }
     .b-platinum { background: rgba(192,192,192,.1);  color: #C0C0C0;       border: 1px solid rgba(192,192,192,.3); }
     .b-dwcpurple{ background: rgba(124,58,237,.12);  color: #A78BFA;       border: 1px solid rgba(124,58,237,.35); }
@@ -345,7 +346,6 @@
     }
     .voucher-locked-btn:hover { background: rgba(242,183,5,.08); color: var(--gold); }
 
-    /* Divider between city and other vouchers */
     .voucher-divider {
       grid-column: 1 / -1;
       padding: .8rem 0 .2rem;
@@ -1273,29 +1273,27 @@
       console.error('loadVouchers error:', error);
       grid.innerHTML = '<div class="empty">Could not load vouchers right now. Please refresh.</div>';
       badge.textContent = '—';
-      document.getElementById('statV').textContent = '—';
       return;
     }
 
     if (!vouchers || vouchers.length === 0) {
       grid.innerHTML = '<div class="empty">No vouchers available yet — we\'re onboarding partners. Check back soon!</div>';
       badge.textContent = '0 available';
-      document.getElementById('statV').textContent = '0';
       return;
     }
 
-    // Helper: which tiers are eligible — array stored on row, member's effTier
+    // Helper: which tiers are eligible
     const isUnlocked = v => {
       if (!v.valid_for_tiers || v.valid_for_tiers.length === 0) return false;
       return v.valid_for_tiers.includes(effTier);
     };
-    // Helper: lowest tier required (for the badge label + upgrade target)
+    // Helper: lowest tier required
     const lowestRequired = v => {
       const order = ['gold','platinum','dwcpurple'];
       return order.find(t => v.valid_for_tiers?.includes(t)) || 'gold';
     };
 
-    // Sort: city match first, then expiry urgency (soonest first), then bigger discount
+    // Sort: city match first, then expiry urgency, then bigger discount
     const sortVouchers = (a, b) => {
       const aCity = (a.partners?.city || '').toLowerCase().trim();
       const bCity = (b.partners?.city || '').toLowerCase().trim();
@@ -1316,7 +1314,6 @@
     let html = '';
     let availCount = 0;
 
-    // No local vouchers note
     if (memberCity && cityVouchers.length === 0 && otherVouchers.length > 0) {
       html += `<div class="city-banner">📍 No vouchers in <strong>${md.city}</strong> yet — we're onboarding partners. Showing vouchers from other cities below.</div>`;
     }
@@ -1325,39 +1322,33 @@
       const unlocked   = isUnlocked(v);
       const requiredT  = lowestRequired(v);
       const redeemed   = myRedemptions[v.id] || 0;
-      const perMember  = 1; // currently one redemption per member per voucher
+      const perMember  = 1;
       const remaining  = (v.quantity || 0) - (v.redeemed_count || 0);
       const vDays      = Math.ceil((new Date(v.expires_at) - now) / 86400000);
       const expWarn    = vDays <= 7;
 
-      // Brand display: "Paradise Biryani · Begumpet, Hyderabad"
       const p = v.partners || {};
       const brand = (p.name || 'Partner').toUpperCase();
       const areaCity = [p.area, p.city].filter(Boolean).join(', ');
 
-      // Discount string
       const discStr = v.discount_type === 'percent'
         ? `${v.discount_value}% OFF`
         : `₹${(v.discount_value || 0).toLocaleString('en-IN')} OFF`;
 
-      // Min spend pill
       const minPill = v.min_billing && v.min_billing > 0
         ? `<span class="voucher-pill">Min ₹${v.min_billing.toLocaleString('en-IN')}</span>`
         : '';
 
-      // Expiry pill
       const expPill = expWarn
         ? `<span class="voucher-pill warn">⚠️ Expires in ${vDays} day${vDays === 1 ? '' : 's'}</span>`
         : `<span class="voucher-pill">Valid till ${new Date(v.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>`;
 
-      // Tier badge
       const badgeClass = unlocked ? `b-${requiredT}` : 'b-locked';
       const badgeText = unlocked ? tierDisplayName(requiredT).toUpperCase()
                                  : `🔒 ${tierDisplayName(requiredT).toUpperCase()}`;
 
       if (unlocked) availCount++;
 
-      // Button state
       let btnHtml;
       if (!unlocked) {
         btnHtml = `<button class="voucher-locked-btn" data-action="upgrade" data-tier="${requiredT}" data-title="${(v.title || '').replace(/"/g,'&quot;')}">🔒 Upgrade to ${tierDisplayName(requiredT)}</button>`;
@@ -1395,8 +1386,7 @@
     otherVouchers.forEach(v => { html += renderCard(v, true); });
 
     grid.innerHTML = html || '<div class="empty">No vouchers available yet. Check back soon!</div>';
-    document.getElementById('statV').textContent = availCount;
-    badge.textContent = availCount + (availCount === 1 ? ' available' : ' available');
+    badge.textContent = availCount + ' available';
   }
 
   // ── EVENT DELEGATION for voucher grid ───────────────────────────────
