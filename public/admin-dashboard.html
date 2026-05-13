@@ -15,11 +15,9 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;overflow:hidden}
 a{color:inherit;text-decoration:none}
-/* ── STARS ── */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 #stars i{position:absolute;color:#F2B705;font-style:normal;animation:tw 3s ease-in-out infinite alternate}
 @keyframes tw{0%{opacity:.03}100%{opacity:.18}}
-/* ── LOGIN ── */
 #loginScreen{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
 .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2.5rem 2rem}
 .login-logo{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--gold);letter-spacing:.08em;margin-bottom:2rem;display:block}
@@ -35,9 +33,7 @@ a{color:inherit;text-decoration:none}
 .btn-login:hover{opacity:.88}
 .btn-login:disabled{opacity:.5;cursor:not-allowed}
 .login-err{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b;font-size:.8rem;padding:.6rem .9rem;border-radius:6px;display:none;text-align:center;margin-top:.75rem}
-/* ── APP SHELL ── */
 #app{position:fixed;inset:0;display:none;z-index:10}
-/* ── SIDEBAR ── */
 .sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:rgba(6,4,10,.97);border-right:1px solid var(--border2);z-index:50;display:flex;flex-direction:column;overflow-y:auto}
 .sb-logo{padding:1.1rem .9rem .8rem;border-bottom:1px solid var(--border2);flex-shrink:0}
 .sb-logo img{height:38px;width:auto}
@@ -53,7 +49,6 @@ a{color:inherit;text-decoration:none}
 .sb-bottom{padding:.75rem .9rem;border-top:1px solid var(--border2);flex-shrink:0}
 .sb-signout{font-size:.72rem;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:.4rem;background:none;border:none;font-family:'Poppins',sans-serif;width:100%;padding:.4rem 0}
 .sb-signout:hover{color:var(--red)}
-/* ── MAIN ── */
 .main{position:fixed;left:var(--sidebar);top:0;right:0;bottom:0;overflow-y:auto;background:var(--bg)}
 .sec{display:none;padding:1.75rem 2rem 4rem;min-height:100%}
 .sec.active{display:block}
@@ -61,17 +56,14 @@ a{color:inherit;text-decoration:none}
 .sec-title{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--text);letter-spacing:1px}
 .sec-title em{color:var(--gold);font-style:normal}
 .sec-sub{font-size:.78rem;color:var(--muted);margin-top:.2rem}
-/* ── STAT CARDS ── */
 .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.9rem;margin-bottom:1.5rem}
 .stat-card{background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.1rem}
 .stat-val{font-family:'Bebas Neue',cursive;font-size:2rem;line-height:1;color:var(--gold);margin-bottom:.2rem}
 .stat-label{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .stat-sub{font-size:.7rem;color:var(--sub);margin-top:.2rem}
-/* ── CARDS ── */
 .card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem}
 .card-title{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--text);margin-bottom:.25rem}
 .card-sub{font-size:.75rem;color:var(--muted);margin-bottom:1rem}
-/* ── BUTTONS ── */
 .btn-primary{background:var(--gold);color:#06040A;border:none;border-radius:8px;padding:.55rem 1.2rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:opacity .2s;white-space:nowrap}
 .btn-primary:hover{opacity:.88}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed}
@@ -82,13 +74,11 @@ a{color:inherit;text-decoration:none}
 .btn-sm{padding:.35rem .7rem;font-size:.68rem}
 .btn-green{background:rgba(0,200,83,.12);color:var(--green);border:1px solid rgba(0,200,83,.3);border-radius:8px;padding:.45rem .9rem;font-family:'Poppins',sans-serif;font-size:.72rem;cursor:pointer}
 .btn-green:hover{background:rgba(0,200,83,.2)}
-/* ── FILTERS ── */
 .filter-row{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
 .filter-input,.filter-sel{background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.5rem .75rem;border-radius:8px;font-family:'Poppins',sans-serif;font-size:.78rem;outline:none;transition:border-color .2s}
 .filter-input{flex:1;min-width:180px}
 .filter-input:focus,.filter-sel:focus{border-color:var(--gold)}
 .filter-input::placeholder{color:rgba(255,255,255,.25)}
-/* ── TABLE ── */
 .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border2)}
 table{width:100%;border-collapse:collapse;min-width:600px}
 thead th{background:rgba(255,255,255,.03);font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.7rem .9rem;text-align:left;border-bottom:1px solid var(--border2);white-space:nowrap}
@@ -97,7 +87,6 @@ tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:rgba(255,255,255,.02)}
 .td-actions{display:flex;gap:.4rem;flex-wrap:wrap}
 .empty{text-align:center;padding:2.5rem;color:var(--muted);font-size:.82rem}
-/* ── BADGES ── */
 .badge{display:inline-block;font-size:.6rem;font-weight:700;padding:.18rem .55rem;border-radius:100px;text-transform:uppercase;letter-spacing:.06em}
 .badge-gold{background:rgba(242,183,5,.12);border:1px solid rgba(242,183,5,.3);color:var(--gold)}
 .badge-green{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);color:var(--green)}
@@ -105,7 +94,6 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 .badge-blue{background:rgba(26,111,255,.1);border:1px solid rgba(26,111,255,.25);color:#7eb3ff}
 .badge-gray{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--muted)}
 .badge-purple{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);color:#c4b5fd}
-/* ── MODAL ── */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem}
 .modal-backdrop.open{display:flex}
 .modal{background:#0f0d14;border:1px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:580px;max-height:88vh;overflow-y:auto;position:relative}
@@ -124,13 +112,11 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 .modal-msg{font-size:.78rem;padding:.5rem .75rem;border-radius:6px;margin-top:.75rem;display:none}
 .modal-msg.success{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:var(--green)}
 .modal-msg.error{background:rgba(212,0,42,.1);border:1px solid rgba(212,0,42,.3);color:#ff6b6b}
-/* ── PAGINATION ── */
 .pagination{display:flex;align-items:center;gap:.5rem;margin-top:1rem;justify-content:flex-end;font-size:.75rem}
 .page-btn{background:var(--card);border:1px solid var(--border2);color:var(--sub);padding:.35rem .75rem;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.72rem}
 .page-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
 .page-btn:disabled{opacity:.35;cursor:not-allowed}
 .page-info{color:var(--muted)}
-/* ── CONFIG GRID ── */
 .config-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .config-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:1rem}
 .config-key{font-size:.68rem;color:var(--muted);font-family:monospace;margin-bottom:.4rem}
@@ -139,7 +125,6 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 .config-val{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.55rem .75rem;border-radius:6px;font-family:'Poppins',sans-serif;font-size:.82rem;outline:none}
 .config-val:focus{border-color:var(--gold)}
 .config-save{margin-top:.5rem}
-/* ── FLAG TOGGLE ── */
 .flag-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
 .flag-info{flex:1}
 .flag-label{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
@@ -150,10 +135,8 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 .toggle input:checked+.toggle-slider{background:var(--gold);border-color:var(--gold)}
 .toggle-slider::before{content:'';position:absolute;height:18px;width:18px;left:2px;bottom:2px;background:#06040A;border-radius:50%;transition:.3s}
 .toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
-/* ── TOAST ── */
 #toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:#13111a;border:1px solid var(--border);border-radius:10px;padding:.85rem 1.25rem;font-size:.8rem;color:var(--text);max-width:320px;transform:translateY(120%);transition:transform .3s ease;pointer-events:none}
 #toast.show{transform:translateY(0)}
-/* ── OVERVIEW SPECIFIC ── */
 .revenue-card{background:linear-gradient(135deg,rgba(242,183,5,.08),rgba(242,183,5,.02));border:1px solid rgba(242,183,5,.2);border-radius:14px;padding:1.25rem 1.5rem}
 .revenue-num{font-family:'Bebas Neue',cursive;font-size:2.5rem;color:var(--gold);line-height:1}
 .event-pipeline{display:grid;gap:.75rem}
@@ -161,34 +144,41 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 .pi-celeb{font-weight:700;font-size:.85rem;color:var(--text)}
 .pi-date{font-size:.72rem;color:var(--muted)}
 .pi-seats{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--gold)}
-/* ── CMS ── */
 .cms-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .cms-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:1rem}
 .cms-label{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
 .cms-desc{font-size:.68rem;color:var(--muted);margin-bottom:.6rem}
 .cms-input{width:100%;background:#0d0814;border:1px solid var(--border2);color:var(--text);padding:.55rem .75rem;border-radius:6px;font-family:'Poppins',sans-serif;font-size:.82rem;outline:none}
 .cms-input:focus{border-color:var(--gold)}
-/* ── ADMIN ROLES ── */
 .role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-bottom:1rem}
 .role-perm{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--sub)}
 .role-perm input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px}
-/* ── DYNAMIC PRICING PREVIEW ── */
 .dp-preview{background:rgba(26,111,255,.05);border:1px solid rgba(26,111,255,.15);border-radius:10px;padding:.9rem 1rem;margin-top:.75rem;font-size:.75rem;color:var(--sub)}
 .dp-row{display:flex;justify-content:space-between;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .dp-row:last-child{border-bottom:none}
-@media(max-width:768px){
-  :root{--sidebar:0px}
-  .sidebar{transform:translateX(-160px);transition:transform .3s}
-  .sidebar.open{transform:translateX(0);width:160px}
-  .main{left:0}
-  .config-grid,.cms-grid,.form-grid{grid-template-columns:1fr}
-}
+.pm-card{background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--border2);transition:border-color .2s,box-shadow .2s}
+.pm-card.test-on{border:1px solid rgba(212,0,42,.45);box-shadow:0 0 0 1px rgba(212,0,42,.18)}
+.pm-ribbon{display:none;background:linear-gradient(90deg,#D4002A 0%,#8a001b 100%);padding:.55rem 1.5rem;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
+.pm-card.test-on .pm-ribbon{display:flex}
+.pm-dot{display:inline-block;width:8px;height:8px;background:#fff;border-radius:50%;animation:tw 1.5s ease-in-out infinite alternate}
+.pm-body{padding:1.25rem 1.5rem}
+.pm-head-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+.pm-pill{display:flex;align-items:center;gap:.3rem;background:#0d0814;padding:.3rem;border-radius:100px;border:1px solid var(--border2)}
+.pm-pill-btn{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.4);padding:.35rem 1rem;letter-spacing:.08em;background:none;border:none;border-radius:100px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .15s}
+.pm-pill-btn.on-live{background:#00C853;color:#fff}
+.pm-pill-btn.on-test{background:#D4002A;color:#fff}
+.pm-test-grid{margin-top:1rem;padding:1rem;background:rgba(212,0,42,.06);border:1px solid rgba(212,0,42,.2);border-radius:10px}
+.pm-test-header{font-size:.65rem;font-weight:700;color:#ff6b6b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.pm-test-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+.pm-tier-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem}
+.pm-test-input{width:100%;background:#0d0814;color:#fff;padding:.55rem .75rem;border-radius:6px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:600;outline:none;box-sizing:border-box}
+.pm-live-ref{font-size:.6rem;color:var(--muted);margin-top:.3rem}
+.pm-note{margin-top:.95rem;padding:.7rem .9rem;background:rgba(255,255,255,.03);border-left:2px solid var(--gold);border-radius:4px;font-size:.7rem;color:rgba(255,255,255,.7);line-height:1.6}
+@media(max-width:768px){:root{--sidebar:0px}.sidebar{transform:translateX(-160px);transition:transform .3s}.sidebar.open{transform:translateX(0);width:160px}.main{left:0}.config-grid,.cms-grid,.form-grid,.pm-test-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="stars"></div>
-
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <a class="login-logo" href="/">★ DINE <span>WITH CELEBRITY</span></a>
@@ -200,10 +190,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
     <div class="login-err" id="lErr"></div>
   </div>
 </div>
-
-<!-- APP -->
 <div id="app">
-  <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="sb-logo"><img src="/logo_navbar_400px.png" alt="DWC" onerror="this.src='/logo.png'"/></div>
     <div class="sb-user"><div class="sb-name" id="sbName">Admin</div><div class="sb-role" id="sbRole">Super Admin</div></div>
@@ -216,7 +203,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       <div class="sb-item" onclick="showSection('events')" id="nav-events"><span class="sb-icon">🎟️</span>Events</div>
       <div class="sb-item" onclick="showSection('bookings')" id="nav-bookings"><span class="sb-icon">📋</span>Bookings</div>
       <div class="sb-item" onclick="showSection('sponsors')" id="nav-sponsors"><span class="sb-icon">💼</span>Sponsors</div>
-      <div class="sb-section-label">Members & Partners</div>
+      <div class="sb-section-label">Members &amp; Partners</div>
       <div class="sb-item" onclick="showSection('members')" id="nav-members"><span class="sb-icon">👥</span>Members</div>
       <div class="sb-item" onclick="showSection('partners')" id="nav-partners"><span class="sb-icon">🏪</span>Partners</div>
       <div class="sb-item" onclick="showSection('vouchers')" id="nav-vouchers"><span class="sb-icon">🎁</span>Vouchers</div>
@@ -231,16 +218,9 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       <button class="sb-signout" onclick="signOut()">🚪 Sign Out</button>
     </div>
   </nav>
-
-  <!-- MAIN CONTENT -->
   <main class="main">
-
-    <!-- 1. OVERVIEW -->
     <section class="sec active" id="sec-overview">
-      <div class="sec-header">
-        <div><div class="sec-title">📊 OVERVIEW</div><div class="sec-sub">Real-time platform snapshot</div></div>
-        <button class="btn-secondary" onclick="loadOverview()">↻ Refresh</button>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">📊 OVERVIEW</div><div class="sec-sub">Real-time platform snapshot</div></div><button class="btn-secondary" onclick="loadOverview()">↻ Refresh</button></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="ov-members" style="color:var(--gold)">—</div><div class="stat-label">Total Members</div><div class="stat-sub" id="ov-members-sub"></div></div>
         <div class="stat-card"><div class="stat-val" id="ov-paid" style="color:var(--green)">—</div><div class="stat-label">Paid Members</div></div>
@@ -250,42 +230,17 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
         <div class="stat-card"><div class="stat-val" id="ov-celebrities" style="color:#ff6b6b">—</div><div class="stat-label">Celebrities</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-        <div class="revenue-card">
-          <div class="card-sub">Total DWC Revenue (Voucher Fees)</div>
-          <div class="revenue-num" id="ov-revenue">₹0</div>
-          <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">12% of all voucher face values redeemed</div>
-        </div>
-        <div class="revenue-card">
-          <div class="card-sub">Pending Partner Approvals</div>
-          <div class="revenue-num" id="ov-pending" style="color:var(--red)">0</div>
-          <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem"><a onclick="showSection('partners')" style="color:var(--gold);cursor:pointer">View pending →</a></div>
-        </div>
+        <div class="revenue-card"><div class="card-sub">Total DWC Revenue (Voucher Fees)</div><div class="revenue-num" id="ov-revenue">₹0</div><div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">12% of all voucher face values redeemed</div></div>
+        <div class="revenue-card"><div class="card-sub">Pending Partner Approvals</div><div class="revenue-num" id="ov-pending" style="color:var(--red)">0</div><div style="font-size:.7rem;color:var(--muted);margin-top:.4rem"><a onclick="showSection('partners')" style="color:var(--gold);cursor:pointer">View pending →</a></div></div>
       </div>
-      <div class="card">
-        <div class="card-title">Upcoming Events</div>
-        <div class="event-pipeline" id="ov-pipeline"><div class="empty">No upcoming events</div></div>
-      </div>
+      <div class="card"><div class="card-title">Upcoming Events</div><div class="event-pipeline" id="ov-pipeline"><div class="empty">No upcoming events</div></div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div class="card">
-          <div class="card-title">Recent Members</div>
-          <div id="ov-recent-members"><div class="empty">Loading...</div></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Recent Bookings</div>
-          <div id="ov-recent-bookings"><div class="empty">Loading...</div></div>
-        </div>
+        <div class="card"><div class="card-title">Recent Members</div><div id="ov-recent-members"><div class="empty">Loading...</div></div></div>
+        <div class="card"><div class="card-title">Recent Bookings</div><div id="ov-recent-bookings"><div class="empty">Loading...</div></div></div>
       </div>
     </section>
-
-    <!-- 2. CELEBRITIES -->
     <section class="sec" id="sec-celebrities">
-      <div class="sec-header">
-        <div><div class="sec-title">⭐ CELEBRITIES</div><div class="sec-sub">Manage celebrity roster, pricing and availability</div></div>
-        <div style="display:flex;gap:.6rem">
-          <button class="btn-secondary" onclick="loadCelebrities()">↻ Refresh</button>
-          <button class="btn-primary" onclick="openCelebModal()">+ Add Celebrity</button>
-        </div>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">⭐ CELEBRITIES</div><div class="sec-sub">Manage celebrity roster, pricing and availability</div></div><div style="display:flex;gap:.6rem"><button class="btn-secondary" onclick="loadCelebrities()">↻ Refresh</button><button class="btn-primary" onclick="openCelebModal()">+ Add Celebrity</button></div></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="cel-total">—</div><div class="stat-label">Total</div></div>
         <div class="stat-card"><div class="stat-val" id="cel-available" style="color:var(--green)">—</div><div class="stat-label">Available</div></div>
@@ -295,49 +250,17 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       </div>
       <div class="filter-row">
         <input type="text" class="filter-input" id="cel-search" placeholder="Search celebrity name..." oninput="loadCelebrities()"/>
-        <select class="filter-sel" id="cel-tier" onchange="loadCelebrities()">
-          <option value="">All Tiers</option>
-          <option value="S">S-Class</option><option value="A">A-Class</option>
-          <option value="B">B-Class</option><option value="C">C-Class</option>
-        </select>
-        <select class="filter-sel" id="cel-avail" onchange="loadCelebrities()">
-          <option value="">All Status</option>
-          <option value="available">Available</option>
-          <option value="booked">Booked</option>
-          <option value="coming_soon">Coming Soon</option>
-        </select>
+        <select class="filter-sel" id="cel-tier" onchange="loadCelebrities()"><option value="">All Tiers</option><option value="S">S-Class</option><option value="A">A-Class</option><option value="B">B-Class</option><option value="C">C-Class</option></select>
+        <select class="filter-sel" id="cel-avail" onchange="loadCelebrities()"><option value="">All Status</option><option value="available">Available</option><option value="booked">Booked</option><option value="coming_soon">Coming Soon</option></select>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Name</th><th>Tier</th><th>Industry</th><th>Base Fee</th><th>Agency</th><th>Availability</th><th>Actions</th></tr></thead>
-          <tbody id="cel-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Tier</th><th>Industry</th><th>Base Fee</th><th>Agency</th><th>Availability</th><th>Actions</th></tr></thead><tbody id="cel-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 3. AGENCIES -->
     <section class="sec" id="sec-agencies">
-      <div class="sec-header">
-        <div><div class="sec-title">🤝 AGENCIES</div><div class="sec-sub">Manage talent agencies and commission structures</div></div>
-        <button class="btn-primary" onclick="openAgencyModal()">+ Add Agency</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Agency Name</th><th>Contact</th><th>Email</th><th>Commission %</th><th>Celebrities</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody id="agency-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">🤝 AGENCIES</div><div class="sec-sub">Manage talent agencies and commission structures</div></div><button class="btn-primary" onclick="openAgencyModal()">+ Add Agency</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Agency Name</th><th>Contact</th><th>Email</th><th>Commission %</th><th>Celebrities</th><th>Status</th><th>Actions</th></tr></thead><tbody id="agency-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 4. EVENTS -->
     <section class="sec" id="sec-events">
-      <div class="sec-header">
-        <div><div class="sec-title">🎟️ EVENTS</div><div class="sec-sub">Create and manage all celebrity events</div></div>
-        <div style="display:flex;gap:.6rem">
-          <button class="btn-secondary" onclick="loadEvents()">↻ Refresh</button>
-          <button class="btn-primary" onclick="openEventModal()">+ Create Event</button>
-        </div>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">🎟️ EVENTS</div><div class="sec-sub">Create and manage all celebrity events</div></div><div style="display:flex;gap:.6rem"><button class="btn-secondary" onclick="loadEvents()">↻ Refresh</button><button class="btn-primary" onclick="openEventModal()">+ Create Event</button></div></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="ev-total">—</div><div class="stat-label">Total Events</div></div>
         <div class="stat-card"><div class="stat-val" id="ev-live" style="color:var(--green)">—</div><div class="stat-label">Live</div></div>
@@ -345,31 +268,13 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
         <div class="stat-card"><div class="stat-val" id="ev-confirmed">—</div><div class="stat-label">Confirmed Bookings</div></div>
       </div>
       <div class="filter-row">
-        <select class="filter-sel" id="ev-filter-tier" onchange="loadEvents()">
-          <option value="">All Tiers</option>
-          <option value="S">S-Class</option><option value="A">A-Class</option>
-          <option value="B">B-Class</option><option value="C">C-Class</option>
-        </select>
-        <select class="filter-sel" id="ev-filter-status" onchange="loadEvents()">
-          <option value="">All Status</option>
-          <option value="live">Live</option><option value="draft">Draft</option>
-          <option value="sold_out">Sold Out</option><option value="completed">Completed</option>
-        </select>
+        <select class="filter-sel" id="ev-filter-tier" onchange="loadEvents()"><option value="">All Tiers</option><option value="S">S-Class</option><option value="A">A-Class</option><option value="B">B-Class</option><option value="C">C-Class</option></select>
+        <select class="filter-sel" id="ev-filter-status" onchange="loadEvents()"><option value="">All Status</option><option value="live">Live</option><option value="draft">Draft</option><option value="sold_out">Sold Out</option><option value="completed">Completed</option></select>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Celebrity</th><th>Event Title</th><th>Tier</th><th>Date</th><th>City</th><th>Price</th><th>Seats</th><th>Confirmed</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody id="ev-tbody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Celebrity</th><th>Event Title</th><th>Tier</th><th>Date</th><th>City</th><th>Price</th><th>Seats</th><th>Confirmed</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ev-tbody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 5. BOOKINGS -->
     <section class="sec" id="sec-bookings">
-      <div class="sec-header">
-        <div><div class="sec-title">📋 BOOKINGS</div><div class="sec-sub">All event bookings — no refunds policy applies</div></div>
-        <button class="btn-secondary" onclick="loadBookings()">↻ Refresh</button>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">📋 BOOKINGS</div><div class="sec-sub">All event bookings — no refunds policy applies</div></div><button class="btn-secondary" onclick="loadBookings()">↻ Refresh</button></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="bk-total">—</div><div class="stat-label">Total Bookings</div></div>
         <div class="stat-card"><div class="stat-val" id="bk-confirmed" style="color:var(--green)">—</div><div class="stat-label">Confirmed</div></div>
@@ -378,27 +283,12 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       </div>
       <div class="filter-row">
         <input type="text" class="filter-input" id="bk-search" placeholder="Search member ID or event..." oninput="loadBookings()"/>
-        <select class="filter-sel" id="bk-status" onchange="loadBookings()">
-          <option value="">All Status</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="pending">Pending</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
+        <select class="filter-sel" id="bk-status" onchange="loadBookings()"><option value="">All Status</option><option value="confirmed">Confirmed</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option></select>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Booking ID</th><th>Member</th><th>Event</th><th>Base Price</th><th>Pts Used</th><th>Discount</th><th>Paid</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
-          <tbody id="bk-tbody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Booking ID</th><th>Member</th><th>Event</th><th>Base Price</th><th>Pts Used</th><th>Discount</th><th>Paid</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="bk-tbody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 6. MEMBERS -->
     <section class="sec" id="sec-members">
-      <div class="sec-header">
-        <div><div class="sec-title">👥 MEMBERS</div><div class="sec-sub">View, manage and adjust all member accounts</div></div>
-        <button class="btn-secondary" onclick="loadMembers()">↻ Refresh</button>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">👥 MEMBERS</div><div class="sec-sub">View, manage and adjust all member accounts</div></div><button class="btn-secondary" onclick="loadMembers()">↻ Refresh</button></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="mb-total">—</div><div class="stat-label">Total Members</div></div>
         <div class="stat-card"><div class="stat-val" id="mb-free" style="color:var(--sub)">—</div><div class="stat-label">Free</div></div>
@@ -408,30 +298,14 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       </div>
       <div class="filter-row">
         <input type="text" class="filter-input" id="mb-search" placeholder="Search name, email or member ID..." oninput="loadMembers()"/>
-        <select class="filter-sel" id="mb-tier" onchange="loadMembers()">
-          <option value="">All Tiers</option>
-          <option value="free">Free</option><option value="gold">Gold</option>
-          <option value="platinum">Platinum</option><option value="dwcpurple">DWC Purple</option>
-        </select>
-        <select class="filter-sel" id="mb-city" onchange="loadMembers()">
-          <option value="">All Cities</option>
-        </select>
+        <select class="filter-sel" id="mb-tier" onchange="loadMembers()"><option value="">All Tiers</option><option value="free">Free</option><option value="gold">Gold</option><option value="platinum">Platinum</option><option value="dwcpurple">DWC Purple</option></select>
+        <select class="filter-sel" id="mb-city" onchange="loadMembers()"><option value="">All Cities</option></select>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Member ID</th><th>Name</th><th>Email</th><th>City</th><th>Tier</th><th>Points</th><th>Monthly Earned</th><th>Joined</th><th>Actions</th></tr></thead>
-          <tbody id="mb-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Member ID</th><th>Name</th><th>Email</th><th>City</th><th>Tier</th><th>Points</th><th>Monthly Earned</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="mb-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody></table></div>
       <div class="pagination" id="mb-pagination"></div>
     </section>
-
-    <!-- 7. PARTNERS -->
     <section class="sec" id="sec-partners">
-      <div class="sec-header">
-        <div><div class="sec-title">🏪 PARTNERS</div><div class="sec-sub">Approve, manage and monitor restaurant and brand partners</div></div>
-        <button class="btn-secondary" onclick="loadPartners()">↻ Refresh</button>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">🏪 PARTNERS</div><div class="sec-sub">Approve, manage and monitor restaurant and brand partners</div></div><button class="btn-secondary" onclick="loadPartners()">↻ Refresh</button></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="pt-total">—</div><div class="stat-label">Total Partners</div></div>
         <div class="stat-card"><div class="stat-val" id="pt-active" style="color:var(--green)">—</div><div class="stat-label">Active</div></div>
@@ -444,34 +318,14 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
         <button class="btn-secondary" id="pt-tab-active" onclick="switchPartnerTab('active')">✅ Active</button>
         <button class="btn-secondary" id="pt-tab-all" onclick="switchPartnerTab('all')">All</button>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Partner Name</th><th>Type</th><th>City</th><th>Contact</th><th>Vouchers</th><th>Redemptions</th><th>Fees (12%)</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody id="pt-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Partner Name</th><th>Type</th><th>City</th><th>Contact</th><th>Vouchers</th><th>Redemptions</th><th>Fees (12%)</th><th>Status</th><th>Actions</th></tr></thead><tbody id="pt-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 8. SPONSORS -->
     <section class="sec" id="sec-sponsors">
-      <div class="sec-header">
-        <div><div class="sec-title">💼 SPONSORS</div><div class="sec-sub">Manage event sponsors and sponsorship deals</div></div>
-        <button class="btn-primary" onclick="openSponsorModal()">+ Add Sponsor</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Sponsor</th><th>Event</th><th>Deal Value</th><th>Seats Allocated</th><th>Branding</th><th>Stage Time</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody id="sp-tbody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">💼 SPONSORS</div><div class="sec-sub">Manage event sponsors and sponsorship deals</div></div><button class="btn-primary" onclick="openSponsorModal()">+ Add Sponsor</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Sponsor</th><th>Event</th><th>Deal Value</th><th>Seats Allocated</th><th>Branding</th><th>Stage Time</th><th>Status</th><th>Actions</th></tr></thead><tbody id="sp-tbody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 9. VOUCHERS -->
     <section class="sec" id="sec-vouchers">
-      <div class="sec-header">
-        <div><div class="sec-title">🎁 VOUCHERS</div><div class="sec-sub">All vouchers across all partners — fees at 12% of face value</div></div>
-        <button class="btn-secondary" onclick="loadVouchers()">↻ Refresh</button>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">🎁 VOUCHERS</div><div class="sec-sub">All vouchers across all partners — fees at 12% of face value</div></div><button class="btn-secondary" onclick="loadVouchers()">↻ Refresh</button></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-val" id="vc-total">—</div><div class="stat-label">Total Vouchers</div></div>
         <div class="stat-card"><div class="stat-val" id="vc-available" style="color:var(--gold)">—</div><div class="stat-label">Available</div></div>
@@ -481,336 +335,75 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       </div>
       <div class="filter-row">
         <select class="filter-sel" id="vc-partner" onchange="loadVouchers()"><option value="">All Partners</option></select>
-        <select class="filter-sel" id="vc-status" onchange="loadVouchers()">
-          <option value="">All Status</option>
-          <option value="available">Available</option>
-          <option value="issued">Issued</option>
-          <option value="redeemed">Redeemed</option>
-        </select>
-        <select class="filter-sel" id="vc-tier" onchange="loadVouchers()">
-          <option value="">All Tiers</option>
-          <option value="gold">Gold</option><option value="platinum">Platinum</option>
-        </select>
+        <select class="filter-sel" id="vc-status" onchange="loadVouchers()"><option value="">All Status</option><option value="available">Available</option><option value="issued">Issued</option><option value="redeemed">Redeemed</option></select>
+        <select class="filter-sel" id="vc-tier" onchange="loadVouchers()"><option value="">All Tiers</option><option value="gold">Gold</option><option value="platinum">Platinum</option></select>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Code</th><th>Partner</th><th>Tier</th><th>Face Value</th><th>DWC Fee (12%)</th><th>Status</th><th>Issued To</th><th>Redeemed</th><th>Actions</th></tr></thead>
-          <tbody id="vc-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Code</th><th>Partner</th><th>Tier</th><th>Face Value</th><th>DWC Fee (12%)</th><th>Status</th><th>Issued To</th><th>Redeemed</th><th>Actions</th></tr></thead><tbody id="vc-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody></table></div>
       <div class="pagination" id="vc-pagination"></div>
     </section>
-
-    <!-- 10. CMS -->
     <section class="sec" id="sec-cms">
-      <div class="sec-header">
-        <div><div class="sec-title">📝 CMS</div><div class="sec-sub">Control all public-facing numbers and text — no developer needed</div></div>
-        <button class="btn-primary" onclick="saveAllCMS()">Save All Changes</button>
-      </div>
-      <div class="card" style="margin-bottom:1rem">
-        <div class="card-title">Homepage & Landing Page Numbers</div>
-        <div class="card-sub">These numbers appear live on your website immediately after saving</div>
-        <div class="cms-grid" id="cms-numbers"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Text Content</div>
-        <div class="card-sub">Headlines, banners and announcement text</div>
-        <div class="cms-grid" id="cms-text"></div>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">📝 CMS</div><div class="sec-sub">Control all public-facing numbers and text — no developer needed</div></div><button class="btn-primary" onclick="saveAllCMS()">Save All Changes</button></div>
+      <div class="card" style="margin-bottom:1rem"><div class="card-title">Homepage &amp; Landing Page Numbers</div><div class="card-sub">These numbers appear live on your website immediately after saving</div><div class="cms-grid" id="cms-numbers"></div></div>
+      <div class="card"><div class="card-title">Text Content</div><div class="card-sub">Headlines, banners and announcement text</div><div class="cms-grid" id="cms-text"></div></div>
     </section>
-
-    <!-- 11. CONFIG -->
     <section class="sec" id="sec-config">
-      <div class="sec-header">
-        <div><div class="sec-title">⚙️ CONFIG</div><div class="sec-sub">Platform settings — nothing is hardcoded</div></div>
+      <div class="sec-header"><div><div class="sec-title">⚙️ CONFIG</div><div class="sec-sub">Platform settings — nothing is hardcoded</div></div></div>
+      <div id="pm-wrapper" style="display:none">
+        <div id="pm-card" class="pm-card">
+          <div class="pm-ribbon">
+            <div style="display:flex;align-items:center;gap:.5rem"><span class="pm-dot"></span><span style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff">⚠ TEST MODE ACTIVE — Live payments disabled</span></div>
+            <span style="font-size:.6rem;color:rgba(255,255,255,.88);letter-spacing:.06em">OWNER-ONLY CONTROL</span>
+          </div>
+          <div class="pm-body">
+            <div class="pm-head-row">
+              <div><div class="card-title" style="margin-bottom:.1rem">💳 PAYMENT MODE</div><div style="font-size:.72rem;color:var(--muted)">Switch site-wide between live Razorpay and test pricing</div></div>
+              <div class="pm-pill"><button id="pm-btn-live" class="pm-pill-btn" onclick="setPaymentMode('live')">LIVE</button><button id="pm-btn-test" class="pm-pill-btn" onclick="setPaymentMode('test')">TEST</button></div>
+            </div>
+            <div class="pm-test-grid">
+              <div class="pm-test-header">TEST PRICES — editable</div>
+              <div class="pm-test-row">
+                <div><div class="pm-tier-label" style="color:#F2B705">GOLD</div><input type="number" id="pm-test-gold" class="pm-test-input" style="border:1px solid rgba(242,183,5,.25)"/><div class="pm-live-ref">Live: ₹4,999</div></div>
+                <div><div class="pm-tier-label" style="color:#e8e8e8">PLATINUM</div><input type="number" id="pm-test-platinum" class="pm-test-input" style="border:1px solid rgba(232,232,232,.2)"/><div class="pm-live-ref">Live: ₹9,999</div></div>
+                <div><div class="pm-tier-label" style="color:#c4b5fd">DWC PURPLE</div><input type="number" id="pm-test-dwcpurple" class="pm-test-input" style="border:1px solid rgba(196,181,253,.22)"/><div class="pm-live-ref">Live: ₹19,999</div></div>
+              </div>
+              <button class="btn-primary" style="margin-top:.95rem" onclick="saveTestPrices()">Save Test Prices</button>
+            </div>
+            <div id="pm-note" class="pm-note"></div>
+          </div>
+        </div>
       </div>
-      <div class="card" style="margin-bottom:1rem">
-        <div class="card-title">Platform Commission</div>
-        <div class="card-sub">DWC's cut from ticket sales and voucher fees</div>
-        <div class="config-grid" id="cfg-platform"></div>
-      </div>
-      <div class="card" style="margin-bottom:1rem">
-        <div class="card-title">Points Economy</div>
-        <div class="card-sub">How members earn and spend points</div>
-        <div class="config-grid" id="cfg-points"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Feature Flags 🚦</div>
-        <div class="card-sub">Enable or disable platform features instantly</div>
-        <div style="display:grid;gap:.75rem;margin-top:.5rem" id="cfg-flags"></div>
-      </div>
+      <div class="card" style="margin-bottom:1rem"><div class="card-title">Platform Commission</div><div class="card-sub">DWC's cut from ticket sales and voucher fees</div><div class="config-grid" id="cfg-platform"></div></div>
+      <div class="card" style="margin-bottom:1rem"><div class="card-title">Points Economy</div><div class="card-sub">How members earn and spend points</div><div class="config-grid" id="cfg-points"></div></div>
+      <div class="card"><div class="card-title">Feature Flags 🚦</div><div class="card-sub">Enable or disable platform features instantly</div><div style="display:grid;gap:.75rem;margin-top:.5rem" id="cfg-flags"></div></div>
     </section>
-
-    <!-- 12. ADMINS -->
     <section class="sec" id="sec-admins">
-      <div class="sec-header">
-        <div><div class="sec-title">🔐 TEAM ADMINS</div><div class="sec-sub">Manage admin team members and their access rights</div></div>
-        <button class="btn-primary" onclick="openAdminModal()">+ Add Admin</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Permissions</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead>
-          <tbody id="adm-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">🔐 TEAM ADMINS</div><div class="sec-sub">Manage admin team members and their access rights</div></div><button class="btn-primary" onclick="openAdminModal()">+ Add Admin</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Permissions</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead><tbody id="adm-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div>
     </section>
-
-    <!-- 13. AUDIT LOGS -->
     <section class="sec" id="sec-logs">
-      <div class="sec-header">
-        <div><div class="sec-title">🔍 AUDIT LOGS</div><div class="sec-sub">Every admin action tracked — who did what, when</div></div>
-        <button class="btn-secondary" onclick="loadLogs()">↻ Refresh</button>
-      </div>
+      <div class="sec-header"><div><div class="sec-title">🔍 AUDIT LOGS</div><div class="sec-sub">Every admin action tracked — who did what, when</div></div><button class="btn-secondary" onclick="loadLogs()">↻ Refresh</button></div>
       <div class="filter-row">
         <input type="text" class="filter-input" id="log-search" placeholder="Search action, admin email..." oninput="loadLogs()"/>
-        <select class="filter-sel" id="log-type" onchange="loadLogs()">
-          <option value="">All Actions</option>
-          <option value="approve_partner">Approve Partner</option>
-          <option value="reject_partner">Reject Partner</option>
-          <option value="credit_points">Credit Points</option>
-          <option value="debit_points">Debit Points</option>
-          <option value="update_config">Update Config</option>
-          <option value="update_cms">Update CMS</option>
-          <option value="create_event">Create Event</option>
-          <option value="edit_event">Edit Event</option>
-          <option value="cancel_booking">Cancel Booking</option>
-          <option value="suspend_member">Suspend Member</option>
-          <option value="exception_refund">Exception Refund</option>
-        </select>
+        <select class="filter-sel" id="log-type" onchange="loadLogs()"><option value="">All Actions</option><option value="approve_partner">Approve Partner</option><option value="reject_partner">Reject Partner</option><option value="credit_points">Credit Points</option><option value="debit_points">Debit Points</option><option value="update_config">Update Config</option><option value="update_cms">Update CMS</option><option value="create_event">Create Event</option><option value="edit_event">Edit Event</option><option value="cancel_booking">Cancel Booking</option><option value="suspend_member">Suspend Member</option><option value="exception_refund">Exception Refund</option><option value="update_payment_mode">Update Payment Mode</option><option value="update_test_prices">Update Test Prices</option></select>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Admin</th><th>Action</th><th>Target</th><th>Old Value</th><th>New Value</th><th>Timestamp</th></tr></thead>
-          <tbody id="log-tbody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>Admin</th><th>Action</th><th>Target</th><th>Old Value</th><th>New Value</th><th>Timestamp</th></tr></thead><tbody id="log-tbody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody></table></div>
       <div class="pagination" id="log-pagination"></div>
     </section>
-
   </main>
 </div>
-
-<!-- TOAST -->
 <div id="toast"></div>
-
-<!-- CELEBRITY MODAL -->
-<div class="modal-backdrop" id="celebModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('celebModal')">✕</button>
-    <div class="modal-title" id="celebModalTitle">Add Celebrity</div>
-    <div class="form-grid">
-      <div class="form-field"><label>Celebrity Name</label><input type="text" id="cel-name" placeholder="e.g. Prabhas"/></div>
-      <div class="form-field"><label>Tier</label>
-        <select id="cel-tier-input">
-          <option value="S">S-Class (₹1.5Cr+)</option>
-          <option value="A">A-Class (₹25L–₹1Cr)</option>
-          <option value="B" selected>B-Class (₹5L–₹25L)</option>
-          <option value="C">C-Class (₹1L–₹5L)</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Base Fee (₹ DWC pays)</label><input type="number" id="cel-fee" placeholder="e.g. 2500000"/></div>
-      <div class="form-field"><label>Industry</label><input type="text" id="cel-industry" placeholder="Bollywood / Tollywood / Cricket..."/></div>
-      <div class="form-field"><label>Agency</label><select id="cel-agency"><option value="">No Agency</option></select></div>
-      <div class="form-field"><label>Availability</label>
-        <select id="cel-availability">
-          <option value="available">Available</option>
-          <option value="booked">Booked</option>
-          <option value="coming_soon">Coming Soon</option>
-        </select>
-      </div>
-      <div class="form-field full"><label>Bio</label><textarea id="cel-bio" placeholder="Brief celebrity bio..."></textarea></div>
-      <div class="form-field"><label>Image URL (optional)</label><input type="text" id="cel-image" placeholder="https://..."/></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveCelebrity()">Save Celebrity</button>
-      <button class="btn-secondary" onclick="closeModal('celebModal')">Cancel</button>
-    </div>
-    <div class="modal-msg" id="cel-msg"></div>
-  </div>
-</div>
-
-<!-- AGENCY MODAL -->
-<div class="modal-backdrop" id="agencyModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('agencyModal')">✕</button>
-    <div class="modal-title" id="agencyModalTitle">Add Agency</div>
-    <div class="form-grid">
-      <div class="form-field full"><label>Agency Name</label><input type="text" id="ag-name" placeholder="e.g. CAA India"/></div>
-      <div class="form-field"><label>Contact Name</label><input type="text" id="ag-contact" placeholder="Contact person"/></div>
-      <div class="form-field"><label>Contact Email</label><input type="email" id="ag-email" placeholder="contact@agency.com"/></div>
-      <div class="form-field"><label>Phone</label><input type="tel" id="ag-phone" placeholder="+91 ..."/></div>
-      <div class="form-field"><label>Commission % (DWC pays agency)</label><input type="number" id="ag-commission" placeholder="10" min="0" max="50" step="0.5"/></div>
-      <div class="form-field full"><label>Notes</label><textarea id="ag-notes" placeholder="Agreement details, special conditions..."></textarea></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveAgency()">Save Agency</button>
-      <button class="btn-secondary" onclick="closeModal('agencyModal')">Cancel</button>
-    </div>
-    <div class="modal-msg" id="ag-msg"></div>
-  </div>
-</div>
-
-<!-- EVENT MODAL -->
-<div class="modal-backdrop" id="eventModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('eventModal')">✕</button>
-    <div class="modal-title" id="eventModalTitle">Create Event</div>
-    <div class="form-grid">
-      <div class="form-field"><label>Celebrity</label><select id="ev-celebrity"><option value="">Select celebrity...</option></select></div>
-      <div class="form-field"><label>Tier</label>
-        <select id="ev-tier-input" onchange="autoSetEventDefaults()">
-          <option value="S">S-Class</option><option value="A">A-Class</option>
-          <option value="B" selected>B-Class</option><option value="C">C-Class</option>
-        </select>
-      </div>
-      <div class="form-field full"><label>Event Title</label><input type="text" id="ev-title" placeholder="e.g. Prabhas Fan Dinner — Hyderabad"/></div>
-      <div class="form-field"><label>Ticket Price (₹)</label><input type="number" id="ev-price" placeholder="20000" oninput="updateDynamicPreview()"/></div>
-      <div class="form-field"><label>Total Seats</label><input type="number" id="ev-seats-total" placeholder="50"/></div>
-      <div class="form-field"><label>Points Value per 100</label>
-        <select id="ev-pts-val">
-          <option value="500">500 — S/A Class (₹5/pt)</option>
-          <option value="400" selected>400 — B Class (₹4/pt)</option>
-          <option value="300">300 — C Class (₹3/pt)</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Max Discount Cap (₹)</label><input type="number" id="ev-max-abs" placeholder="10000"/></div>
-      <div class="form-field"><label>Event Date & Time</label><input type="datetime-local" id="ev-datetime"/></div>
-      <div class="form-field"><label>Location / Venue</label><input type="text" id="ev-location" placeholder="e.g. Park Hyatt Hyderabad"/></div>
-      <div class="form-field"><label>City</label><input type="text" id="ev-city" placeholder="Hyderabad"/></div>
-      <div class="form-field"><label>Status</label>
-        <select id="ev-status-input">
-          <option value="draft">Draft</option>
-          <option value="live" selected>Live</option>
-          <option value="sold_out">Sold Out</option>
-          <option value="completed">Completed</option>
-        </select>
-      </div>
-      <div class="form-field full"><label>Description</label><textarea id="ev-desc" rows="2" placeholder="Brief event description..."></textarea></div>
-      <!-- Dynamic Pricing -->
-      <div class="form-field full">
-        <label style="display:flex;align-items:center;gap:.5rem">
-          <input type="checkbox" id="ev-dynamic" onchange="toggleDynamicPricing()" style="accent-color:var(--gold);width:14px;height:14px"/>
-          Enable Dynamic Pricing (airline model — price rises as seats fill)
-        </label>
-      </div>
-      <div id="ev-dynamic-fields" style="display:none;grid-column:1/-1">
-        <div class="form-grid">
-          <div class="form-field"><label>Tier 2 Price (₹)</label><input type="number" id="ev-price2" placeholder="25000" oninput="updateDynamicPreview()"/></div>
-          <div class="form-field"><label>Tier 2 starts at seat #</label><input type="number" id="ev-from2" placeholder="20" oninput="updateDynamicPreview()"/></div>
-          <div class="form-field"><label>Tier 3 Price (₹)</label><input type="number" id="ev-price3" placeholder="35000" oninput="updateDynamicPreview()"/></div>
-          <div class="form-field"><label>Tier 3 starts at seat #</label><input type="number" id="ev-from3" placeholder="40" oninput="updateDynamicPreview()"/></div>
-        </div>
-        <div class="dp-preview" id="dp-preview"></div>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveEvent()">Save Event</button>
-      <button class="btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
-    </div>
-    <div class="modal-msg" id="ev-msg"></div>
-  </div>
-</div>
-
-<!-- SPONSOR MODAL -->
-<div class="modal-backdrop" id="sponsorModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('sponsorModal')">✕</button>
-    <div class="modal-title" id="sponsorModalTitle">Add Sponsor</div>
-    <div class="form-grid">
-      <div class="form-field full"><label>Sponsor / Brand Name</label><input type="text" id="sp-name" placeholder="e.g. HDFC Bank"/></div>
-      <div class="form-field"><label>Attach to Event</label><select id="sp-event"><option value="">Select event...</option></select></div>
-      <div class="form-field"><label>Deal Value (₹)</label><input type="number" id="sp-value" placeholder="500000"/></div>
-      <div class="form-field"><label>Seats Allocated</label><input type="number" id="sp-seats" placeholder="5" min="0"/></div>
-      <div class="form-field"><label>Contact Name</label><input type="text" id="sp-contact" placeholder="Contact person"/></div>
-      <div class="form-field"><label>Contact Email</label><input type="email" id="sp-email" placeholder="sponsor@brand.com"/></div>
-      <div class="form-field full" style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
-        <label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--sub)"><input type="checkbox" id="sp-branding" style="accent-color:var(--gold);width:14px;height:14px"/> Branding Rights</label>
-        <label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--sub)"><input type="checkbox" id="sp-stage" style="accent-color:var(--gold);width:14px;height:14px"/> Stage Time</label>
-      </div>
-      <div class="form-field full"><label>Notes / Benefits</label><textarea id="sp-notes" placeholder="Additional sponsor benefits and agreement details..."></textarea></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveSponsor()">Save Sponsor</button>
-      <button class="btn-secondary" onclick="closeModal('sponsorModal')">Cancel</button>
-    </div>
-    <div class="modal-msg" id="sp-msg"></div>
-  </div>
-</div>
-
-<!-- MEMBER EDIT MODAL -->
-<div class="modal-backdrop" id="memberModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('memberModal')">✕</button>
-    <div class="modal-title">Edit Member</div>
-    <input type="hidden" id="mb-edit-id"/>
-    <div class="form-grid">
-      <div class="form-field"><label>Points Balance</label><input type="number" id="mb-edit-points" placeholder="0"/></div>
-      <div class="form-field"><label>Tier</label>
-        <select id="mb-edit-tier">
-          <option value="free">Free</option>
-          <option value="gold">Gold</option>
-          <option value="platinum">Platinum</option>
-          <option value="dwcpurple">DWC Purple</option>
-        </select>
-      </div>
-      <div class="form-field full"><label>Adjustment Reason (logged)</label><input type="text" id="mb-edit-reason" placeholder="Reason for manual adjustment..."/></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveMemberEdit()">Save Changes</button>
-      <button class="btn-danger btn-sm" onclick="suspendMember()">Suspend Member</button>
-      <button class="btn-secondary" onclick="closeModal('memberModal')">Cancel</button>
-    </div>
-    <div class="modal-msg" id="mb-msg"></div>
-  </div>
-</div>
-
-<!-- ADMIN MODAL -->
-<div class="modal-backdrop" id="adminModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
-    <div class="modal-title" id="adminModalTitle">Add Team Admin</div>
-    <div class="form-grid">
-      <div class="form-field"><label>Name</label><input type="text" id="adm-name" placeholder="Team member name"/></div>
-      <div class="form-field"><label>Email</label><input type="email" id="adm-email" placeholder="team@dinewithcelebrity.com"/></div>
-      <div class="form-field full"><label>Role</label>
-        <select id="adm-role" onchange="setRolePermissions()">
-          <option value="event_manager">Event Manager — Events + Bookings</option>
-          <option value="partner_manager">Partner Manager — Partners + Vouchers</option>
-          <option value="content_editor">Content Editor — CMS only</option>
-          <option value="finance_viewer">Finance Viewer — Overview + Logs (read only)</option>
-          <option value="super_admin">Super Admin — Full Access</option>
-        </select>
-      </div>
-      <div class="form-field full">
-        <label style="margin-bottom:.6rem;display:block">Custom Permissions</label>
-        <div class="role-grid" id="adm-perms">
-          <label class="role-perm"><input type="checkbox" id="perm-celebrities"/> Celebrities</label>
-          <label class="role-perm"><input type="checkbox" id="perm-agencies"/> Agencies</label>
-          <label class="role-perm"><input type="checkbox" id="perm-events"/> Events</label>
-          <label class="role-perm"><input type="checkbox" id="perm-bookings"/> Bookings</label>
-          <label class="role-perm"><input type="checkbox" id="perm-members"/> Members</label>
-          <label class="role-perm"><input type="checkbox" id="perm-partners"/> Partners</label>
-          <label class="role-perm"><input type="checkbox" id="perm-sponsors"/> Sponsors</label>
-          <label class="role-perm"><input type="checkbox" id="perm-vouchers"/> Vouchers</label>
-          <label class="role-perm"><input type="checkbox" id="perm-cms"/> CMS</label>
-          <label class="role-perm"><input type="checkbox" id="perm-config"/> Config</label>
-          <label class="role-perm"><input type="checkbox" id="perm-logs"/> Audit Logs</label>
-        </div>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveAdmin()">Save Admin</button>
-      <button class="btn-secondary" onclick="closeModal('adminModal')">Cancel</button>
-    </div>
-    <div class="modal-msg" id="adm-msg"></div>
-  </div>
-</div>
-
+<div class="modal-backdrop" id="celebModal"><div class="modal"><button class="modal-close" onclick="closeModal('celebModal')">✕</button><div class="modal-title" id="celebModalTitle">Add Celebrity</div><div class="form-grid"><div class="form-field"><label>Celebrity Name</label><input type="text" id="cel-name" placeholder="e.g. Prabhas"/></div><div class="form-field"><label>Tier</label><select id="cel-tier-input"><option value="S">S-Class (₹1.5Cr+)</option><option value="A">A-Class (₹25L–₹1Cr)</option><option value="B" selected>B-Class (₹5L–₹25L)</option><option value="C">C-Class (₹1L–₹5L)</option></select></div><div class="form-field"><label>Base Fee (₹ DWC pays)</label><input type="number" id="cel-fee" placeholder="e.g. 2500000"/></div><div class="form-field"><label>Industry</label><input type="text" id="cel-industry" placeholder="Bollywood / Tollywood / Cricket..."/></div><div class="form-field"><label>Agency</label><select id="cel-agency"><option value="">No Agency</option></select></div><div class="form-field"><label>Availability</label><select id="cel-availability"><option value="available">Available</option><option value="booked">Booked</option><option value="coming_soon">Coming Soon</option></select></div><div class="form-field full"><label>Bio</label><textarea id="cel-bio" placeholder="Brief celebrity bio..."></textarea></div><div class="form-field"><label>Image URL (optional)</label><input type="text" id="cel-image" placeholder="https://..."/></div></div><div class="modal-actions"><button class="btn-primary" onclick="saveCelebrity()">Save Celebrity</button><button class="btn-secondary" onclick="closeModal('celebModal')">Cancel</button></div><div class="modal-msg" id="cel-msg"></div></div></div>
+<div class="modal-backdrop" id="agencyModal"><div class="modal"><button class="modal-close" onclick="closeModal('agencyModal')">✕</button><div class="modal-title" id="agencyModalTitle">Add Agency</div><div class="form-grid"><div class="form-field full"><label>Agency Name</label><input type="text" id="ag-name" placeholder="e.g. CAA India"/></div><div class="form-field"><label>Contact Name</label><input type="text" id="ag-contact" placeholder="Contact person"/></div><div class="form-field"><label>Contact Email</label><input type="email" id="ag-email" placeholder="contact@agency.com"/></div><div class="form-field"><label>Phone</label><input type="tel" id="ag-phone" placeholder="+91 ..."/></div><div class="form-field"><label>Commission % (DWC pays agency)</label><input type="number" id="ag-commission" placeholder="10" min="0" max="50" step="0.5"/></div><div class="form-field full"><label>Notes</label><textarea id="ag-notes" placeholder="Agreement details, special conditions..."></textarea></div></div><div class="modal-actions"><button class="btn-primary" onclick="saveAgency()">Save Agency</button><button class="btn-secondary" onclick="closeModal('agencyModal')">Cancel</button></div><div class="modal-msg" id="ag-msg"></div></div></div>
+<div class="modal-backdrop" id="eventModal"><div class="modal"><button class="modal-close" onclick="closeModal('eventModal')">✕</button><div class="modal-title" id="eventModalTitle">Create Event</div><div class="form-grid"><div class="form-field"><label>Celebrity</label><select id="ev-celebrity"><option value="">Select celebrity...</option></select></div><div class="form-field"><label>Tier</label><select id="ev-tier-input" onchange="autoSetEventDefaults()"><option value="S">S-Class</option><option value="A">A-Class</option><option value="B" selected>B-Class</option><option value="C">C-Class</option></select></div><div class="form-field full"><label>Event Title</label><input type="text" id="ev-title" placeholder="e.g. Prabhas Fan Dinner — Hyderabad"/></div><div class="form-field"><label>Ticket Price (₹)</label><input type="number" id="ev-price" placeholder="20000" oninput="updateDynamicPreview()"/></div><div class="form-field"><label>Total Seats</label><input type="number" id="ev-seats-total" placeholder="50"/></div><div class="form-field"><label>Points Value per 100</label><select id="ev-pts-val"><option value="500">500 — S/A Class (₹5/pt)</option><option value="400" selected>400 — B Class (₹4/pt)</option><option value="300">300 — C Class (₹3/pt)</option></select></div><div class="form-field"><label>Max Discount Cap (₹)</label><input type="number" id="ev-max-abs" placeholder="10000"/></div><div class="form-field"><label>Event Date &amp; Time</label><input type="datetime-local" id="ev-datetime"/></div><div class="form-field"><label>Location / Venue</label><input type="text" id="ev-location" placeholder="e.g. Park Hyatt Hyderabad"/></div><div class="form-field"><label>City</label><input type="text" id="ev-city" placeholder="Hyderabad"/></div><div class="form-field"><label>Status</label><select id="ev-status-input"><option value="draft">Draft</option><option value="live" selected>Live</option><option value="sold_out">Sold Out</option><option value="completed">Completed</option></select></div><div class="form-field full"><label>Description</label><textarea id="ev-desc" rows="2" placeholder="Brief event description..."></textarea></div><div class="form-field full"><label style="display:flex;align-items:center;gap:.5rem"><input type="checkbox" id="ev-dynamic" onchange="toggleDynamicPricing()" style="accent-color:var(--gold);width:14px;height:14px"/>Enable Dynamic Pricing (airline model — price rises as seats fill)</label></div><div id="ev-dynamic-fields" style="display:none;grid-column:1/-1"><div class="form-grid"><div class="form-field"><label>Tier 2 Price (₹)</label><input type="number" id="ev-price2" placeholder="25000" oninput="updateDynamicPreview()"/></div><div class="form-field"><label>Tier 2 starts at seat #</label><input type="number" id="ev-from2" placeholder="20" oninput="updateDynamicPreview()"/></div><div class="form-field"><label>Tier 3 Price (₹)</label><input type="number" id="ev-price3" placeholder="35000" oninput="updateDynamicPreview()"/></div><div class="form-field"><label>Tier 3 starts at seat #</label><input type="number" id="ev-from3" placeholder="40" oninput="updateDynamicPreview()"/></div></div><div class="dp-preview" id="dp-preview"></div></div></div><div class="modal-actions"><button class="btn-primary" onclick="saveEvent()">Save Event</button><button class="btn-secondary" onclick="closeModal('eventModal')">Cancel</button></div><div class="modal-msg" id="ev-msg"></div></div></div>
+<div class="modal-backdrop" id="sponsorModal"><div class="modal"><button class="modal-close" onclick="closeModal('sponsorModal')">✕</button><div class="modal-title" id="sponsorModalTitle">Add Sponsor</div><div class="form-grid"><div class="form-field full"><label>Sponsor / Brand Name</label><input type="text" id="sp-name" placeholder="e.g. HDFC Bank"/></div><div class="form-field"><label>Attach to Event</label><select id="sp-event"><option value="">Select event...</option></select></div><div class="form-field"><label>Deal Value (₹)</label><input type="number" id="sp-value" placeholder="500000"/></div><div class="form-field"><label>Seats Allocated</label><input type="number" id="sp-seats" placeholder="5" min="0"/></div><div class="form-field"><label>Contact Name</label><input type="text" id="sp-contact" placeholder="Contact person"/></div><div class="form-field"><label>Contact Email</label><input type="email" id="sp-email" placeholder="sponsor@brand.com"/></div><div class="form-field full" style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap"><label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--sub)"><input type="checkbox" id="sp-branding" style="accent-color:var(--gold);width:14px;height:14px"/> Branding Rights</label><label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--sub)"><input type="checkbox" id="sp-stage" style="accent-color:var(--gold);width:14px;height:14px"/> Stage Time</label></div><div class="form-field full"><label>Notes / Benefits</label><textarea id="sp-notes" placeholder="Additional sponsor benefits and agreement details..."></textarea></div></div><div class="modal-actions"><button class="btn-primary" onclick="saveSponsor()">Save Sponsor</button><button class="btn-secondary" onclick="closeModal('sponsorModal')">Cancel</button></div><div class="modal-msg" id="sp-msg"></div></div></div>
+<div class="modal-backdrop" id="memberModal"><div class="modal"><button class="modal-close" onclick="closeModal('memberModal')">✕</button><div class="modal-title">Edit Member</div><input type="hidden" id="mb-edit-id"/><div class="form-grid"><div class="form-field"><label>Points Balance</label><input type="number" id="mb-edit-points" placeholder="0"/></div><div class="form-field"><label>Tier</label><select id="mb-edit-tier"><option value="free">Free</option><option value="gold">Gold</option><option value="platinum">Platinum</option><option value="dwcpurple">DWC Purple</option></select></div><div class="form-field full"><label>Adjustment Reason (logged)</label><input type="text" id="mb-edit-reason" placeholder="Reason for manual adjustment..."/></div></div><div class="modal-actions"><button class="btn-primary" onclick="saveMemberEdit()">Save Changes</button><button class="btn-danger btn-sm" onclick="suspendMember()">Suspend Member</button><button class="btn-secondary" onclick="closeModal('memberModal')">Cancel</button></div><div class="modal-msg" id="mb-msg"></div></div></div>
+<div class="modal-backdrop" id="adminModal"><div class="modal"><button class="modal-close" onclick="closeModal('adminModal')">✕</button><div class="modal-title" id="adminModalTitle">Add Team Admin</div><div class="form-grid"><div class="form-field"><label>Name</label><input type="text" id="adm-name" placeholder="Team member name"/></div><div class="form-field"><label>Email</label><input type="email" id="adm-email" placeholder="team@dinewithcelebrity.com"/></div><div class="form-field full"><label>Role</label><select id="adm-role" onchange="setRolePermissions()"><option value="event_manager">Event Manager — Events + Bookings</option><option value="partner_manager">Partner Manager — Partners + Vouchers</option><option value="content_editor">Content Editor — CMS only</option><option value="finance_viewer">Finance Viewer — Overview + Logs (read only)</option><option value="super_admin">Super Admin — Full Access</option></select></div><div class="form-field full"><label style="margin-bottom:.6rem;display:block">Custom Permissions</label><div class="role-grid" id="adm-perms"><label class="role-perm"><input type="checkbox" id="perm-celebrities"/> Celebrities</label><label class="role-perm"><input type="checkbox" id="perm-agencies"/> Agencies</label><label class="role-perm"><input type="checkbox" id="perm-events"/> Events</label><label class="role-perm"><input type="checkbox" id="perm-bookings"/> Bookings</label><label class="role-perm"><input type="checkbox" id="perm-members"/> Members</label><label class="role-perm"><input type="checkbox" id="perm-partners"/> Partners</label><label class="role-perm"><input type="checkbox" id="perm-sponsors"/> Sponsors</label><label class="role-perm"><input type="checkbox" id="perm-vouchers"/> Vouchers</label><label class="role-perm"><input type="checkbox" id="perm-cms"/> CMS</label><label class="role-perm"><input type="checkbox" id="perm-config"/> Config</label><label class="role-perm"><input type="checkbox" id="perm-logs"/> Audit Logs</label></div></div></div><div class="modal-actions"><button class="btn-primary" onclick="saveAdmin()">Save Admin</button><button class="btn-secondary" onclick="closeModal('adminModal')">Cancel</button></div><div class="modal-msg" id="adm-msg"></div></div></div>
 <script>
 const SB_URL = 'https://blwqqqzhnovsveeryjlm.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3FxcXpobm92c3ZlZXJ5amxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzQ4OTksImV4cCI6MjA4OTQxMDg5OX0.jqQb0IEByZLxHIFAAflMdh_rWYjllVzsexfNRRM7yeY';
 const sbClient = supabase.createClient(SB_URL, SB_ANON);
 const SUPER_ADMIN_EMAIL = 'rupesh@dinewithcelebrity.com';
+const OWNER_EMAILS = ['rupeshking@gmail.com','rupesh@dinewithcelebrity.com'];
 const PAGE_SIZE = 25;
 
 let currentUser = null;
@@ -818,84 +411,34 @@ let currentAdmin = null;
 let editingId = null;
 let mbPage = 0, vcPage = 0, logPage = 0;
 
-// ── HELPERS ──────────────────────────────────────────────────────
 const mn = n => '₹' + (n||0).toLocaleString('en-IN');
 const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—';
 const fmtDT = d => d ? new Date(d).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
-const tierBadge = t => {
-  const m = {S:'badge-red',A:'badge-gold',B:'badge-blue',C:'badge-gray'};
-  return `<span class="badge ${m[t]||'badge-gray'}">${t}-Class</span>`;
-};
-const statusBadge = s => {
-  const m = {live:'badge-green',draft:'badge-gray',sold_out:'badge-red',completed:'badge-purple',
-             available:'badge-green',booked:'badge-red',coming_soon:'badge-gold',
-             active:'badge-green',inactive:'badge-red',pending:'badge-gold',
-             confirmed:'badge-green',cancelled:'badge-red'};
-  return `<span class="badge ${m[s]||'badge-gray'}">${s}</span>`;
-};
-const tierMemberBadge = t => {
-  const m = {free:'badge-gray',gold:'badge-gold',platinum:'badge-gray',dwcpurple:'badge-purple'};
-  return `<span class="badge ${m[t]||'badge-gray'}">${t}</span>`;
-};
+const tierBadge = t => { const m = {S:'badge-red',A:'badge-gold',B:'badge-blue',C:'badge-gray'}; return `<span class="badge ${m[t]||'badge-gray'}">${t}-Class</span>`; };
+const statusBadge = s => { const m = {live:'badge-green',draft:'badge-gray',sold_out:'badge-red',completed:'badge-purple',available:'badge-green',booked:'badge-red',coming_soon:'badge-gold',active:'badge-green',inactive:'badge-red',pending:'badge-gold',confirmed:'badge-green',cancelled:'badge-red'}; return `<span class="badge ${m[s]||'badge-gray'}">${s}</span>`; };
+const tierMemberBadge = t => { const m = {free:'badge-gray',gold:'badge-gold',platinum:'badge-gray',dwcpurple:'badge-purple'}; return `<span class="badge ${m[t]||'badge-gray'}">${t}</span>`; };
 
-function showToast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.borderColor = type==='error' ? 'rgba(212,0,42,.5)' : type==='success' ? 'rgba(0,200,83,.5)' : 'var(--border)';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3500);
-}
-function showMsg(id, msg, type) {
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.textContent = msg; el.className = 'modal-msg ' + type; el.style.display='block';
-  setTimeout(() => el.style.display='none', 4000);
-}
+function showToast(msg, type='info') { const t = document.getElementById('toast'); t.textContent = msg; t.style.borderColor = type==='error' ? 'rgba(212,0,42,.5)' : type==='success' ? 'rgba(0,200,83,.5)' : 'var(--border)'; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3500); }
+function showMsg(id, msg, type) { const el = document.getElementById(id); if(!el) return; el.textContent = msg; el.className = 'modal-msg ' + type; el.style.display='block'; setTimeout(() => el.style.display='none', 4000); }
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); editingId = null; }
 function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal-backdrop')) closeModal(e.target.id); }
 document.querySelectorAll('.modal-backdrop').forEach(m => m.addEventListener('click', closeModalOnBackdrop));
 
-// ── STARS ────────────────────────────────────────────────────────
-(function(){
-  const s = document.getElementById('stars');
-  for(let i=0;i<50;i++){
-    const el=document.createElement('i');el.textContent='★';
-    el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;font-size:${5+Math.random()*7}px;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`;
-    s.appendChild(el);
-  }
-})();
+(function(){ const s = document.getElementById('stars'); for(let i=0;i<50;i++){ const el=document.createElement('i');el.textContent='★'; el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;font-size:${5+Math.random()*7}px;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`; s.appendChild(el); } })();
 
-// ── AUTH ─────────────────────────────────────────────────────────
-async function init() {
-  const {data:{session}} = await sbClient.auth.getSession();
-  if(session) {
-    await loadAdmin(session.user.email);
-  } else {
-    document.getElementById('loginScreen').style.display='flex';
-  }
-}
+async function init() { const {data:{session}} = await sbClient.auth.getSession(); if(session) { await loadAdmin(session.user.email); } else { document.getElementById('loginScreen').style.display='flex'; } }
 
 async function loadAdmin(email) {
   const {data:admin} = await sbClient.from('admin_users').select('*').eq('email',email).eq('is_active',true).maybeSingle();
-  if(!admin) {
-    await sbClient.auth.signOut();
-    document.getElementById('lErr').textContent = 'Not authorised as admin.';
-    document.getElementById('lErr').style.display='block';
-    return;
-  }
+  if(!admin) { await sbClient.auth.signOut(); document.getElementById('lErr').textContent = 'Not authorised as admin.'; document.getElementById('lErr').style.display='block'; return; }
   currentAdmin = admin;
   document.getElementById('sbName').textContent = admin.name;
   document.getElementById('sbRole').textContent = admin.role === 'super_admin' ? '⭐ Super Admin' : admin.role.replace(/_/g,' ');
-  // Hide sections admin can't access
   if(admin.role !== 'super_admin') {
     const perms = {celebrities:admin.can_celebrities,agencies:admin.can_agencies,events:admin.can_events,bookings:admin.can_bookings,members:admin.can_members,partners:admin.can_partners,sponsors:admin.can_sponsors,vouchers:admin.can_vouchers,cms:admin.can_cms,config:admin.can_config,logs:admin.can_logs,admins:false};
-    Object.entries(perms).forEach(([k,v]) => {
-      const nav = document.getElementById('nav-'+k);
-      if(nav && !v) nav.style.display='none';
-    });
+    Object.entries(perms).forEach(([k,v]) => { const nav = document.getElementById('nav-'+k); if(nav && !v) nav.style.display='none'; });
   }
-  // Update last login
   await sbClient.from('admin_users').update({last_login:new Date().toISOString()}).eq('email',email);
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').style.display='block';
@@ -910,27 +453,15 @@ document.getElementById('btnLogin').onclick = async function() {
   if(!email||!pass){err.textContent='Enter email and password.';err.style.display='block';return;}
   this.disabled=true;this.textContent='Signing in...';
   const {data,error} = await sbClient.auth.signInWithPassword({email,password:pass});
-  if(error||!data.user){
-    err.textContent='Invalid credentials.';err.style.display='block';
-    this.disabled=false;this.textContent='Sign In';return;
-  }
+  if(error||!data.user){ err.textContent='Invalid credentials.';err.style.display='block'; this.disabled=false;this.textContent='Sign In';return; }
   await loadAdmin(data.user.email);
   this.disabled=false;this.textContent='Sign In';
 };
 document.getElementById('lPass').onkeydown = e => { if(e.key==='Enter') document.getElementById('btnLogin').click(); };
 
-async function signOut() {
-  await sbClient.auth.signOut();
-  location.reload();
-}
+async function signOut() { await sbClient.auth.signOut(); location.reload(); }
 
-// ── SECTION NAVIGATION ────────────────────────────────────────────
-const SECTION_LOADERS = {
-  overview:'loadOverview',celebrities:'loadCelebrities',agencies:'loadAgencies',
-  events:'loadEvents',bookings:'loadBookings',sponsors:'loadSponsors',
-  members:'loadMembers',partners:'loadPartners',vouchers:'loadVouchers',
-  cms:'loadCMS',config:'loadConfig',admins:'loadAdmins',logs:'loadLogs'
-};
+const SECTION_LOADERS = { overview:'loadOverview',celebrities:'loadCelebrities',agencies:'loadAgencies',events:'loadEvents',bookings:'loadBookings',sponsors:'loadSponsors',members:'loadMembers',partners:'loadPartners',vouchers:'loadVouchers',cms:'loadCMS',config:'loadConfig',admins:'loadAdmins',logs:'loadLogs' };
 
 function showSection(name) {
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
@@ -943,21 +474,12 @@ function showSection(name) {
   if(loader && window[loader]) window[loader]();
 }
 
-// ── AUDIT LOGGING ─────────────────────────────────────────────────
 async function auditLog(action, targetType, targetId, targetLabel, metadata={}, oldVal='', newVal='') {
   if(!currentAdmin) return;
-  await sbClient.from('admin_logs').insert({
-    admin_id: currentUser?.id,
-    admin_email: currentAdmin.email,
-    action, target_type: targetType,
-    target_id: targetId, target_label: targetLabel,
-    metadata: JSON.stringify(metadata),
-    old_value: oldVal, new_value: newVal,
-    section: action.split('_')[0]
-  });
+  await sbClient.from('admin_logs').insert({ admin_id: currentUser?.id, admin_email: currentAdmin.email, action, target_type: targetType, target_id: targetId, target_label: targetLabel, metadata: JSON.stringify(metadata), old_value: oldVal, new_value: newVal, section: action.split('_')[0] });
 }
 
-// ── 1. OVERVIEW ───────────────────────────────────────────────────
+// ── OVERVIEW ──────────────────────────────────────────────────────
 async function loadOverview() {
   const [members, partners, events, bookings, celebrities, vouchers] = await Promise.all([
     sbClient.from('members').select('id,tier', {count:'exact',head:false}),
@@ -967,67 +489,39 @@ async function loadOverview() {
     sbClient.from('celebrities').select('id', {count:'exact'}),
     sbClient.from('vouchers').select('id,is_redeemed,face_value,issued_to'),
   ]);
-
   const allMembers = members.data || [];
   const paid = allMembers.filter(m=>m.tier&&m.tier!=='free').length;
   document.getElementById('ov-members').textContent = allMembers.length;
   document.getElementById('ov-members-sub').textContent = `${paid} paid`;
   document.getElementById('ov-paid').textContent = paid;
-
   const allPartners = partners.data || [];
   const activeP = allPartners.filter(p=>p.is_active&&p.approved_at).length;
   const pendingP = allPartners.filter(p=>!p.approved_at&&!p.is_active).length;
   document.getElementById('ov-partners').textContent = activeP;
   document.getElementById('ov-pending').textContent = pendingP;
-
   const allEvents = events.data || [];
   const liveEvents = allEvents.filter(e=>e.status==='live').length;
   document.getElementById('ov-events').textContent = liveEvents;
-
   const allBookings = bookings.data || [];
   const confirmedBk = allBookings.filter(b=>b.status==='confirmed');
   document.getElementById('ov-bookings-count').textContent = confirmedBk.length;
-
   document.getElementById('ov-celebrities').textContent = celebrities.count || 0;
-
-  // Revenue from vouchers (12% of redeemed face values)
   const redeemedV = (vouchers.data||[]).filter(v=>v.is_redeemed);
   const feeTotal = redeemedV.reduce((s,v)=>s+Math.max(50,Math.round(v.face_value*0.12)),0);
   document.getElementById('ov-revenue').textContent = mn(feeTotal);
-
-  // Upcoming events pipeline
   const upcoming = allEvents.filter(e=>e.status==='live'&&e.event_date>new Date().toISOString()).sort((a,b)=>new Date(a.event_date)-new Date(b.event_date)).slice(0,5);
   const pipeline = document.getElementById('ov-pipeline');
   if(!upcoming.length) { pipeline.innerHTML='<div class="empty">No upcoming events</div>'; }
-  else {
-    pipeline.innerHTML = upcoming.map(e=>{
-      const seatsLeft = e.available_seats - e.reserved_seats - e.confirmed_seats;
-      const pct = Math.round((e.confirmed_seats/e.available_seats)*100);
-      return `<div class="pipeline-item">
-        <div><div class="pi-celeb">${e.celebrity_name}</div><div class="pi-date">${fmtDate(e.event_date)} · ${e.ticket_price?mn(e.ticket_price):''}</div></div>
-        <div style="text-align:right"><div class="pi-seats">${seatsLeft} seats left</div><div style="font-size:.65rem;color:var(--muted)">${pct}% sold</div></div>
-      </div>`;
-    }).join('');
-  }
-
-  // Recent members
+  else { pipeline.innerHTML = upcoming.map(e=>{ const seatsLeft = e.available_seats - e.reserved_seats - e.confirmed_seats; const pct = Math.round((e.confirmed_seats/e.available_seats)*100); return `<div class="pipeline-item"><div><div class="pi-celeb">${e.celebrity_name}</div><div class="pi-date">${fmtDate(e.event_date)} · ${e.ticket_price?mn(e.ticket_price):''}</div></div><div style="text-align:right"><div class="pi-seats">${seatsLeft} seats left</div><div style="font-size:.65rem;color:var(--muted)">${pct}% sold</div></div></div>`; }).join(''); }
   const {data:recentM} = await sbClient.from('members').select('member_id,full_name,tier,created_at').order('created_at',{ascending:false}).limit(5);
   const rmEl = document.getElementById('ov-recent-members');
-  rmEl.innerHTML = (recentM||[]).map(m=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem">
-    <span>${m.member_id||'—'} · ${m.full_name||'—'}</span>
-    ${tierMemberBadge(m.tier)}
-  </div>`).join('') || '<div class="empty">No members yet</div>';
-
-  // Recent bookings
+  rmEl.innerHTML = (recentM||[]).map(m=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem"><span>${m.member_id||'—'} · ${m.full_name||'—'}</span>${tierMemberBadge(m.tier)}</div>`).join('') || '<div class="empty">No members yet</div>';
   const {data:recentBk} = await sbClient.from('event_bookings').select('id,final_price,status,created_at,event_id,member_id').order('created_at',{ascending:false}).limit(5);
   const rbEl = document.getElementById('ov-recent-bookings');
-  rbEl.innerHTML = (recentBk||[]).map(b=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem">
-    <span>${mn(b.final_price)} · ${fmtDate(b.created_at)}</span>
-    ${statusBadge(b.status)}
-  </div>`).join('') || '<div class="empty">No bookings yet</div>';
+  rbEl.innerHTML = (recentBk||[]).map(b=>`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border2);font-size:.75rem"><span>${mn(b.final_price)} · ${fmtDate(b.created_at)}</span>${statusBadge(b.status)}</div>`).join('') || '<div class="empty">No bookings yet</div>';
 }
 
-// ── 2. CELEBRITIES ────────────────────────────────────────────────
+// ── CELEBRITIES ───────────────────────────────────────────────────
 async function loadCelebrities() {
   let q = sbClient.from('celebrities').select('*,agencies(name)').order('tier').order('name');
   const search = document.getElementById('cel-search')?.value;
@@ -1045,27 +539,10 @@ async function loadCelebrities() {
   document.getElementById('cel-a').textContent = all.filter(c=>c.tier==='A').length;
   const tb = document.getElementById('cel-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="7" class="empty">No celebrities found</td></tr>';return;}
-  tb.innerHTML = all.map(c=>`<tr>
-    <td style="font-weight:600">${c.name}</td>
-    <td>${tierBadge(c.tier)}</td>
-    <td style="color:var(--muted)">${c.industry||'—'}</td>
-    <td style="color:var(--gold)">${c.base_fee?mn(c.base_fee):'Not set'}</td>
-    <td>${c.agencies?.name||'<span style="color:var(--muted)">No agency</span>'}</td>
-    <td>${statusBadge(c.availability)}</td>
-    <td class="td-actions">
-      <button class="btn-secondary btn-sm" onclick="editCelebrity('${c.id}')">Edit</button>
-      <button class="btn-danger btn-sm" onclick="deleteCelebrity('${c.id}','${c.name}')">Delete</button>
-    </td>
-  </tr>`).join('');
+  tb.innerHTML = all.map(c=>`<tr><td style="font-weight:600">${c.name}</td><td>${tierBadge(c.tier)}</td><td style="color:var(--muted)">${c.industry||'—'}</td><td style="color:var(--gold)">${c.base_fee?mn(c.base_fee):'Not set'}</td><td>${c.agencies?.name||'<span style="color:var(--muted)">No agency</span>'}</td><td>${statusBadge(c.availability)}</td><td class="td-actions"><button class="btn-secondary btn-sm" onclick="editCelebrity('${c.id}')">Edit</button><button class="btn-danger btn-sm" onclick="deleteCelebrity('${c.id}','${c.name}')">Delete</button></td></tr>`).join('');
 }
 
-function openCelebModal(id) {
-  editingId = id||null;
-  document.getElementById('celebModalTitle').textContent = id?'Edit Celebrity':'Add Celebrity';
-  if(!id){['cel-name','cel-fee','cel-industry','cel-bio','cel-image'].forEach(f=>{const el=document.getElementById(f);if(el)el.value=''});}
-  loadAgencyDropdown('cel-agency');
-  openModal('celebModal');
-}
+function openCelebModal(id) { editingId = id||null; document.getElementById('celebModalTitle').textContent = id?'Edit Celebrity':'Add Celebrity'; if(!id){['cel-name','cel-fee','cel-industry','cel-bio','cel-image'].forEach(f=>{const el=document.getElementById(f);if(el)el.value=''});} loadAgencyDropdown('cel-agency'); openModal('celebModal'); }
 
 async function editCelebrity(id) {
   const {data} = await sbClient.from('celebrities').select('*').eq('id',id).single();
@@ -1086,18 +563,8 @@ async function editCelebrity(id) {
 async function saveCelebrity() {
   const name = document.getElementById('cel-name').value.trim();
   if(!name){showMsg('cel-msg','Celebrity name required','error');return;}
-  const payload = {
-    name, tier: document.getElementById('cel-tier-input').value,
-    base_fee: parseInt(document.getElementById('cel-fee').value)||0,
-    industry: document.getElementById('cel-industry').value.trim(),
-    bio: document.getElementById('cel-bio').value.trim(),
-    image_url: document.getElementById('cel-image').value.trim(),
-    availability: document.getElementById('cel-availability').value,
-    agency_id: document.getElementById('cel-agency').value||null
-  };
-  const {error} = editingId
-    ? await sbClient.from('celebrities').update(payload).eq('id',editingId)
-    : await sbClient.from('celebrities').insert(payload);
+  const payload = { name, tier: document.getElementById('cel-tier-input').value, base_fee: parseInt(document.getElementById('cel-fee').value)||0, industry: document.getElementById('cel-industry').value.trim(), bio: document.getElementById('cel-bio').value.trim(), image_url: document.getElementById('cel-image').value.trim(), availability: document.getElementById('cel-availability').value, agency_id: document.getElementById('cel-agency').value||null };
+  const {error} = editingId ? await sbClient.from('celebrities').update(payload).eq('id',editingId) : await sbClient.from('celebrities').insert(payload);
   if(error){showMsg('cel-msg',error.message,'error');return;}
   await auditLog(editingId?'edit_celebrity':'create_celebrity','celebrity',editingId||'new',name,payload);
   showMsg('cel-msg','Celebrity saved!','success');
@@ -1113,28 +580,16 @@ async function deleteCelebrity(id, name) {
   loadCelebrities();
 }
 
-// ── 3. AGENCIES ────────────────────────────────────────────────────
+// ── AGENCIES ──────────────────────────────────────────────────────
 async function loadAgencies() {
   const {data} = await sbClient.from('agencies').select('*').order('name');
   const all = data||[];
   const tb = document.getElementById('agency-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="7" class="empty">No agencies yet</td></tr>';return;}
-  // Get celebrity counts per agency
   const {data:celebs} = await sbClient.from('celebrities').select('agency_id');
   const agCounts = {};
   (celebs||[]).forEach(c=>{if(c.agency_id)agCounts[c.agency_id]=(agCounts[c.agency_id]||0)+1;});
-  tb.innerHTML = all.map(a=>`<tr>
-    <td style="font-weight:600">${a.name}</td>
-    <td>${a.contact_name||'—'}</td>
-    <td style="color:var(--muted)">${a.contact_email||'—'}</td>
-    <td><span class="badge badge-gold">${a.commission_pct}%</span></td>
-    <td>${agCounts[a.id]||0} celebrities</td>
-    <td>${statusBadge(a.is_active?'active':'inactive')}</td>
-    <td class="td-actions">
-      <button class="btn-secondary btn-sm" onclick="editAgency('${a.id}')">Edit</button>
-      <button class="btn-danger btn-sm" onclick="deleteAgency('${a.id}','${a.name}')">Delete</button>
-    </td>
-  </tr>`).join('');
+  tb.innerHTML = all.map(a=>`<tr><td style="font-weight:600">${a.name}</td><td>${a.contact_name||'—'}</td><td style="color:var(--muted)">${a.contact_email||'—'}</td><td><span class="badge badge-gold">${a.commission_pct}%</span></td><td>${agCounts[a.id]||0} celebrities</td><td>${statusBadge(a.is_active?'active':'inactive')}</td><td class="td-actions"><button class="btn-secondary btn-sm" onclick="editAgency('${a.id}')">Edit</button><button class="btn-danger btn-sm" onclick="deleteAgency('${a.id}','${a.name}')">Delete</button></td></tr>`).join('');
 }
 
 function openAgencyModal(){editingId=null;['ag-name','ag-contact','ag-email','ag-phone','ag-notes'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});document.getElementById('ag-commission').value='10';document.getElementById('agencyModalTitle').textContent='Add Agency';openModal('agencyModal');}
@@ -1172,7 +627,7 @@ async function loadAgencyDropdown(selId, selectedId=null){
   sel.innerHTML='<option value="">No Agency</option>'+(data||[]).map(a=>`<option value="${a.id}"${a.id===selectedId?' selected':''}>${a.name}</option>`).join('');
 }
 
-// ── 4. EVENTS ─────────────────────────────────────────────────────
+// ── EVENTS ────────────────────────────────────────────────────────
 async function loadEvents(){
   let q=sbClient.from('celebrity_events').select('*').order('event_date',{ascending:true});
   const tier=document.getElementById('ev-filter-tier')?.value;
@@ -1187,21 +642,7 @@ async function loadEvents(){
   document.getElementById('ev-confirmed').textContent=all.reduce((s,e)=>s+e.confirmed_seats,0);
   const tb=document.getElementById('ev-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="10" class="empty">No events found</td></tr>';return;}
-  tb.innerHTML=all.map(e=>`<tr>
-    <td style="font-weight:600">${e.celebrity_name}</td>
-    <td style="color:var(--muted);font-size:.72rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.event_title}</td>
-    <td>${tierBadge(e.tier)}</td>
-    <td>${fmtDate(e.event_date)}</td>
-    <td>${e.city||'—'}</td>
-    <td style="color:var(--gold)">${mn(e.ticket_price)}</td>
-    <td>${e.available_seats-e.reserved_seats-e.confirmed_seats} / ${e.available_seats}</td>
-    <td style="color:var(--green)">${e.confirmed_seats}</td>
-    <td>${statusBadge(e.status)}</td>
-    <td class="td-actions">
-      <button class="btn-secondary btn-sm" onclick="editEvent('${e.id}')">Edit</button>
-      <button class="btn-danger btn-sm" onclick="deleteEvent('${e.id}','${e.celebrity_name}')">Delete</button>
-    </td>
-  </tr>`).join('');
+  tb.innerHTML=all.map(e=>`<tr><td style="font-weight:600">${e.celebrity_name}</td><td style="color:var(--muted);font-size:.72rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.event_title}</td><td>${tierBadge(e.tier)}</td><td>${fmtDate(e.event_date)}</td><td>${e.city||'—'}</td><td style="color:var(--gold)">${mn(e.ticket_price)}</td><td>${e.available_seats-e.reserved_seats-e.confirmed_seats} / ${e.available_seats}</td><td style="color:var(--green)">${e.confirmed_seats}</td><td>${statusBadge(e.status)}</td><td class="td-actions"><button class="btn-secondary btn-sm" onclick="editEvent('${e.id}')">Edit</button><button class="btn-danger btn-sm" onclick="deleteEvent('${e.id}','${e.celebrity_name}')">Delete</button></td></tr>`).join('');
 }
 
 async function openEventModal(){
@@ -1210,7 +651,6 @@ async function openEventModal(){
   ['ev-title','ev-location','ev-city','ev-desc','ev-price','ev-seats-total','ev-max-abs','ev-datetime','ev-price2','ev-from2','ev-price3','ev-from3'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});
   document.getElementById('ev-dynamic').checked=false;
   document.getElementById('ev-dynamic-fields').style.display='none';
-  // Load celebrities dropdown
   const {data:celebs}=await sbClient.from('celebrities').select('id,name,tier').eq('availability','available').order('name');
   const sel=document.getElementById('ev-celebrity');
   sel.innerHTML='<option value="">Select celebrity...</option>'+(celebs||[]).map(c=>`<option value="${c.id}">${c.name} (${c.tier}-Class)</option>`).join('');
@@ -1251,30 +691,10 @@ async function saveEvent(){
   const price=parseInt(document.getElementById('ev-price').value);
   const seats=parseInt(document.getElementById('ev-seats-total').value);
   if(!title||!price||!seats){showMsg('ev-msg','Title, price and seats required','error');return;}
-  // Get celebrity name from dropdown
   const celSel=document.getElementById('ev-celebrity');
   const celName=celSel.options[celSel.selectedIndex]?.text.split(' (')[0]||'';
   const dynamic=document.getElementById('ev-dynamic').checked;
-  const payload={
-    celebrity_name:celName, event_title:title,
-    tier:document.getElementById('ev-tier-input').value,
-    ticket_price:price, total_seats:seats,
-    available_seats:editingId?undefined:seats,
-    points_value_per_100:parseInt(document.getElementById('ev-pts-val').value)||400,
-    max_discount_abs:parseInt(document.getElementById('ev-max-abs').value)||10000,
-    max_discount_pct:20,
-    event_date:document.getElementById('ev-datetime').value||null,
-    location:document.getElementById('ev-location').value.trim(),
-    city:document.getElementById('ev-city').value.trim(),
-    description:document.getElementById('ev-desc').value.trim(),
-    status:document.getElementById('ev-status-input').value,
-    celebrity_id:document.getElementById('ev-celebrity').value||null,
-    dynamic_pricing:dynamic,
-    price_tier2:dynamic?parseInt(document.getElementById('ev-price2').value)||null:null,
-    price_tier2_from:dynamic?parseInt(document.getElementById('ev-from2').value)||null:null,
-    price_tier3:dynamic?parseInt(document.getElementById('ev-price3').value)||null:null,
-    price_tier3_from:dynamic?parseInt(document.getElementById('ev-from3').value)||null:null,
-  };
+  const payload={celebrity_name:celName, event_title:title, tier:document.getElementById('ev-tier-input').value, ticket_price:price, total_seats:seats, available_seats:editingId?undefined:seats, points_value_per_100:parseInt(document.getElementById('ev-pts-val').value)||400, max_discount_abs:parseInt(document.getElementById('ev-max-abs').value)||10000, max_discount_pct:20, event_date:document.getElementById('ev-datetime').value||null, location:document.getElementById('ev-location').value.trim(), city:document.getElementById('ev-city').value.trim(), description:document.getElementById('ev-desc').value.trim(), status:document.getElementById('ev-status-input').value, celebrity_id:document.getElementById('ev-celebrity').value||null, dynamic_pricing:dynamic, price_tier2:dynamic?parseInt(document.getElementById('ev-price2').value)||null:null, price_tier2_from:dynamic?parseInt(document.getElementById('ev-from2').value)||null:null, price_tier3:dynamic?parseInt(document.getElementById('ev-price3').value)||null:null, price_tier3_from:dynamic?parseInt(document.getElementById('ev-from3').value)||null:null};
   if(editingId) delete payload.available_seats;
   const {error}=editingId?await sbClient.from('celebrity_events').update(payload).eq('id',editingId):await sbClient.from('celebrity_events').insert(payload);
   if(error){showMsg('ev-msg',error.message,'error');return;}
@@ -1303,13 +723,10 @@ function updateDynamicPreview(){
   const f3=parseInt(document.getElementById('ev-from3')?.value)||0;
   const preview=document.getElementById('dp-preview');
   if(!preview||!document.getElementById('ev-dynamic')?.checked) return;
-  preview.innerHTML=`<div style="font-size:.72rem;color:var(--gold);margin-bottom:.4rem;font-weight:700">Pricing Preview (Airline Model)</div>`+
-    (p1?`<div class="dp-row"><span>Seats 1 – ${f2?f2-1:'end'}</span><span style="color:var(--text);font-weight:600">${mn(p1)}</span></div>`:'') +
-    (p2&&f2?`<div class="dp-row"><span>Seats ${f2} – ${f3?f3-1:'end'}</span><span style="color:var(--gold);font-weight:600">${mn(p2)}</span></div>`:'') +
-    (p3&&f3?`<div class="dp-row"><span>Seats ${f3} – end</span><span style="color:var(--red);font-weight:600">${mn(p3)} (Last seats)</span></div>`:'');
+  preview.innerHTML=`<div style="font-size:.72rem;color:var(--gold);margin-bottom:.4rem;font-weight:700">Pricing Preview (Airline Model)</div>`+(p1?`<div class="dp-row"><span>Seats 1 – ${f2?f2-1:'end'}</span><span style="color:var(--text);font-weight:600">${mn(p1)}</span></div>`:'')+(p2&&f2?`<div class="dp-row"><span>Seats ${f2} – ${f3?f3-1:'end'}</span><span style="color:var(--gold);font-weight:600">${mn(p2)}</span></div>`:'')+(p3&&f3?`<div class="dp-row"><span>Seats ${f3} – end</span><span style="color:var(--red);font-weight:600">${mn(p3)} (Last seats)</span></div>`:'');
 }
 
-// ── 5. BOOKINGS ────────────────────────────────────────────────────
+// ── BOOKINGS ──────────────────────────────────────────────────────
 async function loadBookings(){
   let q=sbClient.from('event_bookings').select('*').order('created_at',{ascending:false});
   const status=document.getElementById('bk-status')?.value;
@@ -1323,18 +740,7 @@ async function loadBookings(){
   document.getElementById('bk-revenue').textContent=mn(revenue);
   const tb=document.getElementById('bk-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="10" class="empty">No bookings</td></tr>';return;}
-  tb.innerHTML=all.map(b=>`<tr>
-    <td style="font-family:monospace;font-size:.7rem">${b.id.slice(0,8)}</td>
-    <td style="font-size:.72rem">${b.member_id_text||b.member_id?.slice(0,8)||'—'}</td>
-    <td style="font-size:.72rem">${b.event_id?.slice(0,8)||'—'}</td>
-    <td>${mn(b.base_price)}</td>
-    <td style="color:var(--gold)">${b.points_used||0} pts</td>
-    <td style="color:var(--green)">${mn(b.discount_given)}</td>
-    <td style="font-weight:700">${mn(b.final_price)}</td>
-    <td>${statusBadge(b.status)}</td>
-    <td style="font-size:.7rem">${fmtDate(b.created_at)}</td>
-    <td class="td-actions">${b.status==='confirmed'?`<button class="btn-danger btn-sm" onclick="cancelBooking('${b.id}')">Cancel</button>`:''}</td>
-  </tr>`).join('');
+  tb.innerHTML=all.map(b=>`<tr><td style="font-family:monospace;font-size:.7rem">${b.id.slice(0,8)}</td><td style="font-size:.72rem">${b.member_id_text||b.member_id?.slice(0,8)||'—'}</td><td style="font-size:.72rem">${b.event_id?.slice(0,8)||'—'}</td><td>${mn(b.base_price)}</td><td style="color:var(--gold)">${b.points_used||0} pts</td><td style="color:var(--green)">${mn(b.discount_given)}</td><td style="font-weight:700">${mn(b.final_price)}</td><td>${statusBadge(b.status)}</td><td style="font-size:.7rem">${fmtDate(b.created_at)}</td><td class="td-actions">${b.status==='confirmed'?`<button class="btn-danger btn-sm" onclick="cancelBooking('${b.id}')">Cancel</button>`:''}</td></tr>`).join('');
 }
 
 async function cancelBooking(id){
@@ -1346,7 +752,7 @@ async function cancelBooking(id){
   loadBookings();
 }
 
-// ── 6. MEMBERS ────────────────────────────────────────────────────
+// ── MEMBERS ───────────────────────────────────────────────────────
 async function loadMembers(){
   const search=document.getElementById('mb-search')?.value;
   const tier=document.getElementById('mb-tier')?.value;
@@ -1355,7 +761,6 @@ async function loadMembers(){
   if(search) q=q.or(`member_id.ilike.%${search}%,email.ilike.%${search}%,full_name.ilike.%${search}%`);
   const {data,count}=await q;
   document.getElementById('mb-total').textContent=count||0;
-  // Tier counts
   const {data:tiers}=await sbClient.from('members').select('tier');
   const tc={free:0,gold:0,platinum:0,dwcpurple:0};
   (tiers||[]).forEach(m=>{if(tc[m.tier]!==undefined)tc[m.tier]++;});
@@ -1366,21 +771,7 @@ async function loadMembers(){
   document.getElementById('mb-pts-total').textContent=((pts||[]).reduce((s,m)=>s+(m.points||0),0)).toLocaleString('en-IN');
   const tb=document.getElementById('mb-tbody');
   if(!data?.length){tb.innerHTML='<tr><td colspan="9" class="empty">No members found</td></tr>';renderPagination('mb-pagination',count,mbPage,PAGE_SIZE,p=>{mbPage=p;loadMembers();});return;}
-  tb.innerHTML=data.map(m=>`<tr>
-    <td style="font-family:monospace;font-size:.72rem">${m.member_id||'—'}</td>
-    <td>${m.full_name||'—'}</td>
-    <td style="color:var(--muted);font-size:.72rem">${m.email||'—'}</td>
-    <td style="font-size:.72rem">${m.city||'—'}</td>
-    <td>${tierMemberBadge(m.tier)}</td>
-    <td style="color:var(--gold);font-weight:700">${(m.points||0).toLocaleString()}</td>
-    <td style="color:var(--sub)">${m.monthly_points_earned||0}/2000</td>
-    <td style="font-size:.7rem">${fmtDate(m.created_at)}</td>
-    <td class="td-actions">
-      <button class="btn-secondary btn-sm" onclick="editMember('${m.id}','${m.points}','${m.tier}')">Edit</button>
-      <button class="btn-secondary btn-sm" onclick="viewMemberActivity('${m.member_id}','${m.full_name||m.email}')">Activity</button>
-      <button class="btn-danger btn-sm" onclick="suspendMemberDirect('${m.id}','${m.full_name}')">Suspend</button>
-    </td>
-  </tr>`).join('');
+  tb.innerHTML=data.map(m=>`<tr><td style="font-family:monospace;font-size:.72rem">${m.member_id||'—'}</td><td>${m.full_name||'—'}</td><td style="color:var(--muted);font-size:.72rem">${m.email||'—'}</td><td style="font-size:.72rem">${m.city||'—'}</td><td>${tierMemberBadge(m.tier)}</td><td style="color:var(--gold);font-weight:700">${(m.points||0).toLocaleString()}</td><td style="color:var(--sub)">${m.monthly_points_earned||0}/2000</td><td style="font-size:.7rem">${fmtDate(m.created_at)}</td><td class="td-actions"><button class="btn-secondary btn-sm" onclick="editMember('${m.id}','${m.points}','${m.tier}')">Edit</button><button class="btn-secondary btn-sm" onclick="viewMemberActivity('${m.member_id}','${m.full_name||m.email}')">Activity</button><button class="btn-danger btn-sm" onclick="suspendMemberDirect('${m.id}','${m.full_name}')">Suspend</button></td></tr>`).join('');
   renderPagination('mb-pagination',count,mbPage,PAGE_SIZE,p=>{mbPage=p;loadMembers();});
 }
 
@@ -1412,7 +803,7 @@ async function suspendMemberDirect(id,name){
   loadMembers();
 }
 
-// ── 7. PARTNERS ────────────────────────────────────────────────────
+// ── PARTNERS ──────────────────────────────────────────────────────
 let partnerTab = 'pending';
 function switchPartnerTab(tab){partnerTab=tab;['pending','active','all'].forEach(t=>{const el=document.getElementById('pt-tab-'+t);if(el)el.className=t===tab?'btn-primary':'btn-secondary';});loadPartners();}
 
@@ -1422,13 +813,11 @@ async function loadPartners(){
   else if(partnerTab==='active') q=q.eq('is_active',true).not('approved_at',null);
   const {data}=await q;
   const all=data||[];
-  // Stats
   const {data:allP}=await sbClient.from('partners').select('id,is_active,approved_at,rejected_at');
   const allPAll=allP||[];
   document.getElementById('pt-total').textContent=allPAll.length;
   document.getElementById('pt-active').textContent=allPAll.filter(p=>p.is_active&&p.approved_at).length;
   document.getElementById('pt-pending').textContent=allPAll.filter(p=>!p.approved_at&&!p.rejected_at).length;
-  // Voucher/fee stats
   const {data:vouchers}=await sbClient.from('vouchers').select('id,is_redeemed,face_value');
   const vAll=vouchers||[];
   document.getElementById('pt-vouchers').textContent=vAll.length;
@@ -1436,28 +825,10 @@ async function loadPartners(){
   document.getElementById('pt-fees').textContent=mn(fees);
   const tb=document.getElementById('pt-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="9" class="empty">No partners in this view</td></tr>';return;}
-  // Group vouchers by partner
   const {data:vByP}=await sbClient.from('vouchers').select('partner_id,is_redeemed,face_value');
   const vMap={};
   (vByP||[]).forEach(v=>{if(!vMap[v.partner_id])vMap[v.partner_id]={total:0,redeemed:0,fees:0};vMap[v.partner_id].total++;if(v.is_redeemed){vMap[v.partner_id].redeemed++;vMap[v.partner_id].fees+=Math.max(50,Math.round(v.face_value*0.12));}});
-  tb.innerHTML=all.map(p=>{
-    const pm=vMap[p.id]||{total:0,redeemed:0,fees:0};
-    const status=p.is_active&&p.approved_at?'active':p.rejected_at?'rejected':'pending';
-    return `<tr>
-      <td style="font-weight:600">${p.name}</td>
-      <td><span class="badge badge-gray">${p.type||'—'}</span></td>
-      <td>${p.city||'—'}</td>
-      <td style="font-size:.7rem">${p.contact_name||'—'}<br><span style="color:var(--muted)">${p.contact_email||''}</span></td>
-      <td>${pm.total}</td>
-      <td>${pm.redeemed}</td>
-      <td style="color:var(--green)">${mn(pm.fees)}</td>
-      <td>${statusBadge(status)}</td>
-      <td class="td-actions">
-        ${status==='pending'?`<button class="btn-green btn-sm" onclick="approvePartner('${p.id}','${p.name}')">Approve</button><button class="btn-danger btn-sm" onclick="rejectPartner('${p.id}','${p.name}')">Reject</button>`:''}
-        ${status==='active'?`<button class="btn-danger btn-sm" onclick="suspendPartner('${p.id}','${p.name}')">Suspend</button>`:''}
-      </td>
-    </tr>`;
-  }).join('');
+  tb.innerHTML=all.map(p=>{const pm=vMap[p.id]||{total:0,redeemed:0,fees:0};const status=p.is_active&&p.approved_at?'active':p.rejected_at?'rejected':'pending';return `<tr><td style="font-weight:600">${p.name}</td><td><span class="badge badge-gray">${p.type||'—'}</span></td><td>${p.city||'—'}</td><td style="font-size:.7rem">${p.contact_name||'—'}<br><span style="color:var(--muted)">${p.contact_email||''}</span></td><td>${pm.total}</td><td>${pm.redeemed}</td><td style="color:var(--green)">${mn(pm.fees)}</td><td>${statusBadge(status)}</td><td class="td-actions">${status==='pending'?`<button class="btn-green btn-sm" onclick="approvePartner('${p.id}','${p.name}')">Approve</button><button class="btn-danger btn-sm" onclick="rejectPartner('${p.id}','${p.name}')">Reject</button>`:''}${status==='active'?`<button class="btn-danger btn-sm" onclick="suspendPartner('${p.id}','${p.name}')">Suspend</button>`:''}</td></tr>`;}).join('');
 }
 
 async function approvePartner(id,name){
@@ -1485,25 +856,13 @@ async function suspendPartner(id,name){
   loadPartners();
 }
 
-// ── 8. SPONSORS ────────────────────────────────────────────────────
+// ── SPONSORS ──────────────────────────────────────────────────────
 async function loadSponsors(){
   const {data}=await sbClient.from('sponsors').select('*,celebrity_events(celebrity_name,event_title)').order('created_at',{ascending:false});
   const all=data||[];
   const tb=document.getElementById('sp-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="8" class="empty">No sponsors yet</td></tr>';return;}
-  tb.innerHTML=all.map(s=>`<tr>
-    <td style="font-weight:600">${s.name}</td>
-    <td style="font-size:.72rem">${s.celebrity_events?.celebrity_name||'—'}<br><span style="color:var(--muted)">${s.celebrity_events?.event_title||''}</span></td>
-    <td style="color:var(--gold)">${mn(s.deal_value)}</td>
-    <td>${s.seat_allocation||0} seats</td>
-    <td>${s.branding?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td>
-    <td>${s.stage_time?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td>
-    <td>${statusBadge(s.status)}</td>
-    <td class="td-actions">
-      <button class="btn-secondary btn-sm" onclick="editSponsor('${s.id}')">Edit</button>
-      <button class="btn-danger btn-sm" onclick="deleteSponsor('${s.id}','${s.name}')">Delete</button>
-    </td>
-  </tr>`).join('');
+  tb.innerHTML=all.map(s=>`<tr><td style="font-weight:600">${s.name}</td><td style="font-size:.72rem">${s.celebrity_events?.celebrity_name||'—'}<br><span style="color:var(--muted)">${s.celebrity_events?.event_title||''}</span></td><td style="color:var(--gold)">${mn(s.deal_value)}</td><td>${s.seat_allocation||0} seats</td><td>${s.branding?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td><td>${s.stage_time?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td><td>${statusBadge(s.status)}</td><td class="td-actions"><button class="btn-secondary btn-sm" onclick="editSponsor('${s.id}')">Edit</button><button class="btn-danger btn-sm" onclick="deleteSponsor('${s.id}','${s.name}')">Delete</button></td></tr>`).join('');
 }
 
 async function openSponsorModal(){
@@ -1512,7 +871,6 @@ async function openSponsorModal(){
   document.getElementById('sp-value').value='';document.getElementById('sp-seats').value='0';
   document.getElementById('sp-branding').checked=false;document.getElementById('sp-stage').checked=false;
   document.getElementById('sponsorModalTitle').textContent='Add Sponsor';
-  // Load events dropdown
   const {data:evs}=await sbClient.from('celebrity_events').select('id,celebrity_name,event_title').eq('status','live').order('event_date');
   const sel=document.getElementById('sp-event');
   sel.innerHTML='<option value="">Select event...</option>'+(evs||[]).map(e=>`<option value="${e.id}">${e.celebrity_name} — ${e.event_title}</option>`).join('');
@@ -1532,7 +890,7 @@ async function saveSponsor(){
 
 async function deleteSponsor(id,name){if(!confirm(`Delete ${name}?`))return;await sbClient.from('sponsors').delete().eq('id',id);showToast(name+' deleted');loadSponsors();}
 
-// ── 9. VOUCHERS ────────────────────────────────────────────────────
+// ── VOUCHERS ──────────────────────────────────────────────────────
 async function loadVouchers(){
   let q=sbClient.from('vouchers').select('*,partners(name)',{count:'exact'}).order('created_at',{ascending:false});
   const pid=document.getElementById('vc-partner')?.value;
@@ -1545,7 +903,6 @@ async function loadVouchers(){
   else if(status==='redeemed') q=q.eq('is_redeemed',true);
   const {data,count}=await q.range(vcPage*PAGE_SIZE,(vcPage+1)*PAGE_SIZE-1);
   const all=data||[];
-  // Stats - always full count
   const {data:allV}=await sbClient.from('vouchers').select('id,is_redeemed,issued_to,face_value');
   const aV=allV||[];
   document.getElementById('vc-total').textContent=aV.length;
@@ -1554,27 +911,12 @@ async function loadVouchers(){
   document.getElementById('vc-redeemed').textContent=aV.filter(v=>v.is_redeemed).length;
   const fees=aV.filter(v=>v.is_redeemed).reduce((s,v)=>s+Math.max(50,Math.round(v.face_value*0.12)),0);
   document.getElementById('vc-fees').textContent=mn(fees);
-  // Load partner dropdown
   const {data:pts}=await sbClient.from('partners').select('id,name').eq('is_active',true).order('name');
   const pSel=document.getElementById('vc-partner');
   if(pSel&&pSel.options.length<=1) pSel.innerHTML='<option value="">All Partners</option>'+(pts||[]).map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
   const tb=document.getElementById('vc-tbody');
   if(!all.length){tb.innerHTML='<tr><td colspan="9" class="empty">No vouchers found</td></tr>';renderPagination('vc-pagination',count,vcPage,PAGE_SIZE,p=>{vcPage=p;loadVouchers();});return;}
-  tb.innerHTML=all.map(v=>{
-    const fee=Math.max(50,Math.round(v.face_value*0.12));
-    const status=v.is_redeemed?'redeemed':v.issued_to?'issued':'available';
-    return `<tr>
-      <td style="font-family:monospace;font-size:.7rem">${v.code}</td>
-      <td style="font-size:.72rem">${v.partners?.name||'—'}</td>
-      <td><span class="badge ${v.min_tier==='gold'?'badge-gold':'badge-purple'}">${v.min_tier}</span></td>
-      <td style="color:var(--text);font-weight:600">${mn(v.face_value)}</td>
-      <td style="color:var(--green)">${mn(fee)}</td>
-      <td>${statusBadge(status)}</td>
-      <td style="font-size:.7rem">${v.issued_to?v.issued_to.slice(0,8)+'...':'—'}</td>
-      <td style="font-size:.7rem">${v.redeemed_at?fmtDate(v.redeemed_at):'—'}</td>
-      <td class="td-actions">${!v.is_redeemed?`<button class="btn-green btn-sm" onclick="markRedeemed('${v.id}','${v.code}')">Mark Redeemed</button>`:'<span style="color:var(--muted);font-size:.7rem">Done</span>'}</td>
-    </tr>`;
-  }).join('');
+  tb.innerHTML=all.map(v=>{const fee=Math.max(50,Math.round(v.face_value*0.12));const status=v.is_redeemed?'redeemed':v.issued_to?'issued':'available';return `<tr><td style="font-family:monospace;font-size:.7rem">${v.code}</td><td style="font-size:.72rem">${v.partners?.name||'—'}</td><td><span class="badge ${v.min_tier==='gold'?'badge-gold':'badge-purple'}">${v.min_tier}</span></td><td style="color:var(--text);font-weight:600">${mn(v.face_value)}</td><td style="color:var(--green)">${mn(fee)}</td><td>${statusBadge(status)}</td><td style="font-size:.7rem">${v.issued_to?v.issued_to.slice(0,8)+'...':'—'}</td><td style="font-size:.7rem">${v.redeemed_at?fmtDate(v.redeemed_at):'—'}</td><td class="td-actions">${!v.is_redeemed?`<button class="btn-green btn-sm" onclick="markRedeemed('${v.id}','${v.code}')">Mark Redeemed</button>`:'<span style="color:var(--muted);font-size:.7rem">Done</span>'}</td></tr>`;}).join('');
   renderPagination('vc-pagination',count,vcPage,PAGE_SIZE,p=>{vcPage=p;loadVouchers();});
 }
 
@@ -1586,7 +928,7 @@ async function markRedeemed(id,code){
   loadVouchers();
 }
 
-// ── 10. CMS ────────────────────────────────────────────────────────
+// ── CMS ───────────────────────────────────────────────────────────
 let cmsCache = {};
 
 async function loadCMS(){
@@ -1598,18 +940,8 @@ async function loadCMS(){
   const textEl=document.getElementById('cms-text');
   const numberKeys=['member_count','cities_count','partners_count','events_held'];
   const textKeys=['homepage_hero_text','homepage_sub_text','announcement_text'];
-  numbersEl.innerHTML=numberKeys.map(k=>{const item=cmsCache[k]||{key:k,value:'',label:k,description:''};return `<div class="cms-item">
-    <div class="cms-label">${item.label||k}</div>
-    <div class="cms-desc">${item.description||''}</div>
-    <input class="cms-input" type="text" id="cms-${k}" value="${item.value||''}" placeholder="Enter value..."/>
-    <div style="margin-top:.5rem"><button class="btn-primary btn-sm" onclick="saveCMSItem('${k}')">Save</button></div>
-  </div>`;}).join('');
-  textEl.innerHTML=textKeys.map(k=>{const item=cmsCache[k]||{key:k,value:'',label:k,description:''};return `<div class="cms-item">
-    <div class="cms-label">${item.label||k}</div>
-    <div class="cms-desc">${item.description||''}</div>
-    <input class="cms-input" type="text" id="cms-${k}" value="${item.value||''}" placeholder="${k==='announcement_text'?'Leave blank to hide...':'Enter text...'}"/>
-    <div style="margin-top:.5rem"><button class="btn-primary btn-sm" onclick="saveCMSItem('${k}')">Save</button></div>
-  </div>`;}).join('');
+  numbersEl.innerHTML=numberKeys.map(k=>{const item=cmsCache[k]||{key:k,value:'',label:k,description:''};return `<div class="cms-item"><div class="cms-label">${item.label||k}</div><div class="cms-desc">${item.description||''}</div><input class="cms-input" type="text" id="cms-${k}" value="${item.value||''}" placeholder="Enter value..."/><div style="margin-top:.5rem"><button class="btn-primary btn-sm" onclick="saveCMSItem('${k}')">Save</button></div></div>`;}).join('');
+  textEl.innerHTML=textKeys.map(k=>{const item=cmsCache[k]||{key:k,value:'',label:k,description:''};return `<div class="cms-item"><div class="cms-label">${item.label||k}</div><div class="cms-desc">${item.description||''}</div><input class="cms-input" type="text" id="cms-${k}" value="${item.value||''}" placeholder="${k==='announcement_text'?'Leave blank to hide...':'Enter text...'}"/><div style="margin-top:.5rem"><button class="btn-primary btn-sm" onclick="saveCMSItem('${k}')">Save</button></div></div>`;}).join('');
 }
 
 async function saveCMSItem(key){
@@ -1627,39 +959,100 @@ async function saveAllCMS(){
   showToast('All CMS values saved!','success');
 }
 
-// ── 11. CONFIG ─────────────────────────────────────────────────────
+// ── PAYMENT MODE (owner-only) ─────────────────────────────────────
+let pmCache = {};
+
+async function loadPaymentMode(){
+  if(!currentAdmin || !OWNER_EMAILS.includes(currentAdmin.email)){
+    document.getElementById('pm-wrapper').style.display='none';
+    return;
+  }
+  document.getElementById('pm-wrapper').style.display='block';
+  const {data} = await sbClient.from('site_config').select('key,value').eq('category','payment');
+  pmCache = {};
+  (data||[]).forEach(r => { pmCache[r.key] = r.value; });
+  document.getElementById('pm-test-gold').value      = pmCache.test_price_gold      || '50';
+  document.getElementById('pm-test-platinum').value  = pmCache.test_price_platinum  || '100';
+  document.getElementById('pm-test-dwcpurple').value = pmCache.test_price_dwcpurple || '200';
+  renderPaymentModeUI(pmCache.payment_mode || 'live');
+}
+
+function renderPaymentModeUI(mode){
+  const card = document.getElementById('pm-card');
+  const btnLive = document.getElementById('pm-btn-live');
+  const btnTest = document.getElementById('pm-btn-test');
+  const note = document.getElementById('pm-note');
+  btnLive.classList.remove('on-live','on-test');
+  btnTest.classList.remove('on-live','on-test');
+  if(mode === 'test'){
+    card.classList.add('test-on');
+    btnTest.classList.add('on-test');
+    note.innerHTML = '<span style="color:#ff6b6b;font-weight:700">TEST MODE LIVE →</span> upgrade.html charges test prices · dashboard.html shows red ribbon · create-order.js sends test amounts to Razorpay · members on the site right now will be charged TEST amounts.';
+    note.style.borderLeftColor = '#D4002A';
+  } else {
+    card.classList.remove('test-on');
+    btnLive.classList.add('on-live');
+    note.innerHTML = '<span style="color:#00C853;font-weight:700">LIVE MODE →</span> real Razorpay charges at canonical prices (Gold ₹4,999 / Platinum ₹9,999 / DWC Purple ₹19,999). Test prices above are saved but inactive.';
+    note.style.borderLeftColor = '#00C853';
+  }
+}
+
+async function setPaymentMode(mode){
+  if(mode !== 'live' && mode !== 'test') return;
+  const old = pmCache.payment_mode || 'live';
+  if(old === mode) return;
+  const msg = mode === 'test'
+    ? '⚠ Switch to TEST MODE?\n\nAll members on the site will be charged TEST prices (current: ₹'+(pmCache.test_price_gold||50)+' / ₹'+(pmCache.test_price_platinum||100)+' / ₹'+(pmCache.test_price_dwcpurple||200)+') instead of live prices. Red TEST ribbon will appear on upgrade.html and dashboard.html.\n\nProceed?'
+    : 'Switch back to LIVE MODE?\n\nReal Razorpay charges at canonical prices will resume immediately.';
+  if(!confirm(msg)) return;
+  const {error} = await sbClient.from('site_config').upsert({key:'payment_mode', value:mode, category:'payment', updated_at:new Date().toISOString(), updated_by:currentAdmin?.email||'admin'});
+  if(error){ showToast('Failed: '+error.message,'error'); return; }
+  pmCache.payment_mode = mode;
+  renderPaymentModeUI(mode);
+  await auditLog('update_payment_mode','config','payment_mode','Payment Mode',{},old,mode);
+  showToast(mode==='test' ? '⚠ TEST MODE active' : '✅ LIVE MODE active','success');
+}
+
+async function saveTestPrices(){
+  const gold      = parseInt(document.getElementById('pm-test-gold').value) || 0;
+  const platinum  = parseInt(document.getElementById('pm-test-platinum').value) || 0;
+  const dwcpurple = parseInt(document.getElementById('pm-test-dwcpurple').value) || 0;
+  if(gold < 1 || platinum < 1 || dwcpurple < 1){ showToast('Test prices must be at least ₹1','error'); return; }
+  const ts = new Date().toISOString();
+  const upd = currentAdmin?.email||'admin';
+  const oldVals = `${pmCache.test_price_gold||''}/${pmCache.test_price_platinum||''}/${pmCache.test_price_dwcpurple||''}`;
+  const {error} = await sbClient.from('site_config').upsert([
+    {key:'test_price_gold',      value:String(gold),      category:'payment', updated_at:ts, updated_by:upd},
+    {key:'test_price_platinum',  value:String(platinum),  category:'payment', updated_at:ts, updated_by:upd},
+    {key:'test_price_dwcpurple', value:String(dwcpurple), category:'payment', updated_at:ts, updated_by:upd},
+  ]);
+  if(error){ showToast('Save failed: '+error.message,'error'); return; }
+  pmCache.test_price_gold = String(gold);
+  pmCache.test_price_platinum = String(platinum);
+  pmCache.test_price_dwcpurple = String(dwcpurple);
+  await auditLog('update_test_prices','config','payment','Test Prices',{gold,platinum,dwcpurple},oldVals,`${gold}/${platinum}/${dwcpurple}`);
+  showToast('✅ Test prices saved: ₹'+gold+' / ₹'+platinum+' / ₹'+dwcpurple,'success');
+}
+
+// ── CONFIG ────────────────────────────────────────────────────────
 let configCache = {};
 
 async function loadConfig(){
+  await loadPaymentMode();
   const {data}=await sbClient.from('site_config').select('*').in('category',['platform','points','flags']);
   configCache={};
   (data||[]).forEach(item=>{configCache[item.key]=item;});
-  // Platform
   const platKeys=['platform_commission_pct','voucher_fee_pct','max_redemption_pct','max_redemption_abs'];
   document.getElementById('cfg-platform').innerHTML=platKeys.map(k=>renderConfigItem(k)).join('');
-  // Points
   const ptsKeys=['points_signup','points_profile','points_referral_sent','points_referral_received','points_voucher_claim','points_voucher_redeemed','points_shopping','points_travel','monthly_points_cap','points_expiry_days'];
   document.getElementById('cfg-points').innerHTML=ptsKeys.map(k=>renderConfigItem(k)).join('');
-  // Flags
   const flagKeys=['flag_vip_dining','flag_group_bookings','flag_auction_pricing','flag_dynamic_pricing','flag_referrals'];
-  document.getElementById('cfg-flags').innerHTML=flagKeys.map(k=>{
-    const item=configCache[k]||{key:k,value:'false',label:k,description:''};
-    const on=item.value==='true';
-    return `<div class="flag-item">
-      <div class="flag-info"><div class="flag-label">${item.label||k}</div><div class="flag-desc">${item.description||''}</div></div>
-      <label class="toggle"><input type="checkbox" ${on?'checked':''} onchange="saveFlag('${k}',this.checked)"/><span class="toggle-slider"></span></label>
-    </div>`;
-  }).join('');
+  document.getElementById('cfg-flags').innerHTML=flagKeys.map(k=>{const item=configCache[k]||{key:k,value:'false',label:k,description:''};const on=item.value==='true';return `<div class="flag-item"><div class="flag-info"><div class="flag-label">${item.label||k}</div><div class="flag-desc">${item.description||''}</div></div><label class="toggle"><input type="checkbox" ${on?'checked':''} onchange="saveFlag('${k}',this.checked)"/><span class="toggle-slider"></span></label></div>`;}).join('');
 }
 
 function renderConfigItem(k){
   const item=configCache[k]||{key:k,value:'',label:k,description:''};
-  return `<div class="config-item">
-    <div class="config-label">${item.label||k}</div>
-    <div class="config-desc">${item.description||''}</div>
-    <input class="config-val" type="text" id="cfg-${k}" value="${item.value||''}"/>
-    <div class="config-save"><button class="btn-primary btn-sm" onclick="saveConfigItem('${k}')">Save</button></div>
-  </div>`;
+  return `<div class="config-item"><div class="config-label">${item.label||k}</div><div class="config-desc">${item.description||''}</div><input class="config-val" type="text" id="cfg-${k}" value="${item.value||''}"/><div class="config-save"><button class="btn-primary btn-sm" onclick="saveConfigItem('${k}')">Save</button></div></div>`;
 }
 
 async function saveConfigItem(key){
@@ -1681,40 +1074,21 @@ async function saveFlag(key,checked){
   configCache[key]={...configCache[key],value:val};
 }
 
-// ── 12. ADMINS ─────────────────────────────────────────────────────
+// ── ADMINS ────────────────────────────────────────────────────────
 async function loadAdmins(){
   if(currentAdmin?.role!=='super_admin'){document.getElementById('adm-tbody').innerHTML='<tr><td colspan="7" class="empty">Super Admin only</td></tr>';return;}
   const {data}=await sbClient.from('admin_users').select('*').order('created_at');
   const all=data||[];
   const tb=document.getElementById('adm-tbody');
   const perms=a=>[a.can_celebrities&&'⭐',a.can_events&&'🎟️',a.can_members&&'👥',a.can_partners&&'🏪',a.can_cms&&'📝',a.can_config&&'⚙️'].filter(Boolean).join(' ');
-  tb.innerHTML=all.map(a=>`<tr>
-    <td style="font-weight:600">${a.name}</td>
-    <td style="font-size:.72rem">${a.email}</td>
-    <td><span class="badge ${a.role==='super_admin'?'badge-gold':'badge-blue'}">${a.role.replace(/_/g,' ')}</span></td>
-    <td style="font-size:.72rem">${a.role==='super_admin'?'Full Access':perms(a)||'Custom'}</td>
-    <td>${statusBadge(a.is_active?'active':'inactive')}</td>
-    <td style="font-size:.7rem">${fmtDT(a.last_login)}</td>
-    <td class="td-actions">
-      ${a.email!==SUPER_ADMIN_EMAIL?`
-        <button class="btn-secondary btn-sm" onclick="editAdmin('${a.id}')">Edit</button>
-        <button class="btn-danger btn-sm" onclick="toggleAdmin('${a.id}','${a.name}',${a.is_active})">${a.is_active?'Deactivate':'Activate'}</button>
-      `:'<span style="color:var(--gold);font-size:.7rem">Owner</span>'}
-    </td>
-  </tr>`).join('');
+  tb.innerHTML=all.map(a=>`<tr><td style="font-weight:600">${a.name}</td><td style="font-size:.72rem">${a.email}</td><td><span class="badge ${a.role==='super_admin'?'badge-gold':'badge-blue'}">${a.role.replace(/_/g,' ')}</span></td><td style="font-size:.72rem">${a.role==='super_admin'?'Full Access':perms(a)||'Custom'}</td><td>${statusBadge(a.is_active?'active':'inactive')}</td><td style="font-size:.7rem">${fmtDT(a.last_login)}</td><td class="td-actions">${a.email!==SUPER_ADMIN_EMAIL?`<button class="btn-secondary btn-sm" onclick="editAdmin('${a.id}')">Edit</button><button class="btn-danger btn-sm" onclick="toggleAdmin('${a.id}','${a.name}',${a.is_active})">${a.is_active?'Deactivate':'Activate'}</button>`:'<span style="color:var(--gold);font-size:.7rem">Owner</span>'}</td></tr>`).join('');
 }
 
 function openAdminModal(){editingId=null;document.getElementById('adminModalTitle').textContent='Add Team Admin';['adm-name','adm-email'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});document.getElementById('adm-role').value='event_manager';setRolePermissions();openModal('adminModal');}
 
 function setRolePermissions(){
   const role=document.getElementById('adm-role').value;
-  const presets={
-    super_admin:[1,1,1,1,1,1,1,1,1,1,1],
-    event_manager:[0,0,1,1,0,0,0,0,0,0,0],
-    partner_manager:[0,0,0,0,0,1,0,1,0,0,0],
-    content_editor:[0,0,0,0,0,0,0,0,1,0,0],
-    finance_viewer:[0,0,0,0,0,0,0,0,0,0,1],
-  };
+  const presets={super_admin:[1,1,1,1,1,1,1,1,1,1,1],event_manager:[0,0,1,1,0,0,0,0,0,0,0],partner_manager:[0,0,0,0,0,1,0,1,0,0,0],content_editor:[0,0,0,0,0,0,0,0,1,0,0],finance_viewer:[0,0,0,0,0,0,0,0,0,0,1]};
   const perms=['celebrities','agencies','events','bookings','members','partners','sponsors','vouchers','cms','config','logs'];
   const vals=presets[role]||[0,0,0,0,0,0,0,0,0,0,0];
   perms.forEach((p,i)=>{const el=document.getElementById('perm-'+p);if(el)el.checked=!!vals[i];});
@@ -1753,7 +1127,7 @@ async function toggleAdmin(id,name,active){
   loadAdmins();
 }
 
-// ── 13. AUDIT LOGS ─────────────────────────────────────────────────
+// ── AUDIT LOGS ────────────────────────────────────────────────────
 async function loadLogs(){
   const search=document.getElementById('log-search')?.value;
   const type=document.getElementById('log-type')?.value;
@@ -1763,14 +1137,7 @@ async function loadLogs(){
   const {data,count}=await q;
   const tb=document.getElementById('log-tbody');
   if(!data?.length){tb.innerHTML='<tr><td colspan="6" class="empty">No logs found</td></tr>';renderPagination('log-pagination',count,logPage,PAGE_SIZE,p=>{logPage=p;loadLogs();});return;}
-  tb.innerHTML=data.map(l=>`<tr>
-    <td style="font-size:.72rem;color:var(--gold)">${l.admin_email||'—'}</td>
-    <td><span class="badge badge-gray">${l.action||'—'}</span></td>
-    <td style="font-size:.72rem">${l.target_label||l.target_id?.slice(0,10)||'—'}</td>
-    <td style="font-size:.7rem;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.old_value||'—'}</td>
-    <td style="font-size:.7rem;color:var(--green);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.new_value||'—'}</td>
-    <td style="font-size:.7rem">${fmtDT(l.created_at)}</td>
-  </tr>`).join('');
+  tb.innerHTML=data.map(l=>`<tr><td style="font-size:.72rem;color:var(--gold)">${l.admin_email||'—'}</td><td><span class="badge badge-gray">${l.action||'—'}</span></td><td style="font-size:.72rem">${l.target_label||l.target_id?.slice(0,10)||'—'}</td><td style="font-size:.7rem;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.old_value||'—'}</td><td style="font-size:.7rem;color:var(--green);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.new_value||'—'}</td><td style="font-size:.7rem">${fmtDT(l.created_at)}</td></tr>`).join('');
   renderPagination('log-pagination',count,logPage,PAGE_SIZE,p=>{logPage=p;loadLogs();});
 }
 
@@ -1783,68 +1150,29 @@ function renderPagination(containerId,total,page,pageSize,onPage){
   el.innerHTML=`<button class="page-btn" ${page===0?'disabled':''} onclick="(${onPage.toString()})(${page-1})">← Prev</button><span class="page-info">Page ${page+1} of ${totalPages} (${total} total)</span><button class="page-btn" ${page>=totalPages-1?'disabled':''} onclick="(${onPage.toString()})(${page+1})">Next →</button>`;
 }
 
-// ── BOOT ──────────────────────────────────────────────────────────
-init();
-</script>
-<!-- ── MEMBER ACTIVITY MODAL ── -->
-<div class="modal-overlay hidden" id="activityModal">
-  <div class="modal" style="max-width:600px;max-height:80vh;overflow-y:auto">
-    <div class="modal-hdr">
-      <div class="modal-title" id="activityModalTitle">Member Activity</div>
-      <button class="modal-close" onclick="closeModal('activityModal')">✕</button>
-    </div>
-    <div id="activityList" style="margin-top:1rem"></div>
-  </div>
-</div>
-
-<script>
+// ── MEMBER ACTIVITY MODAL ─────────────────────────────────────────
 async function viewMemberActivity(memberId, memberName) {
+  let activityModal = document.getElementById('activityModal');
+  if(!activityModal){
+    activityModal = document.createElement('div');
+    activityModal.id = 'activityModal';
+    activityModal.className = 'modal-backdrop';
+    activityModal.innerHTML = `<div class="modal" style="max-width:600px"><button class="modal-close" onclick="closeModal('activityModal')">✕</button><div class="modal-title" id="activityModalTitle">Member Activity</div><div id="activityList" style="margin-top:1rem"></div></div>`;
+    document.body.appendChild(activityModal);
+    activityModal.addEventListener('click', closeModalOnBackdrop);
+  }
   document.getElementById('activityModalTitle').textContent = 'Activity — ' + (memberName || memberId);
   document.getElementById('activityList').innerHTML = '<div style="color:var(--muted);font-size:.82rem;padding:.5rem 0">Loading...</div>';
   openModal('activityModal');
-
-  const { data, error } = await sbClient
-    .from('member_activity')
-    .select('*')
-    .eq('member_id', memberId)
-    .order('created_at', { ascending: false })
-    .limit(50);
-
-  if (error || !data || !data.length) {
-    document.getElementById('activityList').innerHTML = '<div style="color:var(--muted);font-size:.82rem;padding:.5rem 0">No activity recorded yet.</div>';
-    return;
-  }
-
-  const icons = {
-    signup: '🎉', profile_complete: '✅', voucher_redeem: '🎫',
-    event_booking: '⭐', upgrade: '🚀', referral_bonus: '🤝',
-    referral_received: '🎁', admin_credit: '💳', admin_debit: '💳',
-    points_earned: '💰', points_expired: '⏳'
-  };
-
-  const labels = {
-    signup: 'Signed Up', profile_complete: 'Completed Profile',
-    voucher_redeem: 'Redeemed Voucher', event_booking: 'Booked Event',
-    upgrade: 'Upgraded Tier', referral_bonus: 'Referral Bonus',
-    referral_received: 'Joined via Referral', admin_credit: 'Admin Credit',
-    admin_debit: 'Admin Adjustment', points_earned: 'Points Earned',
-    points_expired: 'Points Expired'
-  };
-
-  document.getElementById('activityList').innerHTML = data.map(a => {
-    const d = typeof a.activity_data === 'string' ? JSON.parse(a.activity_data || '{}') : (a.activity_data || {});
-    const detail = Object.entries(d).map(([k,v]) => `<span style="color:var(--muted);font-size:.7rem">${k}: <strong style="color:var(--sub)">${v}</strong></span>`).join(' · ');
-    const date = new Date(a.created_at).toLocaleString('en-IN', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-    return `<div style="display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border2);align-items:flex-start">
-      <div style="font-size:1.2rem;flex-shrink:0">${icons[a.activity_type] || '📌'}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:.85rem;font-weight:600;color:var(--text)">${labels[a.activity_type] || a.activity_type}</div>
-        <div style="margin-top:.25rem;display:flex;flex-wrap:wrap;gap:.4rem">${detail}</div>
-      </div>
-      <div style="font-size:.7rem;color:var(--muted);flex-shrink:0;text-align:right">${date}</div>
-    </div>`;
-  }).join('');
+  const { data, error } = await sbClient.from('member_activity').select('*').eq('member_id', memberId).order('created_at', { ascending: false }).limit(50);
+  if (error || !data || !data.length) { document.getElementById('activityList').innerHTML = '<div style="color:var(--muted);font-size:.82rem;padding:.5rem 0">No activity recorded yet.</div>'; return; }
+  const icons = { signup: '🎉', profile_complete: '✅', voucher_redeem: '🎫', event_booking: '⭐', upgrade: '🚀', referral_bonus: '🤝', referral_received: '🎁', admin_credit: '💳', admin_debit: '💳', points_earned: '💰', points_expired: '⏳' };
+  const labels = { signup: 'Signed Up', profile_complete: 'Completed Profile', voucher_redeem: 'Redeemed Voucher', event_booking: 'Booked Event', upgrade: 'Upgraded Tier', referral_bonus: 'Referral Bonus', referral_received: 'Joined via Referral', admin_credit: 'Admin Credit', admin_debit: 'Admin Adjustment', points_earned: 'Points Earned', points_expired: 'Points Expired' };
+  document.getElementById('activityList').innerHTML = data.map(a => { const d = typeof a.activity_data === 'string' ? JSON.parse(a.activity_data || '{}') : (a.activity_data || {}); const detail = Object.entries(d).map(([k,v]) => `<span style="color:var(--muted);font-size:.7rem">${k}: <strong style="color:var(--sub)">${v}</strong></span>`).join(' · '); const date = new Date(a.created_at).toLocaleString('en-IN', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); return `<div style="display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border2);align-items:flex-start"><div style="font-size:1.2rem;flex-shrink:0">${icons[a.activity_type] || '📌'}</div><div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600;color:var(--text)">${labels[a.activity_type] || a.activity_type}</div><div style="margin-top:.25rem;display:flex;flex-wrap:wrap;gap:.4rem">${detail}</div></div><div style="font-size:.7rem;color:var(--muted);flex-shrink:0;text-align:right">${date}</div></div>`; }).join('');
 }
+
+// ── BOOT ──────────────────────────────────────────────────────────
+init();
 </script>
 </body>
 </html>
