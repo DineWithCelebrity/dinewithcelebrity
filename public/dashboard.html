@@ -701,16 +701,26 @@
   .sim-select{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(242,183,5,.2);border-radius:10px;color:var(--white);padding:.85rem 1rem;font-family:'Poppins',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;cursor:pointer;}
   .sim-select:focus,.sim-select:hover{border-color:var(--gold);}
   .sim-select option{background:#0d0814;color:var(--white);}
+  .sim-select optgroup{font-family:'Oswald',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:#06040A;padding:.5rem 0;}
+  .sim-select optgroup option{font-family:'Poppins',sans-serif;font-weight:400;color:var(--white);letter-spacing:0;text-transform:none;padding-left:1rem;}
   .sim-base-block{text-align:center;margin:.5rem 0 1.6rem;padding:1.4rem 0;background:rgba(0,0,0,.25);border-radius:12px;border:1px solid rgba(255,255,255,.05);}
   .sim-base-lbl{font-size:.95rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.2em;margin-bottom:.5rem;font-weight:700;}
   .sim-base-val{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;color:var(--white);line-height:1;letter-spacing:.02em;}
   .sim-saved{font-size:1rem;color:#00C853;margin-top:.5rem;font-weight:700;}
   .sim-spend-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.7rem;}
-  .sim-spend-lbl{font-size:1rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
-  .sim-spend-out{color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:.02em;}
-  .sim-slider{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:100px;outline:none;-webkit-appearance:none;margin-bottom:1.5rem;cursor:pointer;}
-  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
-  .sim-slider::-moz-range-thumb{width:24px;height:24px;background:var(--gold);border-radius:50%;cursor:pointer;border:3px solid #06040A;box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(242,183,5,.5);}
+  .sim-spend-lbl{font-family:'Oswald',sans-serif;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:.14em;font-weight:700;}
+  .sim-spend-out{color:#F2B705;font-family:'Oswald',sans-serif;font-weight:700;font-size:1.85rem;letter-spacing:.02em;text-shadow:0 0 10px rgba(242,183,5,.4);}
+  .sim-slider-wrap{position:relative;margin-bottom:.4rem;padding:14px 0;}
+  .sim-slider-wrap::before{content:'';position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:14px;background:linear-gradient(90deg,rgba(242,183,5,.18) 0%,rgba(242,183,5,.06) 50%,rgba(255,255,255,.04) 100%);border:2px solid rgba(242,183,5,.35);border-radius:100px;pointer-events:none;}
+  .sim-slider-wrap::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:14px;width:var(--fill,0%);background:linear-gradient(90deg,#D4002A 0%,#F2B705 100%);border-radius:100px;pointer-events:none;box-shadow:0 0 18px rgba(242,183,5,.6);transition:width .15s;}
+  .sim-slider{position:relative;z-index:2;width:100%;height:28px;background:transparent;outline:none;-webkit-appearance:none;cursor:pointer;margin:0;}
+  .sim-slider::-webkit-slider-runnable-track{height:28px;background:transparent;border:none;}
+  .sim-slider::-moz-range-track{height:28px;background:transparent;border:none;}
+  .sim-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:32px;height:32px;background:#F2B705;border-radius:50%;cursor:grab;border:4px solid #06040A;box-shadow:0 0 0 3px #F2B705,0 0 24px rgba(242,183,5,.85),0 4px 12px rgba(0,0,0,.6);margin-top:-2px;transition:transform .12s;}
+  .sim-slider::-webkit-slider-thumb:hover{transform:scale(1.1);}
+  .sim-slider::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.15);}
+  .sim-slider::-moz-range-thumb{width:32px;height:32px;background:#F2B705;border-radius:50%;cursor:grab;border:4px solid #06040A;box-shadow:0 0 0 3px #F2B705,0 0 24px rgba(242,183,5,.85),0 4px 12px rgba(0,0,0,.6);transition:transform .12s;}
+  .sim-slider-marks{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:rgba(242,183,5,.6);letter-spacing:.08em;margin-bottom:1.2rem;padding:0 4px;}
   .sim-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
   .sim-stat{background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.18);border-radius:12px;padding:1rem 1.1rem;}
   .sim-stat-lbl{font-size:.82rem;color:rgba(0,200,83,.78);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.35rem;}
@@ -1018,7 +1028,16 @@
             <span class="sim-spend-lbl">Shopping at Partners</span>
             <span class="sim-spend-out" id="simSpendOut">₹0</span>
           </div>
-          <input id="simSpend" type="range" min="0" max="500000" step="5000" value="0" class="sim-slider" />
+          <div class="sim-slider-wrap" id="simSliderWrap">
+            <input id="simSpend" type="range" min="0" max="500000" step="5000" value="0" class="sim-slider" />
+          </div>
+          <div class="sim-slider-marks">
+            <span>₹0</span>
+            <span>₹1.25L</span>
+            <span>₹2.5L</span>
+            <span>₹3.75L</span>
+            <span>₹5L</span>
+          </div>
 
           <div class="sim-stats">
             <div class="sim-stat">
@@ -1721,10 +1740,10 @@
 
     const { data: events, error } = await sbClient
       .from('celebrity_events')
-      .select('celebrity_name,ticket_price')
+      .select('celebrity_name,ticket_price,industry')
       .eq('status', 'live')
-      .order('ticket_price', { ascending: false })
-      .limit(20);
+      .order('industry', { ascending: true })
+      .order('celebrity_name', { ascending: true });
 
     if (error || !events || !events.length) {
       sel.innerHTML = '<option value="">No celebrities to show yet</option>';
@@ -1732,13 +1751,41 @@
       return;
     }
 
-    sel.innerHTML = events.map(function(e){
-      var price = parseInt(e.ticket_price, 10) || 0;
-      return '<option data-price="' + price + '">' +
-        e.celebrity_name + ' — ₹' + price.toLocaleString('en-IN') +
-        '</option>';
-    }).join('');
+    // Group celebrities by industry
+    var groups = {};
+    events.forEach(function(e){
+      var ind = e.industry || 'Other';
+      if (!groups[ind]) groups[ind] = [];
+      groups[ind].push(e);
+    });
 
+    // Industry display order + icon
+    var industryOrder = [
+      { key: 'Bollywood',  icon: '⭐' },
+      { key: 'Tollywood',  icon: '⭐' },
+      { key: 'Kollywood',  icon: '⭐' },
+      { key: 'Mollywood',  icon: '⭐' },
+      { key: 'Sandalwood', icon: '⭐' },
+      { key: 'Cricket',    icon: '🏏' },
+      { key: 'Sports',     icon: '🏅' },
+      { key: 'Other',      icon: '✨' }
+    ];
+
+    var html = '';
+    industryOrder.forEach(function(group){
+      var rows = groups[group.key];
+      if (!rows || !rows.length) return;
+      html += '<optgroup label="' + group.icon + ' ' + group.key.toUpperCase() + ' (' + rows.length + ')">';
+      rows.forEach(function(e){
+        var price = parseInt(e.ticket_price, 10) || 0;
+        html += '<option data-price="' + price + '">' +
+          e.celebrity_name + ' — ₹' + price.toLocaleString('en-IN') +
+          '</option>';
+      });
+      html += '</optgroup>';
+    });
+
+    sel.innerHTML = html || '<option value="">No celebrities to show yet</option>';
     simUpdate();
   }
 
@@ -1747,6 +1794,10 @@
     var sel   = document.getElementById('simStar');
     if (!spend || !sel) return;
     var amt   = parseInt(spend.value, 10) || 0;
+    var max   = parseInt(spend.max, 10) || 500000;
+    var pct   = max > 0 ? (amt / max) * 100 : 0;
+    var wrap  = document.getElementById('simSliderWrap');
+    if (wrap) wrap.style.setProperty('--fill', pct + '%');
     var opt   = sel.options[sel.selectedIndex];
     var price = opt && opt.dataset.price ? parseInt(opt.dataset.price, 10) : 0;
     var pts   = Math.floor(amt / 3);
