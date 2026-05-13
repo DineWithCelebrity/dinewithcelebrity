@@ -1,6 +1,12 @@
 // POST /api/create-order
 // Validates redemption token, RE-COMPUTES discount (never trusts token amount),
 // marks token used, locks seat, creates Razorpay order.
+//
+// Honors site_config.payment_mode (live|test):
+//   • LIVE → existing RAZORPAY_KEY_ID + RAZORPAY_KEY_SECRET + canonical prices (₹4,999/₹9,999/₹19,999)
+//   • TEST → new RAZORPAY_TEST_KEY_ID + RAZORPAY_TEST_KEY_SECRET + admin-editable test prices (default ₹50/₹100/₹200)
+// Events use their own ticket_price either way — test mode just routes through
+// the test Razorpay key so no real money moves.
 
 import { createClient } from '@supabase/supabase-js';
 import Razorpay from 'razorpay';
@@ -11,10 +17,54 @@ const sbAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-const razorpay = new Razorpay({
-  key_id:     process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// ── Razorpay instances per mode (lazily cached) ──────────────────
+let _razorpayLive = null;
+let _razorpayTest = null;
+
+function getRazorpay(mode) {
+  if (mode === 'test') {
+    if (!_razorpayTest) {
+      _razorpayTest = new Razorpay({
+        key_id:     process.env.RAZORPAY_TEST_KEY_ID,
+        key_secret: process.env.RAZORPAY_TEST_KEY_SECRET,
+      });
+    }
+    return _razorpayTest;
+  }
+  // LIVE mode uses the existing env vars already in Vercel — no rename needed
+  if (!_razorpayLive) {
+    _razorpayLive = new Razorpay({
+      key_id:     process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+  }
+  return _razorpayLive;
+}
+
+function getRazorpayKeyId(mode) {
+  return mode === 'test'
+    ? process.env.RAZORPAY_TEST_KEY_ID
+    : process.env.RAZORPAY_KEY_ID;
+}
+
+// ── Payment mode + test price lookup ─────────────────────────────
+async function getPaymentConfig() {
+  const { data } = await sbAdmin
+    .from('site_config')
+    .select('key, value')
+    .eq('category', 'payment');
+
+  const cfg = {};
+  (data || []).forEach(r => { cfg[r.key] = r.value; });
+
+  const mode = cfg.payment_mode === 'test' ? 'test' : 'live';
+  return {
+    mode,
+    test_price_gold:      parseInt(cfg.test_price_gold)      || 50,
+    test_price_platinum:  parseInt(cfg.test_price_platinum)  || 100,
+    test_price_dwcpurple: parseInt(cfg.test_price_dwcpurple) || 200,
+  };
+}
 
 // ── Token verification ────────────────────────────────────────────
 function verifyToken(token) {
@@ -48,12 +98,35 @@ export default async function handler(req, res) {
   const { data: { user }, error: authErr } = await sbAdmin.auth.getUser(jwt);
   if (authErr || !user) return res.status(401).json({ error: 'Invalid token' });
 
+  // ── Read payment mode once per request ────────────────────────
+  const paymentCfg = await getPaymentConfig();
+
+  // Fail fast if the keys for the requested mode aren't set
+  if (paymentCfg.mode === 'test' && (!process.env.RAZORPAY_TEST_KEY_ID || !process.env.RAZORPAY_TEST_KEY_SECRET)) {
+    return res.status(500).json({ error: 'TEST mode requested but Razorpay test keys not configured in Vercel env vars' });
+  }
+  if (paymentCfg.mode === 'live' && (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET)) {
+    return res.status(500).json({ error: 'LIVE mode requested but Razorpay live keys not configured in Vercel env vars' });
+  }
+
+  const razorpay      = getRazorpay(paymentCfg.mode);
+  const keyIdForClient = getRazorpayKeyId(paymentCfg.mode);
+
   const { event_id, redemption_token, tier } = req.body || {};
 
   // ── MEMBERSHIP UPGRADE PATH ───────────────────────────────────
   if (tier && !event_id) {
-    const validTiers = { gold: 499900, platinum: 999900, dwcpurple: 1999900 };
-    if (!validTiers[tier]) return res.status(400).json({ error: 'Invalid tier' });
+    // Canonical live prices (paise)
+    const livePrices = { gold: 499900, platinum: 999900, dwcpurple: 1999900 };
+    // Test prices from admin panel (rupees → paise)
+    const testPrices = {
+      gold:      paymentCfg.test_price_gold      * 100,
+      platinum:  paymentCfg.test_price_platinum  * 100,
+      dwcpurple: paymentCfg.test_price_dwcpurple * 100,
+    };
+    const priceTable = paymentCfg.mode === 'test' ? testPrices : livePrices;
+
+    if (!priceTable[tier]) return res.status(400).json({ error: 'Invalid tier' });
 
     const { data: member } = await sbAdmin
       .from('members')
@@ -64,16 +137,22 @@ export default async function handler(req, res) {
     if (!member) return res.status(404).json({ error: 'Member not found' });
 
     const rpOrder = await razorpay.orders.create({
-      amount:   validTiers[tier],
+      amount:   priceTable[tier],
       currency: 'INR',
-      notes: { member_id: member.id, tier, type: 'membership_upgrade' },
+      notes: {
+        member_id:    member.id,
+        tier,
+        type:         'membership_upgrade',
+        payment_mode: paymentCfg.mode,
+      },
     });
 
     return res.status(200).json({
-      order_id:  rpOrder.id,
-      amount:    rpOrder.amount,
-      currency:  rpOrder.currency,
-      key_id:    process.env.RAZORPAY_KEY_ID,
+      order_id:     rpOrder.id,
+      amount:       rpOrder.amount,
+      currency:     rpOrder.currency,
+      key_id:       keyIdForClient,
+      payment_mode: paymentCfg.mode,
     });
   }
 
@@ -201,12 +280,12 @@ export default async function handler(req, res) {
       }).catch((e) => console.error('[create-order] points_transactions log failed:', e));
 
       return res.status(200).json({
-        free_booking: true,
+        free_booking:      true,
         booking_confirmed: true,
-        final_price: 0,
-        discount: discount,
-        points_used: pointsUsed,
-        message: 'Booking confirmed using points. No payment required.',
+        final_price:       0,
+        discount:          discount,
+        points_used:       pointsUsed,
+        message:           'Booking confirmed using points. No payment required.',
       });
     }
 
@@ -215,10 +294,11 @@ export default async function handler(req, res) {
       amount:   finalPrice * 100,   // paise
       currency: 'INR',
       notes: {
-        member_id:   member.id,
-        event_id:    event_id,
-        points_used: pointsUsed,
-        discount:    discount,
+        member_id:    member.id,
+        event_id:     event_id,
+        points_used:  pointsUsed,
+        discount:     discount,
+        payment_mode: paymentCfg.mode,
       },
     });
 
@@ -238,13 +318,14 @@ export default async function handler(req, res) {
     });
 
     return res.status(200).json({
-      order_id:      rpOrder.id,
-      amount:        rpOrder.amount,
-      currency:      rpOrder.currency,
-      final_price:   finalPrice,
-      discount:      discount,
-      points_used:   pointsUsed,
-      key_id:        process.env.RAZORPAY_KEY_ID,
+      order_id:     rpOrder.id,
+      amount:       rpOrder.amount,
+      currency:     rpOrder.currency,
+      final_price:  finalPrice,
+      discount:     discount,
+      points_used:  pointsUsed,
+      key_id:       keyIdForClient,
+      payment_mode: paymentCfg.mode,
     });
 
   } catch (err) {
