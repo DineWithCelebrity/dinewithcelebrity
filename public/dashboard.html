@@ -999,7 +999,7 @@
       <div class="pt-card"><div class="pt-card-emoji">🍣</div><div class="pt-card-name">Exclusive Diner</div><div class="pt-card-city">Hyderabad</div><div class="pt-card-disc">₹400 Off</div></div>
       <div class="pt-cta-wrap">
         <div class="pt-cta-text"><strong>20+ partner restaurants</strong> across Hyderabad, Mumbai, Bangalore and more — offering exclusive DWC discounts unavailable anywhere else.</div>
-        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹2,499/yr →</button>
+        <button class="pt-cta-btn" onclick="location.href='/upgrade'">Unlock with Gold ₹4,999/yr →</button>
       </div>
     </div>
   </div>
@@ -1134,7 +1134,7 @@
     <div class="tier-cards">
       <div class="tier-card c-gold selected" id="card-gold" data-tier="gold">
         <div class="tc-name g">Gold</div>
-        <div class="tc-price">₹2,499/yr</div>
+        <div class="tc-price">₹4,999/yr</div>
         <ul class="tc-perks">
           <li>10 restaurant vouchers</li>
           <li>Celebrity event tickets</li>
@@ -1143,7 +1143,7 @@
       </div>
       <div class="tier-card c-platinum" id="card-platinum" data-tier="platinum">
         <div class="tc-name p">Platinum</div>
-        <div class="tc-price">₹6,999/yr</div>
+        <div class="tc-price">₹9,999/yr</div>
         <ul class="tc-perks">
           <li>Unlimited vouchers</li>
           <li>Priority booking</li>
@@ -1152,7 +1152,7 @@
       </div>
       <div class="tier-card c-dwcpurple" id="card-dwcpurple" data-tier="dwcpurple">
         <div class="tc-name v">DWC Purple</div>
-        <div class="tc-price">₹14,999/yr</div>
+        <div class="tc-price">₹19,999/yr</div>
         <ul class="tc-perks">
           <li>VIP access everywhere</li>
           <li>Personal concierge</li>
@@ -1239,9 +1239,9 @@
 
   const TIER_RANK = { free: 0, gold: 1, platinum: 2, dwcpurple: 3 };
   const TIER_META = {
-    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹2,499', desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
-    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹6,999', desc: 'Upgrade to Platinum for unlimited vouchers and priority booking' },
-    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹14,999',desc: 'Upgrade to DWC Purple for VIP access and personal concierge' },
+    free:      { label: 'FREE',       css: 'free',      next: 'gold',      nextLabel: 'Gold',       nextPrice: '₹4,999', desc: 'Upgrade to Gold to unlock vouchers and celebrity events' },
+    gold:      { label: 'GOLD',       css: 'gold',      next: 'platinum',  nextLabel: 'Platinum',   nextPrice: '₹9,999', desc: 'Upgrade to Platinum for unlimited vouchers and priority booking' },
+    platinum:  { label: 'PLATINUM',   css: 'platinum',  next: 'dwcpurple', nextLabel: 'DWC Purple', nextPrice: '₹19,999',desc: 'Upgrade to DWC Purple for VIP access and personal concierge' },
     dwcpurple: { label: 'DWC PURPLE', css: 'dwcpurple', next: null,        nextLabel: null,         nextPrice: null,     desc: 'You have our best membership. Enjoy unlimited VIP access!' }
   };
 
